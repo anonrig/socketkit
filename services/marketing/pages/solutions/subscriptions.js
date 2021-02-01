@@ -1,5 +1,5 @@
-import Layout from '../../components/layout.js'
-import Image from 'next/image'
+import Layout from "../../components/layout.js";
+import Image from "next/image";
 
 export default function Subscriptions() {
   return (
@@ -11,20 +11,23 @@ export default function Subscriptions() {
               Subscription Management. Simplified.
             </p>
             <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-              Understand where your customers and revenue coming from with Socketkit.
+              Understand where your customers and revenue coming from with
+              Socketkit.
             </p>
           </div>
           <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
-            <Image
-              className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5"
-              src="https://cdn.socketkit.com/assets/solutions/subscription-management.png"
-              alt="Subscription Management for AppStore"
-              width={800}
-              height={488}
-            />
+            <div className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden">
+              <Image
+                src="https://cdn.socketkit.com/assets/solutions/subscription-management.png"
+                alt="Subscription Management for AppStore"
+                width={800}
+                height={488}
+                layout="responsive"
+              />
+            </div>
           </div>
         </div>
       </div>
     </Layout>
-  )
+  );
 }
