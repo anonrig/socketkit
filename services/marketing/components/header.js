@@ -18,8 +18,8 @@ export default function Header() {
                 <span className="sr-only">Socketkit, Inc.</span>
                 <Image
                   height={35}
-                  width={150}
-                  src="https://cdn.socketkit.com/assets/socketkit-icon-with-name.svg"
+                  width={165}
+                  src="https://cdn.socketkit.com/assets/socketkit-icon-with-name.png"
                   alt="Socketkit, Inc."
                 />
               </a>
