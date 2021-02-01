@@ -86,16 +86,13 @@ export default function Header() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <div className="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                <div className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
                   <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                    <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
-                      <a
-                        href="#"
-                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                      >
-                        <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-orange-600 to-orange-500 text-white sm:h-12 sm:w-12">
+                    <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                      <Link href="/solutions/analytics">
+                        <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
                           <svg
-                            className="h-6 w-6"
+                            className="flex-shrink-0 h-6 w-6 text-orange-600"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -103,30 +100,27 @@ export default function Header() {
                             aria-hidden="true"
                           >
                             <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                             />
                           </svg>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-base font-medium text-gray-900">
-                            Inbox
-                          </p>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Get a better understanding of where your traffic is
-                            coming from.
-                          </p>
-                        </div>
-                      </a>
-                      <a
-                        href="#"
-                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                      >
-                        <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-orange-600 to-orange-500 text-white sm:h-12 sm:w-12">
+                          <div className="ml-4">
+                            <p className="text-base font-medium text-gray-900">
+                              Event Tracking
+                            </p>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Understand your users' behaviour.
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
+
+                      <Link href="/solutions/subscriptions">
+                        <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
                           <svg
-                            className="h-6 w-6"
+                            className="flex-shrink-0 h-6 w-6 text-orange-600"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -134,31 +128,27 @@ export default function Header() {
                             aria-hidden="true"
                           >
                             <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
                             />
                           </svg>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-base font-medium text-gray-900">
-                            Messaging
-                          </p>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Speak directly to your customers in a more meaningful
-                            way.
-                          </p>
-                        </div>
-                      </a>
-                      <a
-                        href="#"
-                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                      >
-                        <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-orange-600 to-orange-500 text-white sm:h-12 sm:w-12">
-                          {/* Heroicon name: chat-alt-2 */}
+                          <div className="ml-4">
+                            <p className="text-base font-medium text-gray-900">
+                              Subscription Management
+                            </p>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Understand where your revenue comes from.
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
+
+                      <Link href="/solutions/subscriptions">
+                        <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
                           <svg
-                            className="h-6 w-6"
+                            className="flex-shrink-0 h-6 w-6 text-orange-600"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -166,30 +156,31 @@ export default function Header() {
                             aria-hidden="true"
                           >
                             <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                             />
                           </svg>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-base font-medium text-gray-900">
-                            Live Chat
-                          </p>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Your customers' data will be safe and secure.
-                          </p>
-                        </div>
-                      </a>
-                      <a
-                        href="#"
-                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                      >
-                        <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-orange-600 to-orange-500 text-white sm:h-12 sm:w-12">
-                          {/* Heroicon name: question-mark-circle */}
+                          <div className="ml-4">
+                            <p className="text-base font-medium text-gray-900">
+                              Reviews
+                            </p>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Track your application's reviews across the globe.
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="px-5 py-5 bg-gray-50 space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
+                      <div className="flow-root">
+                        <a
+                          href="#"
+                          className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 transition ease-in-out duration-150"
+                        >
                           <svg
-                            className="h-6 w-6"
+                            className="flex-shrink-0 h-6 w-6 text-gray-400"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -197,23 +188,45 @@ export default function Header() {
                             aria-hidden="true"
                           >
                             <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-base font-medium text-gray-900">
-                            Knowledge Base
-                          </p>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Connect with third-party tools that you're already
-                            using.
-                          </p>
-                        </div>
-                      </a>
+                          <span className="ml-3">Watch Demo</span>
+                        </a>
+                      </div>
+
+                      <div className="flow-root">
+                        <a
+                          href="#"
+                          className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 transition ease-in-out duration-150"
+                        >
+                          <svg
+                            className="flex-shrink-0 h-6 w-6 text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                            />
+                          </svg>
+                          <span className="ml-3">Contact Sales</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
