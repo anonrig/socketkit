@@ -7,11 +7,9 @@ ENV PORT=3003
 
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install --no-audit --progress=false
-
 COPY . /app
+
+RUN npm install --prefer-offline --no-audit --progress=false
 
 EXPOSE 3003
 
