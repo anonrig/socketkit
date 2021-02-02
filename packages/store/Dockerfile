@@ -1,5 +1,7 @@
 FROM mhart/alpine-node:15.7
 
+RUN apk --no-cache add git
+
 ENV NODE_ENV=production
 ENV PORT=3003
 
