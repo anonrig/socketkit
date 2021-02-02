@@ -52,7 +52,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         image: {{ template "imagename" . }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        imagePullPolicy: Always
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:
