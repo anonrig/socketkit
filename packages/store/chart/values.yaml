@@ -9,7 +9,7 @@ application:
 hpa:
   enabled: true
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
 gitlab:
   app: store
@@ -44,8 +44,8 @@ readinessProbe:
   probeType: "httpGet"
 resources:
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 100m
+    memory: 128Mi
   requests:
     cpu: 100m
     memory: 128Mi
