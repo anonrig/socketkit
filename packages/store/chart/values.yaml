@@ -22,8 +22,8 @@ service:
   name: store
   type: ClusterIP
   url: https://store.socketkit.com
-  externalPort: 3002
-  internalPort: 3002
+  externalPort: 3003
+  internalPort: 3003
 ingress:
   enabled: true
   path: "/"
