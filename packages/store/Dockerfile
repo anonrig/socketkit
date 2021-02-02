@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --prefer-offline --no-audit --progress=false
+RUN npm install --no-audit --progress=false
 
 COPY . /app
 
