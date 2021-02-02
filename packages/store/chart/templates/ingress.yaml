@@ -11,7 +11,6 @@ metadata:
 {{- end }}
     kubernetes.io/tls-acme: "true"
 spec:
-{{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
 {{- if .Values.service.commonName }}
@@ -24,7 +23,6 @@ spec:
 {{- end -}}
 {{- end }}
     secretName: {{ .Values.ingress.tls.secretName | default (printf "%s-tls" (include "fullname" .)) }}
-{{- end }}
   rules:
   - host: {{ template "hostname" .Values.service.url }}
     http:
