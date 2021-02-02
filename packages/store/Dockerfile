@@ -7,10 +7,10 @@ ENV PORT=3003
 
 WORKDIR /app
 
-COPY package*.json /app
+COPY package*.json ./
 RUN npm ci --prefer-offline --no-audit --progress=false
 
-COPY . /app
+COPY . .
 
 EXPOSE 3003
 
