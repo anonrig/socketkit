@@ -1,12 +1,15 @@
-FROM mhart/alpine-node:15
+FROM mhart/alpine-node:15.7
 
 ENV NODE_ENV=production
 ENV PORT=3003
 
-COPY . /app
-
 WORKDIR /app
+
+COPY package*.json ./
+
 RUN npm install --prefer-offline --no-audit --progress=false
+
+COPY . /app
 
 EXPOSE 3003
 
