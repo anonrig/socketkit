@@ -13,7 +13,6 @@
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
     "@godaddy/terminus": "^4.6.0",
-    "app-store-scraper": "github:facundoolano/app-store-scraper",
     "cls-rtracer": "^2.6.0",
     "dotenv": "^8.2.0",
     "fastify": "^3.11.0",
