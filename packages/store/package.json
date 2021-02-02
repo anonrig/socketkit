@@ -1,0 +1,36 @@
+{
+  "name": "store",
+  "version": "0.1.0",
+  "description": "Socketkit Store",
+  "main": "src/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "nodemon -r dotenv/config"
+  },
+  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "dependencies": {
+    "@godaddy/terminus": "^4.6.0",
+    "ajv": "^7.0.4",
+    "cls-rtracer": "^2.6.0",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.11.0",
+    "fastify-auth": "^1.0.1",
+    "fastify-compress": "^3.4.1",
+    "fastify-helmet": "^5.2.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.0",
+    "knex": "^0.21.17",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "app-store-scraper": "^0.16.3",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "pino-pretty": "^4.5.0"
+  }
+}

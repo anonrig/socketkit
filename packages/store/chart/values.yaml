@@ -1,0 +1,56 @@
+replicaCount: 1
+strategyType: RollingUpdate
+podAnnotations: {}
+application:
+  track: stable
+  tier: web
+  migrateCommand:
+  initializeCommand:
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+gitlab:
+  app: store
+  env: prod
+  envName: production
+  envURL: https://store.socketkit.com
+service:
+  enabled: true
+  annotations: {}
+  name: store
+  type: ClusterIP
+  url: https://store.socketkit.com
+  externalPort: 3002
+  internalPort: 3002
+ingress:
+  enabled: true
+  path: "/"
+  tls:
+    secretName: "store-tls"
+  annotations: {}
+livenessProbe:
+  path: "/health"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  scheme: "HTTP"
+  probeType: "httpGet"
+readinessProbe:
+  path: "/health"
+  initialDelaySeconds: 5
+  timeoutSeconds: 3
+  scheme: "HTTP"
+  probeType: "httpGet"
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+networkPolicy:
+  enabled: false

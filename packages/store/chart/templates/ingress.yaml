@@ -1,0 +1,49 @@
+{{- if and (.Values.service.enabled) (or (.Values.ingress.enabled) (not (hasKey .Values.ingress "enabled"))) -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+{{ include "sharedlabels" . | indent 4 }}
+  annotations:
+{{- if .Values.ingress.annotations }}
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+    kubernetes.io/tls-acme: "true"
+spec:
+{{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts:
+{{- if .Values.service.commonName }}
+    - {{ template "hostname" .Values.service.commonName }}
+{{- end }}
+    - {{ template "hostname" .Values.service.url }}
+{{- if .Values.service.additionalHosts }}
+{{- range $host := .Values.service.additionalHosts }}
+    - {{ template "hostname" $host }}
+{{- end -}}
+{{- end }}
+    secretName: {{ .Values.ingress.tls.secretName | default (printf "%s-tls" (include "fullname" .)) }}
+{{- end }}
+  rules:
+  - host: {{ template "hostname" .Values.service.url }}
+    http:
+      &httpRule
+      paths:
+      - path: {{ .Values.ingress.path | default "/" | quote }}
+        backend:
+          serviceName: {{ template "fullname" . }}
+          servicePort: {{ .Values.service.externalPort }}
+{{- if .Values.service.commonName }}
+  - host: {{ template "hostname" .Values.service.commonName }}
+    http:
+      <<: *httpRule
+{{- end -}}
+{{- if .Values.service.additionalHosts }}
+{{- range $host := .Values.service.additionalHosts }}
+  - host: {{ template "hostname" $host }}
+    http:
+      <<: *httpRule
+{{- end -}}
+{{- end -}}
+{{- end -}}
