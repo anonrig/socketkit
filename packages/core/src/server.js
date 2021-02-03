@@ -1,7 +1,5 @@
 import f from 'fastify'
 
-import health from './health.js'
-
 import cors from 'fastify-cors'
 import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
@@ -9,11 +7,13 @@ import tracer from 'cls-rtracer'
 import auth from 'fastify-auth'
 import sensible from 'fastify-sensible'
 
+import health from './health.js'
 import grpc from './plugins/custom.js'
-
 import routes from './routes/index.js'
 import addSchemas from './schemas.js'
+import Logger from './logger.js'
 
+const logger = Logger.create().withScope('http-server')
 const server = f({
   trustProxy: true,
 })
@@ -55,6 +55,11 @@ server.register(tracer.fastifyPlugin, {
 })
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
+
+server.addHook('onError', (request, reply, error, done) => {
+  logger.error(error)
+  done()
+})
 
 health(server)
 
