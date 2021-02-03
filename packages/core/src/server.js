@@ -5,7 +5,7 @@ import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
 import tracer from 'cls-rtracer'
 import auth from 'fastify-auth'
-import sensible from 'fastify-sensible'
+import * as sensible from 'fastify-sensible'
 
 import health from './health.js'
 import grpc from './plugins/custom.js'
@@ -16,13 +16,35 @@ import Logger from './logger.js'
 const logger = Logger.create().withScope('http-server')
 const server = f({
   trustProxy: true,
-  logger: true,
+  logger: {
+    info: function (o) {
+      logger.info(o)
+    },
+    warn: function (o) {
+      logger.warn(o)
+    },
+    error: function (o) {
+      logger.error(o)
+    },
+    fatal: function (o) {
+      logger.fatal(o)
+    },
+    trace: function (o) {
+      logger.trace(o)
+    },
+    debug: function (o) {
+      logger.debug(o)
+    },
+    child: function () {
+      return Object.create(this)
+    },
+  },
 })
 
 addSchemas(server)
 
 server.register(grpc)
-server.register(sensible.default)
+server.register(sensible)
 server.register(auth)
 server.register(cors, {
   credentials: true,
