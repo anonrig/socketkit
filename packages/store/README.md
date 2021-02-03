@@ -1,10 +1,10 @@
-Socketkit Services - tracking
+Socketkit Services - store
 =============================
 
 Initialize the database:
 
     psql < db/globals.sql
-    psql -1 tracking < db/schema/*
+    psql -1 store < db/schema/*
 
 Use "npm" to develop::
 
