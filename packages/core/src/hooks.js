@@ -3,7 +3,7 @@ import { getIdentityIntegrations } from './methods/integrations.js'
 import { getAccounts } from './methods/accounts.js'
 import logger from './logger.js'
 import f from './server.js'
-import { RequiredError } from '@ory/kratos-client/dist/base'
+import { RequiredError } from '@ory/kratos-client/dist/base.js'
 
 const kratos = new PublicApi(
   new Configuration({ basePath: 'https://login.socketkit.com' }),
