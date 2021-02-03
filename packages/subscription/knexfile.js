@@ -8,8 +8,8 @@ const config = {
   client: 'pg',
   version: '13',
   connection: {
-    database: 'appstore',
-    user: 'appstore-worker',
+    database: 'subscription',
+    user: 'subscription-worker',
     port: 5432,
   },
   pool: { min: 0, max: 5 },

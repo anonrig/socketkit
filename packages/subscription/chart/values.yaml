@@ -17,16 +17,16 @@ hpa:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
 gitlab:
-  app: appstore
+  app: subscription
   env: prod
   envName: production
-  envURL: https://appstore.socketkit.com
+  envURL: https://subscription.socketkit.com
 service:
   enabled: true
   annotations: {}
-  name: appstore
+  name: subscription
   type: ClusterIP
-  url: https://appstore.socketkit.com
+  url: https://subscription.socketkit.com
   externalPort: 3001
   internalPort: 3001
 ingress:
