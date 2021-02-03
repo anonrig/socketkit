@@ -8,7 +8,7 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.6 && \
   chmod +x /bin/grpc_health_probe
 
 COPY . .
-RUN npm ci --prefer-offline --no-audit --progress=false
+RUN npm ci --no-audit --progress=false
 EXPOSE 3000
 
 CMD ["npm", "start"]
