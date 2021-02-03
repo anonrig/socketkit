@@ -1,0 +1,6 @@
+node_modules
+build
+tsconfig.tsbuildinfo
+.env.local
+.env.development
+noderelic_agent.log

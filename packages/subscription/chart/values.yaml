@@ -1,0 +1,57 @@
+replicaCount: 5
+strategyType: RollingUpdate
+podAnnotations:
+  linkerd.io/inject: enabled
+  config.linkerd.io/trace-collector: linkerd-collector.linkerd:55678
+  config.alpha.linkerd.io/trace-collector-service-account: linkerd-collector
+application:
+  track: stable
+  tier: web
+  migrateCommand:
+  initializeCommand:
+  secretName:
+  secretChecksum:
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+gitlab:
+  app: appstore
+  env: prod
+  envName: production
+  envURL: https://appstore.socketkit.com
+service:
+  enabled: true
+  annotations: {}
+  name: appstore
+  type: ClusterIP
+  url: https://appstore.socketkit.com
+  externalPort: 3001
+  internalPort: 3001
+ingress:
+  enabled: false
+prometheus:
+  metrics: true
+livenessProbe:
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  probeType: 'exec'
+  command: ["/bin/grpc_health_probe", "-addr=:3001"]
+readinessProbe:
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  probeType: 'exec'
+  command: ["/bin/grpc_health_probe", "-addr=:3001"]
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+networkPolicy:
+  enabled: false

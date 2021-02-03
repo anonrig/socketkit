@@ -1,0 +1,228 @@
+syntax = "proto3";
+
+service Accounts {
+  rpc statistics (AccountIdRequest) returns (AccountStatistics) {}
+  rpc findCountries (AccountIdRequest) returns (CountryStatisticsResponse) {}
+}
+
+service Applications {
+  rpc findAll (AccountIdRequest) returns (ApplicationPagination) {}
+  rpc findOne (ApplicationIdRequest) returns (Application) {}
+  rpc findSubscriptionPackages (ApplicationIdRequest) returns (SubscriptionPackagePagination) {}
+  rpc statistics (ApplicationIdRequest) returns (ApplicationStatistics) {}
+  rpc findCountries (ApplicationIdRequest) returns (CountryStatisticsResponse) {}
+}
+
+service Clients {
+  rpc findAll (ApplicationIdRequest) returns (ClientPagination) {}
+  rpc findOne (ClientIdRequest) returns (Client) {}
+  rpc findTransactions (ClientIdRequest) returns (TransactionsResponse) {}
+  rpc findSubscriptions (ClientIdRequest) returns (SubscriptionsResponse) {}
+}
+
+service Transactions {
+  rpc findAll (OptionalApplicationIdRequest) returns (TransactionPagination) {}
+}
+
+service Integrations {
+  rpc findLatestScrape (AccountId) returns (AccountLatestScrape) {}
+  rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
+  rpc create (AccountCreateRequest) returns (Empty) {}
+  rpc processDate (AccountProcessDateRequest) returns (Empty) {}
+}
+
+message Empty {}
+
+message Coordinate {
+  float x = 1;
+  float y = 2;
+}
+
+message CountryStatisticsResponse {
+  repeated CountryStatistics values = 1;
+}
+
+message CountryStatistics {
+  string country_id = 1;
+  string country_name = 2;
+  Coordinate country_coordinates = 3;
+  int32 total_count = 4;
+  int32 trial_past_count = 5;
+  int32 churn_count = 6;
+  int32 revenue = 7;
+}
+
+message AccountProcessDateRequest {
+  string date = 1;
+  string account_id = 2;
+  string access_token = 3;
+}
+message AccountCreateRequest {
+  string account_id = 1;
+  string access_token = 2;
+}
+
+message ActionStateResponse {
+  bool state = 1;
+}
+
+message AccessTokenRequest {
+  string access_token = 1;
+}
+
+message AccountLatestScrape {
+  string account_id = 1;
+  string vendor_id = 2;
+  string fetch_date = 3;
+  bool successful = 4;
+}
+
+message OptionalApplicationIdRequest {
+  OptionalApplicationId where = 1;
+  optional FilterRequest opts = 2; 
+}
+
+message OptionalApplicationId {
+  string account_id = 1;
+  optional string application_id = 2;
+}
+
+message ClientIdRequest {
+  ClientId where = 1;
+}
+
+message ClientId {
+  string account_id = 1;
+  string client_id = 2;
+}
+
+message TransactionsResponse {
+  repeated Transaction transactions = 1;
+}
+
+message SubscriptionsResponse {
+  repeated Subscription subscriptions = 1;
+}
+
+message Subscription {
+  repeated string subscription_active_period = 1;
+  string subscription_package_id = 2;
+  string subscription_package_name = 3;
+  string application_id = 4;
+  string application_name = 5;
+}
+
+message ClientPagination {
+  repeated Client rows = 1;
+  int32 count = 2;
+  int32 pages = 3;
+}
+
+message Client {
+  string client_id = 1;
+  string client_first_interaction = 2;
+  string client_total_base_client_purchase = 3;
+  string client_total_base_developer_proceeds = 4;
+  string country_id = 5;
+  string country_name = 6;
+  optional string device_type_id = 7;
+  optional string device_type_name = 8;
+  optional string provider_id = 9;
+  optional string provider_name = 10;
+}
+
+message TransactionPagination {
+  repeated Transaction rows = 1;
+  int32 count = 2;
+  int32 pages = 3;
+}
+
+message Transaction {
+  string client_id = 1;
+  string transaction_type = 2;
+  string transaction_event_date = 3;
+  string transaction_base_client_purchase = 4;
+  string transaction_base_developer_proceeds = 5;
+  string subscription_package_id = 6;
+  string subscription_package_name = 7;
+  string application_id = 8;
+  string application_name = 9;
+  string country_id = 10;
+  string country_name = 11;
+}
+
+message SubscriptionPackagePagination {
+  repeated SubscriptionPackage rows = 1;
+  int32 count = 2;
+  int32 pages = 3;
+}
+
+message SubscriptionPackage {
+  string subscription_name = 1;
+  string subscription_duration = 2;
+  string subscription_package_id = 3;
+  string subscription_group_id = 4;
+}
+
+message ApplicationPagination {
+  repeated Application rows = 1;
+  int32 count = 2;
+  int32 pages = 3;
+}
+
+message Application {
+  string application_id = 1;
+  string application_name = 2;
+  string provider_id = 3;
+  string account_id = 4;
+  optional string subscription_package_count = 5;
+}
+
+message ApplicationIdRequest {
+  ApplicationId where = 1;
+  optional FilterRequest opts = 2; 
+}
+
+message ApplicationId {
+  string account_id = 1;
+  string application_id = 2;
+}
+
+message AccountIdRequest {
+  AccountId where = 1;
+  optional FilterRequest opts = 2;
+}
+
+message AccountId {
+  string account_id = 1;
+}
+
+message FilterRequest {
+  optional int32 offset = 1;
+  optional int32 limit = 2;
+  optional DateFilter filter = 3;
+}
+
+message DateFilter {
+  optional string from = 1;
+  optional string to = 2;
+}
+
+message ApplicationStatistics {
+  string subscribers = 1;
+  string transactions = 2;
+  string mrr = 3;
+}
+
+message AccountStatistics {
+  StatisticsObject clients = 1;
+  StatisticsObject sales = 2;
+  StatisticsObject refunds = 3;
+}
+
+message StatisticsObject {
+  optional int32 now = 1;
+  optional int32 previous = 2;
+  optional string change = 3;
+  optional bool positive = 4;
+}
