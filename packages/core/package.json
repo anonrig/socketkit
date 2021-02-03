@@ -1,0 +1,45 @@
+{
+  "name": "core-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
+    "start": "node -r dotenv/config src/index.js",
+    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
+  },
+  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "dependencies": {
+    "@godaddy/terminus": "^4.6.0",
+    "@grpc/grpc-js": "^1.2.5",
+    "@grpc/proto-loader": "^0.5.6",
+    "@ory/kratos-client": "^0.5.4-alpha.1",
+    "ajv": "^7.0.4",
+    "bull": "^3.20.0",
+    "cls-rtracer": "^2.6.0",
+    "consola": "^2.15.1",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.11.0",
+    "fastify-auth": "^1.0.1",
+    "fastify-compress": "^3.4.1",
+    "fastify-cors": "^5.2.0",
+    "fastify-helmet": "^5.2.0",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.0",
+    "knex": "^0.21.17",
+    "pg": "^8.5.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/bull": "^3.15.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-security": "^1.4.0",
+    "nodemon": "^2.0.7"
+  }
+}
