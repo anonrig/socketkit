@@ -8,3 +8,5 @@ CREATE TABLE application_ratings (
   PRIMARY KEY (application_id, country_id),
   FOREIGN KEY (application_id) REFERENCES applications
 );
+
+GRANT SELECT, INSERT, UPDATE ON application_ratings TO "store-worker";

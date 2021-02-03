@@ -9,3 +9,5 @@ CREATE TABLE applications (
   UNIQUE (bundle_id),
   FOREIGN KEY (developer_id) REFERENCES developers
 );
+
+GRANT SELECT, INSERT ON applications TO "store-worker";

@@ -25,3 +25,5 @@ CREATE TABLE application_versions (
   PRIMARY KEY (application_id, country_id, version),
   FOREIGN KEY (application_id) REFERENCES applications
 );
+
+GRANT SELECT, INSERT, UPDATE ON application_versions TO "store-worker";

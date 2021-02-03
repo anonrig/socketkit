@@ -8,3 +8,5 @@ CREATE TABLE developers (
 
   PRIMARY KEY (developer_id)
 );
+
+GRANT SELECT, INSERT, UPDATE ON developers TO "store-worker";
