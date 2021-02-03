@@ -16,6 +16,7 @@ import Logger from './logger.js'
 const logger = Logger.create().withScope('http-server')
 const server = f({
   trustProxy: true,
+  logger: true,
 })
 
 addSchemas(server)
