@@ -16,8 +16,5 @@
   "env": {
     "node": true,
     "es6": true
-  },
-  "rules": {
-    "import/extensions": ["error", "always", { "ignorePackages": true }]
   }
 }

@@ -15,10 +15,22 @@ const packageOptions = {
   defaults: true,
   oneofs: true,
 }
-const pkg = loader.loadSync(path.join(path.resolve(''), 'protofiles', 'appstore.proto'), packageOptions)
-const health_pkg = loader.loadSync(path.join(path.resolve(''), 'protofiles', 'health.proto'), packageOptions)
+const pkg = loader.loadSync(
+  path.join(path.resolve(''), 'protofiles', 'appstore.proto'),
+  packageOptions,
+)
+const health_pkg = loader.loadSync(
+  path.join(path.resolve(''), 'protofiles', 'health.proto'),
+  packageOptions,
+)
 
-const { Accounts, Applications, Clients, Transactions, Integrations } = GRPC.loadPackageDefinition(pkg)
+const {
+  Accounts,
+  Applications,
+  Clients,
+  Transactions,
+  Integrations,
+} = GRPC.loadPackageDefinition(pkg)
 const health = GRPC.loadPackageDefinition(health_pkg).grpc.health.v1
 const server = new GRPC.Server()
 

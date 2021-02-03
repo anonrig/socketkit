@@ -7,7 +7,7 @@ const options = {
     host: config.redis.host,
     password: config.redis.password,
     port: 6379,
-  }
+  },
 }
 
 export const appstoreQueue = new Queue('appstore-worker', options)
