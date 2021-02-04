@@ -1,3 +1,5 @@
+import pg from '../pg.js'
+
 export default async function findOne({ application_id, bundle_id }) {
   return pg
     .queryBuilder()
@@ -13,7 +15,7 @@ export default async function findOne({ application_id, bundle_id }) {
       languages: 'application_versions.languages',
       screenshots: 'application_versions.screenshots',
       version: 'application_versions.version',
-      ratings: 'application_versions.rating_histogram',
+      ratings: 'application_ratings.rating_histogram',
       released_at: 'application_versions.released_at',
       updated_at: 'application_versions.updated_at',
     })
@@ -25,18 +27,21 @@ export default async function findOne({ application_id, bundle_id }) {
       )
     })
     .join('application_ratings', function () {
-      this.on('application_ratings.application_id', application_id).andOn(
+      this.on(
+        'application_ratings.application_id',
+        'applications.application_id',
+      ).andOn(
         'application_ratings.country_id',
         'application_versions.country_id',
       )
     })
     .where(function () {
       if (application_id) {
-        this.where('applications.application_id', application_id)
+        this.where('applications.application_id', '=', application_id)
       }
 
       if (bundle_id) {
-        this.where('applications.bundle_id', bundle_id)
+        this.where('applications.bundle_id', '=', bundle_id)
       }
     })
     .orderBy('application_versions.released_at', 'desc')
