@@ -1,6 +1,5 @@
 import pg from '../../pg.js'
 import store from 'app-store-scraper'
-import { createDeveloper } from '../../methods/create-developer.js'
 
 export async function processApplication({ application_id, country_id }) {
   const data = await store.app({ id: application_id, ratings: true })

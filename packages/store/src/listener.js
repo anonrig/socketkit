@@ -1,6 +1,7 @@
 import { storeQueue } from './redis.js'
 import Logger from './logger.js'
 import createApplication from './methods/create-application.js'
+import { processApplication } from './consumers/application/process.js'
 
 const logger = Logger.create().withScope('listeners')
 
