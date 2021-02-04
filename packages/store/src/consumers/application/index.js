@@ -14,7 +14,7 @@ export async function findOne(
   }
 }
 
-export async function findVersions({ request: { application_id } }) {
+export async function findVersions({ request: { application_id } }, callback) {
   try {
     callback(null, await findApplicationVersions({ application_id }))
   } catch (error) {
@@ -22,7 +22,10 @@ export async function findVersions({ request: { application_id } }) {
   }
 }
 
-export async function create({ request: { application_id, country_id } }) {
+export async function create(
+  { request: { application_id, country_id } },
+  callback,
+) {
   try {
     callback(null, await createApplication({ application_id, country_id }))
   } catch (error) {
@@ -34,6 +37,7 @@ export async function process({
   request: {
     where: { application_id, country_id },
   },
+  callback,
 }) {
   try {
     callback(null, await processApplication({ application_id, country_id }))
