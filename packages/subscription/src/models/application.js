@@ -1,5 +1,8 @@
 import pg from '../pg.js'
 import store from '../grpc-client.js'
+import Logger from '../logger.js'
+
+const logger = Logger.create().withScope('applications')
 
 export async function findByPk({ account_id, application_id }) {
   return pg
@@ -19,7 +22,11 @@ export async function findOrCreateByPk(
     return application
   }
 
-  await store.create({ application_id, country: 'us' })
+  try {
+    await store.create({ application_id, country: 'us' })
+  } catch (error) {
+    logger.fatal('Application store trigger failed', error)
+  }
 
   return create({ account_id, application_id, name, provider_id })
 }

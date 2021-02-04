@@ -48,7 +48,11 @@ export default async function onProcessDate({
   })
 
   if (processed) {
-    return logger.info(`Already processed date=${dayjs(date).format('YYYY-MM-DD')} for account_id=${account_id}`)
+    return logger.info(
+      `Already processed date=${dayjs(date).format(
+        'YYYY-MM-DD',
+      )} for account_id=${account_id}`,
+    )
   }
 
   logger.info(
