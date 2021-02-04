@@ -1,4 +1,5 @@
 import pg from '../pg.js'
+import store from '../grpc-client.js'
 
 export async function findByPk({ account_id, application_id }) {
   return pg
@@ -17,6 +18,8 @@ export async function findOrCreateByPk(
   if (application) {
     return application
   }
+
+  await store.create({ application_id, country: 'us' })
 
   return create({ account_id, application_id, name, provider_id })
 }
