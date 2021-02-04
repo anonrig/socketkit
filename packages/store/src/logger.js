@@ -1,2 +1,2 @@
-import Pino from 'pino'
-export default Pino()
+import Consola from 'consola'
+export default Consola.withDefaults()

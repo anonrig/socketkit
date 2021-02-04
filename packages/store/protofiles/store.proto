@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+service Applications {
+  rpc findOne (ApplicationIdRequest) returns (Application) {}
+  rpc create (ApplicationIdCountryRequest) returns (Empty) {}
+  rpc process (ApplicationIdCountryRequest) returns (Empty) {}
+}
+
+message Empty {}
+
+message ApplicationIdCountryRequest {
+  string application_id = 1;
+  string country_id = 2;
+}
+
+message ApplicationIdRequest {
+  string application_id = 1;
+}
+
+message Application {
+  string application_id = 1;
+  string developer_id = 2;
+  string bundle_id = 3;
+}

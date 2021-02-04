@@ -1,11 +1,16 @@
 import path from 'path'
-import logger from './src/logger.js'
+import Knex from 'knex'
 
-export default {
+/**
+ * @type {Knex.Config}
+ */
+const config = {
   client: 'pg',
   version: '13',
   connection: {
     database: 'store',
+    user: 'store-worker',
+    port: 5432,
   },
   pool: { min: 0, max: 5 },
   migrations: {
@@ -15,21 +20,8 @@ export default {
   seeds: {
     directory: path.join(path.resolve(), 'db/seeds'),
   },
-  log: {
-    warn(message) {
-      logger.warn(message)
-    },
-    error(message) {
-      logger.error(message)
-    },
-    deprecate(message) {
-      logger.warn(message)
-    },
-    debug(message) {
-      logger.debug(message)
-    },
-  },
   searchPath: ['public'],
   useNullAsDefault: false,
   asyncStackTraces: true,
 }
+export default config
