@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-service Applications {
+service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
   rpc process (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findOne (ApplicationIdRequest) returns (Application) {}

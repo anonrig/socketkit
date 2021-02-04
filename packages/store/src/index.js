@@ -1,4 +1,5 @@
-import server from './server.js'
+import server, { grpc } from './grpc.js'
+
 import config from './config.js'
 import { runTasks } from './tasks/index.js'
 import Logger from './logger.js'
@@ -10,8 +11,16 @@ const start = async () => {
   try {
     await pg.raw('select 1+1 as result')
     await listenEvents()
-    await server.listen(config.port, '0.0.0.0')
+
+    server.bindAsync(
+      `0.0.0.0:${config.port}`,
+      grpc.ServerCredentials.createInsecure(),
+      () => server.start(),
+    )
+
     await runTasks()
+
+    logger.success(`Application booted on port=${config.port}`)
   } catch (err) {
     logger.fatal(err)
     process.exit(1)

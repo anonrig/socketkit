@@ -25,23 +25,17 @@ service:
   externalPort: 3003
   internalPort: 3003
 ingress:
-  enabled: true
-  path: "/"
-  tls:
-    secretName: "store-tls"
-  annotations: {}
+  enabled: false
 livenessProbe:
-  path: "/health"
   initialDelaySeconds: 15
   timeoutSeconds: 15
-  scheme: "HTTP"
-  probeType: "httpGet"
+  probeType: 'exec'
+  command: ["/bin/grpc_health_probe", "-addr=:3003"]
 readinessProbe:
-  path: "/health"
-  initialDelaySeconds: 5
-  timeoutSeconds: 3
-  scheme: "HTTP"
-  probeType: "httpGet"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  probeType: 'exec'
+  command: ["/bin/grpc_health_probe", "-addr=:3003"]
 resources:
   limits:
     cpu: 100m

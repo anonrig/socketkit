@@ -12,7 +12,7 @@ const packageOptions = {
   oneofs: true,
 }
 const pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles', 'appstore.proto'),
+  path.join(path.resolve(''), 'protofiles', 'store.proto'),
   packageOptions,
 )
 const health_pkg = loader.loadSync(
@@ -20,24 +20,14 @@ const health_pkg = loader.loadSync(
   packageOptions,
 )
 
-const {
-  Accounts,
-  Applications,
-  Clients,
-  Transactions,
-  Integrations,
-} = GRPC.loadPackageDefinition(pkg)
+const { Store } = GRPC.loadPackageDefinition(pkg)
 const health = GRPC.loadPackageDefinition(health_pkg).grpc.health.v1
 const server = new GRPC.Server()
 
 server.addService(health.Health.service, {
   Check: (_call, cb) => cb(null, { status: 1 }),
 })
-server.addService(Accounts.service, account)
-server.addService(Applications.service, applications)
-server.addService(Clients.service, clients)
-server.addService(Transactions.service, transactions)
-server.addService(Integrations.service, integrations)
+server.addService(Store.service, applications)
 
 export const grpc = GRPC
 export default server

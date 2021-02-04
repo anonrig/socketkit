@@ -1,13 +1,16 @@
-import pg from '../../pg.js'
+import pg from '../pg.js'
 import store from 'app-store-scraper'
-import { createDeveloper } from '../../methods/create-developer.js'
+import { createDeveloper } from '../methods/create-developer.js'
+import Logger from '../logger.js'
 
-export async function createApplication({ application_id, country_id }) {
+export default async function createApplication({
+  application_id,
+  country_id,
+}) {
   const data = await store.app({ id: application_id, ratings: true })
-
-  if (!data) {
-    throw new Error(`Application not found`)
-  }
+  const logger = Logger.create()
+    .withScope('application-create')
+    .withTag(data.title)
 
   // create developer if not exists
   await createDeveloper({
@@ -16,6 +19,8 @@ export async function createApplication({ application_id, country_id }) {
     store_url: data.developerUrl,
     website: data.developerWebsite,
   })
+
+  logger.debug('Developer created')
 
   // create application
   await pg
@@ -28,6 +33,8 @@ export async function createApplication({ application_id, country_id }) {
     .into('applications')
     .onConflict(['application_id'])
     .ignore()
+
+  logger.debug('Application created')
 
   // create application version if not exists
   await pg
@@ -63,6 +70,8 @@ export async function createApplication({ application_id, country_id }) {
     .ignore()
     .returning('*')
 
+  logger.debug('Application version created')
+
   // update histogram
   await pg
     .queryBuilder()
@@ -74,4 +83,8 @@ export async function createApplication({ application_id, country_id }) {
     .into('application_ratings')
     .onConflict(['application_id', 'country_id'])
     .merge()
+
+  logger.debug('Application rating updated')
+
+  return {}
 }
