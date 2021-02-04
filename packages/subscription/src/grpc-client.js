@@ -16,6 +16,6 @@ const { Store } = grpc.loadPackageDefinition(proto)
 
 export default {
   store: promisifyAll(
-    new Store(config.grpc, grpc.credentials.createInsecure()),
+    new Store(config.grpc.store, grpc.credentials.createInsecure()),
   ),
 }
