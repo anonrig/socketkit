@@ -39,6 +39,7 @@ const server = f({
       return Object.create(this)
     },
   },
+  disableRequestLogging: true,
 })
 
 addSchemas(server)

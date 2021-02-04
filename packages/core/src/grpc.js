@@ -4,13 +4,17 @@ import path from 'path'
 import config from './config.js'
 import { promisifyAll } from './helpers.js'
 
-const proto = loader.loadSync(path.join('.', 'protofiles', 'appstore.proto'), {
+const defaults = {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true,
-})
+}
+
+const { Store } = grpc.loadPackageDefinition(
+  loader.loadSync(path.join('.', 'protofiles', 'store.proto'), defaults),
+)
 
 const {
   Accounts,
@@ -18,22 +22,27 @@ const {
   Clients,
   Transactions,
   Integrations,
-} = grpc.loadPackageDefinition(proto)
+} = grpc.loadPackageDefinition(
+  loader.loadSync(path.join('.', 'protofiles', 'appstore.proto'), defaults),
+)
 
 export default {
   accounts: promisifyAll(
-    new Accounts(config.grpc, grpc.credentials.createInsecure()),
+    new Accounts(config.grpc.appstore, grpc.credentials.createInsecure()),
   ),
   applications: promisifyAll(
-    new Applications(config.grpc, grpc.credentials.createInsecure()),
+    new Applications(config.grpc.appstore, grpc.credentials.createInsecure()),
   ),
   clients: promisifyAll(
-    new Clients(config.grpc, grpc.credentials.createInsecure()),
+    new Clients(config.grpc.appstore, grpc.credentials.createInsecure()),
   ),
   transactions: promisifyAll(
-    new Transactions(config.grpc, grpc.credentials.createInsecure()),
+    new Transactions(config.grpc.appstore, grpc.credentials.createInsecure()),
   ),
   integrations: promisifyAll(
-    new Integrations(config.grpc, grpc.credentials.createInsecure()),
+    new Integrations(config.grpc.appstore, grpc.credentials.createInsecure()),
+  ),
+  store: promisifyAll(
+    new Store(config.grpc.store, grpc.credentials.createInsecure()),
   ),
 }
