@@ -3,7 +3,7 @@ import { storeQueue } from '../redis.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks').withTag('daily-check')
-export async function dailyCheck() {
+export default async function dailyCheck() {
   logger.success('Processed daily event')
 
   const applications = await pg
