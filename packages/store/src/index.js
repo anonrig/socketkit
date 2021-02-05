@@ -4,13 +4,11 @@ import config from './config.js'
 import { runTasks } from './tasks/index.js'
 import Logger from './logger.js'
 import pg from './pg.js'
-import { listenEvents } from './listener.js'
 
 const start = async () => {
   const logger = Logger.create().withScope('application').withTag('start')
   try {
     await pg.raw('select 1+1 as result')
-    await listenEvents()
 
     server.bindAsync(
       `0.0.0.0:${config.port}`,
@@ -26,4 +24,5 @@ const start = async () => {
     process.exit(1)
   }
 }
+
 start()

@@ -1,29 +1,25 @@
-import pg from '../../pg.js'
+import dayjs from 'dayjs'
 import store from 'app-store-scraper'
 
-export async function processApplication({ application_id, country_id }) {
+export async function processApplication(trx, application_id, country_id) {
   const data = await store.app({ id: application_id, ratings: true })
 
   if (!data) {
     throw new Error(`Application not found`)
   }
 
-  const application = await pg
-    .queryBuilder()
-    .select('*')
-    .from('applications')
-    .where({ application_id })
-    .first()
+  const applications = await trx('applications')
+    .where('application_id', application_id)
+    .update('last_fetch', dayjs())
+    .returning('application_id')
 
-  if (!application) {
+  if (applications.length == 0) {
     throw new Error(
       `Application with id=${application_id} not found on existing db.`,
     )
   }
 
-  // create application version if not exists
-  await pg
-    .queryBuilder()
+  await trx('application_versions')
     .insert({
       score: data.score,
       reviews: data.reviews,
@@ -50,20 +46,15 @@ export async function processApplication({ application_id, country_id }) {
       website: data.website,
       content_rating: data.contentRating,
     })
-    .into('application_versions')
     .onConflict(['application_id', 'country_id', 'version'])
     .ignore()
-    .returning('*')
 
-  // update histogram
-  await pg
-    .queryBuilder()
+  await trx('application_ratings')
     .insert({
       application_id: data.id,
       country_id,
       rating_histogram: Object.values(data.histogram),
     })
-    .into('application_ratings')
     .onConflict(['application_id', 'country_id'])
     .merge()
 }

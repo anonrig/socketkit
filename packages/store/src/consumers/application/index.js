@@ -3,6 +3,7 @@ import findApplicationVersions from '../../methods/find-versions.js'
 import createApplication from '../../methods/create-application.js'
 import { processApplication } from './process.js'
 import Logger from '../../logger.js'
+import pg from '../../pg.js'
 
 const logger = Logger.create().withScope('consumer')
 
@@ -53,7 +54,9 @@ export async function process(
 ) {
   logger.withTag('process').info('Received event')
   try {
-    callback(null, await processApplication({ application_id, country_id }))
+    callback(null, await pg.transaction(async trx => {
+      await processApplication(trx, application_id, country_id)
+    }))
   } catch (error) {
     logger.withTag('process').error(error)
     callback(error)
