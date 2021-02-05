@@ -5,6 +5,7 @@ beforeAll(async (done) => {
     done(error),
   )
 })
+
 describe('findOne', () => {
   test('should return facebook', () => {
     store.findOne({ application_id: '284882215' }, (error, response) => {
