@@ -1,6 +1,6 @@
 import pg from '../pg.js'
 
-export default async function findVersions({ application_id }) {
+export default async function findVersions({ application_id, bundle_id }) {
   return pg
     .queryBuilder()
     .select({
@@ -15,7 +15,7 @@ export default async function findVersions({ application_id }) {
       languages: 'application_versions.languages',
       screenshots: 'application_versions.screenshots',
       version: 'application_versions.version',
-      ratings: 'application_versions.rating_histogram',
+      ratings: 'application_ratings.rating_histogram',
       released_at: 'application_versions.released_at',
       updated_at: 'application_versions.updated_at',
     })
@@ -24,6 +24,15 @@ export default async function findVersions({ application_id }) {
       this.on(
         'application_versions.application_id',
         'applications.application_id',
+      )
+    })
+    .join('application_ratings', function () {
+      this.on(
+        'application_ratings.application_id',
+        'application_versions.application_id',
+      ).andOn(
+        'application_ratings.country_id',
+        'application_versions.country_id',
       )
     })
     .where(function () {

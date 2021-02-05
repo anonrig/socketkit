@@ -4,10 +4,14 @@ service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
   rpc process (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findOne (ApplicationIdRequest) returns (Application) {}
-  rpc findVersions (ApplicationIdRequest) returns (Empty) {}
+  rpc findVersions (ApplicationIdRequest) returns (ApplicationVersions) {}
 }
 
 message Empty {}
+
+message ApplicationVersions {
+  repeated Application versions = 1;
+}
 
 message ApplicationIdCountryRequest {
   string application_id = 1;

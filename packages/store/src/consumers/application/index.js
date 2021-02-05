@@ -10,6 +10,7 @@ export async function findOne(
   { request: { application_id, bundle_id } },
   callback,
 ) {
+  logger.withTag('findOne').info('Received event')
   try {
     callback(null, await findOneApplication({ application_id, bundle_id }))
   } catch (error) {
@@ -18,9 +19,15 @@ export async function findOne(
   }
 }
 
-export async function findVersions({ request: { application_id } }, callback) {
+export async function findVersions(
+  { request: { application_id, bundle_id } },
+  callback,
+) {
+  logger.withTag('findVersions').info('Received event')
   try {
-    callback(null, await findApplicationVersions({ application_id }))
+    callback(null, {
+      versions: await findApplicationVersions({ application_id, bundle_id }),
+    })
   } catch (error) {
     logger.withTag('findVersions').error(error)
     callback(error)
@@ -31,6 +38,7 @@ export async function create(
   { request: { application_id, country_id } },
   callback,
 ) {
+  logger.withTag('create').info('Received event')
   try {
     callback(null, await createApplication({ application_id, country_id }))
   } catch (error) {
@@ -39,12 +47,11 @@ export async function create(
   }
 }
 
-export async function process({
-  request: {
-    where: { application_id, country_id },
-  },
+export async function process(
+  { request: { application_id, country_id } },
   callback,
-}) {
+) {
+  logger.withTag('process').info('Received event')
   try {
     callback(null, await processApplication({ application_id, country_id }))
   } catch (error) {

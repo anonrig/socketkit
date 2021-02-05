@@ -8,7 +8,9 @@
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "start": "node -r dotenv/config src/index.js",
-    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
+    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --collect-coverage",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watchAll"
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
@@ -23,10 +25,16 @@
   },
   "devDependencies": {
     "@types/bull": "^3.15.0",
+    "@types/jest": "^26.0.20",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-security": "^1.4.0",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.7"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   }
 }
