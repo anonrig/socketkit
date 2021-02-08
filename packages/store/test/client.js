@@ -16,4 +16,6 @@ const { Store } = grpc.loadPackageDefinition(
 )
 
 // @ts-ignore
-export default new Store(config, grpc.credentials.createInsecure())
+const store = new Store(config, grpc.credentials.createInsecure())
+
+export default store

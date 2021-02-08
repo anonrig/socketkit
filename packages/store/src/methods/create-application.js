@@ -1,24 +1,27 @@
 import pg from '../pg.js'
 import store from 'app-store-scraper'
-import { createDeveloper } from '../methods/create-developer.js'
 import Logger from '../logger.js'
 
-export default async function createApplication({
-  application_id,
-  country_id,
-}) {
+export default async function createApplication(
+  { application_id, country_id },
+  trx,
+) {
   const data = await store.app({ id: application_id, ratings: true })
   const logger = Logger.create()
     .withScope('application-create')
     .withTag(data.title)
 
-  // create developer if not exists
-  await createDeveloper({
-    developer_id: data.developerId,
-    name: data.developer,
-    store_url: data.developerUrl,
-    website: data.developerWebsite,
-  })
+  pg.queryBuilder()
+    .insert({
+      developer_id: data.developerId,
+      name: data.developer,
+      store_url: data.developerUrl,
+      website: data.developerWebsite,
+    })
+    .into('developers')
+    .onConflict(['developer_id'])
+    .ignore()
+    .transacting(trx)
 
   logger.debug('Developer created')
 
@@ -33,6 +36,7 @@ export default async function createApplication({
     .into('applications')
     .onConflict(['application_id'])
     .ignore()
+    .transacting(trx)
 
   logger.debug('Application created')
 
@@ -68,7 +72,7 @@ export default async function createApplication({
     .into('application_versions')
     .onConflict(['application_id', 'country_id', 'version'])
     .ignore()
-    .returning('*')
+    .transacting(trx)
 
   logger.debug('Application version created')
 
@@ -83,6 +87,7 @@ export default async function createApplication({
     .into('application_ratings')
     .onConflict(['application_id', 'country_id'])
     .merge()
+    .transacting(trx)
 
   logger.debug('Application rating updated')
 

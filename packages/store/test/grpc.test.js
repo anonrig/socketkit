@@ -1,64 +1,90 @@
-import store from './grpc.client.js'
+import store from './client.js'
+import server, { grpc } from '../src/grpc.js'
+import config from '../src/config.js'
+import logger from '../src/logger.js'
 
-beforeAll(async (done) => {
-  store.create({ application_id: '284882215', country_id: 'us' }, (error) =>
-    done(error),
+beforeAll((done) => {
+  logger.pauseLogs()
+  server.bindAsync(
+    `0.0.0.0:${config.port}`,
+    grpc.ServerCredentials.createInsecure(),
+    () => {
+      server.start()
+      done()
+    },
   )
 })
 
+afterAll((done) => {
+  server.forceShutdown()
+  done()
+})
+
+describe('create', () => {
+  test('should create facebook', (done) => {
+    store.create({ application_id: '284882215' }, (error, response) => {
+      try {
+        expect(error).toBeNull()
+        expect(response).toEqual({})
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
+})
+
 describe('findOne', () => {
-  test('should return facebook', () => {
+  test('should return facebook', (done) => {
     store.findOne({ application_id: '284882215' }, (error, response) => {
-      expect(error).toBe(null)
-      expect(response.application_id).toBe('284882215')
+      try {
+        expect(error).toBeNull()
+        expect(response.application_id).toBe('284882215')
+        done()
+      } catch (error) {
+        done(error)
+      }
     })
   })
 
-  test('should return undefined', () => {
+  test('should return undefined', (done) => {
     store.findOne({ application_id: '1234512345' }, (error, response) => {
-      expect(response).toBe(undefined)
+      try {
+        expect(response).toBe(undefined)
+        done()
+      } catch (error) {
+        done(error)
+      }
     })
   })
 })
 
 describe('findVersions', () => {
-  test('should return versions', () => {
+  test('should return versions', (done) => {
     store.findVersions({ application_id: '284882215' }, (error, response) => {
-      expect(error).toBe(null)
-      expect(response.versions).toBeInstanceOf(Array)
-      response.versions.forEach((version) => {
-        expect(version.application_id).toEqual('284882215')
-      })
+      try {
+        expect(error).toBeNull()
+        expect(response.versions).toBeInstanceOf(Array)
+        response.versions.forEach((version) => {
+          expect(version.application_id).toEqual('284882215')
+        })
+        done()
+      } catch (error) {
+        done(error)
+      }
     })
   })
-  test('should return empty array', () => {
+
+  test('should return empty array', (done) => {
     store.findVersions({ application_id: '1234512345' }, (error, response) => {
-      expect(error).toBe(null)
-      expect(response.versions).toBeInstanceOf(Array)
-      expect(response.versions.length).toEqual(0)
+      try {
+        expect(error).toBeNull()
+        expect(response.versions).toBeInstanceOf(Array)
+        expect(response.versions.length).toEqual(0)
+        done()
+      } catch (error) {
+        done(error)
+      }
     })
-  })
-})
-
-describe('process', () => {
-  test('should process', () => {
-    store.process(
-      { application_id: '284882215', country_id: 'us' },
-      (error, response) => {
-        expect(error).toBe(null)
-        expect(response).toEqual({})
-      },
-    )
-  })
-
-  test('should throw error if not found', () => {
-    store.process(
-      { application_id: '123456123456', country_id: 'tr' },
-      (error, response) => {
-        expect(error).toBeInstanceOf(Error)
-        expect(error.message).toContain('not found')
-        expect(response).toBe(undefined)
-      },
-    )
   })
 })

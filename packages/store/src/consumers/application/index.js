@@ -1,7 +1,6 @@
 import findOneApplication from '../../methods/find-one.js'
 import findApplicationVersions from '../../methods/find-versions.js'
 import createApplication from '../../methods/create-application.js'
-import { processApplication } from './process.js'
 import Logger from '../../logger.js'
 import pg from '../../pg.js'
 
@@ -41,24 +40,18 @@ export async function create(
 ) {
   logger.withTag('create').info('Received event')
   try {
-    callback(null, await createApplication({ application_id, country_id }))
+    callback(
+      null,
+      await pg.transaction(async (trx) => {
+        try {
+          return createApplication({ application_id, country_id }, trx)
+        } catch (error) {
+          trx.rollback(error)
+        }
+      }),
+    )
   } catch (error) {
     logger.withTag('create').error(error)
-    callback(error)
-  }
-}
-
-export async function process(
-  { request: { application_id, country_id } },
-  callback,
-) {
-  logger.withTag('process').info('Received event')
-  try {
-    callback(null, await pg.transaction(async trx => {
-      await processApplication(trx, application_id, country_id)
-    }))
-  } catch (error) {
-    logger.withTag('process').error(error)
     callback(error)
   }
 }

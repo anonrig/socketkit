@@ -9,8 +9,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "start": "node -r dotenv/config src/index.js",
     "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --collect-coverage",
-    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watchAll"
+    "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles"
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
@@ -35,6 +34,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "transform": {}
+    "collectCoverage": true,
+    "coverageProvider": "v8",
+    "coverageReporters": ["json", "lcov", "text", "clover"]
   }
 }
