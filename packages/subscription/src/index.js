@@ -1,9 +1,11 @@
 import server, { grpc } from './grpc.js'
 import * as Sentry from '@sentry/node'
+import * as Tracing from '@sentry/tracing'
 import Logger from './logger.js'
 import config from './config.js'
 import listenEvents from './listener.js'
 import pg from './pg.js'
+import pkg from '../package.json'
 
 const logger = Logger.create().withScope('application')
 
@@ -16,8 +18,13 @@ const boot = async () => {
   try {
     await pg.raw('select 1+1 as result')
     Sentry.init({
+      release: `appstore-worker@${pkg.version}`,
       dsn: config.sentry.dsn,
-      tracesSampleRate: 1.0,
+      maxBreadcrumbs: 50,
+      attachStacktrace: true,
+      debug: !config.isProduction,
+      environment: config.isProduction ? 'production' : 'development',
+      integrations: [new Tracing.Integrations.Postgres()],
     })
 
     server.bindAsync(
