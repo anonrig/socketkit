@@ -209,8 +209,8 @@ message DateFilter {
 }
 
 message ApplicationStatistics {
-  string subscribers = 1;
-  string transactions = 2;
+  int32 subscribers = 1;
+  int32 trials = 2;
   string mrr = 3;
 }
 
