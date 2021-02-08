@@ -18,7 +18,7 @@ export default async function fetchAppstoreIntegration() {
 
   for (let integration of normalized) {
     try {
-      f.log.info(`Processing integration ${integration.id}`)
+      f.log.info(`Processing integration ${integration.account_id}`)
       const transaction = await rpc.integrations.findLatestScrape({
         account_id: integration.account_id,
       })
@@ -36,7 +36,7 @@ export default async function fetchAppstoreIntegration() {
           data: {
             account_id: integration.account_id,
             date: dayjs(date).format('YYYY-MM-DD'),
-            access_token,
+            access_token: integration.access_token,
           },
         })),
       )
