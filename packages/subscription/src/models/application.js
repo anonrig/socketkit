@@ -1,6 +1,7 @@
 import pg from '../pg.js'
 import store from '../grpc-client.js'
 import Logger from '../logger.js'
+import dayjs from 'dayjs'
 
 const logger = Logger.create().withScope('applications')
 
@@ -80,7 +81,7 @@ export async function findAll({ account_id }, { limit = 10, offset = 0 }) {
     .offset(offset)
 }
 
-export async function findSales({ account_id, application_id }, { filter }) {
+export async function totalSales({ account_id, application_id }, { filter }) {
   const { sum } = await pg
     .queryBuilder()
     .sum('client_transactions.base_developer_proceeds')
