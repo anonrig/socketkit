@@ -17,7 +17,7 @@
     "@grpc/grpc-js": "^1.2.6",
     "@grpc/proto-loader": "^0.5.6",
     "app-store-scraper": "github:facundoolano/app-store-scraper",
-    "consola": "^2.15.2",
+    "consola": "^2.15.3",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "knex": "^0.21.17",
