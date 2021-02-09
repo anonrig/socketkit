@@ -11,7 +11,8 @@ export default async function createApplication(
     .withScope('application-create')
     .withTag(data.title)
 
-  pg.queryBuilder()
+  await pg
+    .queryBuilder()
     .insert({
       developer_id: data.developerId,
       name: data.developer,
