@@ -21,6 +21,7 @@ export async function findByPk({ currency_id, exchange_date }) {
     .map((currency_id) => ({
       currency_id,
       exchange_date,
+      // eslint-disable-next-line security/detect-object-injection
       amount: rates[currency_id],
     }))
 

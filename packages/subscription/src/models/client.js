@@ -1,64 +1,6 @@
 import pg from '../pg.js'
 import dayjs from 'dayjs'
 
-export async function findByPk({ client_id, account_id }) {
-  return pg.select('*').from('clients').where({ client_id, account_id }).first()
-}
-
-export async function findOrCreateByPk(
-  { client_id, account_id },
-  {
-    provider_id,
-    device_type_id,
-    country_id,
-    first_interaction,
-    total_base_client_purchase,
-    total_base_developer_proceeds,
-  },
-) {
-  const client = await findByPk({ client_id, account_id })
-
-  if (client) {
-    return client
-  }
-
-  return create({
-    client_id,
-    account_id,
-    provider_id,
-    device_type_id,
-    country_id,
-    first_interaction,
-    total_base_client_purchase,
-    total_base_developer_proceeds,
-  })
-}
-
-export async function create({
-  account_id,
-  provider_id,
-  client_id,
-  device_type_id,
-  country_id,
-  first_interaction,
-  total_base_client_purchase,
-  total_base_developer_proceeds,
-}) {
-  return pg
-    .insert({
-      account_id,
-      provider_id,
-      client_id,
-      device_type_id,
-      country_id,
-      first_interaction,
-      total_base_client_purchase,
-      total_base_developer_proceeds,
-    })
-    .into('clients')
-    .returning('*')
-}
-
 export async function count({ account_id, application_id }, { filter } = {}) {
   const { count } = await pg
     .count()

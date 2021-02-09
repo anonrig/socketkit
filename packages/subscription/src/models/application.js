@@ -13,42 +13,6 @@ export async function findByPk({ account_id, application_id }) {
     .first()
 }
 
-export async function findOrCreateByPk(
-  { account_id, application_id },
-  { name, provider_id },
-) {
-  const application = await findByPk({ account_id, application_id })
-
-  if (application) {
-    return application
-  }
-
-  try {
-    await store.create({ application_id, country: 'us' })
-  } catch (error) {
-    logger.fatal('Application store trigger failed', error)
-  }
-
-  return create({ account_id, application_id, name, provider_id })
-}
-
-export async function create({
-  account_id,
-  application_id,
-  name,
-  provider_id,
-}) {
-  return pg
-    .insert({
-      account_id,
-      application_id,
-      name,
-      provider_id,
-    })
-    .into('applications')
-    .returning('*')
-}
-
 export async function count({ account_id }) {
   const { count } = await pg('applications')
     .count()

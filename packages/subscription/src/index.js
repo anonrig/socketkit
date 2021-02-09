@@ -16,6 +16,7 @@ process.on('uncaughtException', (err) => {
 const boot = async () => {
   try {
     await pg.raw('select 1+1 as result')
+
     Sentry.init({
       dsn: config.sentry.dsn,
       maxBreadcrumbs: 50,

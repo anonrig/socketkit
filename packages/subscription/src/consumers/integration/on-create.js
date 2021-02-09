@@ -11,12 +11,14 @@ export default async function onIntegrationCreate({
     dayjs().toDate(),
   )
 
-  await appstoreQueue.addBulk(range.map(date => ({
-    name: 'process-date',
-    data: { account_id, access_token, date },
-    opts: {
-      removeOnComplete: true,
-      removeOnFail: true
-    }
-  })))
+  await appstoreQueue.addBulk(
+    range.map((date) => ({
+      name: 'process-date',
+      data: { account_id, access_token, date },
+      opts: {
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
+    })),
+  )
 }

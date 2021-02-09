@@ -2,7 +2,6 @@ syntax = "proto3";
 
 service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
-  rpc process (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findOne (ApplicationIdRequest) returns (Application) {}
   rpc findVersions (ApplicationIdRequest) returns (Empty) {}
 }
