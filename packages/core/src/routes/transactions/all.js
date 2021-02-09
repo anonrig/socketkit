@@ -5,14 +5,17 @@ export default {
   method: 'GET',
   path: '/',
   schema: {
-    query: {
+    querystring: {
       type: 'object',
       properties: {
         limit: { type: ['number', 'null'], default: 10, minimum: 10 },
-        page: {
-          type: ['number', 'null'],
-          default: 1,
-          minimum: 1,
+        cursor: {
+          type: 'object',
+          properties: {
+            client_id: { type: 'string' },
+            event_date: { type: 'string' },
+          },
+          required: ['client_id', 'event_date'],
         },
         from: {
           type: 'string',
@@ -30,7 +33,6 @@ export default {
         type: 'object',
         properties: {
           count: { type: 'number' },
-          pages: { type: 'number' },
           rows: {
             type: 'array',
             items: {
@@ -38,9 +40,9 @@ export default {
               properties: {
                 client_id: { type: 'string' },
                 transaction_type: { type: 'string' },
-                transaction_event_date: { type: 'string' },
-                transaction_base_client_purchase: { type: 'string' },
-                transaction_base_developer_proceeds: { type: 'string' },
+                event_date: { type: 'string' },
+                base_client_purchase: { type: 'string' },
+                base_developer_proceeds: { type: 'string' },
                 subscription_package_id: { type: 'string' },
                 subscription_package_name: { type: 'string' },
                 application_id: { type: 'string' },
@@ -48,6 +50,13 @@ export default {
                 country_id: { type: 'string' },
                 country_name: { type: 'string' },
               },
+            },
+          },
+          cursor: {
+            type: 'object',
+            properties: {
+              client_id: { type: 'string' },
+              event_date: { type: 'string' },
             },
           },
         },
@@ -64,12 +73,12 @@ export default {
       where: { account_id: account.account_id },
       opts: {
         limit: query.limit,
-        page: query.page,
         filter: {
           from: query.from,
           to: query.to,
         },
       },
+      cursor: query.cursor,
     })
   },
 }

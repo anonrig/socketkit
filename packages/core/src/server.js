@@ -8,6 +8,7 @@ import helmet from 'fastify-helmet'
 import tracer from 'cls-rtracer'
 import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
+import qs from 'qs'
 
 import health from './health.js'
 import grpc from './plugins/custom.js'
@@ -17,6 +18,7 @@ import Logger from './logger.js'
 
 const logger = Logger.create().withScope('http-server')
 const server = f({
+  querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   logger: {
     info: function (o) {
