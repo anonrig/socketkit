@@ -1,22 +1,16 @@
 import store from './client.js'
-import server, { grpc } from '../src/grpc.js'
 import config from '../src/config.js'
 import logger from '../src/logger.js'
+import app from '../src/grpc.js'
 
 beforeAll((done) => {
   logger.pauseLogs()
-  server.bindAsync(
-    `0.0.0.0:${config.port}`,
-    grpc.ServerCredentials.createInsecure(),
-    () => {
-      server.start()
-      done()
-    },
-  )
+  app.start(`0.0.0.0:${config.port}`)
+  done()
 })
 
-afterAll((done) => {
-  server.forceShutdown()
+afterAll(async (done) => {
+  await app.close()
   done()
 })
 

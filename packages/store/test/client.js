@@ -1,8 +1,9 @@
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
 import path from 'path'
+import config  from '../src/config.js'
 
-const config = process.env.GRPC_STORE_URL ?? '0.0.0.0:3003'
+const url = process.env.GRPC_STORE_URL ?? `0.0.0.0:${config.port}`
 const defaults = {
   keepCase: true,
   longs: String,
@@ -12,10 +13,10 @@ const defaults = {
 }
 
 const { Store } = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles', 'store.proto'), defaults),
+  loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
 // @ts-ignore
-const store = new Store(config, grpc.credentials.createInsecure())
+const store = new Store(url, grpc.credentials.createInsecure())
 
 export default store

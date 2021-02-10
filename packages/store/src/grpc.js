@@ -1,33 +1,41 @@
-import GRPC from '@grpc/grpc-js'
-import loader from '@grpc/proto-loader'
 import path from 'path'
+import Mali from 'mali'
+import MaliLogger from '@malijs/logger'
+import Logger from './logger.js'
+import * as Store from './consumers/application/index.js'
 
-import * as applications from './consumers/application/index.js'
-
-const packageOptions = {
+const logger = Logger.withScope('grpc')
+const options = {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true,
 }
-const pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles', 'store.proto'),
-  packageOptions,
-)
-const health_pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles', 'health.proto'),
-  packageOptions,
+const file = path.join(path.resolve(''), 'protofiles/store.proto')
+const health = path.join(path.resolve(''), 'protofiles/health.proto')
+
+const app = new Mali()
+
+app.use(
+  MaliLogger({
+    fullName: true,
+    request: true,
+    response: true,
+  }),
 )
 
-const { Store } = GRPC.loadPackageDefinition(pkg)
-const health = GRPC.loadPackageDefinition(health_pkg).grpc.health.v1
-const server = new GRPC.Server()
+app.addService(file, 'Store', options)
+app.addService(health, 'Health', options)
 
-server.addService(health.Health.service, {
-  Check: (_call, cb) => cb(null, { status: 1 }),
+app.use('Store', 'create', Store.create)
+app.use('Store', 'findOne', Store.findOne)
+app.use('Store', 'findVersions', Store.findVersions)
+
+app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
+
+app.on('error', (err) => {
+  logger.fatal(err)
 })
-server.addService(Store.service, applications)
 
-export const grpc = GRPC
-export default server
+export default app
