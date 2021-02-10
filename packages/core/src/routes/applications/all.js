@@ -20,11 +20,14 @@ export default {
             items: {
               type: 'object',
               properties: {
+                provider_id: { type: 'string' },
                 application_id: { type: 'string' },
                 application_name: { type: 'string' },
-                subscription_package_count: { type: 'string' },
-                integration_id: { type: 'string' },
-                provider_id: { type: 'string' },
+                version: { type: 'string' },
+                ratings: { type: 'array', items: { type: 'number' } },
+                icon: { type: 'string' },
+                released_at: { type: 'string' },
+                updated_at: { type: 'string' },
               },
             },
           },
@@ -38,11 +41,26 @@ export default {
       return []
     }
 
-    return f.grpc.applications.findAll({
+    const applications = await f.grpc.applications.findAll({
       where: { account_id: account.account_id },
       opts: {
         limit: query.limit,
       },
+    })
+
+    const application_ids = applications.rows.map((app) => app.application_id)
+
+    const { applications: storedApplications } = await f.grpc.store.findAll({
+      application_ids,
+    })
+
+    return Object.assign({}, applications, {
+      rows: applications.rows.map((application) => ({
+        ...application,
+        ...(storedApplications.filter(
+          (a) => a.application_id === application.application_id,
+        )[0] ?? {}),
+      })),
     })
   },
 }

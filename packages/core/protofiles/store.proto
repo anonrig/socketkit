@@ -2,12 +2,16 @@ syntax = "proto3";
 
 service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
-  rpc process (ApplicationIdCountryRequest) returns (Empty) {}
+  rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
   rpc findOne (ApplicationIdRequest) returns (Application) {}
   rpc findVersions (ApplicationIdRequest) returns (ApplicationVersions) {}
 }
 
 message Empty {}
+
+message ApplicationsResponse {
+  repeated Application applications = 1;
+}
 
 message ApplicationVersions {
   repeated Application versions = 1;
@@ -16,6 +20,11 @@ message ApplicationVersions {
 message ApplicationIdCountryRequest {
   string application_id = 1;
   string country_id = 2;
+}
+
+message ApplicationsIdRequest {
+  repeated string application_ids = 1;
+  repeated string bundle_ids = 2;
 }
 
 message ApplicationIdRequest {
