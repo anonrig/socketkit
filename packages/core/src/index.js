@@ -18,14 +18,13 @@ const start = async () => {
       dsn: config.sentry.dsn,
       maxBreadcrumbs: 50,
       attachStacktrace: true,
-      debug: !config.isProduction,
       environment: config.isProduction ? 'production' : 'development',
       integrations: [
         new Sentry.Integrations.Http({ tracing: true }),
         new Tracing.Integrations.Express({
           app: server,
         }),
-        new Tracing.Integrations.Postgres()
+        new Tracing.Integrations.Postgres(),
       ],
     })
 

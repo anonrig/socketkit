@@ -32,7 +32,6 @@ export default {
       200: {
         type: 'object',
         properties: {
-          count: { type: 'number' },
           cursor: {
             type: 'object',
             properties: {

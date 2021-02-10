@@ -5,14 +5,16 @@ export default {
   method: 'GET',
   path: '/:application_id/transactions',
   schema: {
-    query: {
+    querystring: {
       type: 'object',
       properties: {
         limit: { type: ['number', 'null'], default: 10, minimum: 10 },
-        page: {
-          type: ['number', 'null'],
-          default: 1,
-          minimum: 1,
+        cursor: {
+          type: 'object',
+          properties: {
+            client_id: { type: 'string' },
+            event_date: { type: 'string' },
+          },
         },
         from: {
           type: 'string',
@@ -24,6 +26,38 @@ export default {
         },
       },
       required: ['from', 'to'],
+    },
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          cursor: {
+            type: 'object',
+            properties: {
+              client_id: { type: 'string' },
+              event_date: { type: 'string' },
+            },
+          },
+          rows: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                client_id: { type: 'string' },
+                first_interaction: { type: 'string' },
+                total_base_client_purchase: { type: 'string' },
+                total_base_developer_proceeds: { type: 'string' },
+                country_id: { type: 'string' },
+                country_name: { type: 'string' },
+                device_type_id: { type: 'string' },
+                device_type_name: { type: 'string' },
+                provider_id: { type: 'string' },
+                provider_name: { type: 'string' },
+              },
+            },
+          },
+        },
+      },
     },
   },
   preHandler: verify,

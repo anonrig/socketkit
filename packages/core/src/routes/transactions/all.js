@@ -32,7 +32,13 @@ export default {
       200: {
         type: 'object',
         properties: {
-          count: { type: 'number' },
+          cursor: {
+            type: 'object',
+            properties: {
+              client_id: { type: 'string' },
+              event_date: { type: 'string' },
+            },
+          },
           rows: {
             type: 'array',
             items: {
@@ -50,13 +56,6 @@ export default {
                 country_id: { type: 'string' },
                 country_name: { type: 'string' },
               },
-            },
-          },
-          cursor: {
-            type: 'object',
-            properties: {
-              client_id: { type: 'string' },
-              event_date: { type: 'string' },
             },
           },
         },

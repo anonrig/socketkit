@@ -9,19 +9,12 @@ export default {
       type: 'object',
       properties: {
         limit: { type: ['number', 'null'], default: 10, minimum: 10 },
-        page: {
-          type: ['number', 'null'],
-          default: 1,
-          minimum: 1,
-        },
       },
     },
     response: {
       200: {
         type: 'object',
         properties: {
-          count: { type: 'number' },
-          pages: { type: 'number' },
           rows: {
             type: 'array',
             items: {
@@ -49,7 +42,6 @@ export default {
       where: { account_id: account.account_id },
       opts: {
         limit: query.limit,
-        page: query.page,
       },
     })
   },
