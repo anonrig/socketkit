@@ -28,6 +28,23 @@ describe('create', () => {
   })
 })
 
+describe('findAll', () => {
+  test('should return facebook', (done) => {
+    store.findAll({ application_ids: ['284882215'] }, (error, response) => {
+      try {
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.applications).toBeInstanceOf(Array)
+        expect(response.applications.length).toEqual(1)
+        expect(response.applications[0].application_id).toBe('284882215')
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
+})
+
 describe('findOne', () => {
   test('should return facebook', (done) => {
     store.findOne({ application_id: '284882215' }, (error, response) => {

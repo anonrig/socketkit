@@ -29,9 +29,9 @@ app.addService(file, 'Store', options)
 app.addService(health, 'Health', options)
 
 app.use('Store', 'create', Store.create)
+app.use('Store', 'findAll', Store.findAll)
 app.use('Store', 'findOne', Store.findOne)
 app.use('Store', 'findVersions', Store.findVersions)
-
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (err) => {
