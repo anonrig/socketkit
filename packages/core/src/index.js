@@ -1,3 +1,4 @@
+import './tracer.js'
 import * as Sentry from '@sentry/node'
 import * as Tracing from '@sentry/tracing'
 

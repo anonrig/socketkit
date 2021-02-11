@@ -59,6 +59,11 @@ spec:
             name: {{ .Values.application.secretName }}
         {{- end }}
         env:
+        - name: DD_AGENT_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+        env:
         - name: GITLAB_ENVIRONMENT_NAME
           value: {{ .Values.gitlab.envName | quote }}
         - name: GITLAB_ENVIRONMENT_URL

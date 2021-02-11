@@ -23,6 +23,7 @@
     "cls-rtracer": "^2.6.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
+    "dd-trace": "^0.30.6",
     "dotenv": "^8.2.0",
     "fastify": "^3.11.0",
     "fastify-auth": "^1.0.1",
