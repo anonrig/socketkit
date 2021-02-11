@@ -3,11 +3,12 @@ import config from './config.js'
 
 const options = {
   redis: {
-    name: 'redis-prod',
-    host: config.redis.host,
-    username: 'default',
+    tls: true,
+    name: 'core',
+    username: config.redis.username,
     password: config.redis.password,
-    port: 6379,
+    host: config.redis.host,
+    port: config.redis.port,
   },
 }
 

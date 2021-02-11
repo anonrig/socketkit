@@ -12,6 +12,8 @@ import pg from './pg.js'
 const start = async () => {
   const logger = Logger.create().withScope('application').withTag('start')
   try {
+    logger.info(`application booted`)
+
     await pg.raw('select 1+1 as result')
 
     Sentry.init({
