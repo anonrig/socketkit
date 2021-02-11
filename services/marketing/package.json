@@ -8,18 +8,24 @@
     "start": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^0.2.0",
+    "@headlessui/react": "^0.3.0",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.0",
-    "autoprefixer": "^10.2.3",
+    "autoprefixer": "^10.2.4",
     "classnames": "^2.2.6",
-    "next": "10.0.5",
-    "next-seo": "^4.17.0",
-    "postcss": "^8.2.4",
+    "next": "10.0.6",
+    "next-seo": "^4.19.0",
+    "postcss": "^8.2.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "sharp": "^0.26.3",
-    "tailwindcss": "^2.0.2"
-  }
+    "sharp": "^0.27.1",
+    "tailwindcss": "^2.0.3"
+  },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ]
 }
