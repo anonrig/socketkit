@@ -5,6 +5,7 @@ import path from 'path'
 import * as account from './consumers/account/index.js'
 import * as applications from './consumers/application/index.js'
 import * as clients from './consumers/client/index.js'
+import * as subscriptions from './consumers/subscription/index.js'
 import * as transactions from './consumers/transaction/index.js'
 import * as integrations from './consumers/integration/index.js'
 
@@ -28,6 +29,7 @@ const {
   Accounts,
   Applications,
   Clients,
+  Subscriptions,
   Transactions,
   Integrations,
 } = GRPC.loadPackageDefinition(pkg)
@@ -40,6 +42,7 @@ server.addService(health.Health.service, {
 server.addService(Accounts.service, account)
 server.addService(Applications.service, applications)
 server.addService(Clients.service, clients)
+server.addService(Subscriptions.service, subscriptions)
 server.addService(Transactions.service, transactions)
 server.addService(Integrations.service, integrations)
 

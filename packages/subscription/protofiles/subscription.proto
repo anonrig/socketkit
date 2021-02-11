@@ -20,6 +20,10 @@ service Clients {
   rpc findSubscriptions (ClientIdRequest) returns (SubscriptionsResponse) {}
 }
 
+service Subscriptions {
+  rpc findPackagesGroupByApplication (AccountId) returns (SubscriptionPackagesGroupByApplication) {}
+}
+
 service Transactions {
   rpc findAll (TransactionPaginationRequest) returns (TransactionPaginationResponse) {}
 }
@@ -108,6 +112,15 @@ message SubscriptionPackage {
   string subscription_duration = 2;
   string subscription_package_id = 3;
   string subscription_group_id = 4;
+}
+
+message SubscriptionPackageGroupByApplication {
+  string application_id = 1;
+  optional int32 subscription_package_count = 2;
+}
+
+message SubscriptionPackagesGroupByApplication {
+  repeated SubscriptionPackageGroupByApplication rows = 1;
 }
 
 message AccountIdRequest {
