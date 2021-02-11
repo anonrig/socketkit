@@ -7,7 +7,7 @@ service Accounts {
 
 service Applications {
   rpc findAll (AccountIdRequest) returns (ApplicationPagination) {}
-  rpc findOne (ApplicationIdRequest) returns (Application) {}
+  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
   rpc findSubscriptionPackages (ApplicationIdRequest) returns (SubscriptionPackagePagination) {}
   rpc statistics (ApplicationIdRequest) returns (ApplicationStatistics) {}
   rpc findCountries (ApplicationIdRequest) returns (CountryStatisticsResponse) {}
@@ -110,30 +110,6 @@ message SubscriptionPackage {
   string subscription_group_id = 4;
 }
 
-message ApplicationPagination {
-  repeated Application rows = 1;
-  int32 count = 2;
-  int32 pages = 3;
-}
-
-message Application {
-  string application_id = 1;
-  string application_name = 2;
-  string provider_id = 3;
-  string account_id = 4;
-  optional string subscription_package_count = 5;
-}
-
-message ApplicationIdRequest {
-  ApplicationId where = 1;
-  optional FilterRequest opts = 2; 
-}
-
-message ApplicationId {
-  string account_id = 1;
-  string application_id = 2;
-}
-
 message AccountIdRequest {
   AccountId where = 1;
   optional FilterRequest opts = 2;
@@ -161,7 +137,6 @@ message StatisticsObject {
   optional string change = 3;
   optional bool positive = 4;
 }
-
 
 // Transactions
 
@@ -247,4 +222,33 @@ message FilterRequest {
 message DateFilter {
   optional string from = 1;
   optional string to = 2;
+}
+
+// Applications
+
+message ApplicationIdRequest {
+  ApplicationId where = 1;
+  optional FilterRequest opts = 2; 
+}
+
+message ApplicationId {
+  string account_id = 1;
+  string application_id = 2;
+}
+
+message ApplicationResponse {
+  optional Application application = 1;
+}
+
+message ApplicationPagination {
+  repeated Application rows = 1;
+  int32 count = 2;
+}
+
+message Application {
+  string application_id = 1;
+  string application_name = 2;
+  string provider_id = 3;
+  string account_id = 4;
+  optional string subscription_package_count = 5;
 }
