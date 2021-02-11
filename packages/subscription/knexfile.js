@@ -10,7 +10,6 @@ const config = {
   connection: {
     database: 'subscription',
     user: 'subscription-worker',
-    port: 5432,
   },
   pool: { min: 0, max: 5 },
   migrations: {
