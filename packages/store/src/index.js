@@ -10,8 +10,8 @@ const start = async () => {
   try {
     await pg.raw('select 1+1 as result')
     server.start(`0.0.0.0:${config.port}`)
-    await runTasks()
     logger.success(`Application booted on port=${config.port}`)
+    await runTasks()
   } catch (err) {
     logger.fatal(err)
     process.exit(1)

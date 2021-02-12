@@ -9,7 +9,7 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  
+
   logger.info('Searching for 10 applications to process')
   const processed = await fetchApplications(limit)
   logger.success(`Processed ${processed} applications`)

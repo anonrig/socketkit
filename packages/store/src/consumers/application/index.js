@@ -12,7 +12,8 @@ export async function findAll(ctx) {
 }
 export async function findOne(ctx) {
   const { application_id, bundle_id } = ctx.req
-  ctx.res = await findOneApplication({ application_id, bundle_id })
+  const application = await findOneApplication({ application_id, bundle_id })
+  ctx.res = { application }
 }
 
 export async function findVersions(ctx) {

@@ -36,12 +36,12 @@ export default async function findOne({ application_id, bundle_id }) {
       )
     })
     .where(function () {
-      if (application_id) {
-        this.where('applications.application_id', '=', application_id)
+      if (application_id?.length > 0) {
+        this.where('applications.application_id', application_id)
       }
 
-      if (bundle_id) {
-        this.where('applications.bundle_id', '=', bundle_id)
+      if (bundle_id?.length > 0) {
+        this.andWhere('applications.bundle_id', bundle_id)
       }
     })
     .orderBy('application_versions.released_at', 'desc')

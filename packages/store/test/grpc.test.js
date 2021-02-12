@@ -19,7 +19,7 @@ describe('create', () => {
     store.create({ application_id: '284882215' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response).toEqual({})
+        expect(response.application).toEqual(undefined)
         done()
       } catch (error) {
         done(error)
@@ -50,7 +50,7 @@ describe('findOne', () => {
     store.findOne({ application_id: '284882215' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.application_id).toBe('284882215')
+        expect(response.application.application_id).toBe('284882215')
         done()
       } catch (error) {
         done(error)
@@ -61,7 +61,8 @@ describe('findOne', () => {
   test('should return undefined', (done) => {
     store.findOne({ application_id: '1234512345' }, (error, response) => {
       try {
-        expect(response).toBe(undefined)
+        expect(error).toBeNull()
+        expect(response.application).toBe(null)
         done()
       } catch (error) {
         done(error)
