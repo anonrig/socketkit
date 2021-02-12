@@ -1,13 +1,13 @@
 import Queue from 'bull'
 import config from './config.js'
 
-const options = {
+export const appstoreQueue = new Queue('appstore-worker', {
   redis: {
-    name: 'redis-prod',
-    host: config.redis.host,
+    tls: true,
+    name: 'subscription',
+    username: config.redis.username,
     password: config.redis.password,
-    port: 6379,
+    host: config.redis.host,
+    port: config.redis.port,
   },
-}
-
-export const appstoreQueue = new Queue('appstore-worker', options)
+})

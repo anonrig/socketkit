@@ -7,7 +7,8 @@ export const findAll = async (
   {
     request: {
       where: { account_id, application_id },
-      opts: { filter, limit, offset },
+      opts: { filter, limit },
+      cursor,
     },
   },
   callback,
@@ -17,7 +18,7 @@ export const findAll = async (
       null,
       await getByPagination(
         { account_id, application_id },
-        { filter, limit, offset },
+        { filter, limit, cursor },
       ),
     )
   } catch (error) {
@@ -50,7 +51,7 @@ export const findTransactions = async (
 ) => {
   try {
     callback(null, {
-      transactions: await getTransactionsById({ account_id, client_id })
+      transactions: await getTransactionsById({ account_id, client_id }),
     })
   } catch (error) {
     callback(error)
@@ -67,7 +68,7 @@ export const findSubscriptions = async (
 ) => {
   try {
     callback(null, {
-      subscriptions: await getSubscriptionsById({ account_id, client_id })
+      subscriptions: await getSubscriptionsById({ account_id, client_id }),
     })
   } catch (error) {
     callback(error)

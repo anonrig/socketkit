@@ -4,7 +4,8 @@ export const findAll = async (
   {
     request: {
       where: { account_id, application_id },
-      opts: { filter, limit, offset },
+      opts: { filter, limit },
+      cursor,
     },
   },
   callback,
@@ -13,7 +14,7 @@ export const findAll = async (
     null,
     await getByPagination(
       { account_id, application_id },
-      { filter, limit, offset },
+      { filter, limit, cursor },
     ),
   )
 }

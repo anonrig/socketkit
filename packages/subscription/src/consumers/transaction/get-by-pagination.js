@@ -1,20 +1,20 @@
 import * as Transaction from '../../models/client-transaction.js'
+import dayjs from 'dayjs'
 
 export default async function (
   { account_id, application_id },
-  { filter, limit, offset },
+  { filter, limit, cursor },
 ) {
-  const [count, rows] = await Promise.all([
-    Transaction.count({ account_id, application_id }, { filter }),
-    Transaction.findAll(
-      { account_id, application_id },
-      { filter, limit, offset },
-    ),
-  ])
+  const rows = await Transaction.findAll(
+    { account_id, application_id },
+    { filter, limit, cursor },
+  )
 
   return {
     rows,
-    pages: Math.max(Math.floor(count / limit), 1),
-    count,
+    cursor: {
+      event_date: dayjs(rows[rows.length - 1].event_date).format('YYYY-MM-DD'),
+      client_id: rows[rows.length - 1].client_id,
+    },
   }
 }

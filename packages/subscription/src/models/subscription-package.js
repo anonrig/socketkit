@@ -39,7 +39,6 @@ export async function findAll(
     })
     .orderByRaw('sp.name desc')
     .limit(limit)
-    .offset(offset)
 
   return rows.map((row) => ({
     ...row,

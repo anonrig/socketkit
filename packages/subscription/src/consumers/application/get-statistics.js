@@ -2,9 +2,14 @@ import * as Application from '../../models/application.js'
 import getActiveClientCount from '../../methods/get-active-client-count.js'
 import dayjs from 'dayjs'
 import getTrialClientCount from '../../methods/get-trial-client-count.js'
+import pg from '../../pg.js'
 
 export default async function ({ account_id, application_id }) {
-  const application = await Application.findByPk({ account_id, application_id })
+  const application = await pg
+    .queryBuilder()
+    .from('applications')
+    .where({ account_id, application_id })
+    .first()
 
   if (!application) {
     throw new Error(`Application not found`)

@@ -1,8 +1,11 @@
 import getStatistics from './get-statistics.js'
 import getCountries from '../../methods/get-countries.js'
 
-export const statistics = async ({
-    request: { where: { account_id } },
+export const statistics = async (
+  {
+    request: {
+      where: { account_id },
+    },
   },
   callback,
 ) => {

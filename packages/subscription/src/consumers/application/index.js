@@ -8,13 +8,13 @@ export const findAll = async (
   {
     request: {
       where: { account_id },
-      opts: { limit, offset },
+      opts: { limit },
     },
   },
   callback,
 ) => {
   try {
-    callback(null, await getByPagination({ account_id }, { limit, offset }))
+    callback(null, await getByPagination({ account_id }, { limit }))
   } catch (error) {
     callback(error)
   }
@@ -28,9 +28,8 @@ export const findOne = async (
   },
   callback,
 ) => {
-  callback(
-    null,
-    await pg
+  callback(null, {
+    application: await pg
       .select({
         application_id: 'application_id',
         application_name: 'name',
@@ -40,7 +39,7 @@ export const findOne = async (
       .from('applications')
       .where({ account_id, application_id })
       .first(),
-  )
+  })
 }
 
 export const findSubscriptionPackages = async (

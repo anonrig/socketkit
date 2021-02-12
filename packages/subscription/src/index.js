@@ -21,7 +21,6 @@ const boot = async () => {
       dsn: config.sentry.dsn,
       maxBreadcrumbs: 50,
       attachStacktrace: true,
-      debug: !config.isProduction,
       environment: config.isProduction ? 'production' : 'development',
       integrations: [new Tracing.Integrations.Postgres()],
     })
