@@ -14,6 +14,10 @@ export default function addSchemas(f) {
       integration_id: { type: 'string' },
       title: { type: 'string' },
       description: { type: 'string' },
+      requirement_schema: {
+        type: 'object',
+        additionalProperties: true,
+      },
     },
   })
 }

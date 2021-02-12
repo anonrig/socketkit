@@ -21,10 +21,7 @@ export default {
         integration_id: { type: 'string' },
         requirement_payload: {
           type: 'object',
-          properties: {
-            access_token: { type: 'string' },
-          },
-          required: ['access_token'],
+          additionalProperties: true,
         },
       },
       required: ['integration_id', 'requirement_payload'],
@@ -32,7 +29,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ body, user: { identity } }) => {
-    const ajv = new Ajv()
+    const ajv = new Ajv.default()
     let [account] = await getAccounts({ identity_id: identity.id })
 
     if (!account) {

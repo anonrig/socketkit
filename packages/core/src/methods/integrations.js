@@ -45,9 +45,7 @@ export async function getIntegration({ integration_id }) {
     .queryBuilder()
     .select(['integration_id', 'title', 'description', 'requirement_schema'])
     .from('integrations')
-    .where(function () {
-      this.where({ integration_id })
-    })
+    .where({ integration_id })
     .first()
 
   if (!integration) {

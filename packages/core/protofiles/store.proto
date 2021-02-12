@@ -3,7 +3,7 @@ syntax = "proto3";
 service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
-  rpc findOne (ApplicationIdRequest) returns (Application) {}
+  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
   rpc findVersions (ApplicationIdRequest) returns (ApplicationVersions) {}
 }
 
@@ -11,6 +11,10 @@ message Empty {}
 
 message ApplicationsResponse {
   repeated Application applications = 1;
+}
+
+message ApplicationResponse {
+  Application application = 1;
 }
 
 message ApplicationVersions {

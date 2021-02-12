@@ -13,7 +13,7 @@ const defaults = {
 }
 
 const { Store } = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles', 'store.proto'), defaults),
+  loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
 const {
@@ -23,24 +23,33 @@ const {
   Transactions,
   Integrations,
 } = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles', 'appstore.proto'), defaults),
+  loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
 )
 
 export default {
   accounts: promisifyAll(
-    new Accounts(config.grpc.appstore, grpc.credentials.createInsecure()),
+    new Accounts(config.grpc.subscription, grpc.credentials.createInsecure()),
   ),
   applications: promisifyAll(
-    new Applications(config.grpc.appstore, grpc.credentials.createInsecure()),
+    new Applications(
+      config.grpc.subscription,
+      grpc.credentials.createInsecure(),
+    ),
   ),
   clients: promisifyAll(
-    new Clients(config.grpc.appstore, grpc.credentials.createInsecure()),
+    new Clients(config.grpc.subscription, grpc.credentials.createInsecure()),
   ),
   transactions: promisifyAll(
-    new Transactions(config.grpc.appstore, grpc.credentials.createInsecure()),
+    new Transactions(
+      config.grpc.subscription,
+      grpc.credentials.createInsecure(),
+    ),
   ),
   integrations: promisifyAll(
-    new Integrations(config.grpc.appstore, grpc.credentials.createInsecure()),
+    new Integrations(
+      config.grpc.subscription,
+      grpc.credentials.createInsecure(),
+    ),
   ),
   store: promisifyAll(
     new Store(config.grpc.store, grpc.credentials.createInsecure()),

@@ -3,7 +3,7 @@ export default {
   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
   postgresql: process.env.DATABASE_URL,
   grpc: {
-    appstore: process.env.APPSTORE_GRPC_URL,
+    subscription: process.env.SUBSCRIPTION_GRPC_URL,
     store: process.env.STORE_GRPC_URL,
   },
   redis: {
