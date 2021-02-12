@@ -8,10 +8,6 @@ export default {
     password: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT,
   },
-  sentry: {
-    dsn:
-      'https://dc5db1fbaed34b799ce3ce9d36e95a35@o501595.ingest.sentry.io/5582918',
-  },
   grpc: {
     store: process.env.STORE_GRPC_URL,
   },
