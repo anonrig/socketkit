@@ -112,6 +112,7 @@ export default async function onProcessDate(
         .into('vendor_fetch_logs')
         .onConflict(['account_id', 'vendor_id', 'fetch_date', 'successful'])
         .merge()
+        .transacting(trx)
       logger.debug('Could not find any transactions on Appstore')
     } else if (error.message.includes('401')) {
       logger.warn('Permission denied')

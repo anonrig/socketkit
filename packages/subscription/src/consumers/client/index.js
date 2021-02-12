@@ -1,6 +1,6 @@
 import getByPagination from './get-by-pagination.js'
 import getById from './get-by-id.js'
-import getTransactionsById from './get-transactions-by-id.js'
+import * as Transaction from '../../models/client-transaction.js'
 import getSubscriptionsById from './get-subscriptions-by-id.js'
 
 export const findAll = async (
@@ -51,7 +51,10 @@ export const findTransactions = async (
 ) => {
   try {
     callback(null, {
-      transactions: await getTransactionsById({ account_id, client_id }),
+      transactions: await Transaction.findAll(
+        { account_id, client_id },
+        { limit: null },
+      ),
     })
   } catch (error) {
     callback(error)

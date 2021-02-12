@@ -4,9 +4,8 @@ export default async function getById({ account_id, client_id }) {
   const client = await pg
     .select({
       client_id: 'clients.client_id',
-      client_total_base_client_purchase: 'clients.total_base_client_purchase',
-      client_total_base_developer_proceeds:
-        'clients.total_base_developer_proceeds',
+      total_base_client_purchase: 'clients.total_base_client_purchase',
+      total_base_developer_proceeds: 'clients.total_base_developer_proceeds',
       device_type_id: 'device_types.device_type_id',
       device_type_name: 'device_types.name',
       provider_id: 'clients.provider_id',

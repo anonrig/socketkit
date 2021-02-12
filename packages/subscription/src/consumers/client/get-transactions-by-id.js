@@ -8,10 +8,10 @@ export default async function getTransactionsById({ client_id, account_id }) {
       transaction_type: 'client_transactions.transaction_type',
       subscription_package_id: 'client_transactions.subscription_package_id',
       subscription_package_name: 'subscription_packages.name',
-      transaction_event_date: 'client_transactions.event_date',
-      transaction_base_client_purchase:
+      event_date: 'client_transactions.event_date',
+      base_client_purchase:
         'client_transactions.base_client_purchase',
-      transaction_base_developer_proceeds:
+      base_developer_proceeds:
         'client_transactions.base_developer_proceeds',
     })
     .from('client_transactions')

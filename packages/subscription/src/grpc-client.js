@@ -4,7 +4,7 @@ import path from 'path'
 import config from './config.js'
 import { promisifyAll } from './helpers.js'
 
-const proto = loader.loadSync(path.join('.', 'protofiles', 'store.proto'), {
+const proto = loader.loadSync(path.join('.', 'protofiles/store.proto'), {
   keepCase: true,
   longs: String,
   enums: String,

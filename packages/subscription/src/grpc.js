@@ -16,11 +16,11 @@ const packageOptions = {
   oneofs: true,
 }
 const pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles', 'appstore.proto'),
+  path.join(path.resolve(''), 'protofiles/subscription.proto'),
   packageOptions,
 )
 const health_pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles', 'health.proto'),
+  path.join(path.resolve(''), 'protofiles/health.proto'),
   packageOptions,
 )
 

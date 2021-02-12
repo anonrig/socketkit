@@ -1,7 +1,7 @@
 import pg from '../pg.js'
 
 export async function findAll(
-  { account_id, application_id },
+  { account_id, application_id, client_id },
   { filter, limit = 10, cursor },
 ) {
   return pg
@@ -44,8 +44,12 @@ export async function findAll(
     .innerJoin('countries', 'countries.country_id', 'clients.country_id')
     .where('client_transactions.account_id', account_id)
     .andWhere(function () {
-      if (application_id) {
+      if (application_id?.length) {
         this.andWhere('applications.application_id', application_id)
+      }
+
+      if (client_id?.length) {
+        this.andWhere('client_transactions.client_id', client_id)
       }
 
       if (cursor) {
