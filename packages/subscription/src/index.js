@@ -17,13 +17,13 @@ const boot = async () => {
   try {
     await pg.raw('select 1+1 as result')
 
-    Sentry.init({
-      dsn: config.sentry.dsn,
-      maxBreadcrumbs: 50,
-      attachStacktrace: true,
-      environment: config.isProduction ? 'production' : 'development',
-      integrations: [new Tracing.Integrations.Postgres()],
-    })
+    // Sentry.init({
+    //   dsn: config.sentry.dsn,
+    //   maxBreadcrumbs: 50,
+    //   attachStacktrace: true,
+    //   environment: config.isProduction ? 'production' : 'development',
+    //   integrations: [new Tracing.Integrations.Postgres()],
+    // })
 
     server.bindAsync(
       `0.0.0.0:${config.port}`,
