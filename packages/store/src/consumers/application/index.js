@@ -25,7 +25,9 @@ export async function findVersions(ctx) {
 
 export async function create(ctx) {
   const { application_id, country_id } = ctx.req
-  ctx.res = await pg.transaction((trx) =>
-    createApplication({ application_id, country_id }, trx),
-  )
+  ctx.res = {
+    application: await pg.transaction((trx) =>
+      createApplication({ application_id, country_id }, trx),
+    ),
+  }
 }
