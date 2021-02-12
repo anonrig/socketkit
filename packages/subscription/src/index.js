@@ -1,6 +1,6 @@
 import server, { grpc } from './grpc.js'
-import * as Sentry from '@sentry/node'
-import * as Tracing from '@sentry/tracing'
+// import * as Sentry from '@sentry/node'
+// import * as Tracing from '@sentry/tracing'
 import Logger from './logger.js'
 import config from './config.js'
 import listenEvents from './listener.js'
@@ -36,7 +36,7 @@ const boot = async () => {
     logger.info(`server listening on 0.0.0.0:${config.port}`)
   } catch (err) {
     logger.error(err)
-    Sentry.captureException(err)
+    // Sentry.captureException(err)
     process.exit(1)
   }
 }
