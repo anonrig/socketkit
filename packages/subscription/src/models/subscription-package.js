@@ -1,26 +1,6 @@
 import pg from '../pg.js'
 
-export async function count({ account_id, application_id }) {
-  const { count } = await pg
-    .queryBuilder()
-    .count()
-    .from('subscription_packages')
-    .where(function () {
-      this.where('account_id', account_id)
-
-      if (application_id) {
-        this.andWhere('application_id', application_id)
-      }
-    })
-    .first()
-
-  return count
-}
-
-export async function findAll(
-  { account_id, application_id },
-  { limit = 10, offset = 0 },
-) {
+export async function findAll({ account_id, application_id }, { limit = 10 }) {
   const rows = await pg
     .queryBuilder()
     .select({

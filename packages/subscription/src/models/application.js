@@ -1,27 +1,7 @@
 import pg from '../pg.js'
-import store from '../grpc-client.js'
-import Logger from '../logger.js'
 import dayjs from 'dayjs'
 
-const logger = Logger.create().withScope('applications')
-
-export async function findByPk({ account_id, application_id }) {
-  return pg
-    .select('*')
-    .from('applications')
-    .where({ account_id, application_id })
-    .first()
-}
-
-export async function count({ account_id }) {
-  const { count } = await pg('applications')
-    .count()
-    .where({ account_id })
-    .first()
-  return parseInt(count ?? '0')
-}
-
-export async function findAll({ account_id }, { limit = 10, offset = 0 }) {
+export async function findAll({ account_id }, { limit = 10 }) {
   return pg('applications')
     .select({
       application_id: 'applications.application_id',
@@ -42,7 +22,6 @@ export async function findAll({ account_id }, { limit = 10, offset = 0 }) {
     .groupBy(['applications.application_id', 'applications.account_id'])
     .orderByRaw('applications.name desc')
     .limit(limit)
-    .offset(offset)
 }
 
 export async function totalSales({ account_id, application_id }, { filter }) {

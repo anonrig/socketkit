@@ -1,40 +1,17 @@
 import pg from '../pg.js'
 
-export async function count({ account_id, application_id }, { filter }) {
-  const { count } = await pg
-    .queryBuilder()
-    .count()
-    .from('client_transactions')
-    .where(function () {
-      this.where({ account_id })
-
-      if (application_id) {
-        this.andWhere('application_id', application_id)
-      }
-
-      if (filter?.from && filter?.to) {
-        this.andWhereBetween('event_date', [filter.from, filter.to])
-      }
-    })
-    .first()
-
-  return parseInt(count ?? '0')
-}
-
 export async function findAll(
   { account_id, application_id },
-  { filter, limit = 10, offset = 0 },
+  { filter, limit = 10, cursor },
 ) {
   return pg
     .queryBuilder()
     .select({
       client_id: 'client_transactions.client_id',
       transaction_type: 'client_transactions.transaction_type',
-      transaction_event_date: 'client_transactions.event_date',
-      transaction_base_client_purchase:
-        'client_transactions.base_client_purchase',
-      transaction_base_developer_proceeds:
-        'client_transactions.base_developer_proceeds',
+      event_date: 'client_transactions.event_date',
+      base_client_purchase: 'client_transactions.base_client_purchase',
+      base_developer_proceeds: 'client_transactions.base_developer_proceeds',
       subscription_package_id: 'client_transactions.subscription_package_id',
       subscription_package_name: 'subscription_packages.name',
       application_id: 'applications.application_id',
@@ -65,11 +42,21 @@ export async function findAll(
       )
     })
     .innerJoin('countries', 'countries.country_id', 'clients.country_id')
-    .where(function () {
-      this.where('client_transactions.account_id', account_id)
-
+    .where('client_transactions.account_id', account_id)
+    .andWhere(function () {
       if (application_id) {
         this.andWhere('applications.application_id', application_id)
+      }
+
+      if (cursor) {
+        const { client_id, event_date } = cursor
+
+        if (!client_id || !event_date) {
+          throw new Error(`Invalid cursor for pagination`)
+        }
+
+        this.andWhereRaw('client_transactions.event_date < ?', [event_date])
+        this.andWhereRaw('client_transactions.client_id < ?', [client_id])
       }
 
       if (filter?.from && filter?.to) {
@@ -79,6 +66,8 @@ export async function findAll(
         ])
       }
     })
+    .orderByRaw(
+      `client_transactions.event_date desc, client_transactions.client_id desc`,
+    )
     .limit(limit)
-    .offset(offset)
 }
