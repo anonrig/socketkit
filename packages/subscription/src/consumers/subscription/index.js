@@ -1,4 +1,4 @@
-import * as Packages from './packages.js'
+import * as SubscriptionPackage from '../../models/subscription-package.js'
 
 export const groupByApplication = async (
   { request: { account_id } },
@@ -6,7 +6,7 @@ export const groupByApplication = async (
 ) => {
   try {
     callback(null, {
-      rows: await Packages.groupByApplication({ account_id }),
+      rows: await SubscriptionPackage.groupByApplication({ account_id }),
     })
   } catch (error) {
     callback(error)
@@ -19,7 +19,7 @@ export const findPackages = async (
 ) => {
   try {
     callback(null, {
-      rows: await Packages.findAll({ account_id, application_id }, { limit: 10 }),
+      rows: await SubscriptionPackage.findAll({ account_id, application_id }, { limit: 10 }),
     })
   } catch (error) {
     callback(error)

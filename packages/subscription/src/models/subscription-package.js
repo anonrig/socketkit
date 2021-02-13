@@ -24,3 +24,14 @@ export async function findAll({ account_id, application_id }, { limit = 10 }) {
     subscription_duration: row.subscription_duration.toPostgres(),
   }))
 }
+
+export function groupByApplication({ account_id }) {
+  return pg
+    .select({
+      application_id: 'application_id',
+      subscription_package_count: pg.raw('count(*)'),
+    })
+    .from('subscription_packages')
+    .where({ account_id })
+    .groupBy('application_id')
+}
