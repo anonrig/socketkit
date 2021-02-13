@@ -20,6 +20,7 @@ service Clients {
 service Subscriptions {
   rpc findPackages (AccountId) returns (SubscriptionPackagePagination) {}
   rpc groupByApplication (AccountId) returns (SubscriptionsGroupByApplication) {}
+  rpc groupByCountry (SubscriptionsRequest) returns (SubscriptionsGroupByCountry) {}
 }
 
 service Transactions {
@@ -88,6 +89,19 @@ message TransactionsResponse {
   repeated Transaction transactions = 1;
 }
 
+message SubscriptionsRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_end_date {
+    string end_date = 4;
+  }
+}
+
 message SubscriptionsResponse {
   repeated Subscription subscriptions = 1;
 }
@@ -118,6 +132,20 @@ message SubscriptionsGroupByApplicationRow {
 
 message SubscriptionsGroupByApplication {
   repeated SubscriptionsGroupByApplicationRow rows = 1;
+}
+
+message SubscriptionsGroupByCountryRow {
+  string country_id = 1;
+  string country_name = 2;
+  Coordinate country_coordinates = 3;
+  int32 total_count = 4;
+  int32 trial_past_count = 5;
+  int32 churn_count = 6;
+  int32 revenue = 7;
+}
+
+message SubscriptionsGroupByCountry {
+  repeated SubscriptionsGroupByCountryRow rows = 1;
 }
 
 message AccountIdRequest {

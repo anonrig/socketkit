@@ -1,25 +1,30 @@
 import * as SubscriptionPackage from '../../models/subscription-package.js'
+import getCountries from '../../methods/get-countries.js'
 
-export const groupByApplication = async (
-  { request: { account_id } },
-  callback,
-) => {
+export const findPackages = async ({ request }, callback) => {
   try {
     callback(null, {
-      rows: await SubscriptionPackage.groupByApplication({ account_id }),
+      rows: await SubscriptionPackage.findAll(request, { limit: 10 }),
     })
   } catch (error) {
     callback(error)
   }
 }
 
-export const findPackages = async (
-  { request: { account_id, application_id } },
-  callback,
-) => {
+export const groupByApplication = async ({ request }, callback) => {
   try {
     callback(null, {
-      rows: await SubscriptionPackage.findAll({ account_id, application_id }, { limit: 10 }),
+      rows: await SubscriptionPackage.groupByApplication(request),
+    })
+  } catch (error) {
+    callback(error)
+  }
+}
+
+export const groupByCountry = async ({ request }, callback) => {
+  try {
+    callback(null, {
+      rows: await getCountries(request),
     })
   } catch (error) {
     callback(error)

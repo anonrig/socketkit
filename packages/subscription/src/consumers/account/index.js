@@ -25,5 +25,5 @@ export const findCountries = async (
   },
   callback,
 ) => {
-  callback(null, { values: await getCountries({ account_id }, { filter }) })
+  callback(null, { values: await getCountries({ account_id, start_date: filter?.to, end_date: filter?.from }) })
 }

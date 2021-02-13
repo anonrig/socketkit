@@ -1,10 +1,12 @@
 import dayjs from 'dayjs'
 import pg from '../pg.js'
 
-export default async function getCountries(
-  { account_id, application_id },
-  { filter },
-) {
+export default async function getCountries({
+  account_id,
+  application_id,
+  start_date,
+  end_date,
+}) {
   return pg
     .queryBuilder()
     .select([
@@ -17,11 +19,9 @@ export default async function getCountries(
       ),
       pg.raw(
         'count(*) filter (WHERE upper(s.active_period) < ?) as churn_count',
-        [dayjs(filter?.to).format('YYYY-MM-DD')],
+        [dayjs(start_date).format('YYYY-MM-DD')],
       ),
-      pg.raw(
-        `sum(s.total_base_developer_proceeds) as revenue`,
-      ),
+      pg.raw(`sum(s.total_base_developer_proceeds) as revenue`),
     ])
     .from('clients as cl')
     .innerJoin('client_subscriptions as s', function () {
@@ -34,14 +34,11 @@ export default async function getCountries(
     .where(function () {
       this.where('s.account_id', account_id)
 
-      if (filter?.from && filter?.to) {
-        this.andWhereRaw(
-          's.active_period && daterange(?, ?)',
-          [
-            dayjs(filter.from).format('YYYY-MM-DD'),
-            dayjs(filter.to).format('YYYY-MM-DD'),
-          ],
-        )
+      if (start_date && end_date) {
+        this.andWhereRaw('s.active_period && daterange(?, ?)', [
+          dayjs(start_date).format('YYYY-MM-DD'),
+          dayjs(end_date).format('YYYY-MM-DD'),
+        ])
       }
 
       if (application_id) {
