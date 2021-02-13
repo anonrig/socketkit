@@ -1,6 +1,6 @@
 import pg from '../../pg.js'
 
-export function findGroupByApplication({ account_id }) {
+export function groupByApplication({ account_id }) {
   return pg
     .select({
       application_id: 'application_id',

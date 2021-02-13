@@ -19,7 +19,7 @@ service Clients {
 
 service Subscriptions {
   rpc findPackages (AccountId) returns (SubscriptionPackagePagination) {}
-  rpc findPackagesGroupByApplication (AccountId) returns (SubscriptionPackagesGroupByApplication) {}
+  rpc groupByApplication (AccountId) returns (SubscriptionsGroupByApplication) {}
 }
 
 service Transactions {
@@ -111,13 +111,13 @@ message SubscriptionPackage {
   string subscription_group_id = 4;
 }
 
-message SubscriptionPackageGroupByApplication {
+message SubscriptionsGroupByApplicationRow {
   string application_id = 1;
   optional int32 subscription_package_count = 2;
 }
 
-message SubscriptionPackagesGroupByApplication {
-  repeated SubscriptionPackageGroupByApplication rows = 1;
+message SubscriptionsGroupByApplication {
+  repeated SubscriptionsGroupByApplicationRow rows = 1;
 }
 
 message AccountIdRequest {
