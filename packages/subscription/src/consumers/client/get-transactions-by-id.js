@@ -9,10 +9,8 @@ export default async function getTransactionsById({ client_id, account_id }) {
       subscription_package_id: 'client_transactions.subscription_package_id',
       subscription_package_name: 'subscription_packages.name',
       event_date: 'client_transactions.event_date',
-      base_client_purchase:
-        'client_transactions.base_client_purchase',
-      base_developer_proceeds:
-        'client_transactions.base_developer_proceeds',
+      base_client_purchase: 'client_transactions.base_client_purchase',
+      base_developer_proceeds: 'client_transactions.base_developer_proceeds',
     })
     .from('client_transactions')
     .where('client_transactions.client_id', client_id)
