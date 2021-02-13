@@ -29,6 +29,7 @@ message ApplicationIdCountryRequest {
 message ApplicationsIdRequest {
   repeated string application_ids = 1;
   repeated string bundle_ids = 2;
+  repeated string developer_ids = 3;
 }
 
 message ApplicationIdRequest {

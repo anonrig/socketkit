@@ -1,6 +1,10 @@
 import pg from '../pg.js'
 
-export default async function findAll({ application_ids, bundle_ids }) {
+export default async function findAll({
+  application_ids,
+  bundle_ids,
+  developer_ids,
+}) {
   return pg
     .queryBuilder()
     .select({
@@ -18,6 +22,8 @@ export default async function findAll({ application_ids, bundle_ids }) {
       ratings: 'application_ratings.rating_histogram',
       released_at: 'application_versions.released_at',
       updated_at: 'application_versions.updated_at',
+      developer_id: 'developers.developer_id',
+      developer_name: 'developers.name',
     })
     .from('applications')
     .joinRaw(
@@ -40,13 +46,18 @@ export default async function findAll({ application_ids, bundle_ids }) {
         'application_versions.country_id',
       )
     })
+    .join('developers', 'developers.developer_id', 'applications.developer_id')
     .where(function () {
-      if (application_ids && application_ids.length) {
+      if (application_ids?.length > 0) {
         this.whereIn('applications.application_id', application_ids)
       }
 
-      if (bundle_ids && bundle_ids.length) {
+      if (bundle_ids?.length > 0) {
         this.whereIn('applications.bundle_id', bundle_ids)
+      }
+
+      if (developer_ids?.length > 0) {
+        this.whereIn('developers.developer_id', developer_ids)
       }
     })
     .orderBy('application_versions.released_at', 'desc')

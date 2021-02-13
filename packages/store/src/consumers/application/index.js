@@ -5,9 +5,13 @@ import createApplication from '../../methods/create-application.js'
 import pg from '../../pg.js'
 
 export async function findAll(ctx) {
-  const { application_ids, bundle_ids } = ctx.req
+  const { application_ids, bundle_ids, developer_ids } = ctx.req
   ctx.res = {
-    applications: await findAllApplications({ application_ids, bundle_ids })
+    applications: await findAllApplications({
+      application_ids,
+      bundle_ids,
+      developer_ids,
+    }),
   }
 }
 export async function findOne(ctx) {
