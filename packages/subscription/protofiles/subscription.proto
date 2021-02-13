@@ -6,9 +6,6 @@ service Accounts {
 }
 
 service Applications {
-  rpc findAll (AccountIdRequest) returns (ApplicationPagination) {}
-  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
-  rpc findSubscriptionPackages (ApplicationIdRequest) returns (SubscriptionPackagePagination) {}
   rpc statistics (ApplicationIdRequest) returns (ApplicationStatistics) {}
   rpc findCountries (ApplicationIdRequest) returns (CountryStatisticsResponse) {}
 }
@@ -21,6 +18,7 @@ service Clients {
 }
 
 service Subscriptions {
+  rpc findPackages (AccountId) returns (SubscriptionPackagePagination) {}
   rpc findPackagesGroupByApplication (AccountId) returns (SubscriptionPackagesGroupByApplication) {}
 }
 
@@ -104,7 +102,6 @@ message Subscription {
 
 message SubscriptionPackagePagination {
   repeated SubscriptionPackage rows = 1;
-  int32 count = 2;
 }
 
 message SubscriptionPackage {
@@ -130,6 +127,7 @@ message AccountIdRequest {
 
 message AccountId {
   string account_id = 1;
+  optional string application_id = 2;
 }
 
 message ApplicationStatistics {
@@ -161,7 +159,6 @@ message TransactionPaginationRequest {
 
 message TransactionPaginationResponse {
   repeated Transaction rows = 1;
-  int32 count = 2;
   TransactionCursor cursor = 3;
 }
 
@@ -203,7 +200,6 @@ message ClientPaginationRequest {
 
 message ClientPaginationResponse {
   repeated Client rows = 1;
-  int32 count = 2;
   ClientCursor cursor = 3;
 }
 
@@ -255,7 +251,6 @@ message ApplicationResponse {
 
 message ApplicationPagination {
   repeated Application rows = 1;
-  int32 count = 2;
 }
 
 message Application {
