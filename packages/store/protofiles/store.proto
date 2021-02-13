@@ -52,6 +52,7 @@ message Application {
   repeated int32 ratings = 12;
   string released_at = 13;
   string updated_at = 14;
+  string developer_name = 16;
 }
 
 message Screenshot {

@@ -8,57 +8,53 @@ export default async function findAll({
   return pg
     .queryBuilder()
     .select({
-      application_id: 'applications.application_id',
-      developer_id: 'applications.developer_id',
-      bundle_id: 'applications.bundle_id',
-      title: 'application_versions.title',
-      description: 'application_versions.description',
-      release_notes: 'application_versions.release_notes',
-      icon: 'application_versions.icon',
-      store_url: 'application_versions.store_url',
-      languages: 'application_versions.languages',
-      screenshots: 'application_versions.screenshots',
-      version: 'application_versions.version',
-      ratings: 'application_ratings.rating_histogram',
-      released_at: 'application_versions.released_at',
-      updated_at: 'application_versions.updated_at',
-      developer_id: 'developers.developer_id',
-      developer_name: 'developers.name',
+      application_id: 'a.application_id',
+      developer_id: 'a.developer_id',
+      developer_name: 'd.name',
+      bundle_id: 'a.bundle_id',
+      title: 'v.title',
+      description: 'v.description',
+      release_notes: 'v.release_notes',
+      icon: 'v.icon',
+      store_url: 'v.store_url',
+      languages: 'v.languages',
+      screenshots: 'v.screenshots',
+      version: 'v.version',
+      ratings: 'r.rating_histogram',
+      released_at: 'v.released_at',
+      updated_at: 'v.updated_at',
     })
-    .from('applications')
+    .from('applications as a')
     .joinRaw(
       `
       cross join lateral (
         select *
         from application_versions
-        where application_id = applications.application_id
+        where application_id = a.application_id
         order by released_at desc
         limit 1
-      ) as application_versions
+      ) as v
     `,
     )
-    .join('application_ratings', function () {
-      this.on(
-        'application_ratings.application_id',
-        'applications.application_id',
-      ).andOn(
-        'application_ratings.country_id',
-        'application_versions.country_id',
+    .join('application_ratings as r', function () {
+      this.on('r.application_id', 'a.application_id').andOn(
+        'r.country_id',
+        'v.country_id',
       )
     })
-    .join('developers', 'developers.developer_id', 'applications.developer_id')
+    .join('developers as d', 'd.developer_id', 'a.developer_id')
     .where(function () {
       if (application_ids?.length > 0) {
-        this.whereIn('applications.application_id', application_ids)
+        this.whereIn('a.application_id', application_ids)
       }
 
       if (bundle_ids?.length > 0) {
-        this.whereIn('applications.bundle_id', bundle_ids)
+        this.whereIn('a.bundle_id', bundle_ids)
       }
 
       if (developer_ids?.length > 0) {
-        this.whereIn('developers.developer_id', developer_ids)
+        this.whereIn('d.developer_id', developer_ids)
       }
     })
-    .orderBy('application_versions.released_at', 'desc')
+    .orderBy('v.released_at', 'desc')
 }
