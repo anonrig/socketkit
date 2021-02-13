@@ -5,12 +5,6 @@ export default {
   method: 'GET',
   path: '/',
   schema: {
-    query: {
-      type: 'object',
-      properties: {
-        limit: { type: ['number', 'null'], default: 10, minimum: 10 },
-      },
-    },
     response: {
       200: {
         type: 'object',
@@ -22,7 +16,8 @@ export default {
               properties: {
                 provider_id: { type: 'string' },
                 application_id: { type: 'string' },
-                application_name: { type: 'string' },
+                title: { type: 'string' },
+                subscription_package_count: { type: 'number' },
                 version: { type: 'string' },
                 ratings: { type: 'array', items: { type: 'number' } },
                 icon: { type: 'string' },
@@ -36,23 +31,24 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], query }) => {
+  handler: async ({ accounts: [account] }) => {
     if (!account) {
       return []
     }
 
-    const applications = await f.grpc.applications.findAll({
-      where: { account_id: account.account_id },
-      opts: {
-        limit: query.limit,
+    const applications = await f.grpc.subscriptions.findPackagesGroupByApplication(
+      {
+        account_id: account.account_id,
       },
-    })
+    )
 
     const application_ids = applications.rows.map((app) => app.application_id)
 
     const { applications: storedApplications } = await f.grpc.store.findAll({
       application_ids,
     })
+
+    console.log('storedApplications', storedApplications)
 
     return Object.assign({}, applications, {
       rows: applications.rows.map((application) => ({

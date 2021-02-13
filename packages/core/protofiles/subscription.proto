@@ -6,9 +6,6 @@ service Accounts {
 }
 
 service Applications {
-  rpc findAll (AccountIdRequest) returns (ApplicationPagination) {}
-  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
-  rpc findSubscriptionPackages (ApplicationIdRequest) returns (SubscriptionPackagePagination) {}
   rpc statistics (ApplicationIdRequest) returns (ApplicationStatistics) {}
   rpc findCountries (ApplicationIdRequest) returns (CountryStatisticsResponse) {}
 }
@@ -18,6 +15,11 @@ service Clients {
   rpc findOne (ClientIdRequest) returns (Client) {}
   rpc findTransactions (ClientIdRequest) returns (TransactionsResponse) {}
   rpc findSubscriptions (ClientIdRequest) returns (SubscriptionsResponse) {}
+}
+
+service Subscriptions {
+  rpc findPackages (AccountId) returns (SubscriptionPackagePagination) {}
+  rpc findPackagesGroupByApplication (AccountId) returns (SubscriptionPackagesGroupByApplication) {}
 }
 
 service Transactions {
@@ -100,7 +102,6 @@ message Subscription {
 
 message SubscriptionPackagePagination {
   repeated SubscriptionPackage rows = 1;
-  int32 count = 2;
 }
 
 message SubscriptionPackage {
@@ -110,6 +111,15 @@ message SubscriptionPackage {
   string subscription_group_id = 4;
 }
 
+message SubscriptionPackageGroupByApplication {
+  string application_id = 1;
+  optional int32 subscription_package_count = 2;
+}
+
+message SubscriptionPackagesGroupByApplication {
+  repeated SubscriptionPackageGroupByApplication rows = 1;
+}
+
 message AccountIdRequest {
   AccountId where = 1;
   optional FilterRequest opts = 2;
@@ -117,6 +127,7 @@ message AccountIdRequest {
 
 message AccountId {
   string account_id = 1;
+  optional string application_id = 2;
 }
 
 message ApplicationStatistics {
@@ -148,7 +159,6 @@ message TransactionPaginationRequest {
 
 message TransactionPaginationResponse {
   repeated Transaction rows = 1;
-  int32 count = 2;
   TransactionCursor cursor = 3;
 }
 
@@ -190,7 +200,6 @@ message ClientPaginationRequest {
 
 message ClientPaginationResponse {
   repeated Client rows = 1;
-  int32 count = 2;
   ClientCursor cursor = 3;
 }
 
@@ -242,7 +251,6 @@ message ApplicationResponse {
 
 message ApplicationPagination {
   repeated Application rows = 1;
-  int32 count = 2;
 }
 
 message Application {

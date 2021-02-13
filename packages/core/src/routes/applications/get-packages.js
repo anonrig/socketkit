@@ -9,10 +9,23 @@ export default {
       type: 'object',
       properties: {
         limit: { type: ['number', 'null'], default: 10, minimum: 10 },
-        page: {
-          type: ['number', 'null'],
-          default: 1,
-          minimum: 1,
+      },
+    },
+  },
+  schema: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          rows: {
+            type: 'array',
+            items: {
+              subscription_name: { type: 'string' },
+              subscription_package_id: { type: 'string' },
+              subscription_duration: { type: 'string' },
+              subscription_group_id: { type: 'string' },
+            },
+          },
         },
       },
     },
@@ -23,11 +36,9 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    return f.grpc.applications.findSubscriptionPackages({
-      where: {
-        account_id: account.account_id,
-        application_id,
-      },
+    return f.grpc.subscriptions.findPackages({
+      account_id: account.account_id,
+      application_id,
     })
   },
 }
