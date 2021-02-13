@@ -1,7 +1,7 @@
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
 import path from 'path'
-import config  from '../src/config.js'
+import config from '../src/config.js'
 
 const url = process.env.GRPC_STORE_URL ?? `0.0.0.0:${config.port}`
 const defaults = {

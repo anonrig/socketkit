@@ -19,7 +19,7 @@ describe('create', () => {
     store.create({ application_id: '284882215' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.application).toEqual(undefined)
+        expect(response.row).toEqual(undefined)
         done()
       } catch (error) {
         done(error)
@@ -34,9 +34,9 @@ describe('findAll', () => {
       try {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.applications).toBeInstanceOf(Array)
-        expect(response.applications.length).toEqual(1)
-        expect(response.applications[0].application_id).toBe('284882215')
+        expect(response.rows).toBeInstanceOf(Array)
+        expect(response.rows.length).toEqual(1)
+        expect(response.rows[0].application_id).toBe('284882215')
         done()
       } catch (error) {
         done(error)
@@ -51,9 +51,9 @@ describe('findAll', () => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.applications).toBeInstanceOf(Array)
-          expect(response.applications.length).toEqual(1)
-          expect(response.applications[0].application_id).toBe('284882215')
+          expect(response.rows).toBeInstanceOf(Array)
+          expect(response.rows.length).toEqual(1)
+          expect(response.rows[0].application_id).toBe('284882215')
           done()
         } catch (error) {
           done(error)
@@ -67,9 +67,9 @@ describe('findAll', () => {
       try {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.applications).toBeInstanceOf(Array)
-        expect(response.applications.length).toEqual(1)
-        expect(response.applications[0].application_id).toBe('284882215')
+        expect(response.rows).toBeInstanceOf(Array)
+        expect(response.rows.length).toEqual(1)
+        expect(response.rows[0].application_id).toBe('284882215')
         done()
       } catch (error) {
         done(error)
@@ -83,7 +83,7 @@ describe('findOne', () => {
     store.findOne({ application_id: '284882215' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.application.application_id).toBe('284882215')
+        expect(response.row.application_id).toBe('284882215')
         done()
       } catch (error) {
         done(error)
@@ -95,7 +95,7 @@ describe('findOne', () => {
     store.findOne({ application_id: '1234512345' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.application).toBe(null)
+        expect(response.row).toBe(null)
         done()
       } catch (error) {
         done(error)
@@ -109,8 +109,8 @@ describe('findVersions', () => {
     store.findVersions({ application_id: '284882215' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.versions).toBeInstanceOf(Array)
-        response.versions.forEach((version) => {
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach((version) => {
           expect(version.application_id).toEqual('284882215')
         })
         done()
@@ -124,8 +124,8 @@ describe('findVersions', () => {
     store.findVersions({ application_id: '1234512345' }, (error, response) => {
       try {
         expect(error).toBeNull()
-        expect(response.versions).toBeInstanceOf(Array)
-        expect(response.versions.length).toEqual(0)
+        expect(response.rows).toBeInstanceOf(Array)
+        expect(response.rows.length).toEqual(0)
         done()
       } catch (error) {
         done(error)

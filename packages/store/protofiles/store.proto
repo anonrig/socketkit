@@ -4,26 +4,28 @@ service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
   rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
-  rpc findVersions (ApplicationIdRequest) returns (ApplicationVersions) {}
+  rpc findVersions (ApplicationIdRequest) returns (ApplicationVersionsResponse) {}
 }
+
+// Generics
 
 message Empty {}
 
-message ApplicationsResponse {
-  repeated Application applications = 1;
-}
-
-message ApplicationResponse {
-  Application application = 1;
-}
-
-message ApplicationVersions {
-  repeated Application versions = 1;
-}
+// Requests
 
 message ApplicationIdCountryRequest {
   string application_id = 1;
   string country_id = 2;
+}
+
+message ApplicationIdRequest {
+  oneof optional_application_id {
+    string application_id = 1;
+  }
+
+  oneof optional_bundle_id {
+    string bundle_id = 2;
+  }
 }
 
 message ApplicationsIdRequest {
@@ -32,10 +34,21 @@ message ApplicationsIdRequest {
   repeated string developer_ids = 3;
 }
 
-message ApplicationIdRequest {
-  optional string application_id = 1;
-  optional string bundle_id = 2;
+// Responses
+
+message ApplicationsResponse {
+  repeated Application rows = 1;
 }
+
+message ApplicationVersionsResponse {
+  repeated Application rows = 1;
+}
+
+message ApplicationResponse {
+  Application row = 1;
+}
+
+// Models
 
 message Application {
   string application_id = 1;
