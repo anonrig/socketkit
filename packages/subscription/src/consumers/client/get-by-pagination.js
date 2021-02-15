@@ -14,9 +14,7 @@ export default async function getByPagination(
     rows,
     cursor: {
       client_id: rows[rows.length - 1].client_id,
-      first_interaction: dayjs(
-        rows[rows.length - 1].client_first_interaction,
-      ).format('YYYY-MM-DD'),
+      first_interaction: rows[rows.length - 1].first_interaction,
     },
   }
 }
