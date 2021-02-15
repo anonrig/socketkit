@@ -4,7 +4,7 @@ import MaliLogger from '@malijs/logger'
 import Logger from './logger.js'
 import * as Store from './consumers/application/index.js'
 
-const logger = Logger.withScope('grpc')
+const logger = Logger.create().withScope('grpc')
 const options = {
   keepCase: true,
   longs: String,
