@@ -1,29 +1,14 @@
 import getStatistics from './get-statistics.js'
 import getCountries from '../../methods/get-countries.js'
 
-export const statistics = async (
-  {
-    request: {
-      where: { account_id },
-    },
-  },
-  callback,
-) => {
-  try {
-    callback(null, await getStatistics({ account_id }))
-  } catch (error) {
-    callback(error)
-  }
+export async function statistics(ctx) {
+  const { account_id } = ctx.req
+  ctx.res = await getStatistics({ account_id })
 }
 
-export const findCountries = async (
-  {
-    request: {
-      where: { account_id },
-      opts: { filter },
-    },
-  },
-  callback,
-) => {
-  callback(null, { values: await getCountries({ account_id, start_date: filter?.to, end_date: filter?.from }) })
+export async function findCountries(ctx) {
+  const { account_id, start_date, end_date } = ctx.req
+  ctx.res = {
+    rows: await getCountries({ account_id, start_date, end_date }),
+  }
 }

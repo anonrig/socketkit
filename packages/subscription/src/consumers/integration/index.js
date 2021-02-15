@@ -4,41 +4,26 @@ import onProcessDate from './on-process-date.js'
 import getLatestLog from './get-latest-log.js'
 import pg from '../../pg.js'
 
-export const findLatestScrape = async (
-  { request: { account_id } },
-  callback,
-) => {
-  try {
-    callback(null, await getLatestLog({ account_id }))
-  } catch (error) {
-    callback(error)
-  }
+export const findLatestScrape = async (ctx) => {
+  const { account_id } = ctx.req
+  ctx.res = await getLatestLog({ account_id })
 }
 
-export const validate = async ({ request: { access_token } }, callback) => {
-  callback(null, {
+export const validate = async (ctx) => {
+  const { access_token } = ctx.req
+  ctx.res = {
     state: await onValidate(access_token),
-  })
-}
-
-export const create = async (
-  { request: { account_id, access_token } },
-  callback,
-) => {
-  try {
-    callback(null, await onCreate({ account_id, access_token }))
-  } catch (error) {
-    callback(error)
   }
 }
 
-export const processDate = async ({ request }, callback) => {
-  try {
-    callback(
-      null,
-      await pg.transaction(async (trx) => onProcessDate(request, trx)),
-    )
-  } catch (error) {
-    callback(error)
-  }
+export const create = async (ctx) => {
+  const { account_id, access_token } = ctx.req
+  ctx.res = await onCreate({ account_id, access_token })
+}
+
+export const processDate = async (ctx) => {
+  const { date, account_id, access_token } = ctx.req
+  ctx.res = await pg.transaction(async (trx) =>
+    onProcessDate({ date, account_id, access_token }, trx),
+  )
 }

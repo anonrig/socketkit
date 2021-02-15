@@ -1,9 +1,5 @@
 import Logger from '../../logger.js'
-import AppStoreReporter, {
-  ReportType,
-  ReportSubType,
-  ReportDateType,
-} from 'appstore-reporter'
+import AppStoreReporter from 'appstore-reporter'
 import dayjs from 'dayjs'
 import { parseTransaction } from './parse-transaction.js'
 import pg from '../../pg.js'
@@ -75,9 +71,9 @@ export default async function onProcessDate(
   try {
     const transactions = await reporter.sales.getReport({
       vendorNumber: vendorId,
-      reportType: ReportType.subscriber,
-      reportSubType: ReportSubType.detailed,
-      dateType: ReportDateType.daily,
+      reportType: 'Subscriber',
+      reportSubType: 'Detailed',
+      dateType: 'Daily',
       date: dayjs(date).format('YYYYMMDD'),
       reportVersion: '1_2',
     })

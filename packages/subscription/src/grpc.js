@@ -1,50 +1,62 @@
-import GRPC from '@grpc/grpc-js'
-import loader from '@grpc/proto-loader'
 import path from 'path'
+import Mali from 'mali'
+import MaliLogger from '@malijs/logger'
+import Logger from './logger.js'
 
-import * as account from './consumers/account/index.js'
-import * as applications from './consumers/application/index.js'
-import * as clients from './consumers/client/index.js'
-import * as subscriptions from './consumers/subscription/index.js'
-import * as transactions from './consumers/transaction/index.js'
-import * as integrations from './consumers/integration/index.js'
+import * as Accounts from './consumers/account/index.js'
+import * as Applications from './consumers/application/index.js'
+import * as Clients from './consumers/client/index.js'
+import * as Subscriptions from './consumers/subscription/index.js'
+import * as Transactions from './consumers/transaction/index.js'
+import * as Integrations from './consumers/integration/index.js'
 
-const packageOptions = {
+const logger = Logger.create().withScope('grpc')
+const options = {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true,
 }
-const pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles/subscription.proto'),
-  packageOptions,
-)
-const health_pkg = loader.loadSync(
-  path.join(path.resolve(''), 'protofiles/health.proto'),
-  packageOptions,
+const file = path.join(path.resolve(''), 'protofiles/subscription.proto')
+const health = path.join(path.resolve(''), 'protofiles/health.proto')
+
+const app = new Mali()
+
+app.use(
+  MaliLogger({
+    fullName: true,
+    request: true,
+    response: true,
+  }),
 )
 
-const {
+app.addService(
+  file,
+  [
+    'Accounts',
+    'Applications',
+    'Clients',
+    'Subscriptions',
+    'Transactions',
+    'Integrations',
+  ],
+  options,
+)
+app.addService(health, 'Health', options)
+
+app.use({
   Accounts,
   Applications,
   Clients,
   Subscriptions,
   Transactions,
   Integrations,
-} = GRPC.loadPackageDefinition(pkg)
-const health = GRPC.loadPackageDefinition(health_pkg).grpc.health.v1
-const server = new GRPC.Server()
-
-server.addService(health.Health.service, {
-  Check: (_call, cb) => cb(null, { status: 1 }),
 })
-server.addService(Accounts.service, account)
-server.addService(Applications.service, applications)
-server.addService(Clients.service, clients)
-server.addService(Subscriptions.service, subscriptions)
-server.addService(Transactions.service, transactions)
-server.addService(Integrations.service, integrations)
+app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
-export const grpc = GRPC
-export default server
+app.on('error', (err) => {
+  logger.fatal(err)
+})
+
+export default app

@@ -2,12 +2,12 @@ import * as Transaction from '../../models/client-transaction.js'
 import dayjs from 'dayjs'
 
 export default async function (
-  { account_id, application_id },
-  { filter, limit, cursor },
+  { account_id, application_id, start_date, end_date },
+  { limit, cursor },
 ) {
   const rows = await Transaction.findAll(
-    { account_id, application_id },
-    { filter, limit, cursor },
+    { account_id, application_id, start_date, end_date },
+    { limit, cursor },
   )
 
   return {

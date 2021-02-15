@@ -7,6 +7,10 @@ export default async function getCountries({
   start_date,
   end_date,
 }) {
+  if (application_id?.length == 0) {
+    throw new Error(`application_id is required`)
+  }
+
   return pg
     .queryBuilder()
     .select([

@@ -1,6 +1,9 @@
 import pg from '../pg.js'
 
-export async function findAll({ account_id, application_id }, { limit = 10 }) {
+export async function findAll(
+  { account_id, application_id },
+  { limit = 10 } = {},
+) {
   const rows = await pg
     .queryBuilder()
     .select({

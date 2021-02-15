@@ -3,77 +3,38 @@ import getById from './get-by-id.js'
 import * as Transaction from '../../models/client-transaction.js'
 import getSubscriptionsById from './get-subscriptions-by-id.js'
 
-export const findAll = async (
-  {
-    request: {
-      where: { account_id, application_id },
-      opts: { filter, limit },
-      cursor,
-    },
-  },
-  callback,
-) => {
-  try {
-    callback(
-      null,
-      await getByPagination(
-        { account_id, application_id },
-        { filter, limit, cursor },
-      ),
-    )
-  } catch (error) {
-    callback(error)
+export const findAll = async (ctx) => {
+  const {
+    account_id,
+    application_id,
+    start_date,
+    end_date,
+    limit,
+    cursor,
+  } = ctx.req
+  ctx.res = await getByPagination(
+    { account_id, application_id, start_date, end_date },
+    { limit, cursor },
+  )
+}
+
+export const findOne = async (ctx) => {
+  const { account_id, client_id } = ctx.req
+  ctx.res = {
+    row: await getById({ account_id, client_id }),
   }
 }
 
-export const findOne = async (
-  {
-    request: {
-      where: { account_id, client_id },
-    },
-  },
-  callback,
-) => {
-  try {
-    callback(null, await getById({ account_id, client_id }))
-  } catch (error) {
-    callback(error)
+export const findTransactions = async (ctx) => {
+  const { account_id, client_id } = ctx.req
+  ctx.res = {
+    rows: await Transaction.findAll({ account_id, client_id }),
   }
 }
 
-export const findTransactions = async (
-  {
-    request: {
-      where: { account_id, client_id },
-    },
-  },
-  callback,
-) => {
-  try {
-    callback(null, {
-      transactions: await Transaction.findAll(
-        { account_id, client_id },
-        { limit: null },
-      ),
-    })
-  } catch (error) {
-    callback(error)
-  }
-}
-
-export const findSubscriptions = async (
-  {
-    request: {
-      where: { account_id, client_id },
-    },
-  },
-  callback,
-) => {
-  try {
-    callback(null, {
-      subscriptions: await getSubscriptionsById({ account_id, client_id }),
-    })
-  } catch (error) {
-    callback(error)
+export const findSubscriptions = async (ctx) => {
+  const { account_id, client_id } = ctx.req
+  ctx.res = {
+    rows: await getSubscriptionsById({ account_id, client_id }),
   }
 }

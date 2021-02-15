@@ -2,8 +2,8 @@ import pg from '../pg.js'
 import dayjs from 'dayjs'
 
 export async function findAll(
-  { account_id, application_id },
-  { filter, limit = 10, cursor },
+  { account_id, application_id, start_date, end_date },
+  { limit = 10, cursor },
 ) {
   return pg
     .select({
@@ -60,10 +60,10 @@ export async function findAll(
         this.andWhereRaw('c.client_id < ?', [client_id])
       }
 
-      if (filter?.from && filter?.to) {
+      if (start_date && end_date) {
         this.andWhereBetween('c.first_interaction', [
-          dayjs(filter.from).format('YYYY-MM-DD'),
-          dayjs(filter.to).format('YYYY-MM-DD'),
+          dayjs(start_date).format('YYYY-MM-DD'),
+          dayjs(end_date).format('YYYY-MM-DD'),
         ])
       }
     })

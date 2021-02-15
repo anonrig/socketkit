@@ -2,12 +2,12 @@ import * as Client from '../../models/client.js'
 import dayjs from 'dayjs'
 
 export default async function getByPagination(
-  { account_id, application_id },
-  { filter, limit, cursor },
+  { account_id, application_id, start_date, end_date },
+  { limit, cursor } = {},
 ) {
   const rows = await Client.findAll(
-    { account_id, application_id },
-    { filter, limit, cursor },
+    { account_id, application_id, start_date, end_date },
+    { limit, cursor },
   )
 
   return {
