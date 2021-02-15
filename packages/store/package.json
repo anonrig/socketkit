@@ -14,7 +14,7 @@
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
-    "@grpc/grpc-js": "^1.2.6",
+    "@grpc/grpc-js": "^1.2.7",
     "@grpc/proto-loader": "^0.5.6",
     "@malijs/logger": "^0.5.0",
     "app-store-scraper": "github:facundoolano/app-store-scraper",
@@ -26,8 +26,6 @@
     "pg": "^8.5.1"
   },
   "devDependencies": {
-    "@types/bull": "^3.15.0",
-    "@types/jest": "^26.0.20",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
