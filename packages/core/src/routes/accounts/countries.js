@@ -47,7 +47,7 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    const { rows } = await f.grpc.accounts.findCountries({
+    const { rows } = await f.grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       start_date: query.from,
       end_date: query.to,
