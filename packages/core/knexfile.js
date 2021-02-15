@@ -10,7 +10,6 @@ const config = {
   connection: {
     database: 'core',
     user: 'core-worker',
-    port: 5432,
   },
   pool: { min: 0, max: 5 },
   migrations: {
