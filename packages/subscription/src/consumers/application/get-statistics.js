@@ -1,4 +1,4 @@
-import * as Application from '../../models/application.js'
+import getTotalSales from '../../methods/get-total-sales.js'
 import getActiveClientCount from '../../methods/get-active-client-count.js'
 import dayjs from 'dayjs'
 import getTrialClientCount from '../../methods/get-trial-client-count.js'
@@ -18,7 +18,7 @@ export default async function ({ account_id, application_id }) {
         },
       },
     ),
-    Application.totalSales(
+    getTotalSales(
       { account_id, application_id },
       {
         filter: {
