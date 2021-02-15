@@ -8,49 +8,46 @@ export async function findAll(
   return pg
     .queryBuilder()
     .select({
-      client_id: 'client_transactions.client_id',
-      transaction_type: 'client_transactions.transaction_type',
-      event_date: 'client_transactions.event_date',
-      base_client_purchase: 'client_transactions.base_client_purchase',
-      base_developer_proceeds: 'client_transactions.base_developer_proceeds',
-      subscription_package_id: 'client_transactions.subscription_package_id',
-      subscription_package_name: 'subscription_packages.name',
-      application_id: 'applications.application_id',
-      application_name: 'applications.name',
+      client_id: 't.client_id',
+      transaction_type: 't.transaction_type',
+      event_date: pg.raw(`TO_CHAR(t.event_date, 'YYYY-MM-DD')`),
+      base_client_purchase: 't.base_client_purchase',
+      base_developer_proceeds: 't.base_developer_proceeds',
+      subscription_package_id: 't.subscription_package_id',
+      subscription_package_name: 'sp.name',
+      application_id: 'a.application_id',
+      application_name: 'a.name',
       country_id: 'countries.country_id',
       country_name: 'countries.name',
     })
-    .from('client_transactions')
-    .innerJoin('applications', function () {
-      this.on(
-        'client_transactions.application_id',
-        'applications.application_id',
-      ).andOn('client_transactions.account_id', 'applications.account_id')
-    })
-    .innerJoin('subscription_packages', function () {
-      this.on(
-        'subscription_packages.subscription_package_id',
-        'client_transactions.subscription_package_id',
-      ).andOn(
-        'subscription_packages.account_id',
-        'client_transactions.account_id',
+    .from('client_transactions as t')
+    .innerJoin('applications as a', function () {
+      this.on('t.application_id', 'a.application_id').andOn(
+        't.account_id',
+        'a.account_id',
       )
     })
-    .innerJoin('clients', function () {
-      this.on('clients.client_id', 'client_transactions.client_id').andOn(
-        'clients.account_id',
-        'client_transactions.account_id',
+    .innerJoin('subscription_packages as sp', function () {
+      this.on('sp.subscription_package_id', 't.subscription_package_id').andOn(
+        'sp.account_id',
+        't.account_id',
       )
     })
-    .innerJoin('countries', 'countries.country_id', 'clients.country_id')
-    .where('client_transactions.account_id', account_id)
+    .innerJoin('clients as c', function () {
+      this.on('c.client_id', 't.client_id').andOn(
+        'c.account_id',
+        't.account_id',
+      )
+    })
+    .innerJoin('countries', 'countries.country_id', 'c.country_id')
+    .where('t.account_id', account_id)
     .andWhere(function () {
       if (application_id?.length) {
-        this.andWhere('applications.application_id', application_id)
+        this.andWhere('a.application_id', application_id)
       }
 
       if (client_id?.length) {
-        this.andWhere('client_transactions.client_id', client_id)
+        this.andWhere('t.client_id', client_id)
       }
 
       if (cursor) {
@@ -60,19 +57,19 @@ export async function findAll(
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.andWhereRaw('client_transactions.event_date < ?', [event_date])
-        this.andWhereRaw('client_transactions.client_id < ?', [client_id])
+        this.whereRaw(`(t.event_date, t.client_id) < (?, ?)`, [
+          dayjs(event_date).format('YYYY-MM-DD'),
+          client_id,
+        ])
       }
 
       if (start_date && end_date) {
-        this.andWhereBetween('client_transactions.event_date', [
+        this.andWhereBetween('t.event_date', [
           dayjs(start_date).format('YYYY-MM-DD'),
           dayjs(end_date).format('YYYY-MM-DD'),
         ])
       }
     })
-    .orderByRaw(
-      `client_transactions.event_date desc, client_transactions.client_id desc`,
-    )
+    .orderByRaw(`t.event_date desc, t.client_id desc`)
     .limit(limit)
 }

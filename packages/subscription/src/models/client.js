@@ -8,7 +8,7 @@ export async function findAll(
   return pg
     .select({
       client_id: 'c.client_id',
-      first_interaction: 'c.first_interaction',
+      first_interaction: pg.raw(`TO_CHAR(c.first_interaction, 'YYYY-MM-DD')`),
       total_base_client_purchase: pg.raw(
         'ROUND(c.total_base_client_purchase, 2)',
       ),
@@ -56,8 +56,10 @@ export async function findAll(
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw('c.first_interaction < ?', [first_interaction])
-        this.andWhereRaw('c.client_id < ?', [client_id])
+        this.whereRaw(`(c.first_interaction, c.client_id) < (?, ?)`, [
+          dayjs(first_interaction).format('YYYY-MM-DD'),
+          client_id,
+        ])
       }
 
       if (start_date && end_date) {
