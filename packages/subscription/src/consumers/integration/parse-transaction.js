@@ -40,19 +40,6 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .ignore()
     .transacting(trx)
 
-  // create application
-  await pg
-    .insert({
-      account_id,
-      application_id,
-      name: transaction.appName,
-      provider_id,
-    })
-    .into('applications')
-    .onConflict(['account_id', 'application_id'])
-    .ignore()
-    .transacting(trx)
-
   // create client
   await pg
     .insert({

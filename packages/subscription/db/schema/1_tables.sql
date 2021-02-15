@@ -76,17 +76,6 @@ CREATE INDEX ON clients (account_id, first_interaction);
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON clients TO "subscription-worker";
 
-CREATE TABLE applications (
-    account_id uuid NOT NULL,
-    application_id text NOT NULL,
-    name text NOT NULL,
-    provider_id text NOT NULL REFERENCES providers,
-
-    PRIMARY KEY (account_id, application_id)
-);
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON applications TO "subscription-worker";
-
 CREATE TABLE subscription_packages (
     subscription_duration interval NOT NULL,
     account_id uuid NOT NULL,
@@ -97,9 +86,6 @@ CREATE TABLE subscription_packages (
 
     PRIMARY KEY (account_id, subscription_package_id),
     UNIQUE (account_id, subscription_group_id, subscription_duration, subscription_package_id),
-
-    FOREIGN KEY (account_id, application_id)
-        REFERENCES applications
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-worker";
@@ -155,9 +141,6 @@ CREATE TABLE client_transactions (
 
     FOREIGN KEY (account_id, client_id)
         REFERENCES clients,
-
-    FOREIGN KEY (account_id, application_id)
-        REFERENCES applications,
 
     UNIQUE (account_id, client_id, event_date, transaction_type, subscription_group_id, subscription_package_id)
 );
