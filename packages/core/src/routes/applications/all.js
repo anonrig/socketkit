@@ -36,19 +36,15 @@ export default {
       return []
     }
 
-    const applications = await f.grpc.subscriptions.findPackagesGroupByApplication(
-      {
-        account_id: account.account_id,
-      },
-    )
+    const applications = await f.grpc.subscriptions.groupByApplication({
+      account_id: account.account_id,
+    })
 
     const application_ids = applications.rows.map((app) => app.application_id)
 
-    const { applications: storedApplications } = await f.grpc.store.findAll({
+    const { rows: storedApplications } = await f.grpc.store.findAll({
       application_ids,
     })
-
-    console.log('storedApplications', storedApplications)
 
     return Object.assign({}, applications, {
       rows: applications.rows.map((application) => ({

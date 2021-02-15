@@ -11,10 +11,8 @@ export default {
     }
 
     return f.grpc.applications.statistics({
-      where: {
-        account_id: account.account_id,
-        application_id,
-      },
+      account_id: account.account_id,
+      application_id,
     })
   },
 }

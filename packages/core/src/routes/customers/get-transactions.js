@@ -33,13 +33,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    const { transactions } = await f.grpc.clients.findTransactions({
-      where: {
-        account_id: account.account_id,
-        client_id,
-      },
+    const { rows } = await f.grpc.clients.findTransactions({
+      account_id: account.account_id,
+      client_id,
     })
 
-    return transactions
+    return rows
   },
 }

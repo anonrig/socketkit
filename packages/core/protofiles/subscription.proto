@@ -1,25 +1,26 @@
 syntax = "proto3";
 
 service Accounts {
-  rpc statistics (AccountIdRequest) returns (AccountStatistics) {}
+  rpc statistics (AccountIdRequest) returns (AccountStatisticsResponse) {}
   rpc findCountries (AccountIdRequest) returns (CountryStatisticsResponse) {}
 }
 
 service Applications {
-  rpc statistics (ApplicationIdRequest) returns (ApplicationStatistics) {}
+  rpc statistics (ApplicationIdRequest) returns (ApplicationStatisticsResponse) {}
   rpc findCountries (ApplicationIdRequest) returns (CountryStatisticsResponse) {}
 }
 
 service Clients {
   rpc findAll (ClientPaginationRequest) returns (ClientPaginationResponse) {}
-  rpc findOne (ClientIdRequest) returns (Client) {}
+  rpc findOne (ClientIdRequest) returns (ClientResponse) {}
   rpc findTransactions (ClientIdRequest) returns (TransactionsResponse) {}
   rpc findSubscriptions (ClientIdRequest) returns (SubscriptionsResponse) {}
 }
 
 service Subscriptions {
-  rpc findPackages (AccountId) returns (SubscriptionPackagePagination) {}
-  rpc findPackagesGroupByApplication (AccountId) returns (SubscriptionPackagesGroupByApplication) {}
+  rpc findPackages (AccountIdRequest) returns (SubscriptionPackagePaginationResponse) {}
+  rpc groupByApplication (AccountIdRequest) returns (SubscriptionsGroupByApplication) {}
+  rpc groupByCountry (SubscriptionsRequest) returns (SubscriptionsGroupByCountry) {}
 }
 
 service Transactions {
@@ -27,11 +28,41 @@ service Transactions {
 }
 
 service Integrations {
-  rpc findLatestScrape (AccountId) returns (AccountLatestScrape) {}
+  rpc findLatestScrape (AccountIdRequest) returns (AccountLatestScrapeResponse) {}
   rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
   rpc create (AccountCreateRequest) returns (Empty) {}
   rpc processDate (AccountProcessDateRequest) returns (Empty) {}
 }
+
+// Requests
+
+message AccountIdRequest {
+  string account_id = 1;
+  oneof optional_start_date {
+    string start_date = 2;
+  }
+  oneof optional_end_date {
+    string end_date = 3;
+  }
+}
+
+message ApplicationIdRequest {
+  string account_id = 1;
+  string application_id = 2;
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_end_date {
+    string end_date = 4;
+  }
+}
+
+message ClientIdRequest {
+  string account_id = 1;
+  string client_id = 2;
+}
+
+// Generics 
 
 message Empty {}
 
@@ -40,121 +71,23 @@ message Coordinate {
   float y = 2;
 }
 
-message CountryStatisticsResponse {
-  repeated CountryStatistics values = 1;
-}
-
-message CountryStatistics {
-  string country_id = 1;
-  string country_name = 2;
-  Coordinate country_coordinates = 3;
-  int32 total_count = 4;
-  int32 trial_past_count = 5;
-  int32 churn_count = 6;
-  int32 revenue = 7;
-}
-
-message AccountProcessDateRequest {
-  string date = 1;
-  string account_id = 2;
-  string access_token = 3;
-}
-message AccountCreateRequest {
-  string account_id = 1;
-  string access_token = 2;
-}
-
-message ActionStateResponse {
-  bool state = 1;
-}
-
-message AccessTokenRequest {
-  string access_token = 1;
-}
-
-message AccountLatestScrape {
-  string account_id = 1;
-  string vendor_id = 2;
-  string fetch_date = 3;
-  bool successful = 4;
-}
-
-message OptionalApplicationId {
-  string account_id = 1;
-  optional string application_id = 2;
-}
-
-message TransactionsResponse {
-  repeated Transaction transactions = 1;
-}
-
-message SubscriptionsResponse {
-  repeated Subscription subscriptions = 1;
-}
-
-message Subscription {
-  repeated string subscription_active_period = 1;
-  string subscription_package_id = 2;
-  string subscription_package_name = 3;
-  string application_id = 4;
-  string application_name = 5;
-}
-
-message SubscriptionPackagePagination {
-  repeated SubscriptionPackage rows = 1;
-}
-
-message SubscriptionPackage {
-  string subscription_name = 1;
-  string subscription_duration = 2;
-  string subscription_package_id = 3;
-  string subscription_group_id = 4;
-}
-
-message SubscriptionPackageGroupByApplication {
-  string application_id = 1;
-  optional int32 subscription_package_count = 2;
-}
-
-message SubscriptionPackagesGroupByApplication {
-  repeated SubscriptionPackageGroupByApplication rows = 1;
-}
-
-message AccountIdRequest {
-  AccountId where = 1;
-  optional FilterRequest opts = 2;
-}
-
-message AccountId {
-  string account_id = 1;
-  optional string application_id = 2;
-}
-
-message ApplicationStatistics {
-  int32 subscribers = 1;
-  int32 trials = 2;
-  string mrr = 3;
-}
-
-message AccountStatistics {
-  StatisticsObject clients = 1;
-  StatisticsObject sales = 2;
-  StatisticsObject refunds = 3;
-}
-
-message StatisticsObject {
-  optional int32 now = 1;
-  optional int32 previous = 2;
-  optional string change = 3;
-  optional bool positive = 4;
-}
-
 // Transactions
 
 message TransactionPaginationRequest {
-  OptionalApplicationId where = 1;
-  FilterRequest opts = 2;
-  optional TransactionCursor cursor = 3;
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_end_date {
+    string end_date = 4;
+  }
+  oneof optional_limit {
+    int32 limit = 5;
+  }
+  optional TransactionCursor cursor = 6;
 }
 
 message TransactionPaginationResponse {
@@ -183,19 +116,25 @@ message Transaction {
 
 // Clients
 
-message ClientIdRequest {
-  ClientId where = 1;
-}
-
-message ClientId {
-  string account_id = 1;
-  string client_id = 2;
-}
-
 message ClientPaginationRequest {
-  OptionalApplicationId where = 1;
-  FilterRequest opts = 2;
-  optional ClientCursor cursor = 3;
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  } 
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_end_date {
+    string end_date = 4;
+  }
+  oneof optional_limit {
+    int32 limit = 5;
+  }
+  optional ClientCursor cursor = 6;
+}
+
+message ClientResponse {
+  Client row = 1;
 }
 
 message ClientPaginationResponse {
@@ -229,20 +168,21 @@ message FilterRequest {
 }
 
 message DateFilter {
-  optional string from = 1;
-  optional string to = 2;
+  oneof optional_start_date {
+    string start_date = 1;
+  }
+
+  oneof optional_end_date {
+    string end_date = 2;
+  }
 }
 
 // Applications
 
-message ApplicationIdRequest {
-  ApplicationId where = 1;
-  optional FilterRequest opts = 2; 
-}
-
-message ApplicationId {
-  string account_id = 1;
-  string application_id = 2;
+message ApplicationStatisticsResponse {
+  int32 subscribers = 1;
+  int32 trials = 2;
+  string mrr = 3;
 }
 
 message ApplicationResponse {
@@ -259,4 +199,128 @@ message Application {
   string provider_id = 3;
   string account_id = 4;
   optional string subscription_package_count = 5;
+}
+
+// Accounts
+
+message AccountStatisticsResponse {
+  StatisticsResponse clients = 1;
+  StatisticsResponse sales = 2;
+  StatisticsResponse refunds = 3;
+}
+
+message StatisticsResponse {
+  optional int32 now = 1;
+  optional int32 previous = 2;
+  optional string change = 3;
+  optional bool positive = 4;
+}
+
+message CountryStatisticsResponse {
+  repeated CountryStatistics rows = 1;
+}
+
+message CountryStatistics {
+  string country_id = 1;
+  string country_name = 2;
+  Coordinate country_coordinates = 3;
+  int32 total_count = 4;
+  int32 trial_past_count = 5;
+  int32 churn_count = 6;
+  int32 revenue = 7;
+}
+
+// transactions
+
+message TransactionsResponse {
+  repeated Transaction rows = 1;
+}
+
+// subscriptions
+
+message SubscriptionsResponse {
+  repeated Subscription rows = 1;
+}
+
+message SubscriptionsRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_end_date {
+    string end_date = 4;
+  }
+}
+
+message Subscription {
+  repeated string subscription_active_period = 1;
+  string subscription_package_id = 2;
+  string subscription_package_name = 3;
+  string application_id = 4;
+  string application_name = 5;
+}
+
+message SubscriptionPackagePaginationResponse {
+  repeated SubscriptionPackage rows = 1;
+}
+
+message SubscriptionPackage {
+  string subscription_name = 1;
+  string subscription_duration = 2;
+  string subscription_package_id = 3;
+  string subscription_group_id = 4;
+}
+
+message SubscriptionsGroupByApplicationRow {
+  string application_id = 1;
+  optional int32 subscription_package_count = 2;
+}
+
+message SubscriptionsGroupByApplication {
+  repeated SubscriptionsGroupByApplicationRow rows = 1;
+}
+
+message SubscriptionsGroupByCountryRow {
+  string country_id = 1;
+  string country_name = 2;
+  Coordinate country_coordinates = 3;
+  int32 total_count = 4;
+  int32 trial_past_count = 5;
+  int32 churn_count = 6;
+  int32 revenue = 7;
+}
+
+message SubscriptionsGroupByCountry {
+  repeated SubscriptionsGroupByCountryRow rows = 1;
+}
+
+// integrations
+
+message AccountProcessDateRequest {
+  string date = 1;
+  string account_id = 2;
+  string access_token = 3;
+}
+
+message AccountCreateRequest {
+  string account_id = 1;
+  string access_token = 2;
+}
+
+message ActionStateResponse {
+  bool state = 1;
+}
+
+message AccessTokenRequest {
+  string access_token = 1;
+}
+
+message AccountLatestScrapeResponse {
+  string account_id = 1;
+  string vendor_id = 2;
+  string fetch_date = 3;
+  bool successful = 4;
 }

@@ -27,13 +27,9 @@ export default {
     }
 
     return f.grpc.accounts.statistics({
-      where: { account_id: account.account_id },
-      opts: {
-        filter: {
-          from: query.from,
-          to: query.to,
-        },
-      },
+      account_id: account.account_id,
+      start_date: query.from,
+      end_date: query.to,
     })
   },
 }

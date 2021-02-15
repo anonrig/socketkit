@@ -69,14 +69,10 @@ export default {
     }
 
     return f.grpc.transactions.findAll({
-      where: { account_id: account.account_id },
-      opts: {
-        limit: query.limit,
-        filter: {
-          from: query.from,
-          to: query.to,
-        },
-      },
+      account_id: account.account_id,
+      limit: query.limit,
+      start_date: query.from,
+      end_date: query.to,
       cursor: query.cursor,
     })
   },

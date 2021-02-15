@@ -28,11 +28,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    return f.grpc.clients.findOne({
-      where: {
-        account_id: account.account_id,
-        client_id,
-      },
+    const { row } = await f.grpc.clients.findOne({
+      account_id: account.account_id,
+      client_id,
     })
+
+    return row
   },
 }

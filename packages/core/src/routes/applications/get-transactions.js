@@ -44,15 +44,16 @@ export default {
               type: 'object',
               properties: {
                 client_id: { type: 'string' },
-                first_interaction: { type: 'string' },
-                total_base_client_purchase: { type: 'string' },
-                total_base_developer_proceeds: { type: 'string' },
+                transaction_type: { type: 'string' },
+                event_date: { type: 'string' },
+                base_client_purchase: { type: 'string' },
+                base_developer_proceeds: { type: 'string' },
+                subscription_package_id: { type: 'string' },
+                subscription_package_name: { type: 'string' },
+                application_id: { type: 'string' },
+                application_name: { type: 'string' },
                 country_id: { type: 'string' },
                 country_name: { type: 'string' },
-                device_type_id: { type: 'string' },
-                device_type_name: { type: 'string' },
-                provider_id: { type: 'string' },
-                provider_name: { type: 'string' },
               },
             },
           },
@@ -71,18 +72,12 @@ export default {
     }
 
     return f.grpc.transactions.findAll({
-      where: {
-        account_id: account.account_id,
-        application_id,
-      },
-      opts: {
-        limit: query.limit,
-        page: query.page,
-        filter: {
-          from: query.from,
-          to: query.to,
-        },
-      },
+      account_id: account.account_id,
+      application_id,
+      limit: query.limit,
+      start_date: query.from,
+      end_date: query.to,
+      cursor: query.cursor,
     })
   },
 }

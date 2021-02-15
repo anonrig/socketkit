@@ -13,9 +13,9 @@ export default {
           type: 'object',
           properties: {
             client_id: { type: 'string' },
-            event_date: { type: 'string' },
+            first_interaction: { type: 'string' },
           },
-          required: ['client_id', 'event_date'],
+          required: ['client_id', 'first_interaction'],
         },
         from: {
           type: 'string',
@@ -73,18 +73,12 @@ export default {
     }
 
     return f.grpc.clients.findAll({
-      where: {
-        account_id: account.account_id,
-        application_id,
-      },
-      opts: {
-        limit: query.limit,
-        page: query.page,
-        filter: {
-          from: query.from,
-          to: query.to,
-        },
-      },
+      account_id: account.account_id,
+      application_id,
+      limit: query.limit,
+      start_date: query.from,
+      end_date: query.to,
+      cursor: query.cursor,
     })
   },
 }

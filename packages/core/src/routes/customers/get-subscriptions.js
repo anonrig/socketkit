@@ -30,13 +30,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    const { subscriptions } = await f.grpc.clients.findSubscriptions({
-      where: {
-        account_id: account.account_id,
-        client_id,
-      },
+    const { rows } = await f.grpc.clients.findSubscriptions({
+      account_id: account.account_id,
+      client_id,
     })
 
-    return subscriptions
+    return rows
   },
 }
