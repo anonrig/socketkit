@@ -4,22 +4,18 @@ import dayjs from 'dayjs'
 export default async function getSubscriptionsById({ client_id, account_id }) {
   const subscriptions = await pg
     .select({
-      subscription_active_period: 'client_subscriptions.active_period',
-      subscription_package_id: 'client_subscriptions.subscription_package_id',
-      subscription_package_name: 'subscription_packages.name',
-      application_id: 'applications.application_id',
-      application_name: 'applications.name',
+      subscription_active_period: 's.active_period',
+      subscription_package_id: 's.subscription_package_id',
+      subscription_package_name: 'p.name',
+      application_id: 's.application_id',
     })
-    .from('client_subscriptions')
-    .join('applications', function () {
-      this.using(['application_id', 'account_id'])
-    })
-    .join('subscription_packages', function () {
+    .from('client_subscriptions as s')
+    .join('subscription_packages as p', function () {
       this.using(['subscription_package_id', 'account_id', 'application_id'])
     })
-    .where('client_subscriptions.client_id', client_id)
-    .andWhere('client_subscriptions.account_id', account_id)
-    .orderByRaw('lower(client_subscriptions.active_period) desc')
+    .where('s.client_id', client_id)
+    .andWhere('s.account_id', account_id)
+    .orderByRaw('lower(s.active_period) desc')
 
   return subscriptions.map((s) => ({
     ...s,

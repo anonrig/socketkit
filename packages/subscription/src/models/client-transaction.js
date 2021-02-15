@@ -15,18 +15,11 @@ export async function findAll(
       base_developer_proceeds: 't.base_developer_proceeds',
       subscription_package_id: 't.subscription_package_id',
       subscription_package_name: 'sp.name',
-      application_id: 'a.application_id',
-      application_name: 'a.name',
-      country_id: 'countries.country_id',
-      country_name: 'countries.name',
+      application_id: 't.application_id',
+      country_id: 'co.country_id',
+      country_name: 'co.name',
     })
     .from('client_transactions as t')
-    .innerJoin('applications as a', function () {
-      this.on('t.application_id', 'a.application_id').andOn(
-        't.account_id',
-        'a.account_id',
-      )
-    })
     .innerJoin('subscription_packages as sp', function () {
       this.on('sp.subscription_package_id', 't.subscription_package_id').andOn(
         'sp.account_id',
@@ -39,11 +32,11 @@ export async function findAll(
         't.account_id',
       )
     })
-    .innerJoin('countries', 'countries.country_id', 'c.country_id')
+    .innerJoin('countries as co', 'co.country_id', 'c.country_id')
     .where('t.account_id', account_id)
     .andWhere(function () {
       if (application_id?.length) {
-        this.andWhere('a.application_id', application_id)
+        this.andWhere('t.application_id', application_id)
       }
 
       if (client_id?.length) {

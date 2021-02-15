@@ -109,7 +109,6 @@ message Transaction {
   string subscription_package_id = 6;
   string subscription_package_name = 7;
   string application_id = 8;
-  string application_name = 9;
   string country_id = 10;
   string country_name = 11;
 }
@@ -195,7 +194,6 @@ message ApplicationPagination {
 
 message Application {
   string application_id = 1;
-  string application_name = 2;
   string provider_id = 3;
   string account_id = 4;
   optional string subscription_package_count = 5;
@@ -260,7 +258,6 @@ message Subscription {
   string subscription_package_id = 2;
   string subscription_package_name = 3;
   string application_id = 4;
-  string application_name = 5;
 }
 
 message SubscriptionPackagePaginationResponse {
