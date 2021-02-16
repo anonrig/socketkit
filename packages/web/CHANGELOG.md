@@ -1,3 +1,10 @@
+## [1.0.5](https://gitlab.com/socketkit/web/compare/v1.0.4...v1.0.5) (2021-02-16)
+
+
+### Bug Fixes
+
+* **next:** change next public api url to [secure] ([6bd6119](https://gitlab.com/socketkit/web/commit/6bd61192be5809f32ada7f02c80cac94f9db610a))
+
 ## [1.0.4](https://gitlab.com/socketkit/web/compare/v1.0.3...v1.0.4) (2021-02-16)
 
 
