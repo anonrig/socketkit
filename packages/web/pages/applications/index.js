@@ -7,8 +7,7 @@ import Table from '../../components/table/table.js'
 import { fetcher } from '../../helpers/fetcher.js'
 
 export default function Applications({ initialData }) {
-  const history = useRouter()
-
+  const router = useRouter()
   const columns = useMemo(
     () => [
       {
@@ -94,7 +93,7 @@ export default function Applications({ initialData }) {
         getRowProps={({ original }) => ({
           key: original.application_id,
           onClick: () =>
-            history.push(`/applications/${original.application_id}`),
+            router.push(`/applications/${original.application_id}`),
         })}
       />
     </>
