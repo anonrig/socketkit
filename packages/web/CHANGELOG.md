@@ -1,3 +1,10 @@
+## [1.0.1](https://gitlab.com/socketkit/web/compare/v1.0.0...v1.0.1) (2021-02-16)
+
+
+### Bug Fixes
+
+* **next:** force change all redirect codes to 302 ([3d3f9bd](https://gitlab.com/socketkit/web/commit/3d3f9bd425997bba5b66d47ac363984b08250c3e))
+
 # 1.0.0 (2021-02-16)
 
 
