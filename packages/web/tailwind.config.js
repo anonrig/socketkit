@@ -4,7 +4,7 @@ module.exports = {
   purge: {
     mode: 'all',
     enabled: process.env.NODE_ENV === 'production',
-    content: ['./src/**/*.js', './public/**/*.html'],
+    content: ['components', 'helpers', 'images', 'layouts', 'pages'].map(p => `./${p}/**/*.js`),
   },
   darkMode: false,
   theme: {
