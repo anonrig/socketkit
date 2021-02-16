@@ -26,7 +26,7 @@ export async function findAll(
       this.using('country_id')
     })
     .innerJoin('device_types as t', function () {
-      this.using('provider_id', 'device_type_id')
+      this.using(['provider_id', 'device_type_id'])
     })
     .where('c.account_id', account_id)
     .andWhere(function () {
@@ -34,11 +34,9 @@ export async function findAll(
         this.whereExists(function () {
           this.select('*')
             .from('client_subscriptions as s')
-            .where(function () {
-              this.where('s.application_id', application_id)
-                .andWhereRaw('s.account_id = c.account_id')
-                .andWhereRaw('c.client_id = s.client_id')
-            })
+            .where('s.application_id', application_id)
+            .andWhereRaw('s.account_id = c.account_id')
+            .andWhereRaw('c.client_id = s.client_id')
         })
       }
 

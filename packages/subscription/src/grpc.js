@@ -1,6 +1,5 @@
 import path from 'path'
 import Mali from 'mali'
-import MaliLogger from '@malijs/logger'
 import Logger from './logger.js'
 
 import * as Accounts from './consumers/account/index.js'
@@ -22,14 +21,6 @@ const file = path.join(path.resolve(''), 'protofiles/subscription.proto')
 const health = path.join(path.resolve(''), 'protofiles/health.proto')
 
 const app = new Mali()
-
-app.use(
-  MaliLogger({
-    fullName: true,
-    request: true,
-    response: true,
-  }),
-)
 
 app.addService(
   file,
