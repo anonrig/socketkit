@@ -37,18 +37,9 @@ CREATE INDEX ON currency_exchanges (exchange_date);
 
 GRANT SELECT, INSERT ON currency_exchanges TO "subscription-worker";
 
-CREATE TABLE providers (
-    provider_id text NOT NULL,
-    name text NOT NULL,
-
-    PRIMARY KEY (provider_id)
-);
-
-GRANT SELECT ON providers TO "subscription-worker";
-
 CREATE TABLE device_types (
     device_type_id text NOT NULL,
-    provider_id text NOT NULL REFERENCES providers,
+    provider_id text NOT NULL,
     name text NOT NULL,
 
     PRIMARY KEY (provider_id, device_type_id)
@@ -85,7 +76,7 @@ CREATE TABLE subscription_packages (
     name text NOT NULL,
 
     PRIMARY KEY (account_id, subscription_package_id),
-    UNIQUE (account_id, subscription_group_id, subscription_duration, subscription_package_id),
+    UNIQUE (account_id, subscription_group_id, subscription_duration, subscription_package_id)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-worker";
@@ -221,9 +212,6 @@ CREATE TABLE account_provider_preferences (
     available_vendor_ids text[] NOT NULL,
 
     PRIMARY KEY (account_id, provider_id),
-
-    FOREIGN KEY (provider_id)
-        REFERENCES providers
 );
 
 GRANT SELECT, INSERT, UPDATE ON account_provider_preferences TO "subscription-worker";
