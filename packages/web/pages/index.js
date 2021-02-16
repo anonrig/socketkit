@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import CountriesWidget from '../components/scenes/dashboard/countries-widget.js'
 import RangePicker from '../components/scenes/dashboard/range-picker.js'
 import StatisticsWidget from '../components/scenes/dashboard/statistics-widget.js'
-import { AuthContext } from '../helpers/is-authorized.js'
+import isAuthorized from '../helpers/is-authorized.js'
+import { endpoints } from '../helpers/kratos.js'
 
-export default function Dashboard() {
-  const { session } = useContext(AuthContext)
+export default function Dashboard({ session }) {
   const ranges = [
     {
       key: 'last-90',
@@ -53,4 +53,20 @@ export default function Dashboard() {
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const session = await isAuthorized(ctx)
+
+  if (!session) {
+    return {
+      props: {},
+      redirect: {
+        destination: endpoints.login,
+        permanent: false
+      }
+    }
+  }
+
+  return { props: { session } }
 }

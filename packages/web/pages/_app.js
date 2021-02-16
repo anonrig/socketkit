@@ -1,13 +1,15 @@
 import 'tailwindcss/tailwind.css'
 import { SWRConfig } from 'swr'
 import { DefaultSeo } from 'next-seo'
+import router from 'next/router'
+import Progress from 'nprogress'
+
+import { endpoints } from '../helpers/kratos.js'
 import { fetcher } from '../helpers/fetcher.js'
 import UnauthorizedLayout from '../layouts/unauthorized.js'
 import isAuthorized, { AuthContext } from '../helpers/is-authorized.js'
 import AuthorizedLayout from '../layouts/authorized.js'
 
-import router from 'next/router'
-import Progress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 Progress.configure({ easing: 'ease', speed: 800 })
@@ -49,6 +51,9 @@ function MyApp({ Component, pageProps, session }) {
   )
 }
 
+/**
+ * @param {{ ctx: import("next").NextPageContext}} params0 
+ */
 MyApp.getInitialProps = async ({ ctx }) => {
   const session = await isAuthorized(ctx)
   return { session }
