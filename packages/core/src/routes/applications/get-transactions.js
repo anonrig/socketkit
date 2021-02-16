@@ -32,7 +32,7 @@ export default {
         type: 'object',
         properties: {
           cursor: {
-            type: 'object',
+            type: ['object', 'null'],
             properties: {
               client_id: { type: 'string' },
               event_date: { type: 'string' },
@@ -51,7 +51,6 @@ export default {
                 subscription_package_id: { type: 'string' },
                 subscription_package_name: { type: 'string' },
                 application_id: { type: 'string' },
-                application_name: { type: 'string' },
                 country_id: { type: 'string' },
                 country_name: { type: 'string' },
               },

@@ -13,7 +13,7 @@
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
     "@godaddy/terminus": "^4.6.0",
-    "@grpc/grpc-js": "^1.2.6",
+    "@grpc/grpc-js": "^1.2.7",
     "@grpc/proto-loader": "^0.5.6",
     "@ory/kratos-client": "^0.5.4-alpha.1",
     "@sentry/node": "^6.1.0",
@@ -24,7 +24,7 @@
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
-    "fastify": "^3.11.0",
+    "fastify": "^3.12.0",
     "fastify-auth": "^1.0.1",
     "fastify-compress": "^3.4.1",
     "fastify-cors": "^5.2.0",
@@ -37,8 +37,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/bull": "^3.15.0",
-    "eslint": "^7.19.0",
+    "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",

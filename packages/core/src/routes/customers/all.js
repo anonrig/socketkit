@@ -33,12 +33,11 @@ export default {
         type: 'object',
         properties: {
           cursor: {
-            type: 'object',
+            type: ['object', 'null'],
             properties: {
               client_id: { type: 'string' },
               first_interaction: { type: 'string' },
             },
-            required: ['client_id', 'first_interaction'],
           },
           rows: {
             type: 'array',
