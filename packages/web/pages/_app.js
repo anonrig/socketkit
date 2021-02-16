@@ -63,11 +63,11 @@ MyApp.getInitialProps = async ({ ctx }) => {
 
   if (!session) {
     if (!unauthorized.includes(ctx.pathname)) {
-      redirectTo(endpoints.login, { res: ctx.res, status: 301 })
+      redirectTo(endpoints.login, { res: ctx.res })
     }
   } else {
     if (unauthorized.includes(ctx.pathname)) {
-      redirectTo('/', { res: ctx.res, status: 301 })
+      redirectTo('/', { res: ctx.res })
     }
   }
   return { session }
