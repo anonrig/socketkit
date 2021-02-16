@@ -16,24 +16,17 @@ export async function findAll(
         'ROUND(c.total_base_developer_proceeds, 2)',
       ),
       country_id: 'c.country_id',
-      country_name: 'countries.name',
+      country_name: 'co.name',
       device_type_id: 'c.device_type_id',
-      device_type_name: 'device_types.name',
+      device_type_name: 't.name',
       provider_id: 'c.provider_id',
-      provider_name: 'providers.name',
     })
     .from('clients as c')
-    .innerJoin('countries', function () {
+    .innerJoin('countries as co', function () {
       this.using('country_id')
     })
-    .join('device_types', function () {
-      this.on('device_types.device_type_id', 'c.device_type_id').andOn(
-        'device_types.provider_id',
-        'c.provider_id',
-      )
-    })
-    .join('providers', function () {
-      this.on('c.provider_id', 'providers.provider_id')
+    .innerJoin('device_types as t', function () {
+      this.using('provider_id', 'device_type_id')
     })
     .where('c.account_id', account_id)
     .andWhere(function () {

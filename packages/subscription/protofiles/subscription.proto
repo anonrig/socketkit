@@ -156,7 +156,6 @@ message Client {
   string device_type_id = 7;
   string device_type_name = 8;
   string provider_id = 9;
-  string provider_name = 10;
 }
 
 // Utilities
