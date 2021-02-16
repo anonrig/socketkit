@@ -8,7 +8,4 @@ export default {
     password: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT,
   },
-  grpc: {
-    store: process.env.STORE_GRPC_URL,
-  },
 }
