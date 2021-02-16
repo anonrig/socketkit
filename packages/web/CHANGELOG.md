@@ -1,3 +1,11 @@
+## [1.0.4](https://gitlab.com/socketkit/web/compare/v1.0.3...v1.0.4) (2021-02-16)
+
+
+### Bug Fixes
+
+* **pagination:** update pagination parameters ([adb1aee](https://gitlab.com/socketkit/web/commit/adb1aeece32aa82f28be887170d6ec97a9cd9436))
+* update widget labels ([720c4ba](https://gitlab.com/socketkit/web/commit/720c4bafb9bdb5253e4472a2ed825acd7cfcffdc))
+
 ## [1.0.3](https://gitlab.com/socketkit/web/compare/v1.0.2...v1.0.3) (2021-02-16)
 
 
