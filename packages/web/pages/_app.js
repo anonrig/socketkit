@@ -12,6 +12,8 @@ import isAuthorized, { AuthContext } from '../helpers/is-authorized.js'
 import AuthorizedLayout from '../layouts/authorized.js'
 
 import 'nprogress/nprogress.css'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 
 Progress.configure({ easing: 'ease', speed: 800 })
 router.events.on('routeChangeStart', () => Progress.start()) 
