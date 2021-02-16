@@ -23,7 +23,7 @@ export default async function getCountries({
       ),
       pg.raw(
         'count(*) filter (WHERE upper(s.active_period) < ?) as churn_count',
-        [dayjs(start_date).format('YYYY-MM-DD')],
+        [dayjs(end_date).format('YYYY-MM-DD')],
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) as revenue`),
     ])
