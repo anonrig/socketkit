@@ -3,20 +3,20 @@ import { SWRConfig } from 'swr'
 import { DefaultSeo } from 'next-seo'
 import router, { useRouter } from 'next/router'
 import Progress from 'nprogress'
+import { useEffect, useState } from 'react'
 
+import { endpoints } from '../helpers/kratos.js'
 import { fetcher } from '../helpers/fetcher.js'
-import UnauthorizedLayout from '../layouts/unauthorized.js'
 import { AuthContext, client } from '../helpers/is-authorized.js'
+import UnauthorizedLayout from '../layouts/unauthorized.js'
 import AuthorizedLayout from '../layouts/authorized.js'
 
 import 'nprogress/nprogress.css'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
-import { useEffect, useState } from 'react'
-import { redirect } from 'next/dist/next-server/server/api-utils'
-import { endpoints } from '../helpers/kratos.js'
 
 Progress.configure({ easing: 'ease', speed: 800 })
+
 router.events.on('routeChangeStart', () => Progress.start()) 
 router.events.on('routeChangeComplete', () => Progress.done()) 
 router.events.on('routeChangeError', () => Progress.done())
