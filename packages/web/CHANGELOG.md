@@ -1,3 +1,10 @@
+## [1.0.3](https://gitlab.com/socketkit/web/compare/v1.0.2...v1.0.3) (2021-02-16)
+
+
+### Bug Fixes
+
+* **next:** change [secure] environment variables to prod ([84b74dc](https://gitlab.com/socketkit/web/commit/84b74dc20b00285d7033ada1f2658191945dc22a))
+
 ## [1.0.2](https://gitlab.com/socketkit/web/compare/v1.0.1...v1.0.2) (2021-02-16)
 
 
