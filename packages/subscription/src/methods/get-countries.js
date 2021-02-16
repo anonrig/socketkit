@@ -14,27 +14,27 @@ export default async function getCountries({
   return pg
     .queryBuilder()
     .select([
-      pg.raw('c.country_id as country_id'),
-      pg.raw('c.name as country_name'),
-      pg.raw('c.coordinates as country_coordinates'),
-      pg.raw('count(*) as total_count'),
+      pg.raw('c.country_id AS country_id'),
+      pg.raw('c.name AS country_name'),
+      pg.raw('c.coordinates AS country_coordinates'),
+      pg.raw('count(*) AS total_count'),
       pg.raw(
-        'count(*) filter (WHERE lower(s.active_period) + s.free_trial_duration < upper(s.active_period)) as trial_past_count',
+        'count(*) FILTER (WHERE lower(s.active_period) + s.free_trial_duration < upper(s.active_period)) AS trial_past_count',
       ),
       pg.raw(
-        'count(*) filter (WHERE upper(s.active_period) < ?) as churn_count',
+        'count(*) FILTER (WHERE upper(s.active_period) < ?) AS churn_count',
         [dayjs(end_date).format('YYYY-MM-DD')],
       ),
-      pg.raw(`sum(s.total_base_developer_proceeds) as revenue`),
+      pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
-    .from('clients as cl')
-    .innerJoin('client_subscriptions as s', function () {
+    .from('clients AS cl')
+    .innerJoin('client_subscriptions AS s', function () {
       this.on('s.client_id', 'cl.client_id').andOn(
         's.account_id',
         'cl.account_id',
       )
     })
-    .join('countries as c', 'c.country_id', 'cl.country_id')
+    .join('countries AS c', 'c.country_id', 'cl.country_id')
     .where(function () {
       this.where('s.account_id', account_id)
 
@@ -49,6 +49,6 @@ export default async function getCountries({
         this.andWhere('s.application_id', application_id)
       }
     })
-    .orderBy('revenue', 'desc')
+    .orderBy('revenue', 'DESC')
     .groupBy(['c.country_id'])
 }

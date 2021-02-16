@@ -3,16 +3,16 @@ import dayjs from 'dayjs'
 
 export default async function getTotalSales(
   { account_id, application_id },
-  { filter })
-{
+  { filter },
+) {
   const { sum } = await pg
     .queryBuilder()
     .sum('base_developer_proceeds')
     .from('client_transactions')
     .where(function () {
       this.where({
-        'account_id': account_id,
-        'application_id': application_id,
+        account_id: account_id,
+        application_id: application_id,
       })
 
       if (filter?.from && filter?.to) {

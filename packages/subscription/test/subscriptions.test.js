@@ -73,4 +73,24 @@ describe('Applications', () => {
       },
     )
   })
+
+  test('count', (done) => {
+    grpc.subscriptions.count(
+      {
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+        start_date: dayjs().subtract(1, 'month').toString(),
+        end_date: dayjs().toString(),
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response.total).toBeDefined()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
 })

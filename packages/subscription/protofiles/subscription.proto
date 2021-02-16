@@ -21,6 +21,7 @@ service Subscriptions {
   rpc findPackages (AccountIdRequest) returns (SubscriptionPackagePaginationResponse) {}
   rpc groupByApplication (AccountIdRequest) returns (SubscriptionsGroupByApplication) {}
   rpc groupByCountry (SubscriptionsRequest) returns (SubscriptionsGroupByCountry) {}
+  rpc count (SubscriptionsRequest) returns (SubscriptionCounts) {}
 }
 
 service Transactions {
@@ -291,6 +292,13 @@ message SubscriptionsGroupByCountryRow {
 
 message SubscriptionsGroupByCountry {
   repeated SubscriptionsGroupByCountryRow rows = 1;
+}
+
+message SubscriptionCounts {
+  int32 total = 1;
+  int32 trial = 2;
+  optional int32 at_start = 3;
+  int32 current = 4;
 }
 
 // integrations
