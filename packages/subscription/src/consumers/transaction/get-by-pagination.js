@@ -1,5 +1,4 @@
 import * as Transaction from '../../models/client-transaction.js'
-import dayjs from 'dayjs'
 
 export default async function (
   { account_id, application_id, start_date, end_date },
@@ -10,11 +9,16 @@ export default async function (
     { limit, cursor },
   )
 
+  const pagination_cursor =
+    rows.length && rows.length === limit
+      ? {
+          event_date: rows[rows.length - 1].event_date,
+          client_id: rows[rows.length - 1].client_id,
+        }
+      : null
+
   return {
     rows,
-    cursor: {
-      event_date: dayjs(rows[rows.length - 1].event_date).format('YYYY-MM-DD'),
-      client_id: rows[rows.length - 1].client_id,
-    },
+    cursor: pagination_cursor,
   }
 }
