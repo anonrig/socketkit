@@ -54,19 +54,3 @@ export default function Dashboard({ session }) {
     </>
   )
 }
-
-export async function getServerSideProps(ctx) {
-  const session = await isAuthorized(ctx)
-
-  if (!session) {
-    return {
-      props: {},
-      redirect: {
-        destination: endpoints.login,
-        permanent: false
-      }
-    }
-  }
-
-  return { props: { session } }
-}

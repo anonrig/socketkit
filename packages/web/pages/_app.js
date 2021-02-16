@@ -5,6 +5,7 @@ import router from 'next/router'
 import Progress from 'nprogress'
 
 import { endpoints } from '../helpers/kratos.js'
+import redirectTo from '../helpers/redirect-to.js'
 import { fetcher } from '../helpers/fetcher.js'
 import UnauthorizedLayout from '../layouts/unauthorized.js'
 import isAuthorized, { AuthContext } from '../helpers/is-authorized.js'
@@ -56,6 +57,17 @@ function MyApp({ Component, pageProps, session }) {
  */
 MyApp.getInitialProps = async ({ ctx }) => {
   const session = await isAuthorized(ctx)
+  const unauthorized = ['/signin', '/signup', 'recover-account']
+
+  if (!session) {
+    if (!unauthorized.includes(ctx.pathname)) {
+      redirectTo(endpoints.login, { res: ctx.res, status: 301 })
+    }
+  } else {
+    if (unauthorized.includes(ctx.pathname)) {
+      redirectTo('/', { res: ctx.res, status: 301 })
+    }
+  }
   return { session }
 }
 

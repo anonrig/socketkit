@@ -36,9 +36,7 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function SignIn({ kratos }) {
-  const action = kratos?.methods.password.config.action
-  const fields = kratos?.methods.password.config.fields ?? []
-  const messages = kratos?.methods.password.config.messages ?? []
+  const { action, fields, method, messages } = kratos?.methods.password.config
   const oidc = kratos?.methods.oidc.config ?? {}
 
   return (
@@ -50,19 +48,13 @@ export default function SignIn({ kratos }) {
         </h2>
         <p className="mt-2 text-sm text-gray-600 max-w">
           Or
-          <Link href="/signup">
-            <a className="font-medium text-orange-600 hover:text-orange-500 px-2">
-              start your 14-day free trial
-            </a>
-          </Link>
+          <a className="font-medium text-orange-600 hover:text-orange-500 px-2" href={endpoints.register}>
+            start your 14-day free trial
+          </a>
         </p>
       </div>
       <div className="mt-8">
-        <div>
-          <div>
-            <LoginProviderForm {...oidc} />
-          </div>
-        </div>
+        <LoginProviderForm {...oidc} />
 
         <div className="mt-6 relative">
           <div
@@ -79,9 +71,8 @@ export default function SignIn({ kratos }) {
         </div>
 
         <div className="mt-6">
-          <form className="space-y-6" action={action} method="POST">
-            {fields
-              .map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
+          <form className="space-y-6" action={action} method={method}>
+            {fields?.map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
               .sort((a, b) => a.order - b.order)
               .map((field) => (
                 <FormField
@@ -105,17 +96,13 @@ export default function SignIn({ kratos }) {
                   Remember me
                 </label>
               </div>
-              <div className="text-sm">
-                <Link href="/recover-account">
-                  <a className="font-medium text-orange-600 hover:text-orange-500">
-                    Forgot your password?
-                  </a>
-                </Link>
-              </div>
+              <a href={endpoints.recover} className="font-medium text-orange-600 hover:text-orange-500 text-sm">
+                Forgot your password?
+              </a>
             </div>
             <div>
               <Button loading={false}>Sign in</Button>
-              {messages.map((message) => (
+              {messages?.map((message) => (
                 <p
                   key={message.id}
                   className="font-medium text-sm mt-2 text-center text-orange-600"
