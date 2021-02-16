@@ -1,3 +1,10 @@
+## [1.0.6](https://gitlab.com/socketkit/web/compare/v1.0.5...v1.0.6) (2021-02-16)
+
+
+### Bug Fixes
+
+* **purgecss:** update whitelist for purgecss ([68bd886](https://gitlab.com/socketkit/web/commit/68bd88614a90e3e9cb24e13c28a9d1123e8a0e53))
+
 ## [1.0.5](https://gitlab.com/socketkit/web/compare/v1.0.4...v1.0.5) (2021-02-16)
 
 
