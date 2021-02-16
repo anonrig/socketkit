@@ -3,8 +3,14 @@ const colors = require('tailwindcss/colors')
 module.exports = {
   purge: {
     mode: 'all',
-    enabled: process.env.NODE_ENV === 'production',
-    content: ['components', 'helpers', 'images', 'layouts', 'pages'].map(p => `./${p}/**/*.js`),
+    enabled: true,
+    content: ['components', 'helpers', 'images', 'layouts', 'pages']
+      .map(p => ['js', 'html'].map(e => `./${p}/**/*.${e}`))
+      .flat(3)
+      .concat([
+        './node_modules/nprogress/**/*.js',
+        './node_modules/react-date-range/**/*.js',
+      ]),
   },
   darkMode: false,
   theme: {
