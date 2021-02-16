@@ -10,7 +10,7 @@ function StatisticsWidget({ range }) {
       <dl className="grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
         <div>
           <div className="px-4 py-5 sm:p-6">
-            <dt className="text-base font-normal text-gray-900">New Client</dt>
+            <dt className="text-base font-normal text-gray-900">Active Subscriptions</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                 {data?.clients?.now ?? 0}
@@ -29,7 +29,7 @@ function StatisticsWidget({ range }) {
         </div>
         <div>
           <div className="px-4 py-5 sm:p-6">
-            <dt className="text-base font-normal text-gray-900">New Revenue</dt>
+            <dt className="text-base font-normal text-gray-900">Revenue</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                 ${data?.sales?.now ?? 0}
@@ -48,7 +48,7 @@ function StatisticsWidget({ range }) {
         </div>
         <div>
           <div className="px-4 py-5 sm:p-6">
-            <dt className="text-base font-normal text-gray-900">New Refunds</dt>
+            <dt className="text-base font-normal text-gray-900">Refunds</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                 ${data?.refunds?.now ?? 0}
