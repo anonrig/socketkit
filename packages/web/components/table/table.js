@@ -13,10 +13,14 @@ function Table({ initialData, columns, getRowProps, url, options }) {
       .join('&')
 
     if (previous) {
-      const cursor = Object.keys(previous.cursor)
-        .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
-        .join('&')
-      return `${url}?${query}&${cursor}`
+      if (previous.cursor) {
+        const cursor = Object.keys(previous.cursor)
+          .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
+          .join('&')
+        return `${url}?${query}&${cursor}`
+      } else {
+        return null
+      }
     }
 
     return `${url}?${query}`

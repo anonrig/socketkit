@@ -27,7 +27,7 @@ export default function Dashboard() {
       to: dayjs().format('YYYY-MM-DD'),
     },
   ]
-  const [selected, setSelected] = useState(ranges[0])
+  const [selected, setSelected] = useState(ranges[1])
 
   return (
     <>

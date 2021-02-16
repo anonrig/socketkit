@@ -19,6 +19,7 @@
     "date-fns": "^2.17.0",
     "dayjs": "^1.10.4",
     "next": "10.0.7",
+    "next-compose-plugins": "^2.2.1",
     "next-images": "^1.7.0",
     "next-seo": "^4.19.0",
     "nprogress": "^0.2.0",

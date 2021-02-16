@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 
 import useVisible from '../helpers/use-visible'
 
-function DatePicker({ interval, setInterval }) {
+function DatePicker({ interval: { start_date, end_date }, setInterval }) {
   const { ref, isVisible, setVisible } = useVisible(false)
 
   return (
@@ -23,8 +23,8 @@ function DatePicker({ interval, setInterval }) {
           type="button"
           onClick={() => setVisible(!isVisible)}
         >
-          {dayjs(interval.from).format('DD MMM')} -{' '}
-          {dayjs(interval.to).format('DD MMM')}
+          {start_date.format('DD MMM')} -{' '}
+          {end_date.format('DD MMM')}
           <svg
             aria-hidden="true"
             className="-mr-1 ml-2 h-5 w-5"
@@ -54,16 +54,16 @@ function DatePicker({ interval, setInterval }) {
           maxDate={new Date()}
           ranges={[
             {
-              startDate: interval.from,
-              endDate: interval.to,
+              startDate: start_date.toDate(),
+              endDate: end_date.toDate(),
               key: 'selection',
             },
           ]}
           // @ts-ignore
           onChange={({ selection }) => {
             setInterval({
-              from: selection.startDate,
-              to: selection.endDate,
+              start_date: dayjs(selection.startDate),
+              end_date: dayjs(selection.endDate),
             })
           }}
         />
@@ -74,9 +74,9 @@ function DatePicker({ interval, setInterval }) {
 
 DatePicker.propTypes = {
   interval: PropTypes.shape({
-    from: PropTypes.instanceOf(Date),
-    to: PropTypes.instanceOf(Date),
-  }),
+    start_date: PropTypes.any,
+    end_date: PropTypes.any,
+  }).isRequired,
   setInterval: PropTypes.func.isRequired,
 }
 

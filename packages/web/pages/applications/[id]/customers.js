@@ -23,11 +23,19 @@ import ApplicationLayout from '../../../layouts/custom/application.js'
 
 export default function Customers({ initialData }) {
   const router = useRouter()
-  const { id } = router.query
-  const [interval, setInterval] = useState({
-    from: dayjs().subtract(1, 'month').toDate(),
-    to: dayjs().toDate(),
-  })
+  const { start_date, end_date, id } = router.query
+
+  if (!start_date || !end_date) {
+    router.push({
+      path: `/applications/[id]/customers`,
+      query: {
+        id,
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD')
+      },
+    }, undefined, { shallow: true })
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -92,15 +100,27 @@ export default function Customers({ initialData }) {
             View Transactions
           </button>
         </span>
-        <DatePicker interval={interval} setInterval={setInterval} />
+        <DatePicker
+          interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }} 
+          setInterval={({start_date, end_date}) => {
+            router.push({
+              path: `/applications/[id]/customers`,
+              query: { 
+                id,
+                start_date: start_date.format('YYYY-MM-DD'),
+                end_date: end_date.format('YYYY-MM-DD'),
+              }
+            }, undefined, { shallow: true })
+          }}
+        />      
       </div>
       <Table
         initialData={initialData}
         url={`applications/${id}/customers`}
         options={{
           limit: 10,
-          from: dayjs(interval.from).format('YYYY-MM-DD'),
-          to: dayjs(interval.to).format('YYYY-MM-DD'),
+          from: dayjs(start_date).format('YYYY-MM-DD'),
+          to: dayjs(end_date).format('YYYY-MM-DD'),
         }}
         columns={columns}
         getRowProps={({ original }) => ({

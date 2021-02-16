@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import DatePicker from '../../components/date-picker'
@@ -8,19 +8,24 @@ import { fetcher } from '../../helpers/fetcher.js'
 
 function Transactions({ initialData }) {
   const router = useRouter()
-  const [interval, setInterval] = useState({
-    from: dayjs().subtract(1, 'month').toDate(),
-    to: dayjs().toDate(),
-  })
+  const { start_date, end_date } = router.query
+
+  if (!start_date || !end_date) {
+    router.push({
+      path: '/transactions',
+      query: {
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD')
+      },
+    }, undefined, { shallow: true })
+    return null
+  }
+
   const columns = useMemo(
     () => [
       {
         Header: 'Customer',
         accessor: 'client_id',
-      },
-      {
-        Header: 'App Name',
-        accessor: 'application_name',
       },
       {
         Header: 'Subscription',
@@ -29,6 +34,12 @@ function Transactions({ initialData }) {
       {
         Header: 'Country',
         accessor: 'country_name',
+      },
+      {
+        Header: 'Sale',
+        accessor: function ProceedAccessor(field) {
+          return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
+        },
       },
       {
         Header: 'Proceed',
@@ -86,15 +97,26 @@ function Transactions({ initialData }) {
             View Customers
           </button>
         </span>
-        <DatePicker interval={interval} setInterval={setInterval} />
+        <DatePicker
+          interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }} 
+          setInterval={({start_date, end_date}) => {
+            router.push({
+              path: '/transactions',
+              query: { 
+                start_date: start_date.format('YYYY-MM-DD'),
+                end_date: end_date.format('YYYY-MM-DD'),
+              }
+            }, undefined, { shallow: true })
+          }}
+        />
       </div>
       <Table
         initialData={initialData}
         url="transactions"
         options={{
           limit: 10,
-          from: dayjs(interval.from).format('YYYY-MM-DD'),
-          to: dayjs(interval.to).format('YYYY-MM-DD'),
+          from: dayjs(start_date).format('YYYY-MM-DD'),
+          to: dayjs(end_date).format('YYYY-MM-DD'),
         }}
         columns={columns}
         getRowProps={({ original }) => ({

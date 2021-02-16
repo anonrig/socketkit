@@ -7,20 +7,20 @@ import { fetcher } from '../../helpers/fetcher.js'
 
 export default function Customers({ initialData }) {
   const router = useRouter()
-  const [interval, setInterval] = useState({
-    from: dayjs().subtract(1, 'month').toDate(),
-    to: dayjs().toDate(),
-  })
+  const { start_date, end_date } = router.query
+
+  if (!start_date || !end_date) {
+    router.push({
+      path: '/customers',
+      query: {
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD')
+      },
+    }, undefined, { shallow: true })
+  }
 
   const columns = useMemo(
     () => [
-      {
-        Header: 'Provider',
-        id: 'provider_id',
-        accessor: function ProviderAccessor(f) {
-          return f.provider_name
-        },
-      },
       {
         Header: 'Client',
         accessor: 'client_id',
@@ -45,7 +45,7 @@ export default function Customers({ initialData }) {
         accessor: (field) => `$${field.total_base_developer_proceeds}`,
       },
       {
-        Header: 'Since',
+        Header: 'First Interaction',
         accessor: function IntervalAccessor(f) {
           return dayjs(f.first_interaction).format('YYYY-MM-DD')
         },
@@ -84,15 +84,26 @@ export default function Customers({ initialData }) {
             View Transactions
           </button>
         </span>
-        <DatePicker interval={interval} setInterval={setInterval} />
+        <DatePicker
+          interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }} 
+          setInterval={({start_date, end_date}) => {
+            router.push({
+              path: '/customers',
+              query: { 
+                start_date: start_date.format('YYYY-MM-DD'),
+                end_date: end_date.format('YYYY-MM-DD'),
+              }
+            }, undefined, { shallow: true })
+          }}
+        />
       </div>
       <Table
         initialData={initialData}
         url="customers"
         options={{
           limit: 10,
-          from: dayjs(interval.from).format('YYYY-MM-DD'),
-          to: dayjs(interval.to).format('YYYY-MM-DD'),
+          from: dayjs(start_date).format('YYYY-MM-DD'),
+          to: dayjs(end_date).format('YYYY-MM-DD'),
         }}
         columns={columns}
         getRowProps={({ original }) => ({
