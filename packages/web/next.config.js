@@ -12,8 +12,7 @@ module.exports = withPlugins([
   reactStrictMode: true,
   env: {
     NEXT_PUBLIC_KRATOS_URL: 'https://login.socketkit.com',
-    NEXT_PUBLIC_API_URL: 'https://core-dev.socketkit.com/v1',
-    NEXT_PUBLIC_CURRENT_URL: 'https://web.socketkit.com',
+    NEXT_PUBLIC_API_URL: 'https://core.socketkit.com/v1',
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
