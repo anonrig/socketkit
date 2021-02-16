@@ -1,3 +1,11 @@
+## [1.0.2](https://gitlab.com/socketkit/web/compare/v1.0.1...v1.0.2) (2021-02-16)
+
+
+### Bug Fixes
+
+* **next:** disable tls check for prod ([32cbd7c](https://gitlab.com/socketkit/web/commit/32cbd7c81b24e51a2bec1e0dc92aeefcba3fb5fa))
+* **next:** update environment variables and fix kratos ui ([600342c](https://gitlab.com/socketkit/web/commit/600342c943518a20b643ea7baa778e6d96fea17f))
+
 ## [1.0.1](https://gitlab.com/socketkit/web/compare/v1.0.0...v1.0.1) (2021-02-16)
 
 
