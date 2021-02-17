@@ -39,10 +39,6 @@ export default function Customers({ initialData }) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Client',
-        accessor: 'client_id',
-      },
-      {
         Header: 'Device',
         accessor: 'device_type_name',
       },
