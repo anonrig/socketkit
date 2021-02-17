@@ -2,8 +2,6 @@ import path from 'path'
 import Mali from 'mali'
 import Logger from './logger.js'
 
-import * as Accounts from './consumers/account/index.js'
-import * as Applications from './consumers/application/index.js'
 import * as Clients from './consumers/client/index.js'
 import * as Subscriptions from './consumers/subscription/index.js'
 import * as Transactions from './consumers/transaction/index.js'
@@ -25,8 +23,6 @@ const app = new Mali()
 app.addService(
   file,
   [
-    'Accounts',
-    'Applications',
     'Clients',
     'Subscriptions',
     'Transactions',
@@ -37,8 +33,6 @@ app.addService(
 app.addService(health, 'Health', options)
 
 app.use({
-  Accounts,
-  Applications,
   Clients,
   Subscriptions,
   Transactions,

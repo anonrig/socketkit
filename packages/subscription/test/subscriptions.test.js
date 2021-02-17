@@ -18,7 +18,7 @@ afterAll(async (done) => {
   done()
 })
 
-describe('Applications', () => {
+describe('Subscriptions', () => {
   test('findPackages', (done) => {
     grpc.subscriptions.findPackages(
       { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },

@@ -14,8 +14,6 @@ const defaults = {
 }
 
 const {
-  Accounts,
-  Applications,
   Clients,
   Subscriptions,
   Transactions,
@@ -25,8 +23,6 @@ const {
 )
 
 export default {
-  accounts: new Accounts(url, grpc.credentials.createInsecure()),
-  applications: new Applications(url, grpc.credentials.createInsecure()),
   clients: new Clients(url, grpc.credentials.createInsecure()),
   subscriptions: new Subscriptions(url, grpc.credentials.createInsecure()),
   transactions: new Transactions(url, grpc.credentials.createInsecure()),
