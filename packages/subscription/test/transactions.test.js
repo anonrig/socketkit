@@ -36,4 +36,22 @@ describe('Transactions', () => {
       },
     )
   })
+
+  test('sum', (done) => {
+    grpc.transactions.sum(
+      {
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response.current_total_base_developer_proceeds).toBeDefined()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
 })

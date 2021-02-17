@@ -26,6 +26,7 @@ service Subscriptions {
 
 service Transactions {
   rpc findAll (TransactionPaginationRequest) returns (TransactionPaginationResponse) {}
+  rpc sum (TransactionStatisticsRequest) returns (TransactionSums) {}
 }
 
 service Integrations {
@@ -228,13 +229,7 @@ message CountryStatistics {
   int32 revenue = 7;
 }
 
-// transactions
-
-message TransactionsResponse {
-  repeated Transaction rows = 1;
-}
-
-// subscriptions
+// Subscriptions
 
 message SubscriptionsResponse {
   repeated Subscription rows = 1;
@@ -301,7 +296,36 @@ message SubscriptionCounts {
   int32 current = 4;
 }
 
-// integrations
+// Transactions
+
+message TransactionsResponse {
+  repeated Transaction rows = 1;
+}
+
+message TransactionStatisticsRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+  oneof optional_start_date {
+    string start_date = 3;
+  }
+  oneof optional_change_date {
+    string change_date = 4;
+  }
+  oneof optional_end_date {
+    string end_date = 5;
+  }
+}
+
+message TransactionSums {
+  optional string changed_total_base_developer_proceeds = 1;
+  optional string changed_refund_base_developer_proceeds = 2;
+  string current_total_base_developer_proceeds = 3;
+  string current_refund_base_developer_proceeds = 4;
+}
+
+// Integrations
 
 message AccountProcessDateRequest {
   string date = 1;
