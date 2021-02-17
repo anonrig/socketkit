@@ -1,6 +1,5 @@
 import * as SubscriptionPackage from '../../models/subscription-package.js'
 import * as SubscriptionStatistics from '../../models/subscription-statistics.js'
-import getCountries from '../../methods/get-countries.js'
 
 export const findPackages = async (ctx) => {
   const { account_id, application_id } = ctx.req
@@ -24,7 +23,7 @@ export const groupByApplication = async (ctx) => {
 
 export const groupByCountry = async (ctx) => {
   ctx.res = {
-    rows: await getCountries(ctx.req),
+    rows: await SubscriptionStatistics.groupByCountry(ctx.req),
   }
 }
 
