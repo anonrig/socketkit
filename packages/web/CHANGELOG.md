@@ -1,3 +1,10 @@
+## [1.0.7](https://gitlab.com/socketkit/web/compare/v1.0.6...v1.0.7) (2021-02-17)
+
+
+### Bug Fixes
+
+* **applications:** remove customer id from customers list ([799ed34](https://gitlab.com/socketkit/web/commit/799ed34de6f36afd5261714260a82f8a1f20071b))
+
 ## [1.0.6](https://gitlab.com/socketkit/web/compare/v1.0.5...v1.0.6) (2021-02-16)
 
 
