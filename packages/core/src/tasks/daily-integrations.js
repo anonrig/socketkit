@@ -1,11 +1,13 @@
 import dayjs from 'dayjs'
-import f from '../server.js'
+import Logger from '../logger.js'
 import rpc from '../grpc.js'
 import { appstoreQueue } from '../redis.js'
 import { getActiveIntegrations } from '../methods/integrations.js'
 
+const logger = Logger.create().withScope('daily-integrations')
+
 export default async function fetchAppstoreIntegration() {
-  f.log.info(`Processing daily integrations cron job`)
+  logger.info(`Processing daily integrations cron job`)
 
   const integrations = await getActiveIntegrations({
     integration_id: 'appstore-connect',
@@ -18,7 +20,7 @@ export default async function fetchAppstoreIntegration() {
 
   for (let integration of normalized) {
     try {
-      f.log.info(`Processing integration ${integration.account_id}`)
+      logger.info(`Processing integration ${integration.account_id}`)
       const transaction = await rpc.integrations.findLatestScrape({
         account_id: integration.account_id,
       })
@@ -30,19 +32,22 @@ export default async function fetchAppstoreIntegration() {
       const fetch_date = dayjs(transaction.fetch_date).toDate()
       const dates = getDatesBetweenDates(fetch_date, new Date())
 
-      await appstoreQueue.addBulk(
-        dates.map((date) => ({
-          name: 'process-date',
-          data: {
-            account_id: integration.account_id,
-            date: dayjs(date).format('YYYY-MM-DD'),
-            access_token: integration.access_token,
-          },
-        })),
-      )
+      for (let date of dates) {
+        try {
+          await appstoreQueue.add({
+            name: 'process-date',
+            data: {
+              account_id: integration.account_id,
+              date: dayjs(date).format('YYYY-MM-DD'),
+              access_token: integration.access_token,
+            },
+          })
+        } catch (error) {
+          logger.error(error)
+        }
+      }
     } catch (error) {
-      f.log.error(`Error occurred on daily-integrations task`)
-      f.log.error(error)
+      logger.error(error)
     }
   }
 }
