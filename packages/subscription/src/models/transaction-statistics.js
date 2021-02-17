@@ -13,39 +13,39 @@ export function sum({
       change_date
         ? [
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date >= ?)` +
-                ' AS current_total_developer_proceeds',
+              'round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date >= ?), 2)` +
+                ' AS current_total_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund')` +
-                ' AS current_refund_developer_proceeds',
+              'round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund'), 2)` +
+                ' AS current_refund_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date < ?)` +
-                ' AS changed_total_developer_proceeds',
+              'round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date < ?), 2)` +
+                ' AS changed_total_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund')` +
-                ' AS changed_refund_developer_proceeds',
+              'round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund'), 2)` +
+                ' AS changed_refund_base_developer_proceeds',
               [change_date],
             ),
           ]
         : [
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ' AS current_total_developer_proceeds',
+              'round(sum(base_developer_proceeds), 2)' +
+                ' AS current_total_base_developer_proceeds',
             ),
             pg.raw(
-              'sum(base_developer_proceeds)' +
-                ` FILTER (WHERE transaction_type = 'refund')` +
-                ' AS current_refund_developer_proceeds',
+              'round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE transaction_type = 'refund'), 2)` +
+                ' AS current_refund_base_developer_proceeds',
             ),
           ],
     )
