@@ -17,8 +17,6 @@ const { Store } = grpc.loadPackageDefinition(
 )
 
 const {
-  Accounts,
-  Applications,
   Clients,
   Subscriptions,
   Transactions,
@@ -28,15 +26,6 @@ const {
 )
 
 export default {
-  accounts: promisifyAll(
-    new Accounts(config.grpc.subscription, grpc.credentials.createInsecure()),
-  ),
-  applications: promisifyAll(
-    new Applications(
-      config.grpc.subscription,
-      grpc.credentials.createInsecure(),
-    ),
-  ),
   clients: promisifyAll(
     new Clients(config.grpc.subscription, grpc.credentials.createInsecure()),
   ),

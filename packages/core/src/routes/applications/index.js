@@ -1,10 +1,10 @@
 import getAll from './all.js'
-import getById from './get-by-id.js'
-import getStatistics from './get-statistics.js'
-import getCustomers from './get-customers.js'
-import getTransactions from './get-transactions.js'
-import getPackages from './get-packages.js'
-import getCountries from './get-countries.js'
+import getById from './by-id.js'
+import getStatistics from './statistics.js'
+import getCustomers from './customers.js'
+import getTransactions from './transactions.js'
+import getPackages from './packages.js'
+import getCountries from './countries.js'
 
 export default (f, _opts, done) => {
   f.route(getAll)
