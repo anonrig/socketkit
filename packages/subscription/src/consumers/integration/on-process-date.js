@@ -113,6 +113,9 @@ export default async function onProcessDate(
     } else if (error.message.includes('401')) {
       logger.warn('Permission denied')
       throw error
+    } else if (error.message.includes('400')) {
+      logger.warn('Bad request')
+      throw error
     } else {
       logger.error(error)
       throw error
