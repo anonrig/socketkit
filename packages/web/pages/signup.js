@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import logo from '../images/socketkit.svg'
+import logo from '../images/icon-socketkit.svg'
 import { client } from '../helpers/is-authorized.js'
 import { endpoints } from '../helpers/kratos.js'
 import Form from '../components/form/form.js'

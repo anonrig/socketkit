@@ -2,9 +2,7 @@ import { useContext, useState } from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
 
-// @ts-ignore
-import logo from '..//images/socketkit.svg'
-
+import logo from '../images/logo-socketkit-color.svg'
 import MobileMenu from './menu/mobile.js'
 import ProfileDropdown from './menu/profile-dropdown.js'
 import { AuthContext } from '../helpers/is-authorized.js'
@@ -19,7 +17,7 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                  <img alt="Socketkit, Inc." className="h-8 w-auto" src={logo} />
+                  <img alt="Socketkit, Inc." className="h-5 w-auto" src={logo} />
               </Link>
             </div>
             <nav

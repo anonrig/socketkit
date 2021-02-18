@@ -5,8 +5,7 @@ function ApplicationLeadingMenu({ id }) {
   const activeClassName = 'bg-gray-50 text-orange-600 hover:text-orange-600'
 
   return (
-    <aside className="px-2 sm:px-6 lg:py-0 lg:px-0">
-      <nav className="space-y-1">
+    <nav className="space-y-1">
         <ActiveLink
           activeClassName={activeClassName}
           className="group rounded-md px-3 py-2 flex items-center text-sm font-medium text-gray-900 hover:text-gray-900 hover:bg-white"
@@ -93,7 +92,6 @@ function ApplicationLeadingMenu({ id }) {
           <span className="truncate">Customers</span>
         </ActiveLink>
       </nav>
-    </aside>
   )
 }
 

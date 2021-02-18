@@ -1,9 +1,9 @@
+import dayjs from 'dayjs'
+import { endpoints } from '../helpers/kratos.js'
+import { client } from '../helpers/is-authorized.js'
 import FormField, { KratosFields } from '../components/form/field.js'
 import Button from '../components/form/button.js'
-import logo from '../images/socketkit.svg'
-import { endpoints } from '../helpers/kratos.js'
-import dayjs from 'dayjs'
-import { client } from '../helpers/is-authorized.js'
+import logo from '../images/icon-socketkit.svg'
 
 /**
  * @param {import("next").NextPageContext} ctx 

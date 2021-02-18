@@ -5,8 +5,7 @@ import LoginProviderForm from '../components/form/login-provider'
 import Button from '../components/form/button'
 import { client } from '../helpers/is-authorized.js'
 import { endpoints } from '../helpers/kratos.js'
-// @ts-ignore
-import logo from '../images/socketkit.svg'
+import logo from '../images/icon-socketkit.svg'
 
 /**
  * @param {import("next").NextPageContext} ctx 

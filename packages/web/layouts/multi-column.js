@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 
 function MultiColumnLayout({ leading, center }) {
   return (
-    <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
+    <div className="flex-grow w-full max-w-7xl mx-auto lg:flex">
       <div className="flex-1 min-w-0 xl:flex">
         <div className="xl:flex-shrink-0 xl:w-64">
-          <div className="h-full pl-4 pr-6 py-6 sm:pl-6 lg:pl-8 xl:pl-0">
+          <div className="h-full py-6 sm:pl-6 lg:pl-8 xl:pl-0">
             <div className="h-full relative" style={{ minHeight: '12rem' }}>
               {leading}
             </div>

@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
-// @ts-ignore
-import logo from "../../images/socketkit.svg";
+import logo from "../../images/logo-socketkit-color.svg";
 import { endpoints } from "../../helpers/kratos.js";
 
 function MobileMenu({ visible, setVisible, profile }) {
