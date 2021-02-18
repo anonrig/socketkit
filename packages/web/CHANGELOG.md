@@ -1,3 +1,10 @@
+# [1.1.0](https://gitlab.com/socketkit/web/compare/v1.0.8...v1.1.0) (2021-02-18)
+
+
+### Features
+
+* update socketkit icons ([9072553](https://gitlab.com/socketkit/web/commit/907255380378c3788c9e6f2aaf6bde6bce021e73))
+
 ## [1.0.8](https://gitlab.com/socketkit/web/compare/v1.0.7...v1.0.8) (2021-02-18)
 
 
