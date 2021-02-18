@@ -1,8 +1,8 @@
 SET ROLE store;
 
 CREATE TABLE applications (
-  created_at timestamptz NOT NULL DEFAULT now(),
   last_fetch timestamptz NOT NULL DEFAULT now(),
+  released_at timestamptz NOT NULL,
   application_id text NOT NULL,
   developer_id text NOT NULL,
   bundle_id text NOT NULL,

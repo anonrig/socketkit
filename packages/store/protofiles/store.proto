@@ -64,7 +64,7 @@ message Application {
   string version = 11;
   repeated int32 ratings = 12;
   string released_at = 13;
-  string updated_at = 14;
+  string version_released_at = 14;
   string developer_name = 16;
 }
 

@@ -33,6 +33,7 @@ export default async function createApplication(
       application_id,
       developer_id: data.developerId,
       bundle_id: data.appId,
+      released_at: data.released,
     })
     .into('applications')
     .onConflict(['application_id'])
@@ -47,8 +48,7 @@ export default async function createApplication(
     .insert({
       score: data.score,
       reviews: data.reviews,
-      released_at: data.released,
-      updated_at: data.updated,
+      released_at: data.updated,
       price: data.price,
       release_notes: data.releaseNotes,
       application_id: data.id,

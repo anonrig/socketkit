@@ -16,11 +16,11 @@ export default async function findVersions({ application_id, bundle_id }) {
       screenshots: 'v.screenshots',
       version: 'v.version',
       ratings: 'r.rating_histogram',
-      released_at: 'v.released_at',
-      updated_at: 'v.updated_at',
+      released_at: 'a.released_at',
+      version_released_at: 'v.released_at',
     })
-    .from('application_versions as v')
-    .innerJoin('applications as a', function () {
+    .from('application_versions AS v')
+    .innerJoin('applications AS a', function () {
       this.on('v.application_id', 'a.application_id')
     })
     .join('application_ratings as r', function () {

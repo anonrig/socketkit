@@ -4,7 +4,6 @@ CREATE TABLE application_versions (
   score int NOT NULL,
   reviews int NOT NULL,
   released_at timestamptz NOT NULL,
-  updated_at timestamptz NOT NULL,
   price numeric(2) NOT NULL,
   release_notes text NOT NULL,
   application_id text NOT NULL,

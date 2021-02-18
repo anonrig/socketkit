@@ -21,19 +21,19 @@ export default async function findAll({
       screenshots: 'v.screenshots',
       version: 'v.version',
       ratings: 'r.rating_histogram',
-      released_at: 'v.released_at',
-      updated_at: 'v.updated_at',
+      released_at: 'a.released_at',
+      version_released_at: 'v.released_at',
     })
-    .from('applications as a')
+    .from('applications AS a')
     .joinRaw(
       `
-      cross join lateral (
-        select *
-        from application_versions
-        where application_id = a.application_id
-        order by released_at desc
-        limit 1
-      ) as v
+      CROSS JOIN LATERAL (
+        SELECT *
+        FROM application_versions
+        WHERE application_id = a.application_id
+        ORDER BY released_at DESC
+        LIMIT 1
+      ) AS v
     `,
     )
     .join('application_ratings as r', function () {
@@ -56,5 +56,5 @@ export default async function findAll({
         this.whereIn('d.developer_id', developer_ids)
       }
     })
-    .orderBy('v.released_at', 'desc')
+    .orderBy('v.released_at', 'DESC')
 }

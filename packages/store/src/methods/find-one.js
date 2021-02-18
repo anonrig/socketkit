@@ -16,11 +16,11 @@ export default async function findOne({ application_id, bundle_id }) {
       screenshots: 'v.screenshots',
       version: 'v.version',
       ratings: 'r.rating_histogram',
-      released_at: 'v.released_at',
-      updated_at: 'v.updated_at',
+      released_at: 'a.released_at',
+      version_released_at: 'v.released_at',
     })
-    .from('applications as a')
-    .innerJoin('application_versions as v', function () {
+    .from('applications AS a')
+    .innerJoin('application_versions AS v', function () {
       this.on('v.application_id', 'a.application_id')
     })
     .join('application_ratings as r', function () {
@@ -38,6 +38,6 @@ export default async function findOne({ application_id, bundle_id }) {
         this.andWhere('a.bundle_id', bundle_id)
       }
     })
-    .orderBy('v.released_at', 'desc')
+    .orderBy('v.released_at', 'DESC')
     .first()
 }
