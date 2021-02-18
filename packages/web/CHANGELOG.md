@@ -1,3 +1,11 @@
+## [1.0.8](https://gitlab.com/socketkit/web/compare/v1.0.7...v1.0.8) (2021-02-18)
+
+
+### Bug Fixes
+
+* **application:** update application description spacing ([24e7608](https://gitlab.com/socketkit/web/commit/24e760821bdfd59b1252e46fb2099ba6a0b1a868))
+* update statistics for dashboard and applications ([ebcf52f](https://gitlab.com/socketkit/web/commit/ebcf52fdc006045277699cc9125f2886c58c1f03))
+
 ## [1.0.7](https://gitlab.com/socketkit/web/compare/v1.0.6...v1.0.7) (2021-02-17)
 
 
