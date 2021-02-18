@@ -16,15 +16,21 @@ afterAll(async (done) => {
 
 describe('create', () => {
   test('should create facebook', (done) => {
-    store.create({ application_id: '284882215' }, (error, response) => {
-      try {
-        expect(error).toBeNull()
-        expect(response.row).toEqual(undefined)
-        done()
-      } catch (error) {
-        done(error)
-      }
-    })
+    store.create(
+      {
+        application_id: '284882215',
+        country_id: 'us',
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response.row).toEqual(undefined)
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
   })
 })
 

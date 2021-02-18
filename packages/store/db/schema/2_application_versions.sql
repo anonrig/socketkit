@@ -23,7 +23,8 @@ CREATE TABLE application_versions (
   content_rating text NOT NULL,
 
   PRIMARY KEY (application_id, country_id, version),
-  FOREIGN KEY (application_id) REFERENCES applications
+  FOREIGN KEY (application_id) REFERENCES applications,
+  CHECK (country_id ~ '\A[a-z]{2}\Z'::text)
 );
 
 GRANT SELECT, INSERT, UPDATE ON application_versions TO "store-worker";
