@@ -135,8 +135,8 @@ function ApplicationDashboard() {
               </div>
             </div>
 
-            <div className="flex flex-row space-x-4 mt-4 text-sm text-gray-800 font-medium">
-              {application?.description}
+            <div className="mt-4 text-sm whitespace-pre-wrap">
+              {application?.description.split('\n').map((item, key) => (<span key={key}>{item}<br/></span>))}
             </div>
           </div>
         </div>
