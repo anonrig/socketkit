@@ -13,17 +13,11 @@ function StatisticsWidget({ range }) {
             <dt className="text-base font-normal text-gray-900">Active Subscriptions</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-                {data?.clients?.now ?? 0}
+                {data?.subscription_counts?.current ?? 0}
                 <span className="ml-2 text-sm font-medium text-gray-500">
-                  from {data?.clients?.previous ?? 0}
+                  from {data?.subscription_counts?.at_start ?? 0}
                 </span>
               </div>
-              {data?.clients?.change && (
-                <Percentage
-                  value={data.clients.change}
-                  positive={data.clients.positive}
-                />
-              )}
             </dd>
           </div>
         </div>
@@ -32,17 +26,11 @@ function StatisticsWidget({ range }) {
             <dt className="text-base font-normal text-gray-900">Revenue</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-                ${data?.sales?.now ?? 0}
+                ${data?.transaction_sums?.current_total_base_developer_proceeds ?? 0}
                 <span className="ml-2 text-sm font-medium text-gray-500">
-                  from ${data?.sales?.previous ?? 0}
+                  from ${data?.transaction_sums?.changed_total_base_developer_proceeds ?? 0}
                 </span>
               </div>
-              {data?.sales?.change && (
-                <Percentage
-                  value={data.sales.change}
-                  positive={data.sales.positive}
-                />
-              )}
             </dd>
           </div>
         </div>
@@ -51,17 +39,11 @@ function StatisticsWidget({ range }) {
             <dt className="text-base font-normal text-gray-900">Refunds</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-                ${data?.refunds?.now ?? 0}
+                ${data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0}
                 <span className="ml-2 text-sm font-medium text-gray-500">
-                  from ${data?.refunds?.previous ?? 0}
+                  from ${data?.transaction_sums?.changed_refund_base_developer_proceeds ?? 0}
                 </span>
               </div>
-              {data?.refunds?.change && (
-                <Percentage
-                  value={data.refunds.change}
-                  positive={data.refunds.positive}
-                />
-              )}
             </dd>
           </div>
         </div>

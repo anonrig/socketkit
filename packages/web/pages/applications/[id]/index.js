@@ -1,15 +1,17 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import dayjs from 'dayjs'
 import ApplicationLayout from '../../../layouts/custom/application'
 
 function ApplicationDashboard() {
+  const format = 'YYYY-MM-DD'
   const { id } = useRouter().query
-  const { data } = useSWR(`applications/${id}/statistics`)
+  const { data } = useSWR(`applications/${id}/statistics?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`)
   const { data: application } = useSWR(`applications/${id}`)
 
   return (
     <ApplicationLayout id={id}>
-      <aside className="space-y-4">
+      <aside className="space-y-6">
         <div className="flex flex-1 items-center space-x-4">
           <span>
             <img
@@ -39,11 +41,11 @@ function ApplicationDashboard() {
               <div className="flex items-center">
                 <div className="">
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    MRR
+                    Monthly Revenue
                   </dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
-                      ${data?.mrr ?? 0}
+                      ${(parseFloat(data?.transaction_sums?.current_total_base_developer_proceeds ?? 0) + parseFloat(data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0)).toFixed(2)}
                     </div>
                   </dd>
                 </div>
@@ -59,7 +61,7 @@ function ApplicationDashboard() {
                   </dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
-                      {data?.subscribers ?? 0}
+                      {data?.subscription_counts?.current ?? 0}
                     </div>
                   </dd>
                 </div>
@@ -75,7 +77,7 @@ function ApplicationDashboard() {
                   </dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
-                      {data?.trials ?? 0}
+                      {data?.subscription_counts.trial ?? 0}
                     </div>
                   </dd>
                 </div>
@@ -110,7 +112,7 @@ function ApplicationDashboard() {
               </div>
             </div>
 
-            <div className="overflow-y-scroll flex flex-row space-x-4 mt-4">
+            <div className="overflow-y-scroll flex flex-row items-center space-x-4 mt-4">
               {application?.screenshots?.default.map((link) => (
                 <img
                   className="w-48 rounded-lg object-contain"
@@ -123,7 +125,7 @@ function ApplicationDashboard() {
           </div>
         </div>
 
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white shadow rounded-lg">
           <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
             <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
               <div className="ml-4 mt-2">
