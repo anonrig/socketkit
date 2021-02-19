@@ -1,3 +1,11 @@
+# [1.2.0](https://gitlab.com/socketkit/web/compare/v1.1.0...v1.2.0) (2021-02-19)
+
+
+### Features
+
+* add initial implementation of reports ([5e27b5e](https://gitlab.com/socketkit/web/commit/5e27b5eab204978bb281ca2b51bcbfb562631b29))
+* **dashboard:** update dashboard and add active trials ([a7af151](https://gitlab.com/socketkit/web/commit/a7af15114e3947af364299428929739bc05f4024))
+
 # [1.1.0](https://gitlab.com/socketkit/web/compare/v1.0.8...v1.1.0) (2021-02-18)
 
 
