@@ -1,5 +1,4 @@
 import pg from '../pg.js'
-import store from 'app-store-scraper'
 import Logger from '../logger.js'
 
 export async function findAll({ application_ids, bundle_ids, developer_ids }) {
@@ -140,101 +139,119 @@ export async function findVersions({ application_id, bundle_id }) {
     .orderBy('v.released_at', 'desc')
 }
 
-export async function update({ application_id }, values, trx) {
-  return pg
-    .queryBuilder()
-    .update(values)
-    .from('applications')
-    .where({ application_id })
-    .transacting(trx)
-}
-
-export async function create({ application_id, country_id }, trx) {
-  const data = await store.app({ id: application_id, ratings: true })
+export async function create(scraped_app, country_id, trx) {
   const logger = Logger.create()
     .withScope('application-create')
-    .withTag(data.title)
+    .withTag(scraped_app.title)
 
   await pg
     .queryBuilder()
-    .insert({
-      developer_id: data.developerId,
-      name: data.developer,
-      store_url: data.developerUrl,
-      website: data.developerWebsite,
-    })
+    .transacting(trx)
     .into('developers')
+    .insert({
+      developer_id: scraped_app.developerId,
+      name: scraped_app.developer,
+      store_url: scraped_app.developerUrl,
+      website: scraped_app.developerWebsite,
+    })
     .onConflict(['developer_id'])
     .ignore()
-    .transacting(trx)
 
   logger.debug('Developer created')
 
-  // create application
-  await pg
-    .queryBuilder()
-    .insert({
-      application_id,
-      developer_id: data.developerId,
-      bundle_id: data.appId,
-      released_at: data.released,
-    })
-    .into('applications')
-    .onConflict(['application_id'])
-    .ignore()
-    .transacting(trx)
+  await pg.queryBuilder().transacting(trx).into('applications').insert({
+    application_id,
+    developer_id: scraped_app.developerId,
+    bundle_id: scraped_app.appId,
+    released_at: scraped_app.released,
+  })
 
   logger.debug('Application created')
 
-  // create application version if not exists
   await pg
     .queryBuilder()
-    .insert({
-      score: data.score,
-      reviews: data.reviews,
-      released_at: data.updated,
-      price: data.price,
-      release_notes: data.releaseNotes,
-      application_id: data.id,
-      country_id,
-      version: data.version,
-      title: data.title,
-      description: data.description,
-      icon: data.icon,
-      size: data.size,
-      required_os_version: data.requiredOsVersion,
-      store_url: data.url,
-      currency_id: data.currency,
-      languages: data.languages,
-      screenshots: {
-        default: data.screenshots ?? [],
-        ipad: data.ipadScreenshots ?? [],
-        appletv: data.appletvScreenshots ?? [],
-      },
-      website: data.website,
-      content_rating: data.contentRating,
-    })
+    .transacting(trx)
     .into('application_versions')
+    .insert(prepareApplicationVersion(scraped_app, country_id))
+
+  logger.debug('Application version created')
+
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .into('application_ratings')
+    .insert({
+      application_id: scraped_app.id,
+      country_id,
+      rating_histogram: Object.values(scraped_app.histogram),
+    })
+
+  logger.debug('Application rating created')
+}
+
+export async function upsertVersion(scraped_app, country_id, trx) {
+  const logger = Logger.create()
+    .withScope('application-version-upsert')
+    .withTag(scraped_app.title)
+
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .into('applications')
+    .where('application_id', scraped_app.id)
+    .update('last_fetch', pg.fn.now())
+
+  logger.debug('Application last_fetch updated')
+
+  await pg
+    .queryBuilder()
+    .into('application_versions')
+    .insert(prepareApplicationVersion(scraped_app, country_id))
     .onConflict(['application_id', 'country_id', 'version'])
     .ignore()
     .transacting(trx)
 
-  logger.debug('Application version created')
+  logger.debug('Application version upserted')
 
-  // update histogram
   await pg
     .queryBuilder()
-    .insert({
-      application_id: data.id,
-      country_id,
-      rating_histogram: Object.values(data.histogram),
-    })
-    .into('application_ratings')
-    .onConflict(['application_id', 'country_id'])
-    .merge()
     .transacting(trx)
+    .into('application_ratings')
+    .where({
+      application_id: scraped_app.id,
+      country_id,
+    })
+    .update({
+      rating_histogram: Object.values(scraped_app.histogram),
+    })
 
   logger.debug('Application rating updated')
+}
 
-  return {}
+function prepareApplicationVersion(scraped_app, country_id) {
+  return {
+    score: scraped_app.score,
+    reviews: scraped_app.reviews,
+    released_at: scraped_app.updated,
+    price: scraped_app.price,
+    release_notes: scraped_app.releaseNotes,
+    application_id: scraped_app.id,
+    country_id,
+    version: scraped_app.version,
+    title: scraped_app.title,
+    description: scraped_app.description,
+    icon: scraped_app.icon,
+    size: scraped_app.size,
+    required_os_version: scraped_app.requiredOsVersion,
+    store_url: scraped_app.url,
+    currency_id: scraped_app.currency,
+    languages: scraped_app.languages,
+    screenshots: {
+      default: scraped_app.screenshots ?? [],
+      ipad: scraped_app.ipadScreenshots ?? [],
+      appletv: scraped_app.appletvScreenshots ?? [],
+    },
+    website: scraped_app.website,
+    content_rating: scraped_app.contentRating,
+  }
 }

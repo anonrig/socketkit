@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import * as Applications from '../models/application.js'
 import * as Reviews from '../models/reviews.js'
 import pg from '../pg.js'
+import scraper from 'app-store-scraper'
 
 export default function fetchApplications(limit) {
   return pg.transaction(async (trx) => {
@@ -15,16 +16,13 @@ export default function fetchApplications(limit) {
       .transacting(trx)
 
     await Promise.all(
-      applications.map(({ application_id }) =>
-        Applications.create({ application_id, country_id: 'us' }, trx)
-          .then(() =>
-            Applications.update(
-              { application_id },
-              { last_fetch: dayjs() },
-              trx,
-            ),
-          )
-          .then(() =>
+      applications.map(
+        async ({ application_id }) =>
+          await Applications.upsertVersion(
+            await scraper.app({ id: application_id, ratings: true }),
+            'us',
+            trx,
+          ).then(() =>
             Reviews.create({ application_id, country_id: 'us' }, trx),
           ),
       ),
