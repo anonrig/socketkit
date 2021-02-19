@@ -1,3 +1,10 @@
+## [1.2.3](https://gitlab.com/socketkit/web/compare/v1.2.2...v1.2.3) (2021-02-19)
+
+
+### Bug Fixes
+
+* update core environment ([15e405a](https://gitlab.com/socketkit/web/commit/15e405a314b4365a18f4c7d314d27cb365f75781))
+
 ## [1.2.2](https://gitlab.com/socketkit/web/compare/v1.2.1...v1.2.2) (2021-02-19)
 
 
