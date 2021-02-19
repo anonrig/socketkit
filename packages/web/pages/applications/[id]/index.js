@@ -6,7 +6,7 @@ import ApplicationLayout from '../../../layouts/custom/application'
 function ApplicationDashboard() {
   const format = 'YYYY-MM-DD'
   const { id } = useRouter().query
-  const { data } = useSWR(`applications/${id}/statistics?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`)
+  const { data } = useSWR(`applications/${id}/statistics`)
   const { data: application } = useSWR(`applications/${id}`)
 
   return (
@@ -77,7 +77,7 @@ function ApplicationDashboard() {
                   </dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
-                      {data?.subscription_counts.trial ?? 0}
+                      {data?.subscription_counts.current_trial ?? 0}
                     </div>
                   </dd>
                 </div>
