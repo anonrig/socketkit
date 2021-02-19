@@ -26,6 +26,10 @@ service Integrations {
   rpc processDate (AccountProcessDateRequest) returns (Empty) {}
 }
 
+service Reports {
+  rpc trials(TrialReportRequest) returns (TrialReportResponse) {}
+}
+
 // Generics 
 
 message Empty {}
@@ -274,4 +278,25 @@ message AccountLatestScrapeResponse {
   string vendor_id = 2;
   string fetch_date = 3;
   bool successful = 4;
+}
+
+// Reports
+
+message TrialReportRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+}
+
+message TrialReportResponse {
+  repeated GraphResponse rows = 1; 
+}
+
+message GraphResponse {
+  string key = 1;
+  string value = 2;
+  oneof optional_previous_value {
+    string previous_value = 3;
+  }
 }

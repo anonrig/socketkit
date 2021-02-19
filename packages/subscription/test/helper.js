@@ -18,6 +18,7 @@ const {
   Subscriptions,
   Transactions,
   Integrations,
+  Reports,
 } = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
 )
@@ -27,4 +28,5 @@ export default {
   subscriptions: new Subscriptions(url, grpc.credentials.createInsecure()),
   transactions: new Transactions(url, grpc.credentials.createInsecure()),
   integrations: new Integrations(url, grpc.credentials.createInsecure()),
+  reports: new Reports(url, grpc.credentials.createInsecure()),
 }

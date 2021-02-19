@@ -16,6 +16,7 @@ export async function findByPk({ currency_id, exchange_date }) {
 
   const normalized = Object.keys(rates)
     .filter(
+      // These are the crypto-currencies we won't need on production.
       (currency_id) => !['XAG', 'XAU', 'ZMK', 'BTC'].includes(currency_id),
     )
     .map((currency_id) => ({
