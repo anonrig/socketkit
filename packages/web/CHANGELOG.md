@@ -1,3 +1,10 @@
+## [1.2.1](https://gitlab.com/socketkit/web/compare/v1.2.0...v1.2.1) (2021-02-19)
+
+
+### Bug Fixes
+
+* **build:** update package-lock ([e0081ab](https://gitlab.com/socketkit/web/commit/e0081ab3c44662bcd182a0401eea7c75e07e2d6c))
+
 # [1.2.0](https://gitlab.com/socketkit/web/compare/v1.1.0...v1.2.0) (2021-02-19)
 
 
