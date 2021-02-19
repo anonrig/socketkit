@@ -103,18 +103,37 @@ export default async function onProcessDate(
           vendor_id: vendorId,
           fetch_date: dayjs(date).format('YYYY-MM-DD'),
           successful: true,
-          payload: {},
+          payload: { message: error.message, status: 404 },
         })
         .into('vendor_fetch_logs')
         .onConflict(['account_id', 'vendor_id', 'fetch_date', 'successful'])
         .merge()
-        .transacting(trx)
       logger.debug('Could not find any transactions on Appstore')
+      throw error
     } else if (error.message.includes('401')) {
-      logger.warn('Permission denied')
+      await pg
+        .insert({
+          account_id,
+          vendor_id: vendorId,
+          fetch_date: dayjs(date).format('YYYY-MM-DD'),
+          successful: false,
+          payload: { message: error.message, status: 401 },
+        })
+        .into('vendor_fetch_logs')
+        .onConflict(['account_id', 'vendor_id', 'fetch_date', 'successful'])
+        .merge()
+      logger.fatal(
+        `Permission denied for account_id=${account_id} for date=${dayjs(
+          date,
+        ).format('YYYY-MM-DD')}`,
+      )
       throw error
     } else if (error.message.includes('400')) {
-      logger.warn('Bad request')
+      logger.info(
+        `Fetched data not available for account_id=${account_id} for date=${dayjs(
+          date,
+        ).format('YYYY-MM-DD')}`,
+      )
       throw error
     } else {
       logger.error(error)

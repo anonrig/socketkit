@@ -274,6 +274,10 @@ message AccessTokenRequest {
 }
 
 message AccountLatestScrapeResponse {
+  AccountScrape row = 1;
+}
+
+message AccountScrape {
   string account_id = 1;
   string vendor_id = 2;
   string fetch_date = 3;

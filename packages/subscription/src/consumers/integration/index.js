@@ -6,7 +6,9 @@ import pg from '../../pg.js'
 
 export const findLatestScrape = async (ctx) => {
   const { account_id } = ctx.req
-  ctx.res = await getLatestLog({ account_id })
+  ctx.res = {
+    row: await getLatestLog({ account_id }),
+  }
 }
 
 export const validate = async (ctx) => {

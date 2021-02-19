@@ -96,8 +96,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .select('*')
     .from('client_subscriptions')
     .where(primaryKeys)
-    .first()
     .transacting(trx)
+    .first()
 
   if (subscription) {
     if (free_trial_duration) {
