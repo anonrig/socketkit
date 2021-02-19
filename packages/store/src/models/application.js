@@ -189,16 +189,17 @@ export async function create(scraped_app, country_id, trx) {
   logger.debug('Application rating created')
 }
 
-export async function upsertVersion(scraped_app, country_id, trx) {
-  const logger = Logger.create()
-    .withScope('application-version-upsert')
-    .withTag(scraped_app.title)
+export async function upsertVersion(scraped_apps, country_id, trx) {
+  const logger = Logger.create().withScope('application-versions-upsert')
 
   await pg
     .queryBuilder()
     .transacting(trx)
     .into('applications')
-    .where('application_id', scraped_app.id)
+    .whereIn(
+      'application_id',
+      scraped_apps.map((a) => a.id),
+    )
     .update('last_fetch', pg.fn.now())
 
   logger.debug('Application last_fetch updated')
@@ -206,26 +207,25 @@ export async function upsertVersion(scraped_app, country_id, trx) {
   await pg
     .queryBuilder()
     .into('application_versions')
-    .insert(prepareApplicationVersion(scraped_app, country_id))
+    .insert(scraped_apps.map((a) => prepareApplicationVersion(a, country_id)))
     .onConflict(['application_id', 'country_id', 'version'])
     .ignore()
     .transacting(trx)
 
-  logger.debug('Application version upserted')
+  logger.debug('Application versions upserted')
 
-  await pg
-    .queryBuilder()
-    .transacting(trx)
-    .into('application_ratings')
-    .where({
-      application_id: scraped_app.id,
-      country_id,
-    })
-    .update({
-      rating_histogram: Object.values(scraped_app.histogram),
-    })
+  await Promise.all(
+    scraped_apps.map((s) =>
+      pg
+        .queryBuilder()
+        .transacting(trx)
+        .into('application_ratings')
+        .where({ application_id: s.id, country_id })
+        .update('rating_histogram', Object.values(s.histogram)),
+    ),
+  )
 
-  logger.debug('Application rating updated')
+  logger.debug('Application ratings updated')
 }
 
 function prepareApplicationVersion(scraped_app, country_id) {

@@ -15,18 +15,13 @@ export default function fetchApplications(limit) {
       .skipLocked()
       .transacting(trx)
 
-    await Promise.all(
-      applications.map(
-        async ({ application_id }) =>
-          await Applications.upsertVersion(
-            await scraper.app({ id: application_id, ratings: true }),
-            'us',
-            trx,
-          ).then(() =>
-            Reviews.create({ application_id, country_id: 'us' }, trx),
-          ),
+    const scraped_apps = await Promise.all(
+      applications.map(({ application_id }) =>
+        scraper.app({ id: application_id, ratings: true }),
       ),
     )
+
+    await Applications.upsertVersion(scraped_apps, 'us', trx)
 
     return applications.length
   })
