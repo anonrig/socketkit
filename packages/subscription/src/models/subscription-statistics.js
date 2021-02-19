@@ -56,12 +56,19 @@ export function count({ account_id, application_id, start_date, end_date }) {
     .select(
       [
         pg.raw('count(*) AS total'),
+        pg.raw('count(*) FILTER (WHERE active_period @> ?::date) AS current', [
+          end_date || 'today',
+        ]),
         pg.raw(
           'count(*) FILTER (' +
             ' WHERE lower(active_period) + free_trial_duration >= upper(active_period)' +
-            ' ) AS trial',
+            ') AS total_trial',
         ),
-        pg.raw('count(*) FILTER (WHERE active_period @> ?::date) AS current', [
+        pg.raw('count(*) FILTER (' +
+          ' WHERE lower(active_period) >= ?::date' +
+          ' AND lower(active_period) + free_trial_duration <= ?::date' +
+          ') AS current_trial', [
+          end_date || 'today',
           end_date || 'today',
         ]),
       ].concat(
@@ -70,6 +77,13 @@ export function count({ account_id, application_id, start_date, end_date }) {
               pg.raw(
                 'count(*) FILTER (WHERE active_period @> ?::date) AS at_start',
                 [start_date],
+              ),
+              pg.raw(
+                'count(*) FILTER (' +
+                  ' WHERE lower(active_period) >= ?::date' +
+                  ' AND lower(active_period) + free_trial_duration <= ?::date' +
+                  ') AS at_start_trial',
+                [start_date, start_date],
               ),
             ]
           : [],

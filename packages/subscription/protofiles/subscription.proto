@@ -172,9 +172,11 @@ message SubscriptionsGroupByCountry {
 
 message SubscriptionCounts {
   int32 total = 1;
-  int32 trial = 2;
+  int32 total_trial = 2;
   optional int32 at_start = 3;
-  int32 current = 4;
+  optional int32 at_start_trial = 4;
+  int32 current = 5;
+  int32 current_trial = 6;
 }
 
 // Transactions
