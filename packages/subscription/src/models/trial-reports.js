@@ -22,10 +22,12 @@ export default async function getFreeTrials({
   const rows = await pg
     .queryBuilder()
     .select({
-      key: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      value: 'l.client_count',
-      previous_value: pg.raw(
-        `COALESCE(lag(l.client_count) OVER (ORDER BY g), 0)`,
+      primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
+        interval.split(' ')[1],
+      ]),
+      secondary: pg.raw(`l.client_count::int`),
+      previous_secondary: pg.raw(
+        `COALESCE(lag(l.client_count) OVER (ORDER BY g), 0)::int`,
       ),
     })
     .from(
