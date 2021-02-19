@@ -1,7 +1,5 @@
 import f from 'fastify'
 
-import * as Sentry from '@sentry/node'
-
 import cors from 'fastify-cors'
 import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
@@ -86,7 +84,6 @@ server.get('/', async () => ({ status: 'up' }))
 
 server.addHook('onError', (request, reply, error, done) => {
   logger.error(error)
-  Sentry.captureException(error)
   done()
 })
 

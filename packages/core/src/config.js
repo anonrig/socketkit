@@ -12,8 +12,4 @@ export default {
     password: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT,
   },
-  sentry: {
-    dsn:
-      'https://57f40278635342e89eae2072e85624a6@o501595.ingest.sentry.io/5628037',
-  },
 }
