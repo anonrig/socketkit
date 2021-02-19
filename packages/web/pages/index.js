@@ -47,10 +47,10 @@ export default function Dashboard() {
           ranges={ranges}
         />
       </div>
-      <div className="space-y-8">
+      <section className="space-y-8">
         <StatisticsWidget range={selected} />
         <CountriesWidget range={selected} />
-      </div>
+      </section>
     </>
   )
 }

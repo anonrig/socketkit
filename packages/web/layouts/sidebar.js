@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function MultiColumnLayout({ leading, center }) {
+function SidebarLayout({ leading, children }) {
   return (
     <div className="flex-grow w-full max-w-7xl mx-auto lg:flex">
       <div className="flex-1 min-w-0 xl:flex">
@@ -18,7 +18,7 @@ function MultiColumnLayout({ leading, center }) {
               className="relative h-full space-y-6"
               style={{ minHeight: '36rem' }}
             >
-              {center}
+              {children}
             </div>
           </div>
         </div>
@@ -27,15 +27,15 @@ function MultiColumnLayout({ leading, center }) {
   )
 }
 
-MultiColumnLayout.propTypes = {
+SidebarLayout.propTypes = {
   leading: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  center: PropTypes.oneOfType([
+  children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
 }
 
-export default MultiColumnLayout
+export default SidebarLayout

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import logo from '../images/socketkit.svg'
+import logo from '../images/icon-socketkit.svg'
 import pkg from '../package.json'
 export default function Failed() {
   const { query } = useRouter()

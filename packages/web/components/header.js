@@ -30,6 +30,9 @@ function Header() {
               <Link href="/applications">
                 <a className="px-3 py-2 text-gray-900 text-sm font-medium">Applications</a>
               </Link>
+              <Link href="/reports">
+                <a className="px-3 py-2 text-gray-900 text-sm font-medium">Reports</a>
+              </Link>
               <Link href="/customers">
                 <a className="px-3 py-2 text-gray-900 text-sm font-medium">Customers</a>
               </Link>

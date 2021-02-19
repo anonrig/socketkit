@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
-import ActiveLink from '../../components/active-link.js'
+import ActiveLink from './active-link.js'
 
-function ApplicationLeadingMenu({ id }) {
+function Sidebar({ id }) {
   const activeClassName = 'bg-gray-50 text-orange-600 hover:text-orange-600'
 
   return (
@@ -95,12 +95,8 @@ function ApplicationLeadingMenu({ id }) {
   )
 }
 
-ApplicationLeadingMenu.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+Sidebar.propTypes = {
+  id: PropTypes.string,
 }
 
-export default ApplicationLeadingMenu
+export default Sidebar

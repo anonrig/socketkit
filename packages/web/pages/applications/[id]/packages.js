@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
-import Table from '../../../components/table/table.js'
-import { fetcher } from '../../../helpers/fetcher'
-import ApplicationLayout from '../../../layouts/custom/application.js'
+import Table from 'components/table/table.js'
+import { fetcher } from 'helpers/fetcher'
+import SidebarLayout from 'layouts/sidebar'
+import Sidebar from 'components/sidebar-application'
 
 /**
  * @param {import("next").NextPageContext} ctx 
@@ -30,7 +31,7 @@ export default function SubscriptionPackages({ initialData }) {
   )
 
   return (
-    <ApplicationLayout id={id}>
+    <SidebarLayout leading={<Sidebar id={id} />}>
       <div className="flex flex-1 justify-between mb-5 items-center">
         <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">
           Subscription Packages
@@ -47,7 +48,7 @@ export default function SubscriptionPackages({ initialData }) {
           key: original.subscription_package_id,
           onClick: () => {},
         })}
-        />
-    </ApplicationLayout>
+      />
+    </SidebarLayout>
   )
 }

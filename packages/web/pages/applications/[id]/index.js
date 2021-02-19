@@ -1,16 +1,15 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import dayjs from 'dayjs'
-import ApplicationLayout from '../../../layouts/custom/application'
+import SidebarLayout from '../../../layouts/sidebar.js'
+import Sidebar from '../../../components/sidebar-application.js'
 
 function ApplicationDashboard() {
-  const format = 'YYYY-MM-DD'
   const { id } = useRouter().query
   const { data } = useSWR(`applications/${id}/statistics`)
   const { data: application } = useSWR(`applications/${id}`)
 
   return (
-    <ApplicationLayout id={id}>
+    <SidebarLayout leading={<Sidebar id={id} />}>
       <aside className="space-y-6">
         <div className="flex flex-1 items-center space-x-4">
           <span>
@@ -141,7 +140,7 @@ function ApplicationDashboard() {
           </div>
         </div>
       </aside>
-    </ApplicationLayout>
+    </SidebarLayout>
   )
 }
 

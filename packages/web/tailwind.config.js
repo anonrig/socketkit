@@ -5,7 +5,7 @@ module.exports = {
     mode: 'all',
     enabled: true,
     content: ['components', 'helpers', 'images', 'layouts', 'pages']
-      .map(p => ['js', 'html'].map(e => `./${p}/**/*.${e}`))
+      .map(p => ['js'].map(e => `./${p}/**/*.${e}`))
       .flat(3)
       .concat([
         './node_modules/nprogress/**/*.js',
@@ -17,11 +17,6 @@ module.exports = {
     extend: {
       colors: {
         orange: colors.orange,
-        blueGray: colors.blueGray,
-        yellow: colors.yellow,
-        lime: colors.lime,
-        amber: colors.amber,
-        red: colors.red,
       },
       gridTemplateColumns: {
         3: 'repeat(3, minmax(0, 1fr))',

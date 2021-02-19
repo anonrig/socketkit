@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
-import DatePicker from '../../../components/date-picker'
-import TableBadge from '../../../components/table/badge'
-import Table from '../../../components/table/table'
-import { fetcher } from '../../../helpers/fetcher.js'
-import ApplicationLayout from '../../../layouts/custom/application.js'
+import DatePicker from 'components/date-picker'
+import TableBadge from 'components/table/badge'
+import Table from 'components/table/table'
+import { fetcher } from 'helpers/fetcher.js'
+import SidebarLayout from 'layouts/sidebar.js'
+import Sidebar from 'components/sidebar-application.js'
 
 /**
  * @param {import("next").NextPageContext} ctx 
@@ -79,7 +80,7 @@ export default function Transactions({ initialData }) {
   )
 
   return (
-    <ApplicationLayout id={id}>
+    <SidebarLayout leading={<Sidebar id={id} />}>
       <div className="flex flex-1 justify-between mb-5 items-center">
         <div className="flex-1 min-w-0">
           <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">
@@ -137,6 +138,6 @@ export default function Transactions({ initialData }) {
           className: 'hover:bg-gray-50 cursor-pointer',
         })}
       />
-    </ApplicationLayout>
+    </SidebarLayout>
   )
 }

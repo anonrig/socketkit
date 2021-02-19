@@ -64,6 +64,14 @@ function MobileMenu({ visible, setVisible, profile }) {
                   Applications
                 </a>
               </Link>
+              <Link href="/reports">
+                <a
+                  onClick={() => setVisible(false)}
+                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
+                >
+                  Reports
+                </a>
+              </Link>
               <Link href="/customers">
                 <a
                   onClick={() => setVisible(false)}
