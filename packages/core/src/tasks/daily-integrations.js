@@ -20,31 +20,37 @@ export default async function fetchAppstoreIntegration() {
 
   for (let integration of normalized) {
     try {
-      logger.info(`Processing integration ${integration.account_id}`)
-      const transaction = await rpc.integrations.findLatestScrape({
+      const scrape = await rpc.integrations.findLatestScrape({
         account_id: integration.account_id,
       })
 
-      if (!transaction) {
-        continue
-      }
+      if (!scrape.row) {
+        logger
+          .withTag('first-time')
+          .info(`Processing integration for ${integration.account_id}`)
 
-      const fetch_date = dayjs(transaction.fetch_date).toDate()
-      const dates = getDatesBetweenDates(fetch_date, new Date())
+        await rpc.integrations.create({
+          account_id: integration.account_id,
+          access_token: integration.access_token,
+        })
+      } else {
+        logger
+          .withTag('existing')
+          .info(`Processing integration for ${integration.account_id}`)
 
-      for (let date of dates) {
-        try {
-          await appstoreQueue.add({
+        const fetch_date = dayjs(scrape.row.fetch_date).toDate()
+        const dates = getDatesBetweenDates(fetch_date, new Date())
+
+        await appstoreQueue.addBulk(
+          dates.map((date) => ({
             name: 'process-date',
             data: {
               account_id: integration.account_id,
               date: dayjs(date).format('YYYY-MM-DD'),
               access_token: integration.access_token,
             },
-          })
-        } catch (error) {
-          logger.error(error)
-        }
+          })),
+        )
       }
     } catch (error) {
       logger.error(error)
