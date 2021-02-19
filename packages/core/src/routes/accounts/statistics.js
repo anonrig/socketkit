@@ -28,11 +28,12 @@ export default {
             type: 'object',
             properties: {
               total: { type: 'number' },
-              trial: { type: 'number' },
+              total_trial: { type: 'number' },
               at_start: { type: 'number' },
+              at_start_trial: { type: 'number' },
               current: { type: 'number' },
+              current_trial: { type: 'number' },
             },
-            required: ['total', 'trial', 'at_start', 'current'],
           },
           transaction_sums: {
             type: 'object',
@@ -68,8 +69,7 @@ export default {
       }),
       f.grpc.transactions.sum({
         account_id: account.account_id,
-        start_date:
-          dayjs(query.from)
+        start_date: dayjs(query.from)
           .add(dayjs(query.from).diff(dayjs(query.to)))
           .format('YYYY-MM-DD'),
         change_date: query.from,

@@ -26,6 +26,10 @@ service Integrations {
   rpc processDate (AccountProcessDateRequest) returns (Empty) {}
 }
 
+service Reports {
+  rpc trials(TrialReportRequest) returns (TrialReportResponse) {}
+}
+
 // Generics 
 
 message Empty {}
@@ -172,9 +176,11 @@ message SubscriptionsGroupByCountry {
 
 message SubscriptionCounts {
   int32 total = 1;
-  int32 trial = 2;
+  int32 total_trial = 2;
   optional int32 at_start = 3;
-  int32 current = 4;
+  optional int32 at_start_trial = 4;
+  int32 current = 5;
+  int32 current_trial = 6;
 }
 
 // Transactions
@@ -272,4 +278,25 @@ message AccountLatestScrapeResponse {
   string vendor_id = 2;
   string fetch_date = 3;
   bool successful = 4;
+}
+
+// Reports
+
+message TrialReportRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+}
+
+message TrialReportResponse {
+  repeated GraphResponse rows = 1; 
+}
+
+message GraphResponse {
+  string key = 1;
+  string value = 2;
+  oneof optional_previous_value {
+    string previous_value = 3;
+  }
 }
