@@ -298,9 +298,7 @@ message TrialReportResponse {
 }
 
 message GraphResponse {
-  string key = 1;
-  string value = 2;
-  oneof optional_previous_value {
-    string previous_value = 3;
-  }
+  string primary = 1;
+  int32 secondary = 2;
+  int32 previous_secondary = 3;
 }

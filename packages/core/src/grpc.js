@@ -21,6 +21,7 @@ const {
   Subscriptions,
   Transactions,
   Integrations,
+  Reports,
 } = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
 )
@@ -49,5 +50,8 @@ export default {
   ),
   store: promisifyAll(
     new Store(config.grpc.store, grpc.credentials.createInsecure()),
+  ),
+  reports: promisifyAll(
+    new Reports(config.grpc.subscription, grpc.credentials.createInsecure()),
   ),
 }
