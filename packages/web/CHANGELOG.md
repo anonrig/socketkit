@@ -1,3 +1,10 @@
+# [1.3.0](https://gitlab.com/socketkit/web/compare/v1.2.3...v1.3.0) (2021-02-20)
+
+
+### Features
+
+* **app:** introduce linting and fix reports styling ([5edf5bf](https://gitlab.com/socketkit/web/commit/5edf5bff98d0c955f8989b698e155bb168747b20))
+
 ## [1.2.3](https://gitlab.com/socketkit/web/compare/v1.2.2...v1.2.3) (2021-02-19)
 
 
