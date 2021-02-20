@@ -6,6 +6,7 @@ import helmet from 'fastify-helmet'
 import tracer from 'cls-rtracer'
 import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
+import jaeger from 'fastify-jaeger'
 import qs from 'qs'
 
 import health from './health.js'
@@ -46,6 +47,13 @@ const server = f({
 
 addSchemas(server)
 
+server.register(jaeger, {
+  serviceName: 'core-worker',
+  reporter: {
+    collectorEndpoint:
+      'http://linkerd-jaeger.linkerd.svc.cluster.local:14268/api/traces',
+  },
+})
 server.register(grpc)
 server.register(sensible)
 server.register(auth)
