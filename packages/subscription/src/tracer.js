@@ -6,7 +6,12 @@ import { SimpleSpanProcessor } from '@opentelemetry/tracing'
 const provider = new NodeTracerProvider({
   plugins: {
     knex: {
+      enabled: true,
       path: '@myrotvorets/opentelemetry-plugin-knex',
+    },
+    '@grpc/grpc-js': {
+      enabled: true,
+      path: '@opentelemetry/plugin-grpc-js',
     },
   },
 })
