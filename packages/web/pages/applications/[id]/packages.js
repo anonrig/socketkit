@@ -6,13 +6,13 @@ import SidebarLayout from 'layouts/sidebar'
 import Sidebar from 'components/sidebar-application'
 
 /**
- * @param {import("next").NextPageContext} ctx 
+ * @param {import("next").NextPageContext} ctx
  */
 export async function getServerSideProps(ctx) {
   const { id } = ctx.query
   const { cookie, referer } = ctx.req?.headers ?? {}
   const initialData = await fetcher(`applications/${id}/packages?limit=10`, {
-    headers: { cookie, referer }
+    headers: { cookie, referer },
   })
   return {
     props: { initialData },

@@ -8,8 +8,7 @@ function Panel({ isVisible, setVisible, title, subtitle, children }) {
       className={cx('fixed inset-0 overflow-hidden', {
         'pointer-events-none': !isVisible,
         'pointer-events-auto': isVisible,
-      })}
-    >
+      })}>
       <div className="absolute inset-0 overflow-hidden">
         <Transition
           show={isVisible}
@@ -19,18 +18,15 @@ function Panel({ isVisible, setVisible, title, subtitle, children }) {
           leave="ease-in-out duration-500"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-          className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-        >
+          className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
           <div
             className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-            aria-hidden="true"
-          ></div>
+            aria-hidden="true"></div>
         </Transition>
 
         <section
           className="absolute inset-y-0 right-0 pl-10 max-w-full flex"
-          aria-labelledby="slide-over-heading"
-        >
+          aria-labelledby="slide-over-heading">
           <Transition
             show={isVisible}
             enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -39,22 +35,17 @@ function Panel({ isVisible, setVisible, title, subtitle, children }) {
             leave="transform transition ease-in-out duration-500 sm:duration-700"
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
-            className="w-screen max-w-lg"
-          >
+            className="w-screen max-w-lg">
             <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
               <div className="py-6 px-4 bg-orange-700 sm:px-6">
                 <div className="flex items-center justify-between">
-                  <h2
-                    id="slide-over-heading"
-                    className="text-lg font-medium text-white"
-                  >
+                  <h2 id="slide-over-heading" className="text-lg font-medium text-white">
                     {title}
                   </h2>
                   <div className="ml-3 h-7 flex items-center">
                     <button
                       onClick={() => setVisible(false)}
-                      className="bg-orange-700 rounded-md text-orange-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                    >
+                      className="bg-orange-700 rounded-md text-orange-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                       <span className="sr-only">Close panel</span>
                       <svg
                         className="h-6 w-6"
@@ -62,8 +53,7 @@ function Panel({ isVisible, setVisible, title, subtitle, children }) {
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        aria-hidden="true"
-                      >
+                        aria-hidden="true">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -101,10 +91,7 @@ Panel.propTypes = {
   setVisible: PropTypes.func,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 }
 
 export default Panel

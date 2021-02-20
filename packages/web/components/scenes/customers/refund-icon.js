@@ -6,8 +6,7 @@ export default function RefundIcon() {
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
-        className="h-5 w-5 text-white"
-      >
+        className="h-5 w-5 text-white">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"

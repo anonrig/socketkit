@@ -36,16 +36,10 @@ export default function Dashboard() {
           <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">
             Good morning, {session?.identity.traits.name?.split(' ')[0]}!
           </h3>
-          <p className="text-xl text-gray-400">
-            Understand your audience better.
-          </p>
+          <p className="text-xl text-gray-400">Understand your audience better.</p>
         </div>
 
-        <RangePicker
-          selected={selected}
-          setSelected={setSelected}
-          ranges={ranges}
-        />
+        <RangePicker selected={selected} setSelected={setSelected} ranges={ranges} />
       </div>
       <section className="space-y-8">
         <StatisticsWidget range={selected} />

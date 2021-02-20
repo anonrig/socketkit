@@ -1,9 +1,9 @@
-import Banner from '../components/banner.js'
-import Footer from '../components/footer.js'
-import Header from '../components/header.js'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import Container from '../components/container.js'
+import Banner from 'components/banner.js'
+import Footer from 'components/footer.js'
+import Header from 'components/header.js'
+import Container from 'components/container.js'
 
 function AuthorizedLayout({ children }) {
   const { data: integrations } = useSWR('users/me/integrations')
@@ -11,9 +11,7 @@ function AuthorizedLayout({ children }) {
   return (
     <>
       <Header />
-      <Container>
-        {children}
-      </Container>
+      <Container>{children}</Container>
       <Footer />
 
       {integrations && integrations?.length === 0 && (
@@ -28,10 +26,7 @@ function AuthorizedLayout({ children }) {
 }
 
 AuthorizedLayout.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 }
 
 export default AuthorizedLayout

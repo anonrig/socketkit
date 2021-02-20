@@ -14,10 +14,7 @@ function SidebarLayout({ leading, children }) {
 
         <div className="lg:min-w-0 lg:flex-1">
           <div className="h-full py-6 px-4 sm:px-6 lg:px-8">
-            <div
-              className="relative h-full space-y-6"
-              style={{ minHeight: '36rem' }}
-            >
+            <div className="relative h-full space-y-6" style={{ minHeight: '36rem' }}>
               {children}
             </div>
           </div>
@@ -28,14 +25,8 @@ function SidebarLayout({ leading, children }) {
 }
 
 SidebarLayout.propTypes = {
-  leading: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  leading: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 }
 
 export default SidebarLayout

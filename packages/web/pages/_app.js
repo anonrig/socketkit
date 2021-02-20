@@ -14,11 +14,12 @@ import AuthorizedLayout from '../layouts/authorized.js'
 import 'nprogress/nprogress.css'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
+import '../styles/index.css'
 
 Progress.configure({ easing: 'ease', speed: 800 })
 
-router.events.on('routeChangeStart', () => Progress.start()) 
-router.events.on('routeChangeComplete', () => Progress.done()) 
+router.events.on('routeChangeStart', () => Progress.start())
+router.events.on('routeChangeComplete', () => Progress.done())
 router.events.on('routeChangeError', () => Progress.done())
 
 function MyApp({ Component, pageProps }) {
@@ -53,10 +54,10 @@ function MyApp({ Component, pageProps }) {
     <>
       <DefaultSeo
         openGraph={{
-          type: "website",
-          locale: "en_US",
-          url: "https://web.socketkit.com/",
-          site_name: "Socketkit, Inc.",
+          type: 'website',
+          locale: 'en_US',
+          url: 'https://web.socketkit.com/',
+          site_name: 'Socketkit, Inc.',
         }}
         titleTemplate="%s - Socketkit, Inc."
         title="Subscription Management & Mobile Tracking"
@@ -68,8 +69,7 @@ function MyApp({ Component, pageProps }) {
           refreshInterval: 60000,
           refreshWhenHidden: true,
           fetcher,
-        }}
-      >
+        }}>
         <AuthContext.Provider value={{ session }}>
           <Layout>
             <Component {...pageProps} />

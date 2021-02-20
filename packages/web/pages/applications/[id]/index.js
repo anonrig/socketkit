@@ -27,8 +27,7 @@ function ApplicationDashboard() {
 
             <a
               href={application?.store_url}
-              className="flex flex-row space-x-4 text-sm text-gray-500"
-            >
+              className="flex flex-row space-x-4 text-sm text-gray-500">
               Visit on store
             </a>
           </div>
@@ -39,12 +38,18 @@ function ApplicationDashboard() {
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="">
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Monthly Revenue
-                  </dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Monthly Revenue</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
-                      ${(parseFloat(data?.transaction_sums?.current_total_base_developer_proceeds ?? 0) + parseFloat(data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0)).toFixed(2)}
+                      $
+                      {(
+                        parseFloat(
+                          data?.transaction_sums?.current_total_base_developer_proceeds ?? 0,
+                        ) +
+                        parseFloat(
+                          data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0,
+                        )
+                      ).toFixed(2)}
                     </div>
                   </dd>
                 </div>
@@ -55,9 +60,7 @@ function ApplicationDashboard() {
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="">
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Active Subscribers
-                  </dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Active Subscribers</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
                       {data?.subscription_counts?.current ?? 0}
@@ -71,9 +74,7 @@ function ApplicationDashboard() {
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="">
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Active Trials
-                  </dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Active Trials</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
                       {data?.subscription_counts.current_trial ?? 0}
@@ -87,9 +88,7 @@ function ApplicationDashboard() {
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
                 <div className="">
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Latest Version
-                  </dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Latest Version</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
                       {application?.version}
@@ -105,9 +104,7 @@ function ApplicationDashboard() {
           <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
             <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
               <div className="ml-4 mt-2">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Screenshots
-                </h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Screenshots</h3>
               </div>
             </div>
 
@@ -128,14 +125,17 @@ function ApplicationDashboard() {
           <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
             <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
               <div className="ml-4 mt-2">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Description
-                </h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Description</h3>
               </div>
             </div>
 
             <div className="mt-4 text-sm whitespace-pre-wrap">
-              {application?.description.split('\n').map((item, key) => (<span key={key}>{item}<br/></span>))}
+              {application?.description.split('\n').map((item, key) => (
+                <span key={key}>
+                  {item}
+                  <br />
+                </span>
+              ))}
             </div>
           </div>
         </div>

@@ -9,11 +9,12 @@ function HeaderLink({ children, to, active, className }) {
 
   return (
     <Link href={to}>
-      <a className={cx(
-        'rounded-md py-2 px-3 items-center text-sm font-medium',
-        className,
-        classnames,
-      )}>
+      <a
+        className={cx(
+          'rounded-md py-2 px-3 items-center text-sm font-medium',
+          className,
+          classnames,
+        )}>
         {children}
       </a>
     </Link>

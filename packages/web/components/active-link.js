@@ -1,15 +1,24 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
-export default function ActiveLink({ children, className, activeClassName, exact = false, href }) {
+function ActiveLink({ children, className, activeClassName, exact = false, href }) {
   const { asPath } = useRouter()
   const isActive = exact ? asPath === href : asPath.includes(href)
   return (
     <Link href={href}>
-      <a className={cx(className, isActive ? activeClassName : null)}>
-        {children}
-      </a>
+      <a className={cx(className, isActive ? activeClassName : null)}>{children}</a>
     </Link>
   )
 }
+
+ActiveLink.propTypes = {
+  children: PropTypes.oneOf([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  className: PropTypes.string.isRequired,
+  activeClassName: PropTypes.string.isRequired,
+  exact: PropTypes.bool,
+  href: PropTypes.string.isRequired,
+}
+
+export default ActiveLink

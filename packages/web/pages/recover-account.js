@@ -6,9 +6,9 @@ import Button from '../components/form/button.js'
 import logo from '../images/icon-socketkit.svg'
 
 /**
- * @param {import("next").NextPageContext} ctx 
+ * @param {import("next").NextPageContext} ctx
  */
- export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
   const redirect = () => {
@@ -17,7 +17,9 @@ import logo from '../images/icon-socketkit.svg'
     return { props: {} }
   }
 
-  if (!flow) { return redirect() }
+  if (!flow) {
+    return redirect()
+  }
 
   try {
     const { data } = await client.getSelfServiceRecoveryFlow(flow)
@@ -41,9 +43,7 @@ export default function RecoverAccount({ kratos }) {
     <>
       <div>
         <img alt="Socketkit, Inc." className="h-12 w-auto" src={logo} />
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          Recover Account
-        </h2>
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Recover Account</h2>
       </div>
       <div className="mt-8">
         <div className="mt-6">
@@ -63,8 +63,7 @@ export default function RecoverAccount({ kratos }) {
               {messages.map((message) => (
                 <p
                   key={message.id}
-                  className="font-medium text-sm mt-2 text-center text-orange-600"
-                >
+                  className="font-medium text-sm mt-2 text-center text-orange-600">
                   {message.text}
                 </p>
               ))}
@@ -75,8 +74,7 @@ export default function RecoverAccount({ kratos }) {
               </Button>
               <a
                 className="text-sm text-gray-700 w-full flex justify-center pt-4"
-                href={endpoints.login}
-              >
+                href={endpoints.login}>
                 Go back to login
               </a>
             </div>

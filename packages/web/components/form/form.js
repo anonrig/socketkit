@@ -30,10 +30,7 @@ function Form({
         ))}
       <div>
         {messages?.map((message) => (
-          <p
-            key={message.id}
-            className="font-medium text-sm mt-2 text-center text-orange-600"
-          >
+          <p key={message.id} className="font-medium text-sm mt-2 text-center text-orange-600">
             {message.text}
           </p>
         ))}

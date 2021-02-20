@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 
-// import Spinner from '../../styles/animations/spinner'
-
 function Button({ loading, children, ...props }) {
   return (
     <button
@@ -11,9 +9,7 @@ function Button({ loading, children, ...props }) {
       )}
       disabled={loading}
       type={props.type ?? 'submit'}
-      {...props}
-    >
-      {/* {loading ? <Spinner /> : children} */}
+      {...props}>
       {children}
     </button>
   )
@@ -21,10 +17,7 @@ function Button({ loading, children, ...props }) {
 
 Button.propTypes = {
   loading: PropTypes.bool.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   type: PropTypes.any,
 }
 export default Button

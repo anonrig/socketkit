@@ -14,8 +14,7 @@ function RangePicker({ selected, setSelected, ranges }) {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className="-mr-1 ml-2 h-5 w-5"
-            >
+              className="-mr-1 ml-2 h-5 w-5">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -31,12 +30,10 @@ function RangePicker({ selected, setSelected, ranges }) {
             enterTo="transform opacity-100 scale-100"
             leave="transition duration-75 ease-out"
             leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
+            leaveTo="transform opacity-0 scale-95">
             <Menu.Items
               className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-              static
-            >
+              static>
               {ranges.map((range) => (
                 <Menu.Item key={range.key}>
                   {({ active }) => (
@@ -45,8 +42,7 @@ function RangePicker({ selected, setSelected, ranges }) {
                       className={cx(
                         'flex justify-between w-full px-4 py-2 text-sm trailing-5',
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      )}
-                    >
+                      )}>
                       {range.title}
                     </a>
                   )}

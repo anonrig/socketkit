@@ -5,9 +5,9 @@ import { endpoints } from '../helpers/kratos.js'
 import Form from '../components/form/form.js'
 
 /**
- * @param {import("next").NextPageContext} ctx 
+ * @param {import("next").NextPageContext} ctx
  */
- export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
   const redirect = () => {
@@ -16,7 +16,9 @@ import Form from '../components/form/form.js'
     return { props: {} }
   }
 
-  if (!flow) { return redirect() }
+  if (!flow) {
+    return redirect()
+  }
 
   try {
     const { data } = await client.getSelfServiceRegistrationFlow(flow)
@@ -38,9 +40,7 @@ export default function SignUp({ kratos }) {
     <>
       <div>
         <img alt="Socketkit, Inc." className="h-12 w-auto" src={logo} />
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          Create an account
-        </h2>
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Create an account</h2>
       </div>
       <div className="mt-8">
         <Form

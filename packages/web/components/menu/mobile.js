@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import { Transition } from "@headlessui/react";
-import Link from "next/link";
-import logo from "../../images/logo-socketkit-color.svg";
-import { endpoints } from "../../helpers/kratos.js";
+import PropTypes from 'prop-types'
+import { Transition } from '@headlessui/react'
+import Link from 'next/link'
+import logo from '../../images/logo-socketkit-color.svg'
+import { endpoints } from '../../helpers/kratos.js'
 
 function MobileMenu({ visible, setVisible, profile }) {
   return (
@@ -13,8 +13,7 @@ function MobileMenu({ visible, setVisible, profile }) {
       leave="duration-150 ease-in"
       leaveFrom="opacity-100 scale-100"
       leaveTo="opacity-0 scale-95"
-      show={visible}
-    >
+      show={visible}>
       <div className="z-30 absolute top-0 right-0 max-w-none w-full p-2 transition transform origin-top lg:hidden">
         <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y divide-gray-200">
           <div className="pt-3 pb-2">
@@ -26,8 +25,7 @@ function MobileMenu({ visible, setVisible, profile }) {
                 <button
                   className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                   type="button"
-                  onClick={() => setVisible(false)}
-                >
+                  onClick={() => setVisible(false)}>
                   <span className="sr-only">Close menu</span>
                   <svg
                     aria-hidden="true"
@@ -35,8 +33,7 @@ function MobileMenu({ visible, setVisible, profile }) {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M6 18L18 6M6 6l12 12"
                       strokeLinecap="round"
@@ -49,36 +46,32 @@ function MobileMenu({ visible, setVisible, profile }) {
             </div>
             <div className="mt-3 px-2 space-y-1">
               <Link href="/">
-                <a
+                <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                >
+                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Dashboard
-                </a>
+                </button>
               </Link>
               <Link href="/applications">
-                <a
+                <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                >
+                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Applications
-                </a>
+                </button>
               </Link>
               <Link href="/reports">
-                <a
+                <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                >
+                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Reports
-                </a>
+                </button>
               </Link>
               <Link href="/customers">
-                <a
+                <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                >
+                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Customers
-                </a>
+                </button>
               </Link>
             </div>
           </div>
@@ -90,8 +83,7 @@ function MobileMenu({ visible, setVisible, profile }) {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     strokeLinecap="round"
@@ -101,12 +93,8 @@ function MobileMenu({ visible, setVisible, profile }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <div className="text-base font-medium text-gray-800">
-                  {profile?.traits.name}
-                </div>
-                <div className="text-sm font-medium text-gray-500">
-                  {profile?.traits.email}
-                </div>
+                <div className="text-base font-medium text-gray-800">{profile?.traits.name}</div>
+                <div className="text-sm font-medium text-gray-500">{profile?.traits.email}</div>
               </div>
               <button className="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 <span className="sr-only">View notifications</span>
@@ -116,8 +104,7 @@ function MobileMenu({ visible, setVisible, profile }) {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                     strokeLinecap="round"
@@ -129,27 +116,24 @@ function MobileMenu({ visible, setVisible, profile }) {
             </div>
             <div className="mt-3 px-2 space-y-1">
               <Link href="/settings/account">
-                <a
+                <button
                   className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                  onClick={() => setVisible(false)}
-                >
+                  onClick={() => setVisible(false)}>
                   Account
-                </a>
+                </button>
               </Link>
               <Link href="/settings/integrations">
-                <a
+                <button
                   className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                  onClick={() => setVisible(false)}
-                >
+                  onClick={() => setVisible(false)}>
                   Integrations
-                </a>
+                </button>
               </Link>
-              <a
+              <button
                 href={endpoints.logout}
-                className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-              >
+                className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                 Log out
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -160,7 +144,7 @@ function MobileMenu({ visible, setVisible, profile }) {
         onClick={() => setVisible(false)}
       />
     </Transition>
-  );
+  )
 }
 
 MobileMenu.propTypes = {
@@ -171,6 +155,6 @@ MobileMenu.propTypes = {
     last_name: PropTypes.string,
     email: PropTypes.string,
   }),
-};
+}
 
-export default MobileMenu;
+export default MobileMenu

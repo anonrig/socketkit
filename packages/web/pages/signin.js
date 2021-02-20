@@ -8,7 +8,7 @@ import { endpoints } from '../helpers/kratos.js'
 import logo from '../images/icon-socketkit.svg'
 
 /**
- * @param {import("next").NextPageContext} ctx 
+ * @param {import("next").NextPageContext} ctx
  */
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
@@ -19,7 +19,9 @@ export async function getServerSideProps(ctx) {
     return { props: {} }
   }
 
-  if (!flow) { return redirect() }
+  if (!flow) {
+    return redirect()
+  }
 
   try {
     const { data } = await client.getSelfServiceLoginFlow(flow)
@@ -42,12 +44,12 @@ export default function SignIn({ kratos }) {
     <>
       <div>
         <img alt="Socketkit, Inc." className="h-12 w-auto" src={logo} />
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
         <p className="mt-2 text-sm text-gray-600 max-w">
           Or
-          <a className="font-medium text-orange-600 hover:text-orange-500 px-2" href={endpoints.register}>
+          <a
+            className="font-medium text-orange-600 hover:text-orange-500 px-2"
+            href={endpoints.register}>
             start your 14-day free trial
           </a>
         </p>
@@ -56,22 +58,18 @@ export default function SignIn({ kratos }) {
         <LoginProviderForm {...oidc} />
 
         <div className="mt-6 relative">
-          <div
-            className="absolute inset-0 flex items-center"
-            aria-hidden="true"
-          >
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              Or continue with
-            </span>
+            <span className="px-2 bg-white text-gray-500">Or continue with</span>
           </div>
         </div>
 
         <div className="mt-6">
           <form className="space-y-6" action={action} method={method}>
-            {fields?.map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
+            {fields
+              ?.map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
               .sort((a, b) => a.order - b.order)
               .map((field) => (
                 <FormField
@@ -88,14 +86,13 @@ export default function SignIn({ kratos }) {
                   name="remember_me"
                   type="checkbox"
                 />
-                <label
-                  className="ml-2 block text-sm text-gray-900"
-                  htmlFor="remember_me"
-                >
+                <label className="ml-2 block text-sm text-gray-900" htmlFor="remember_me">
                   Remember me
                 </label>
               </div>
-              <a href={endpoints.recover} className="font-medium text-orange-600 hover:text-orange-500 text-sm">
+              <a
+                href={endpoints.recover}
+                className="font-medium text-orange-600 hover:text-orange-500 text-sm">
                 Forgot your password?
               </a>
             </div>
@@ -104,8 +101,7 @@ export default function SignIn({ kratos }) {
               {messages?.map((message) => (
                 <p
                   key={message.id}
-                  className="font-medium text-sm mt-2 text-center text-orange-600"
-                >
+                  className="font-medium text-sm mt-2 text-center text-orange-600">
                   {message.text}
                 </p>
               ))}

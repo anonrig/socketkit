@@ -1,10 +1,9 @@
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-
-import { averageRating } from '../../helpers/index.js'
-import Table from '../../components/table/table.js'
-import { fetcher } from '../../helpers/fetcher.js'
+import { averageRating } from 'helpers/index.js'
+import Table from 'components/table/table.js'
+import { fetcher } from 'helpers/fetcher.js'
 
 export default function Applications({ initialData }) {
   const router = useRouter()
@@ -15,11 +14,7 @@ export default function Applications({ initialData }) {
         accessor: function NameAccessor(field) {
           return (
             <div className="flex items-center">
-              <img
-                src={field.icon}
-                className="h-8 w-8 mr-2"
-                alt={field.title}
-              />
+              <img src={field.icon} className="h-8 w-8 mr-2" alt={field.title} />
               {field.title ?? field.application_id}
             </div>
           )
@@ -37,8 +32,7 @@ export default function Applications({ initialData }) {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className="h-4 w-4 mr-1 text-orange-600"
-                >
+                  className="h-4 w-4 mr-1 text-orange-600">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -56,7 +50,7 @@ export default function Applications({ initialData }) {
         Header: 'Current Version',
         accessor: function CurrentVersionAccessor(field) {
           return field.version ?? 'Removed from Sale'
-        }
+        },
       },
       {
         Header: 'Released On',
@@ -78,9 +72,7 @@ export default function Applications({ initialData }) {
     <>
       <div className="flex flex-1 justify-between mb-5 items-center">
         <div className="flex-1 min-w-0">
-          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">
-            Applications
-          </h3>
+          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">Applications</h3>
         </div>
       </div>
       <Table
@@ -92,8 +84,7 @@ export default function Applications({ initialData }) {
         columns={columns}
         getRowProps={({ original }) => ({
           key: original.application_id,
-          onClick: () =>
-            router.push(`/applications/${original.application_id}`),
+          onClick: () => router.push(`/applications/${original.application_id}`),
         })}
       />
     </>
@@ -103,7 +94,7 @@ export default function Applications({ initialData }) {
 export async function getServerSideProps(ctx) {
   const { cookie, referer } = ctx.req?.headers ?? {}
   const initialData = await fetcher(`applications?limit=10`, {
-    headers: { cookie, referer }
+    headers: { cookie, referer },
   })
   return {
     props: { initialData },

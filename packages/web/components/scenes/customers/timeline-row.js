@@ -19,16 +19,13 @@ function TimelineRow({
     if (transaction_type === 'refund') {
       return (
         <p className="text-sm text-gray-500">
-          Refund accepted for{' '}
-          <span className="font-medium text-gray-900">{price}$</span>
+          Refund accepted for <span className="font-medium text-gray-900">{price}$</span>
         </p>
       )
     } else if (transaction_type === 'renewal') {
       return (
         <p className="text-sm text-gray-500">
-          Renewed for{' '}
-          <span className="font-medium text-gray-900">{price}$</span> and
-          proceeded{' '}
+          Renewed for <span className="font-medium text-gray-900">{price}$</span> and proceeded{' '}
           <span className="font-medium text-gray-900">{proceed}$</span>
         </p>
       )
@@ -37,9 +34,7 @@ function TimelineRow({
         <p className="text-sm text-gray-500">
           Started free trial{' '}
           <Link href={`/subscriptions/${subscription_package_id}`}>
-            <a className="font-medium text-gray-900">
-              {subscription_package_name}
-            </a>
+            <a className="font-medium text-gray-900">{subscription_package_name}</a>
           </Link>
         </p>
       )

@@ -1,13 +1,12 @@
 import dayjs from 'dayjs'
-import TimelineRow from '../../components/scenes/customers/timeline-row.js'
-import SubscriptionRow from '../../components/scenes/customers/subscription-row.js'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import TimelineRow from 'components/scenes/customers/timeline-row.js'
+import SubscriptionRow from 'components/scenes/customers/subscription-row.js'
 
 export default function CustomerDetail() {
-  // @ts-ignore
   const { id } = useRouter().query
-  
+
   const { data: customer } = useSWR(`customers/${id}`)
   const { data: transactions } = useSWR(`customers/${id}/transactions`)
   const { data: subscriptions } = useSWR(`customers/${id}/subscriptions`)
@@ -22,10 +21,7 @@ export default function CustomerDetail() {
               Member since{' '}
               <time
                 className="text-gray-900"
-                dateTime={dayjs(customer?.first_interaction).format(
-                  'YYYY-MM-DD',
-                )}
-              >
+                dateTime={dayjs(customer?.first_interaction).format('YYYY-MM-DD')}>
                 {dayjs(customer?.first_interaction).format('DD/MM/YYYY')}
               </time>
             </p>
@@ -37,49 +33,30 @@ export default function CustomerDetail() {
           <section aria-labelledby="subscriptions-title">
             <div className="bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
-                <h2 className="text-lg leading-6 font-medium text-gray-900">
-                  Properties
-                </h2>
+                <h2 className="text-lg leading-6 font-medium text-gray-900">Properties</h2>
               </div>
               <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                 <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                   <div className="sm:col-span-1">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Device - Provider
-                    </dt>
+                    <dt className="text-sm font-medium text-gray-500">Device - Provider</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {customer?.device_type_name ?? '-'}{' '}
-                      {customer?.provider_name}
+                      {customer?.device_type_name ?? '-'} {customer?.provider_name}
                     </dd>
                   </div>
                   <div className="sm:col-span-1">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Country
-                    </dt>
+                    <dt className="text-sm font-medium text-gray-500">Country</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer?.country_name ?? '-'}</dd>
+                  </div>
+                  <div className="sm:col-span-1">
+                    <dt className="text-sm font-medium text-gray-500">Total Sales</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {customer?.country_name ?? '-'}
+                      {parseFloat(customer?.total_base_client_purchase ?? '0.00').toFixed(2)}$
                     </dd>
                   </div>
                   <div className="sm:col-span-1">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Total Sales
-                    </dt>
+                    <dt className="text-sm font-medium text-gray-500">Total Revenue</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {parseFloat(
-                        customer?.total_base_client_purchase ?? '0.00',
-                      ).toFixed(2)}
-                      $
-                    </dd>
-                  </div>
-                  <div className="sm:col-span-1">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Total Revenue
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      {parseFloat(
-                        customer?.total_base_developer_proceeds ?? '0.00',
-                      ).toFixed(2)}
-                      $
+                      {parseFloat(customer?.total_base_developer_proceeds ?? '0.00').toFixed(2)}$
                     </dd>
                   </div>
                 </dl>
@@ -91,18 +68,13 @@ export default function CustomerDetail() {
               <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                 <div className="divide-y divide-gray-200">
                   <div className="px-4 py-5 sm:px-6">
-                    <h2 className="text-lg font-medium text-gray-900">
-                      Subscriptions
-                    </h2>
+                    <h2 className="text-lg font-medium text-gray-900">Subscriptions</h2>
                   </div>
                   <div>
                     <ul className="divide-y divide-gray-200">
                       <li>
                         {subscriptions?.map((s) => (
-                          <SubscriptionRow
-                            key={s.subscription_package_id}
-                            {...s}
-                          />
+                          <SubscriptionRow key={s.subscription_package_id} {...s} />
                         ))}
                       </li>
                     </ul>

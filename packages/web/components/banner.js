@@ -1,5 +1,5 @@
-import Link from "next/link";
-import PropTypes from "prop-types";
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function Banner({ shortMessage, longMessage, destination }) {
   return (
@@ -15,8 +15,7 @@ function Banner({ shortMessage, longMessage, destination }) {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
                     strokeLinecap="round"
@@ -40,8 +39,7 @@ function Banner({ shortMessage, longMessage, destination }) {
             <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
               <button
                 className="-mr-1 flex p-2 rounded-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-white"
-                type="button"
-              >
+                type="button">
                 <span className="sr-only">Dismiss</span>
                 <svg
                   aria-hidden="true"
@@ -49,8 +47,7 @@ function Banner({ shortMessage, longMessage, destination }) {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M6 18L18 6M6 6l12 12"
                     strokeLinecap="round"
@@ -64,13 +61,13 @@ function Banner({ shortMessage, longMessage, destination }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 Banner.propTypes = {
   shortMessage: PropTypes.string.isRequired,
   longMessage: PropTypes.string.isRequired,
   destination: PropTypes.string.isRequired,
-};
+}
 
-export default Banner;
+export default Banner

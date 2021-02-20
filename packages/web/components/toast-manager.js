@@ -11,8 +11,7 @@ export default function ToastManager() {
       closeButton={({ closeToast }) => (
         <button
           className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={closeToast}
-        >
+          onClick={closeToast}>
           <span className="sr-only">Close</span>
           <CloseIcon />
         </button>

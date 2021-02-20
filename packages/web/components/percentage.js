@@ -6,8 +6,7 @@ function Percentage({ value, positive }) {
       className={cx(
         'inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0',
         positive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
-      )}
-    >
+      )}>
       <svg
         aria-hidden="true"
         className={cx(
@@ -15,8 +14,7 @@ function Percentage({ value, positive }) {
           positive ? 'text-green-500' : 'text-red-500',
         )}
         fill="currentColor"
-        viewBox="0 0 20 20"
-      >
+        viewBox="0 0 20 20">
         {positive ? (
           <path
             fillRule="evenodd"

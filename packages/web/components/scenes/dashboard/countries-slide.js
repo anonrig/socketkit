@@ -7,26 +7,22 @@ function CountrySlide({ data }) {
         <tr>
           <th
             className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            scope="col"
-          >
+            scope="col">
             Name
           </th>
           <th
             className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            scope="col"
-          >
+            scope="col">
             Churn
           </th>
           <th
             className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            scope="col"
-          >
+            scope="col">
             Conversion
           </th>
           <th
             className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            scope="col"
-          >
+            scope="col">
             Revenue
           </th>
         </tr>
@@ -41,10 +37,7 @@ function CountrySlide({ data }) {
               {((country.churn_count / country.total_count) * 100).toFixed(2)}%
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {((country.trial_past_count / country.total_count) * 100).toFixed(
-                2,
-              )}
-              %
+              {((country.trial_past_count / country.total_count) * 100).toFixed(2)}%
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               ${country.revenue ?? 0}

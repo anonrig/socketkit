@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import redirectTo from './redirect-to'
 
-const redirect = destination =>
+const redirect = (destination) =>
   class RedirectRoute extends React.Component {
     static getInitialProps({ res }) {
       if (typeof window === 'undefined' && !res.writeHead) {

@@ -10,9 +10,7 @@ function Badge({ children, state }) {
   }
 
   return (
-    <span
-      className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${color}`}
-    >
+    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${color}`}>
       {children}
     </span>
   )
@@ -23,10 +21,7 @@ Badge.defaultProps = {
 }
 
 Badge.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   state: PropTypes.oneOf(['success', 'info', 'danger']),
 }
 
