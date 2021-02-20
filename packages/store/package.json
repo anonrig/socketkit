@@ -16,7 +16,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.2.8",
     "@grpc/proto-loader": "^0.5.6",
-    "@malijs/logger": "^0.5.0",
+    "@malijs/logger": "^0.6.0",
     "app-store-scraper": "github:facundoolano/app-store-scraper",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
