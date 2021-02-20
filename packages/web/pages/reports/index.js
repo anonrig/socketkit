@@ -21,7 +21,7 @@ export default function Reports({ initialData }) {
   const router = useRouter()
   const { start_date, end_date } = router.query
   const { data } = useSWR(
-    `reports/trials&from${dayjs(start_date).subtract(1, 'month').format('YYYY-MM-DD')}to=${dayjs(
+    `reports/trials?from${dayjs(start_date).subtract(1, 'month').format('YYYY-MM-DD')}to=${dayjs(
       end_date,
     )}`,
     fetcher,
