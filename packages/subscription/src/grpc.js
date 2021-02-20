@@ -8,6 +8,7 @@ import * as Transactions from './consumers/transaction/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
 import tracer from './tracer.js'
+import { v4 } from 'uuid'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -30,8 +31,9 @@ app.addService(
 app.addService(health, 'Health', options)
 
 app.use(async (ctx, next) => {
+  const requestId = ctx.request.metadata['x-request-id'] ?? v4()
   logger.debug(`Request to ${ctx.fullName}`)
-  const span = tracer.trace.getTracer('grpc').startSpan(ctx.fullName)
+  const span = tracer.getTracer('grpc').startSpan(ctx.fullName)
   span.setAttribute('name', ctx.name)
   span.setAttribute('service', ctx.service)
   span.setAttribute('fullName', ctx.fullName)
