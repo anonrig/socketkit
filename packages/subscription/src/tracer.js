@@ -3,7 +3,13 @@ import { registerInstrumentations } from '@opentelemetry/instrumentation'
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger'
 import { SimpleSpanProcessor } from '@opentelemetry/tracing'
 
-const provider = new NodeTracerProvider()
+const provider = new NodeTracerProvider({
+  plugins: {
+    knex: {
+      path: '@myrotvorets/opentelemetry-plugin-knex',
+    },
+  },
+})
 
 registerInstrumentations({
   tracerProvider: provider,
