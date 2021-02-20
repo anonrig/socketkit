@@ -7,7 +7,6 @@ import * as Subscriptions from './consumers/subscription/index.js'
 import * as Transactions from './consumers/transaction/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
-import './tracer.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {

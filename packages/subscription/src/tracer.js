@@ -1,13 +1,17 @@
 import { NodeTracerProvider } from '@opentelemetry/node'
-import { registerInstrumentations } from '@opentelemetry/instrumentation'
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger'
 import { SimpleSpanProcessor } from '@opentelemetry/tracing'
+import { registerInstrumentations } from '@opentelemetry/instrumentation'
 
 const provider = new NodeTracerProvider({
   plugins: {
-    knex: {
+    pg: {
       enabled: true,
-      path: '@myrotvorets/opentelemetry-plugin-knex',
+      path: '@opentelemetry/plugin-pg',
+    },
+    'pg-pool': {
+      enabled: true,
+      path: '@opentelemetry/plugin-pg-pool',
     },
     '@grpc/grpc-js': {
       enabled: true,
@@ -15,12 +19,6 @@ const provider = new NodeTracerProvider({
     },
   },
 })
-
-registerInstrumentations({
-  tracerProvider: provider,
-})
-
-provider.register()
 
 provider.addSpanProcessor(
   new SimpleSpanProcessor(
@@ -31,5 +29,11 @@ provider.addSpanProcessor(
     }),
   ),
 )
+
+provider.register()
+
+registerInstrumentations({
+  tracerProvider: provider,
+})
 
 export default provider
