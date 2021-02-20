@@ -1,6 +1,9 @@
-replicaCount: 1
+replicaCount: 3
 strategyType: RollingUpdate
-podAnnotations: {}
+podAnnotations:
+  linkerd.io/inject: enabled
+  config.linkerd.io/trace-collector: linkerd-collector.linkerd:55678
+  config.alpha.linkerd.io/trace-collector-service-account: linkerd-collector
 application:
   track: stable
   tier: web
