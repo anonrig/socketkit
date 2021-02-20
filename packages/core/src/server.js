@@ -3,11 +3,11 @@ import f from 'fastify'
 import cors from 'fastify-cors'
 import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
-import tracer from 'cls-rtracer'
 import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
-import jaeger from 'fastify-jaeger'
+import openTelemetry from 'fastify-opentelemetry'
 import qs from 'qs'
+import { telemetryApi } from './tracer.js'
 
 import health from './health.js'
 import grpc from './plugins/custom.js'
@@ -47,12 +47,9 @@ const server = f({
 
 addSchemas(server)
 
-server.register(jaeger, {
-  serviceName: 'core-worker',
-  reporter: {
-    collectorEndpoint:
-      'http://linkerd-jaeger.linkerd.svc.cluster.local:14268/api/traces',
-  },
+server.register(openTelemetry, {
+  enabled: true,
+  tracer: telemetryApi.trace.getTracer('subscription-worker')
 })
 server.register(grpc)
 server.register(sensible)
@@ -81,12 +78,6 @@ server.register(cors, {
 })
 server.register(compress)
 server.register(helmet)
-server.register(tracer.fastifyPlugin, {
-  useHeader: true,
-  headerName: 'X-Request-Id',
-  useFastifyRequestId: true,
-  echoHeader: true,
-})
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
 
