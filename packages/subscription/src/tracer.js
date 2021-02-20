@@ -15,7 +15,8 @@ provider.addSpanProcessor(
   new SimpleSpanProcessor(
     new JaegerExporter({
       serviceName: 'subscription-worker',
-      endpoint: process.env.OC_AGENT_HOST,
+      endpoint:
+        'http://linkerd-jaeger.linkerd.svc.cluster.local:14268/api/traces',
     }),
   ),
 )
