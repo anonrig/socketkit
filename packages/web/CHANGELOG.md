@@ -1,3 +1,11 @@
+## [1.3.1](https://gitlab.com/socketkit/web/compare/v1.3.0...v1.3.1) (2021-02-20)
+
+
+### Bug Fixes
+
+* **next:** fix next endpoint ([c3758a9](https://gitlab.com/socketkit/web/commit/c3758a9774565bb7a120e78d21cfae33d25f6a78))
+* **reports:** fix reports endpoint ([851ddb5](https://gitlab.com/socketkit/web/commit/851ddb506ab10a5c052b695cf56455cad655a9b4))
+
 # [1.3.0](https://gitlab.com/socketkit/web/compare/v1.2.3...v1.3.0) (2021-02-20)
 
 
