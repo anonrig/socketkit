@@ -1,13 +1,13 @@
 import path from 'path'
 import Mali from 'mali'
 import Logger from './logger.js'
-import MaliLogger from '@malijs/logger'
 
 import * as Clients from './consumers/client/index.js'
 import * as Subscriptions from './consumers/subscription/index.js'
 import * as Transactions from './consumers/transaction/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
+import tracer from './tracer.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -22,21 +22,31 @@ const health = path.join(path.resolve(''), 'protofiles/health.proto')
 
 const app = new Mali()
 
-app.use(
-  MaliLogger({
-    fullName: true,
-    timestamp: true,
-    request: true,
-    response: true,
-  }),
-)
-
 app.addService(
   file,
   ['Clients', 'Subscriptions', 'Transactions', 'Integrations', 'Reports'],
   options,
 )
 app.addService(health, 'Health', options)
+
+app.use(async (ctx, next) => {
+  logger.debug(`Request to ${ctx.fullName}`)
+  const span = tracer.trace.getTracer('grpc').startSpan(ctx.fullName)
+  span.setAttribute('name', ctx.name)
+  span.setAttribute('service', ctx.service)
+  span.setAttribute('fullName', ctx.fullName)
+  span.setAttribute('type', ctx.type)
+  try {
+    await next()
+    span.setStatus(200)
+    span.end()
+  } catch (error) {
+    span.recordException(error)
+    span.setStatus(500)
+    span.end()
+    throw error
+  }
+})
 
 app.use({
   Clients,
