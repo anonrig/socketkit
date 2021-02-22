@@ -34,13 +34,13 @@ ingress:
 prometheus:
   metrics: true
 livenessProbe:
-  initialDelaySeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 20
+  timeoutSeconds: 20
   probeType: 'exec'
   command: ["/bin/grpc_health_probe", "-addr=:3001"]
 readinessProbe:
-  initialDelaySeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 20
+  timeoutSeconds: 20
   probeType: 'exec'
   command: ["/bin/grpc_health_probe", "-addr=:3001"]
 resources:
