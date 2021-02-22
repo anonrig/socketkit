@@ -1,3 +1,5 @@
+image:
+  pullPolicy: Always
 replicaCount: 5
 strategyType: RollingUpdate
 podAnnotations:

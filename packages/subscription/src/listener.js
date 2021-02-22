@@ -7,7 +7,7 @@ export default async function listenEvents() {
     return
   }
 
-  appstoreQueue.process('process-date', 10, async (job) => {
+  appstoreQueue.process('process-date', 5, async (job) => {
     await pg.transaction(async (trx) => await onProcessDate(job.data, trx))
   })
 }
