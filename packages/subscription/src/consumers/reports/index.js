@@ -1,3 +1,9 @@
-import getFreeTrials from '../../models/trial-reports.js'
+import * as Reports from '../../models/trial-reports.js'
 
-export const trials = async (ctx) => (ctx.res = await getFreeTrials(ctx.req))
+export const trials = async (ctx) => {
+  ctx.res = await Reports.getFreeTrials(ctx.req)
+}
+
+export const averageDuration = async (ctx) => {
+  ctx.res = await Reports.averageDuration(ctx.req)
+}

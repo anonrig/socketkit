@@ -25,10 +25,33 @@ describe('Reports', () => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.available_filters).toBeInstanceOf(Object)
+          expect(response.available_filters.length > 0).toBeTruthy()
           expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ key, value }) => {
-            expect(key).toBeDefined()
-            expect(value).toBeDefined()
+          response.rows.forEach(({ primary, secondary }) => {
+            expect(primary).toBeDefined()
+            expect(secondary).toBeDefined()
+          })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
+  test('averageDuration', (done) => {
+    grpc.reports.averageDuration(
+      { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeInstanceOf(Object)
+          expect(response.available_filters).toBeInstanceOf(Object)
+          expect(response.available_filters.length > 0).toBeTruthy()
+          expect(response.rows).toBeInstanceOf(Array)
+          response.rows.forEach(({ primary }) => {
+            expect(primary).toBeDefined()
           })
           done()
         } catch (error) {

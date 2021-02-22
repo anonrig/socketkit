@@ -45,7 +45,7 @@ describe('Integrations', () => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.fetch_date).toBeDefined()
+          expect(response.row.fetch_date).toBeDefined()
           done()
         } catch (error) {
           done(error)
