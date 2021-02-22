@@ -1,7 +1,5 @@
 import dd from 'dd-trace'
 dd.init({
-  hostname: 'datadog-cluster-agent.datadog.svc.cluster.local',
-  logLevel: 'error',
   profiling: true,
   service: 'subscription-worker',
 })
