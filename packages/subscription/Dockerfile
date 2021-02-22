@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:15.7
+FROM mhart/alpine-node:14
 
 ENV NODE_ENV=production
 ENV PORT=3001
