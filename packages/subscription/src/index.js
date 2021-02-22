@@ -2,6 +2,7 @@ import dd from 'dd-trace'
 dd.init({
   url: 'http://datadog-cluster-agent.datadog.svc.cluster.local:5005',
   logLevel: 'error',
+  profiling: true,
 })
 import './tracer.js'
 import Logger from './logger.js'
@@ -19,8 +20,8 @@ process.on('uncaughtException', (err) => {
 
 const boot = async () => {
   try {
-    await pg.raw('select 1+1 as result')
     app.start(`0.0.0.0:${config.port}`)
+    await pg.raw('select 1+1 as result')
     await listenEvents()
     logger.info(`server listening on 0.0.0.0:${config.port}`)
   } catch (err) {
