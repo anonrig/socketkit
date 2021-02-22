@@ -11,7 +11,6 @@ const config = {
     database: 'subscription',
     user: 'subscription-worker',
   },
-  pool: { min: 0, max: 5 },
   migrations: {
     tableName: 'migrations',
     directory: path.join(path.resolve(), 'db/migrations'),
