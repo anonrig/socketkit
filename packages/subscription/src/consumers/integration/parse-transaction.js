@@ -54,7 +54,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     })
     .into('clients')
     .onConflict(['account_id', 'client_id'])
-    .merge()
+    .ignore()
     .transacting(trx)
 
   // create subscription package
@@ -69,7 +69,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     })
     .into('subscription_packages')
     .onConflict(['account_id', 'subscription_package_id'])
-    .merge()
+    .ignore()
     .transacting(trx)
 
   const customerPrice = transaction.customerPrice

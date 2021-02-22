@@ -29,7 +29,7 @@ export async function findByPk({ currency_id, exchange_date }) {
   await pg('currency_exchanges')
     .insert(normalized)
     .onConflict(['currency_id', 'exchange_date'])
-    .merge()
+    .ignore()
 
   return pg('currency_exchanges')
     .select('*')
