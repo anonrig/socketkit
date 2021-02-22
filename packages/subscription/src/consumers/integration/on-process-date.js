@@ -108,8 +108,8 @@ export default async function onProcessDate(
         .into('vendor_fetch_logs')
         .onConflict(['account_id', 'vendor_id', 'fetch_date', 'successful'])
         .merge()
+        .transacting(trx)
       logger.debug('Could not find any transactions on Appstore')
-      throw error
     } else if (error.message.includes('401')) {
       await pg
         .insert({
@@ -122,12 +122,12 @@ export default async function onProcessDate(
         .into('vendor_fetch_logs')
         .onConflict(['account_id', 'vendor_id', 'fetch_date', 'successful'])
         .merge()
+        .transacting(trx)
       logger.fatal(
         `Permission denied for account_id=${account_id} for date=${dayjs(
           date,
         ).format('YYYY-MM-DD')}`,
       )
-      throw error
     } else if (error.message.includes('400')) {
       logger.info(
         `Fetched data not available for account_id=${account_id} for date=${dayjs(
