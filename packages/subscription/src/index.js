@@ -1,6 +1,6 @@
 import dd from 'dd-trace'
 dd.init({
-  url: 'http://datadog-cluster-agent.datadog.svc.cluster.local:5005',
+  hostname: 'datadog-cluster-agent.datadog.svc.cluster.local',
   logLevel: 'error',
   profiling: true,
 })
