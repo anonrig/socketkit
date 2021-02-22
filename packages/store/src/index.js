@@ -1,5 +1,5 @@
+import './tracer.js'
 import server from './grpc.js'
-
 import config from './config.js'
 import { runTasks } from './tasks/index.js'
 import Logger from './logger.js'
