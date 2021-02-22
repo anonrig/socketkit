@@ -139,3 +139,21 @@ describe('findVersions', () => {
     })
   })
 })
+
+describe('findReviews', () => {
+  test('should return reviews', (done) => {
+    store.findReviews({ application_id: '284882215' }, (error, response) => {
+      try {
+        expect(error).toBeNull()
+        expect(response.rows.length === 10).toBeTruthy()
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach((version) => {
+          expect(version.application_id).toEqual('284882215')
+        })
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
+})

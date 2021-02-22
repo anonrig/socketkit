@@ -2,7 +2,7 @@ import path from 'path'
 import Mali from 'mali'
 import MaliLogger from '@malijs/logger'
 import Logger from './logger.js'
-import * as Store from './consumers/application/index.js'
+import * as Store from './consumers/index.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {

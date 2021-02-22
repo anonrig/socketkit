@@ -1,4 +1,4 @@
-import fetchApplications from './appstore-fetcher.js'
+import fetchApplications from './applications-fetcher.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks')
