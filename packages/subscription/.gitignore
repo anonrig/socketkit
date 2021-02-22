@@ -5,3 +5,4 @@ tsconfig.tsbuildinfo
 .env.development
 noderelic_agent.log
 coverage
+newrelic_agent.log

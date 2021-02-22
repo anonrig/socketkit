@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node -r dotenv/config src/index.js",
-    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
+    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config --experimental-modules",
     "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js",
@@ -22,11 +22,11 @@
     "bull": "^3.20.1",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "dd-trace": "^0.31.0",
     "dotenv": "^8.2.0",
     "fixer-api": "^2.2.0",
     "knex": "^0.21.18",
     "mali": "^0.40.0",
+    "newrelic": "^7.1.1",
     "pg": "^8.5.1",
     "pg-range": "^1.1.0",
     "slug": "^4.0.2"

@@ -1,8 +1,4 @@
-import dd from 'dd-trace'
-dd.init({
-  profiling: true,
-  service: 'subscription-worker',
-})
+import 'newrelic'
 import Logger from './logger.js'
 import config from './config.js'
 import listenEvents from './listener.js'
