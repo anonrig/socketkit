@@ -3,8 +3,8 @@ dd.init({
   hostname: 'datadog-cluster-agent.datadog.svc.cluster.local',
   logLevel: 'error',
   profiling: true,
+  service: 'subscription-worker',
 })
-import './tracer.js'
 import Logger from './logger.js'
 import config from './config.js'
 import listenEvents from './listener.js'
