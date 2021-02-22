@@ -1,3 +1,8 @@
+import dd from 'dd-trace'
+dd.init({
+  url: 'http://datadog-cluster-agent.datadog.svc.cluster.local:5005',
+  logLevel: 'error',
+})
 import './tracer.js'
 import Logger from './logger.js'
 import config from './config.js'
