@@ -1,16 +1,10 @@
 import * as CurrencyExchange from '../../models/currency-exchange.js'
-import client from '../../grpc-client.js'
 import pg from '../../pg.js'
-import slug from 'slug'
 import dayjs from 'dayjs'
-import logger from '../../logger.js'
 
 export async function parseTransaction(transaction, { account_id }, trx) {
   const application_id = transaction.appAppleId
-  const provider_id = 'apple'
   const client_id = transaction.subscriberId
-  const device_type_id = slug(transaction.device)
-  const country_id = transaction.country
   const client_currency_id = transaction.customerCurrency
   const developer_currency_id = transaction.proceedsCurrency
   const event_date = dayjs(transaction.eventDate)
@@ -29,50 +23,6 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     }),
   ])
 
-  // create device type id
-  await pg
-    .insert({
-      provider_id,
-      device_type_id: slug(transaction.device),
-      name: transaction.device,
-    })
-    .into('device_types')
-    .onConflict(['provider_id', 'device_type_id'])
-    .ignore()
-    .transacting(trx)
-
-  // create client
-  await pg
-    .insert({
-      account_id,
-      provider_id,
-      client_id,
-      device_type_id,
-      country_id,
-      first_interaction: event_date.format('YYYY-MM-DD'),
-      total_base_client_purchase: 0,
-      total_base_developer_proceeds: 0,
-    })
-    .into('clients')
-    .onConflict(['account_id', 'client_id'])
-    .ignore()
-    .transacting(trx)
-
-  // create subscription package
-  await pg
-    .insert({
-      account_id,
-      application_id,
-      subscription_group_id: transaction.subscriptionGroupId,
-      subscription_package_id: transaction.subscriptionAppleId,
-      subscription_duration,
-      name: transaction.subscriptionName,
-    })
-    .into('subscription_packages')
-    .onConflict(['account_id', 'subscription_package_id'])
-    .ignore()
-    .transacting(trx)
-
   const customerPrice = transaction.customerPrice
     ? parseFloat(transaction.customerPrice)
     : null
@@ -86,44 +36,21 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     developerProceeds = developerProceeds * -1
   }
 
-  const primaryKeys = {
-    account_id,
-    subscription_package_id: transaction.subscriptionAppleId,
-    client_id,
-  }
-
-  const subscription = await pg
+  await pg
     .queryBuilder()
-    .select('*')
-    .from('client_subscriptions')
-    .where(primaryKeys)
+    .insert({
+      account_id,
+      subscription_package_id: transaction.subscriptionAppleId,
+      client_id,
+      subscription_duration,
+      free_trial_duration: free_trial_duration ?? '00:00:00',
+      subscription_group_id: transaction.subscriptionGroupId,
+      application_id,
+    })
+    .into('client_subscriptions')
+    .onConflict(['account_id', 'subscription_package_id', 'client_id'])
+    .merge()
     .transacting(trx)
-    .first()
-
-  if (subscription) {
-    if (free_trial_duration) {
-      await pg
-        .queryBuilder()
-        .update({ free_trial_duration })
-        .from('client_subscriptions')
-        .where(primaryKeys)
-        .transacting(trx)
-    }
-  } else {
-    await pg
-      .queryBuilder()
-      .insert({
-        ...primaryKeys,
-        subscription_duration,
-        free_trial_duration: free_trial_duration ?? '00:00:00',
-        subscription_group_id: transaction.subscriptionGroupId,
-        application_id,
-      })
-      .into('client_subscriptions')
-      .onConflict(['account_id', 'subscription_package_id', 'client_id'])
-      .ignore()
-      .transacting(trx)
-  }
 
   await pg
     .queryBuilder()
