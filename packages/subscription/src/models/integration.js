@@ -10,7 +10,7 @@ export async function create({
   return pg
     .queryBuilder()
     .insert({
-      last_fetch: dayjs(),
+      last_fetch: dayjs().subtract(9, 'month'),
       account_id,
       provider_id,
       access_token,
