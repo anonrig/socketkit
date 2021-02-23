@@ -3,7 +3,7 @@ import f from '../../server.js'
 
 export default {
   method: 'GET',
-  path: '/trials',
+  path: '/average-duration',
   schema: {
     querystring: {
       type: 'object',
@@ -35,8 +35,8 @@ export default {
               type: 'object',
               properties: {
                 primary: { type: 'string' },
-                secondary: { type: 'number' },
-                previous_secondary: { type: 'number' },
+                average_trial_duration: { type: 'number' },
+                average_subscription_duration: { type: 'number' },
               },
             },
           },
@@ -50,11 +50,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    return f.grpc.reports.trials({
+    return f.grpc.reports.averageDuration({
       account_id: account.account_id,
-      application_id: query.application_id,
       start_date: query.from,
       end_date: query.to,
+      application_id: query.application_id,
     })
   },
 }

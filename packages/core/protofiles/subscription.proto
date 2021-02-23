@@ -20,14 +20,14 @@ service Transactions {
 }
 
 service Integrations {
-  rpc findLatestScrape (AccountIdRequest) returns (AccountLatestScrapeResponse) {}
   rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
-  rpc create (AccountCreateRequest) returns (Empty) {}
-  rpc processDate (AccountProcessDateRequest) returns (Empty) {}
+  rpc create (AccountCreateRequest) returns (ActionStateResponse) {}
 }
 
 service Reports {
   rpc trials(TrialReportRequest) returns (TrialReportResponse) {}
+  rpc averageDuration(AverageDurationReportRequest) returns (TrialAverageDurationResponse) {}
+  rpc mrr(MrrReportRequest) returns (MrrReportResponse) {}
 }
 
 // Generics 
@@ -254,12 +254,6 @@ message TransactionSums {
 
 // Integrations
 
-message AccountProcessDateRequest {
-  string date = 1;
-  string account_id = 2;
-  string access_token = 3;
-}
-
 message AccountCreateRequest {
   string account_id = 1;
   string access_token = 2;
@@ -273,17 +267,6 @@ message AccessTokenRequest {
   string access_token = 1;
 }
 
-message AccountLatestScrapeResponse {
-  AccountScrape row = 1;
-}
-
-message AccountScrape {
-  string account_id = 1;
-  string vendor_id = 2;
-  string fetch_date = 3;
-  bool successful = 4;
-}
-
 // Reports
 
 message TrialReportRequest {
@@ -293,12 +276,57 @@ message TrialReportRequest {
   }
 }
 
-message TrialReportResponse {
-  repeated GraphResponse rows = 1; 
+message AverageDurationReportRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
 }
 
-message GraphResponse {
+message MrrReportRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+}
+
+message TrialReportResponse {
+  repeated TrialReportRow rows = 1; 
+  repeated string available_filters = 2;
+}
+
+message TrialAverageDurationResponse {
+  repeated AverageDurationReportRow rows = 1; 
+  repeated string available_filters = 2;
+}
+
+message MrrReportResponse {
+  repeated MrrReportRow rows = 1;
+  repeated string available_filters = 2;
+}
+
+message TrialReportRow {
   string primary = 1;
   int32 secondary = 2;
-  int32 previous_secondary = 3;
+  int32 previous_client_count = 3;
+}
+
+message AverageDurationReportRow {
+  string primary = 1;
+  int32 average_trial_duration = 2;
+  int32 average_subscription_duration = 3;
+}
+
+message MrrReportRow {
+  string month = 1;
+  string mrr = 2;
+  int32 clients = 3;
+  string new_mrr = 4;
+  string expansion_mrr = 5;
+  string churned_mrr = 6;
+  string contraction_mrr = 7;
+  string net_new_mrr = 8;
+  string mrr_churn = 9;
+  int32 clients_churn = 10;
+  string arpu = 11;
 }

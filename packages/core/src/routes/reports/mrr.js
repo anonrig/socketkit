@@ -3,7 +3,7 @@ import f from '../../server.js'
 
 export default {
   method: 'GET',
-  path: '/trials',
+  path: '/mrr',
   schema: {
     querystring: {
       type: 'object',
@@ -34,9 +34,17 @@ export default {
             items: {
               type: 'object',
               properties: {
-                primary: { type: 'string' },
-                secondary: { type: 'number' },
-                previous_secondary: { type: 'number' },
+                month: { type: 'string' },
+                mrr: { type: 'string' },
+                clients: { type: 'number' },
+                new_mrr: { type: 'string' },
+                expansion_mrr: { type: 'string' },
+                churned_mrr: { type: 'string' },
+                contraction_mrr: { type: 'string' },
+                net_new_mrr: { type: 'string' },
+                mrr_churn: { type: 'string' },
+                clients_churn: { type: 'number' },
+                arpu: { type: 'string' },
               },
             },
           },
@@ -50,11 +58,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    return f.grpc.reports.trials({
+    return f.grpc.reports.mrr({
       account_id: account.account_id,
-      application_id: query.application_id,
       start_date: query.from,
       end_date: query.to,
+      application_id: query.application_id,
     })
   },
 }
