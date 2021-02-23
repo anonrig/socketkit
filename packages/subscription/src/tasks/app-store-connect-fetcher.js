@@ -57,8 +57,10 @@ export default function fetchIntegrations() {
 
     await pg
       .into('integrations')
-      .where('provider_id', 'apple')
-      .andWhere('account_id', integration.account_id)
+      .where({
+        provider_id: 'apple',
+        account_id: integration.account_id,
+      })
       .update({
         last_fetch: next_day,
         last_error_message: null,
