@@ -16,14 +16,17 @@ export async function getFreeTrials({
   application_id,
   client_currency_id,
 }) {
-  const available_filters = ['transaction_type', 'application_id', 'client_currency_id']
-  const whereCondition = getWhereCondition(['application_id'], {
+  const available_filters = [
+    'transaction_type',
+    'application_id',
+    'client_currency_id',
+  ]
+  const whereCondition = getWhereCondition(available_filters, {
     transaction_type,
     application_id,
     client_currency_id,
   })
   const fields = whereCondition.map(({ query }) => query).join(' AND ')
-
   const rows = await pg
     .queryBuilder()
     .select({
@@ -77,7 +80,8 @@ export async function averageDuration({
 }) {
   const available_filters = ['subscription_package_id', 'subscription_group_id']
   const whereCondition = getWhereCondition(available_filters, {
-    subscription_group_id, subscription_package_id,
+    subscription_group_id,
+    subscription_package_id,
   })
   const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
