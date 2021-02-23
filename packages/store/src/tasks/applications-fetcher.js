@@ -23,6 +23,12 @@ export default function fetchApplications(limit) {
 
     await Applications.upsertVersion(scraped_apps, 'us', trx)
 
+    await Promise.all(
+      applications.map(({ application_id }) =>
+        Reviews.create({ application_id, country_id: 'us', page: 1 }, trx),
+      ),
+    )
+
     return applications.length
   })
 }

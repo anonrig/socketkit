@@ -195,19 +195,21 @@ export async function upsertVersion(scraped_apps, country_id, trx) {
   await pg
     .queryBuilder()
     .transacting(trx)
+    .update('last_fetch', pg.fn.now())
     .into('applications')
     .whereIn(
       'application_id',
-      scraped_apps.map((a) => a.id),
+      scraped_apps.map(({ id }) => id),
     )
-    .update('last_fetch', pg.fn.now())
 
   logger.debug('Application last_fetch updated')
 
   await pg
     .queryBuilder()
     .into('application_versions')
-    .insert(scraped_apps.map((a) => prepareApplicationVersion(a, country_id)))
+    .insert(
+      scraped_apps.map((app) => prepareApplicationVersion(app, country_id)),
+    )
     .onConflict(['application_id', 'country_id', 'version'])
     .ignore()
     .transacting(trx)

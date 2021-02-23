@@ -42,26 +42,24 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
 
   logger.debug(`Fetched ${reviews.length} reviews`)
 
-  await Promise.all(
-    reviews.map((review) =>
-      pg
-        .queryBuilder()
-        .insert({
-          review_id: review.id,
-          application_id: application_id,
-          version: review.version,
-          country_id,
-          score: review.score,
-          username: review.userName,
-          user_url: review.userUrl,
-          url: review.url,
-          title: review.title,
-          text: review.text,
-        })
-        .into('application_reviews')
-        .onConflict(['review_id'])
-        .merge()
-        .transacting(trx),
-    ),
-  )
+  await pg
+    .queryBuilder()
+    .insert(
+      reviews.map((review) => ({
+        review_id: review.id,
+        application_id: application_id,
+        version: review.version,
+        country_id,
+        score: review.score,
+        username: review.userName,
+        user_url: review.userUrl,
+        url: review.url,
+        title: review.title,
+        text: review.text,
+      })),
+    )
+    .into('application_reviews')
+    .onConflict(['review_id'])
+    .merge()
+    .transacting(trx)
 }

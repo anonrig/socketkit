@@ -35,10 +35,15 @@ export async function findReviews(ctx) {
 
 export async function create(ctx) {
   const { application_id, country_id } = ctx.req
-  const scraped_app = await scraper.app({ id: application_id, ratings: true })
-  ctx.res = {
-    row: await pg.transaction((trx) =>
-      Applications.create(scraped_app, country_id, trx),
-    ),
+
+  if (await Applications.findOne({ application_id })) {
+    ctx.res = { row: {} }
+  } else {
+    const scraped_app = await scraper.app({ id: application_id, ratings: true })
+    ctx.res = {
+      row: await pg.transaction((trx) =>
+        Applications.create(scraped_app, country_id, trx),
+      ),
+    }
   }
 }
