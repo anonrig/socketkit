@@ -4,7 +4,7 @@ import loader from '@grpc/proto-loader'
 import path from 'path'
 import config from '../src/config.js'
 
-const url = process.env.GRPC_STORE_URL ?? `0.0.0.0:${config.port}`
+const url = process.env.SUBSCRIPTION_GRPC_URL ?? `0.0.0.0:${config.port}`
 const defaults = {
   keepCase: true,
   longs: String,

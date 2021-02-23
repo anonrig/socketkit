@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+service Store {
+  rpc create (ApplicationIdCountryRequest) returns (Empty) {}
+  rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
+  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
+  rpc findReviews(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
+  rpc findVersions (ApplicationIdRequest) returns (ApplicationVersionsResponse) {}
+}
+
+// Generics
+
+message Empty {}
+
+// Requests
+
+message ReviewApplicationIdRequest {
+  string application_id = 1;
+  oneof optional_country_id {
+    string country_id = 2;
+  }
+  oneof optional_version {
+    string version = 3;
+  }
+}
+
+message ApplicationIdCountryRequest {
+  string application_id = 1;
+  string country_id = 2;
+}
+
+message ApplicationIdRequest {
+  oneof optional_application_id {
+    string application_id = 1;
+  }
+
+  oneof optional_bundle_id {
+    string bundle_id = 2;
+  }
+}
+
+message ApplicationsIdRequest {
+  repeated string application_ids = 1;
+  repeated string bundle_ids = 2;
+  repeated string developer_ids = 3;
+}
+
+// Responses
+
+message ApplicationsResponse {
+  repeated Application rows = 1;
+}
+
+message ApplicationVersionsResponse {
+  repeated Application rows = 1;
+}
+
+message ApplicationReviewsResponse {
+  repeated Review rows = 1;
+}
+
+message ApplicationResponse {
+  Application row = 1;
+}
+
+// Models
+
+message Review {
+  string review_id = 1;
+  string application_id = 2;
+  string version = 3;
+  string country_id = 4;
+  int32 score = 5;
+  string username = 6;
+  string user_url = 7;
+  string url = 8;
+  string title = 9;
+  string text = 10;
+}
+
+message Application {
+  string application_id = 1;
+  string developer_id = 2;
+  string bundle_id = 3;
+  string title = 4;
+  string description = 5;
+  string release_notes = 6;
+  string icon = 7;
+  string store_url = 8;
+  repeated string languages = 9;
+  Screenshot screenshots = 10;
+  string version = 11;
+  repeated int32 ratings = 12;
+  string released_at = 13;
+  string version_released_at = 14;
+  string developer_name = 16;
+}
+
+message Screenshot {
+  repeated string default = 1;
+  repeated string ipad = 2;
+  repeated string appletv = 3;
+}

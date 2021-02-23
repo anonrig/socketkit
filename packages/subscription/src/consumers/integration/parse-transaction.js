@@ -1,8 +1,9 @@
 import * as CurrencyExchange from '../../models/currency-exchange.js'
-
+import client from '../../grpc-client.js'
 import pg from '../../pg.js'
 import slug from 'slug'
 import dayjs from 'dayjs'
+import logger from '../../logger.js'
 
 export async function parseTransaction(transaction, { account_id }, trx) {
   const application_id = transaction.appAppleId
