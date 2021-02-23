@@ -20,10 +20,8 @@ service Transactions {
 }
 
 service Integrations {
-  rpc findLatestScrape (AccountIdRequest) returns (AccountLatestScrapeResponse) {}
   rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
-  rpc create (AccountCreateRequest) returns (Empty) {}
-  rpc processDate (AccountProcessDateRequest) returns (Empty) {}
+  rpc create (AccountCreateRequest) returns (ActionStateResponse) {}
 }
 
 service Reports {
@@ -256,12 +254,6 @@ message TransactionSums {
 
 // Integrations
 
-message AccountProcessDateRequest {
-  string date = 1;
-  string account_id = 2;
-  string access_token = 3;
-}
-
 message AccountCreateRequest {
   string account_id = 1;
   string access_token = 2;
@@ -273,17 +265,6 @@ message ActionStateResponse {
 
 message AccessTokenRequest {
   string access_token = 1;
-}
-
-message AccountLatestScrapeResponse {
-  AccountScrape row = 1;
-}
-
-message AccountScrape {
-  string account_id = 1;
-  string vendor_id = 2;
-  string fetch_date = 3;
-  bool successful = 4;
 }
 
 // Reports
