@@ -130,16 +130,10 @@ export default function fetchIntegrations() {
       ]
 
       for (const application_id of application_ids) {
-        try {
-          // inform microservice to fetch application from store
-          await client.store.create({
-            application_id,
-            country_id: 'us',
-          })
-        } catch (error) {
-          // don't block the transaction, since this is an external dependency.
-          logger.error(error)
-        }
+        await client.store.create({
+          application_id,
+          country_id: 'us',
+        })
       }
     }
 
