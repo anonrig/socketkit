@@ -1,6 +1,7 @@
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
 import path from 'path'
+import { promisifyAll } from './helpers.js'
 
 const url = process.env.STORE_GRPC_URL ?? `0.0.0.0:3003`
 const defaults = {
@@ -16,5 +17,5 @@ const { Store } = grpc.loadPackageDefinition(
 )
 
 export default {
-  store: new Store(url, grpc.credentials.createInsecure()),
+  store: promisifyAll(new Store(url, grpc.credentials.createInsecure())),
 }
