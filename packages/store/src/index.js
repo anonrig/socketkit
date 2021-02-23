@@ -1,4 +1,4 @@
-import './tracer.js'
+import 'newrelic'
 import server from './grpc.js'
 import config from './config.js'
 import { runTasks } from './tasks/index.js'
