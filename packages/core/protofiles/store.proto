@@ -4,6 +4,7 @@ service Store {
   rpc create (ApplicationIdCountryRequest) returns (Empty) {}
   rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
   rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
+  rpc findReviews(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
   rpc findVersions (ApplicationIdRequest) returns (ApplicationVersionsResponse) {}
 }
 
@@ -12,6 +13,16 @@ service Store {
 message Empty {}
 
 // Requests
+
+message ReviewApplicationIdRequest {
+  string application_id = 1;
+  oneof optional_country_id {
+    string country_id = 2;
+  }
+  oneof optional_version {
+    string version = 3;
+  }
+}
 
 message ApplicationIdCountryRequest {
   string application_id = 1;
@@ -44,11 +55,28 @@ message ApplicationVersionsResponse {
   repeated Application rows = 1;
 }
 
+message ApplicationReviewsResponse {
+  repeated Review rows = 1;
+}
+
 message ApplicationResponse {
   Application row = 1;
 }
 
 // Models
+
+message Review {
+  string review_id = 1;
+  string application_id = 2;
+  string version = 3;
+  string country_id = 4;
+  int32 score = 5;
+  string username = 6;
+  string user_url = 7;
+  string url = 8;
+  string title = 9;
+  string text = 10;
+}
 
 message Application {
   string application_id = 1;
@@ -64,7 +92,7 @@ message Application {
   string version = 11;
   repeated int32 ratings = 12;
   string released_at = 13;
-  string updated_at = 14;
+  string version_released_at = 14;
   string developer_name = 16;
 }
 
