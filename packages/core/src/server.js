@@ -5,9 +5,7 @@ import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
 import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
-import openTelemetry from 'fastify-opentelemetry'
 import qs from 'qs'
-import { telemetryApi } from './tracer.js'
 
 import health from './health.js'
 import grpc from './plugins/custom.js'
@@ -19,38 +17,11 @@ const logger = Logger.create().withScope('http-server')
 const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
-  logger: {
-    info: function (o) {
-      logger.info(o)
-    },
-    warn: function (o) {
-      logger.warn(o)
-    },
-    error: function (o) {
-      logger.error(o)
-    },
-    fatal: function (o) {
-      logger.fatal(o)
-    },
-    trace: function (o) {
-      logger.trace(o)
-    },
-    debug: function (o) {
-      logger.debug(o)
-    },
-    child: function () {
-      return Object.create(this)
-    },
-  },
   disableRequestLogging: true,
 })
 
 addSchemas(server)
 
-server.register(openTelemetry, {
-  enabled: true,
-  tracer: telemetryApi.trace.getTracer('subscription-worker')
-})
 server.register(grpc)
 server.register(sensible)
 server.register(auth)
