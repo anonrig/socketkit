@@ -1,5 +1,6 @@
 import f from 'fastify'
 
+import pressure from 'under-pressure'
 import cors from 'fastify-cors'
 import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
@@ -7,11 +8,11 @@ import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
 import qs from 'qs'
 
-import health from './health.js'
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
 import addSchemas from './schemas.js'
 import Logger from './logger.js'
+import pg from './pg.js'
 
 const logger = Logger.create().withScope('http-server')
 const server = f({
@@ -22,14 +23,21 @@ const server = f({
 
 addSchemas(server)
 
+server.register(pressure, {
+  healthCheck: async function () {
+    await pg.raw('select 1+1 as result')
+    return true
+  },
+  healthCheckInterval: 1000,
+  exposeStatusRoute: '/health',
+})
 server.register(grpc)
 server.register(sensible)
 server.register(auth)
 server.register(cors, {
   credentials: true,
-  origin:
-    process.env.NODE_ENV === 'production' ? 'https://web.socketkit.com' : true,
-  methods: 'GET,POST,OPTIONS,PUT,DELETE,PATCH',
+  origin: [/\.socketkit\.com$/],
+  methods: 'GET,POST,OPTIONS,PUT,DELETE',
   allowedHeaders: [
     'Authorization',
     'Accept',
@@ -56,7 +64,5 @@ server.addHook('onError', (request, reply, error, done) => {
   logger.error(error)
   done()
 })
-
-health(server)
 
 export default server

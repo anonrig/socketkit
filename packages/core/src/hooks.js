@@ -12,10 +12,6 @@ const kratos = new PublicApi(
 export const verify = async (request) => {
   const { cookie, authorization } = request.headers
 
-  if (!cookie) {
-    throw f.httpErrors.forbidden()
-  }
-
   try {
     const { data } = await kratos.whoami(cookie, authorization)
     request.user = data
