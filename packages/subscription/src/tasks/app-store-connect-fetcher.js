@@ -20,7 +20,7 @@ export default function fetchIntegrations() {
       ])
       .from('integrations')
       .where('provider_id', 'apple')
-      .andWhere('last_fetch', '<', dayjs().subtract(5, 'minutes'))
+      .andWhere('last_fetch', '<', dayjs().subtract(38, 'hours'))
       .orderByRaw('last_error_message IS NULL, last_fetch')
       .limit(1)
       .forUpdate()
