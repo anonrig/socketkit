@@ -1,3 +1,10 @@
+## [1.3.2](https://gitlab.com/socketkit/web/compare/v1.3.1...v1.3.2) (2021-02-24)
+
+
+### Bug Fixes
+
+* kratos endpoints ([d4b05ba](https://gitlab.com/socketkit/web/commit/d4b05baa0676d2b72b3d58b9fb558783c79f5b79))
+
 ## [1.3.1](https://gitlab.com/socketkit/web/compare/v1.3.0...v1.3.1) (2021-02-20)
 
 
