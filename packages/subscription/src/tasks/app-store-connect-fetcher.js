@@ -28,7 +28,11 @@ export default function fetchIntegrations() {
       .first()
       .transacting(trx)
 
-    if (!integration) return false
+    if (!integration) {
+      logger.info('No integrations to process')
+
+      return false
+    }
 
     logger.info(
       `Processing ${integration.account_id} with last fetch date ${integration.last_fetch}`,
@@ -140,8 +144,11 @@ export default function fetchIntegrations() {
     if (
       integration.last_fetch === next_day &&
       integration.last_error_message === error_message
-    )
+    ) {
+      logger.info('Unable to process')
+
       return false
+    }
 
     await pg
       .into('integrations')
