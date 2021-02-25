@@ -21,7 +21,7 @@ CREATE TABLE integrations (
       ELSE failed_fetches >= 0
     END),
   CONSTRAINT integrations_last_error_message_check
-    CHECK ((last_error_message IS NULL) = (state >= 'error')),
+    CHECK ((last_error_message IS NULL) = (state = 'active')),
   CONSTRAINT integrations_vendor_ids_check
   CHECK (
       array_length(vendor_ids, 1) > 0 AND
