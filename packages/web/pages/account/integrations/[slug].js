@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
 
-import Notification from 'components/notification.js'
 import Button from 'components/form/button.js'
 import { useRouter } from 'next/router'
 import { fetcher } from '../../../helpers/fetcher.js'
@@ -18,30 +17,26 @@ export default function IntegrationDetail() {
   const { data: userIntegrations } = useSWR('users/me/integrations')
   const existing = (userIntegrations ?? [])[0]?.requirement_payload
 
-  async function onSubmit(values) {
+  async function onSubmit(values, isDeleted) {
     setLoading(true)
 
     try {
       await fetcher(`${process.env.NEXT_PUBLIC_API_URL}/users/me/integrations`, {
-        method: 'PUT',
+        method: isDeleted ? 'DELETE' : 'PUT',
         body: JSON.stringify({
           integration_id: slug,
           requirement_payload: values,
         }),
       })
       mutate('users/me/integrations')
-      toast(
-        <Notification description="Successfully updated integration" title="Integration updated" />,
-      )
-      history.replace('/settings/integrations')
+      toast.success('Integration updated successfully.')
+      router.replace('/account/integrations')
     } catch (error) {
-      toast(<Notification description={error.message} title="Request failed" />)
+      toast.error(error.message)
     } finally {
       setLoading(false)
     }
   }
-
-  console.log('integration', integration)
 
   return (
     <section aria-labelledby="integration_details_heading">
@@ -82,7 +77,16 @@ export default function IntegrationDetail() {
               ))}
             </div>
           </div>
-          <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-2">
+            {existing ? (
+              <Button
+                onClick={() => onSubmit(null, true)}
+                className="bg-red-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                loading={false}>
+                Delete
+              </Button>
+            ) : null}
+
             <Button
               className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
               loading={loading}

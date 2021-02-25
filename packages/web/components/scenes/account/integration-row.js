@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { formatRelative } from 'date-fns'
+import cx from 'classnames'
 
-function IntegrationRow({ integration, userIntegration }) {
+function IntegrationRow({ integration, userIntegration, className }) {
   return (
-    <div className="rounded-md bg-gray-50 px-6 py-5 flex items-start justify-between">
+    <div className={cx('rounded-md bg-gray-50 px-6 py-5 flex items-start justify-between', className)}>
       <h4 className="sr-only">{integration.title}</h4>
       <div className="flex items-start">
         <svg
@@ -58,6 +59,7 @@ IntegrationRow.propTypes = {
   userIntegration: PropTypes.shape({
     requirement_set_at: PropTypes.string.isRequired,
   }),
+  className: PropTypes.string,
 }
 
 export default IntegrationRow

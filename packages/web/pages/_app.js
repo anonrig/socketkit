@@ -4,6 +4,7 @@ import { DefaultSeo } from 'next-seo'
 import router, { useRouter } from 'next/router'
 import Progress from 'nprogress'
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 import { endpoints } from '../helpers/kratos.js'
 import { fetcher } from '../helpers/fetcher.js'
@@ -64,9 +65,18 @@ function MyApp({ Component, pageProps }) {
         noindex={true}
       />
 
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 5000,
+          className:
+            'p-4 bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 text-sm font-medium text-gray-900',
+        }}
+      />
+
       <SWRConfig
         value={{
-          refreshInterval: 60000,
+          refreshInterval: 30000,
           refreshWhenHidden: true,
           fetcher,
         }}>
