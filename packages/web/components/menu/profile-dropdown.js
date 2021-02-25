@@ -54,26 +54,26 @@ function ProfileDropdown() {
         leaveTo="transform opacity-0 scale-95"
         className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
         show={isVisible}>
-        <Link href="settings/account">
+        <Link href="/account/settings">
           <button
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             role="menuitem"
             onClick={() => setVisible(false)}>
             Account
           </button>
         </Link>
-        <Link href="/settings/billing">
+        <Link href="/account/billing">
           <button
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             role="menuitem"
             onClick={() => setVisible(false)}>
             Billing
           </button>
         </Link>
 
-        <Link href="/settings/integrations">
+        <Link href="/account/integrations">
           <button
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             role="menuitem"
             onClick={() => setVisible(false)}>
             Integrations

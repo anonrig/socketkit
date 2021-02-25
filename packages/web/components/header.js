@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
 
-import logo from '../images/logo-socketkit-color.svg'
+import logo from '../images/icon-socketkit.svg'
 import MobileMenu from './menu/mobile.js'
 import ProfileDropdown from './menu/profile-dropdown.js'
 import { AuthContext } from '../helpers/is-authorized.js'
@@ -17,23 +17,20 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <img alt="Socketkit, Inc." className="h-5 w-auto" src={logo} />
+                <img alt="Socketkit, Inc." className="h-8 w-auto cursor-pointer" src={logo} />
               </Link>
             </div>
             <nav
               aria-label="Global"
-              className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4">
-              <Link href="/">
-                <a className="px-3 py-2 text-gray-900 text-sm font-medium">Dashboard</a>
-              </Link>
+              className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4 text-sm font-medium text-gray-900">
               <Link href="/applications">
-                <a className="px-3 py-2 text-gray-900 text-sm font-medium">Applications</a>
+                <a className="px-3 py-2">Applications</a>
               </Link>
               <Link href="/reports">
-                <a className="px-3 py-2 text-gray-900 text-sm font-medium">Reports</a>
+                <a className="px-3 py-2">Reports</a>
               </Link>
               <Link href="/customers">
-                <a className="px-3 py-2 text-gray-900 text-sm font-medium">Customers</a>
+                <a className="px-3 py-2">Customers</a>
               </Link>
             </nav>
           </div>

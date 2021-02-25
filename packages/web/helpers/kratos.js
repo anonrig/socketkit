@@ -4,6 +4,6 @@ export const endpoints = {
   login: `${basePath}/self-service/login/browser`,
   register: `${basePath}/self-service/registration/browser`,
   recover: `${basePath}/self-service/recovery/browser`,
-  profile: `${basePath}/self-service/settings/browsersettings`,
+  profile: `${basePath}/self-service/settings/browser`,
   logout: `${basePath}/self-service/browser/flows/logout`,
 }

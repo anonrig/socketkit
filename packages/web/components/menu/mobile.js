@@ -19,7 +19,7 @@ function MobileMenu({ visible, setVisible, profile }) {
           <div className="pt-3 pb-2">
             <div className="flex items-center justify-between px-4">
               <div>
-                <img alt="Socketkit, Inc." className="h-8 w-auto" src={logo} />
+                <img alt="Socketkit, Inc." className="h-8 w-auto cursor-pointer" src={logo} />
               </div>
               <div className="-mr-2">
                 <button
@@ -45,31 +45,24 @@ function MobileMenu({ visible, setVisible, profile }) {
               </div>
             </div>
             <div className="mt-3 px-2 space-y-1">
-              <Link href="/">
-                <button
-                  onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
-                  Dashboard
-                </button>
-              </Link>
               <Link href="/applications">
                 <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                  className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Applications
                 </button>
               </Link>
               <Link href="/reports">
                 <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                  className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Reports
                 </button>
               </Link>
               <Link href="/customers">
                 <button
                   onClick={() => setVisible(false)}
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                  className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Customers
                 </button>
               </Link>
@@ -115,16 +108,16 @@ function MobileMenu({ visible, setVisible, profile }) {
               </button>
             </div>
             <div className="mt-3 px-2 space-y-1">
-              <Link href="/settings/account">
+              <Link href="/account/settings">
                 <button
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
+                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
                   onClick={() => setVisible(false)}>
                   Account
                 </button>
               </Link>
-              <Link href="/settings/integrations">
+              <Link href="/account/integrations">
                 <button
-                  className="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
+                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
                   onClick={() => setVisible(false)}>
                   Integrations
                 </button>
