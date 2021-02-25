@@ -13,15 +13,17 @@ export default function fetchIntegrations() {
     const integration = await pg
       .select([
         'account_id',
+        'state',
+        'failed_fetches',
         'last_fetch',
         'vendor_ids',
         'access_token',
-        'last_error_message',
       ])
       .from('integrations')
       .where('provider_id', 'apple')
+      .andWhere('state', '<', 'suspended')
       .andWhere('last_fetch', '<', dayjs().subtract(38, 'hours'))
-      .orderByRaw('last_error_message IS NULL, last_fetch')
+      .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
       .forUpdate()
       .skipLocked()
@@ -39,6 +41,8 @@ export default function fetchIntegrations() {
     )
 
     const vendor_id = integration.vendor_ids[0]
+    let state = integration.state
+    let failed_fetches = 0
     let next_day = dayjs(integration.last_fetch).add(1, 'day')
     let transactions
     let error_message
@@ -56,9 +60,10 @@ export default function fetchIntegrations() {
         reportVersion: '1_2',
       })
     } catch (error) {
-      error_message = error.message
-
       if (!error_message.includes('404')) {
+        state = 'error'
+        failed_fetches = integration.failed_fetches + 1
+        error_message = error.message
         // We must try to fetch the same date again.
         next_day = integration.last_fetch
 
@@ -141,15 +146,6 @@ export default function fetchIntegrations() {
       }
     }
 
-    if (
-      integration.last_fetch === next_day &&
-      integration.last_error_message === error_message
-    ) {
-      logger.info('Unable to process')
-
-      return false
-    }
-
     await pg
       .into('integrations')
       .where({
@@ -157,11 +153,13 @@ export default function fetchIntegrations() {
         account_id: integration.account_id,
       })
       .update({
+        state: state,
+        failed_fetches: failed_fetches,
         last_fetch: next_day,
         last_error_message: error_message,
       })
       .transacting(trx)
 
-    return true
+    return integration.state != state || integration.last_fetch != next_day
   })
 }

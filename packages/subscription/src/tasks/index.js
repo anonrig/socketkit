@@ -1,4 +1,5 @@
 import appStoreConnectFetcher from './app-store-connect-fetcher.js'
+import deleteIntegrations from './delete-integrations.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks')
@@ -9,8 +10,12 @@ export async function runTasks() {
     return
   }
 
-  const processed = await appStoreConnectFetcher()
-  if (!processed) {
+  const processed = await Promise.all([
+    appStoreConnectFetcher(),
+    deleteIntegrations(),
+  ])
+  console.log(processed)
+  if (processed.every((s) => (!s))) {
     logger.info('Sleeping for 10 minutes')
     await sleep(600000)
   }
