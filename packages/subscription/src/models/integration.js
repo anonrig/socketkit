@@ -22,6 +22,26 @@ export async function create({
     .ignore()
 }
 
+export async function update({ account_id, provider_id, access_token }) {
+  return pg
+    .queryBuilder()
+    .update({ access_token })
+    .where({ account_id, provider_id })
+    .from('integrations')
+    .onConflict(['account_id'])
+    .ignore()
+}
+
+export async function destroy({ account_id, provider_id }) {
+  return pg
+    .queryBuilder()
+    .update({ state: 'to_be_deleted' })
+    .from('integrations')
+    .where({ account_id, provider_id })
+    .onConflict(['account_id'])
+    .ignore()
+}
+
 export async function findOne({ account_id, provider_id }) {
   return pg
     .queryBuilder()
@@ -29,4 +49,12 @@ export async function findOne({ account_id, provider_id }) {
     .from('integrations')
     .where({ account_id, provider_id })
     .first()
+}
+
+export async function findAll({ account_id }) {
+  return pg
+    .queryBuilder()
+    .select('*')
+    .from('integrations')
+    .where({ account_id })
 }

@@ -10,7 +10,7 @@ export default function deleteIntegrations() {
       .select('account_id')
       .from('integrations')
       .where('state', 'to_be_deleted')
-      .orWhere(function() {
+      .orWhere(function () {
         this.where('state', '>=', 'error')
         this.andWhere('last_fetch', '<', dayjs().subtract(9, 'month'))
       })
@@ -23,19 +23,36 @@ export default function deleteIntegrations() {
 
     if (!integration) {
       logger.info('No integrations to delete')
-
       return false
     }
 
-    logger.info(
-      `Deleting ${integration.account_id} with last fetch date ${integration.last_fetch}`,
-    )
+    const { account_id, last_fetch } = integration
 
-    // TODO: Delete stuff
+    logger.info(`Deleting ${account_id} with last fetch date ${last_fetch}`)
+
+    await pg
+      .from('client_subscriptions')
+      .where({ account_id })
+      .delete()
+      .transacting(trx)
+
+    await pg.from('clients').where({ account_id }).delete().transacting(trx)
+
+    await pg
+      .from('client_transactions')
+      .where({ account_id })
+      .delete()
+      .transacting(trx)
+
+    await pg
+      .from('subscription_packages')
+      .where({ account_id })
+      .delete()
+      .transacting(trx)
 
     await pg
       .from('integrations')
-      .where('account_id', integration.account_id)
+      .where({ account_id })
       .delete()
       .transacting(trx)
 

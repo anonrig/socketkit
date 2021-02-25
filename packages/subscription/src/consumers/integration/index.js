@@ -18,7 +18,7 @@ export const create = async (ctx) => {
   }
 
   if (!(await Providers.findOne({ provider_id }))) {
-    throw new Error(`Provider ${provider_id} does not exist`)
+    throw new Error(`Provider ${provider_id} not found`)
   }
 
   const reporter = new AppStoreReporter.default({ accessToken: access_token })
@@ -34,4 +34,36 @@ export const create = async (ctx) => {
   ctx.res = {
     state: true,
   }
+}
+
+export const findAll = async (ctx) => {
+  const { account_id } = ctx.req
+  ctx.res = {
+    rows: await Integrations.findAll({ account_id }),
+  }
+}
+
+export const findOne = async (ctx) => {
+  const { account_id, provider_id } = ctx.req
+  const integration = await Integrations.findOne({ account_id, provider_id })
+
+  if (!integration) {
+    throw new Error(`Integration not found`)
+  }
+
+  ctx.res = {
+    row: integration,
+  }
+}
+
+export const update = async (ctx) => {
+  const { account_id, provider_id, access_token } = ctx.req
+  await Integrations.update({ account_id, provider_id, access_token })
+  ctx.res = { state: true }
+}
+
+export const destroy = async (ctx) => {
+  const { account_id, provider_id } = ctx.req
+  await Integrations.destroy({ account_id, provider_id })
+  ctx.res = { state: true }
 }

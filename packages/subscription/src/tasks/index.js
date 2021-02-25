@@ -14,8 +14,8 @@ export async function runTasks() {
     appStoreConnectFetcher(),
     deleteIntegrations(),
   ])
-  console.log(processed)
-  if (processed.every((s) => (!s))) {
+
+  if (processed.every((s) => !s)) {
     logger.info('Sleeping for 10 minutes')
     await sleep(600000)
   }

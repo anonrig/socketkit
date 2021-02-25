@@ -6,9 +6,9 @@ import app from '../src/grpc.js'
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
 const TEST_APPLICATION_ID = `1494736719`
 
-beforeAll((done) => {
+beforeAll(async (done) => {
   logger.pauseLogs()
-  app.start(`0.0.0.0:${config.port}`)
+  await app.start(`0.0.0.0:${config.port}`)
   done()
 })
 

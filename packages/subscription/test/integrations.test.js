@@ -4,9 +4,9 @@ import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 import { v4 } from 'uuid'
 
-beforeAll((done) => {
+beforeAll(async (done) => {
   logger.pauseLogs()
-  app.start(`0.0.0.0:${config.port}`)
+  await app.start(`0.0.0.0:${config.port}`)
   done()
 })
 
@@ -24,8 +24,78 @@ describe('Integrations', () => {
       (error, response) => {
         try {
           expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.state).toBeDefined()
+          expect(response.state).toEqual(false)
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
+  test('findOne', (done) => {
+    grpc.integrations.findOne(
+      {
+        account_id: v4(),
+        provider_id: 'apple',
+      },
+      (error, response) => {
+        try {
+          expect(error.message).toContain('not found')
+          expect(response).toBeUndefined()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
+  test('findAll', (done) => {
+    grpc.integrations.findAll(
+      {
+        account_id: v4(),
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response.rows).toBeInstanceOf(Array)
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
+  test('destroy', (done) => {
+    grpc.integrations.destroy(
+      {
+        account_id: v4(),
+        provider_id: 'apple',
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toStrictEqual({ state: true })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
+  test('update', (done) => {
+    grpc.integrations.update(
+      {
+        account_id: v4(),
+        access_token: v4(),
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toStrictEqual({ state: true })
           done()
         } catch (error) {
           done(error)
