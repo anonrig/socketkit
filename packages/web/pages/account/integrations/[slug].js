@@ -5,7 +5,7 @@ import useSWR, { mutate } from 'swr'
 
 import Button from 'components/form/button.js'
 import { useRouter } from 'next/router'
-import { fetcher } from '../../../helpers/fetcher.js'
+import { fetcher } from 'helpers/fetcher.js'
 
 export default function IntegrationDetail() {
   const router = useRouter()
@@ -21,7 +21,7 @@ export default function IntegrationDetail() {
     setLoading(true)
 
     try {
-      await fetcher(`${process.env.NEXT_PUBLIC_API_URL}/users/me/integrations`, {
+      await fetcher(`users/me/integrations`, {
         method: isDeleted ? 'DELETE' : 'PUT',
         body: JSON.stringify({
           integration_id: slug,

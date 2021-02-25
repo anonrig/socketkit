@@ -2,11 +2,13 @@ import dayjs from 'dayjs'
 import Settings from 'components/scenes/account/account-settings.js'
 import { endpoints } from 'helpers/kratos.js'
 import { client } from 'helpers/is-authorized.js'
+import { useEffect, useState } from 'react'
+import redirect from 'helpers/redirect'
 
 /**
  * @param {import("next").NextPageContext} ctx
  */
- export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
   const redirect = () => {
@@ -19,24 +21,29 @@ import { client } from 'helpers/is-authorized.js'
     return redirect()
   }
 
-  try {
-    const { data } = await client.getSelfServiceLoginFlow(flow)
-    const isBefore = dayjs(data?.expires_at).isBefore(dayjs())
-
-    if (isBefore) {
-      return redirect()
-    }
-    return { props: { kratos: data } }
-  } catch (error) {
-    console.error(error)
-    return redirect()
-  }
+  return { props: { flow } }
 }
 
-export default function AccountSettings({ kratos }) {
-  console.log('kratos', kratos)
-  const profile = kratos.methods.profile.config ?? {}
-  const oidc = kratos.methods.oidc.config ?? {}
+export default function AccountSettings({ flow }) {
+  const [kratos, setKratos] = useState(null)
+
+  useEffect(async () => {
+    try {
+      const { data: kratos } = await client.getSelfServiceSettingsFlow(flow)
+      const isBefore = dayjs(kratos?.expires_at).isBefore(dayjs())
+
+      if (isBefore) {
+        return redirect()
+      }
+
+      setKratos(kratos)
+    } catch (error) {
+      return redirect()
+    }
+  }, [])
+
+  const profile = kratos?.methods.profile.config ?? {}
+  const oidc = kratos?.methods.oidc.config ?? {}
 
   return (
     <>
@@ -48,5 +55,4 @@ export default function AccountSettings({ kratos }) {
       </form> */}
     </>
   )
-
 }
