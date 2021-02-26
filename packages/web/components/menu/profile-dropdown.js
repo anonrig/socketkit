@@ -12,7 +12,7 @@ function ProfileDropdown() {
     <div
       // @ts-ignore
       ref={ref}
-      className="ml-4 relative flex-shrink-0">
+      className="ml-4 relative flex-shrink-0 z-30">
       <button
         aria-haspopup="true"
         className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"

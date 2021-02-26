@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import { formatRelative } from 'date-fns'
 import cx from 'classnames'
+import dayjs from 'dayjs'
 
-function IntegrationRow({ integration, userIntegration, className }) {
+function IntegrationRow({ title, slug, integration, className }) {
   return (
-    <div className={cx('rounded-md bg-gray-50 px-6 py-5 flex items-start justify-between', className)}>
-      <h4 className="sr-only">{integration.title}</h4>
+    <div
+      className={cx('rounded-md bg-gray-50 px-6 py-5 flex items-start justify-between', className)}>
+      <h4 className="sr-only">{title}</h4>
       <div className="flex items-start">
         <svg
           aria-hidden="true"
@@ -27,23 +28,22 @@ function IntegrationRow({ integration, userIntegration, className }) {
           />
         </svg>
         <div className="mt-0 ml-4">
-          <div className="text-sm font-medium text-gray-900">{integration.title}</div>
+          <div className="text-sm font-medium text-gray-900">{title}</div>
           <div className="mt-1 text-sm text-gray-600 flex items-center">
             <div className="sm:mt-1 mt-0">
-              {userIntegration !== null
-                ? `Last updated on ${formatRelative(
-                    new Date(userIntegration?.requirement_set_at ?? Date.now()),
-                    new Date(),
-                  )}`
+              {integration !== null
+                ? `Last fetched at ${dayjs(integration.last_fetch).format(
+                    'DD-MM-YYYY',
+                  )}. Current status: ${integration.state}`
                 : `Integration not active`}
             </div>
           </div>
         </div>
       </div>
       <div className="mt-4 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
-        <Link href={`/account/integrations/${integration.integration_id}`}>
+        <Link href={`/account/integrations/${slug}`}>
           <a className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {userIntegration !== null ? 'Update' : 'Add'}
+            {integration !== null ? 'Update' : 'Add'}
           </a>
         </Link>
       </div>
@@ -53,12 +53,12 @@ function IntegrationRow({ integration, userIntegration, className }) {
 
 IntegrationRow.propTypes = {
   integration: PropTypes.shape({
-    integration_id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    last_fetch: PropTypes.string.isRequired,
+    state: PropTypes.string.isRequired,
   }),
-  userIntegration: PropTypes.shape({
-    requirement_set_at: PropTypes.string.isRequired,
-  }),
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

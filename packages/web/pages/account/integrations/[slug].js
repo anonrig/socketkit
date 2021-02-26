@@ -12,23 +12,19 @@ export default function IntegrationDetail() {
   const { slug } = router.query
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
+  const { data } = useSWR(`integrations/${slug}`)
 
-  const { data: integration } = useSWR(`integrations/${slug}`)
-  const { data: userIntegrations } = useSWR('users/me/integrations')
-  const existing = (userIntegrations ?? [])[0]?.requirement_payload
-
-  async function onSubmit(values, isDeleted) {
+  async function onSubmit(values, event, isDeleted = false) {
     setLoading(true)
 
     try {
-      await fetcher(`users/me/integrations`, {
+      await fetcher(`integrations/${slug}`, {
         method: isDeleted ? 'DELETE' : 'PUT',
         body: JSON.stringify({
-          integration_id: slug,
           requirement_payload: values,
         }),
       })
-      mutate('users/me/integrations')
+      mutate(`integrations`)
       toast.success('Integration updated successfully.')
       router.replace('/account/integrations')
     } catch (error) {
@@ -47,7 +43,7 @@ export default function IntegrationDetail() {
               <h2
                 className="text-lg leading-6 font-medium text-gray-900"
                 id="payment_details_heading">
-                {integration?.title ?? 'Integration'}
+                {data?.title ?? 'Integration'}
               </h2>
               <p className="mt-1 text-sm text-gray-500">
                 Update your integration settings. Learn more from{' '}
@@ -60,15 +56,15 @@ export default function IntegrationDetail() {
               </p>
             </div>
             <div className="mt-6 grid grid-cols-4 gap-6">
-              {Object.keys(integration?.requirement_schema.properties ?? {}).map((key) => (
+              {Object.keys(data?.requirement_schema.properties ?? {}).map((key) => (
                 <div className="col-span-4" key={key}>
                   <label className="block text-sm font-medium text-gray-700" htmlFor={key}>
-                    {key}
+                    {data?.requirement_schema.properties[key]?.label ?? key}
                   </label>
                   <input
                     ref={register({ required: true })}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                    defaultValue={(existing && existing[key]) || ''}
+                    defaultValue={(data?.integration && data?.integration[key]) || ''}
                     name={key}
                     type="text"
                     required
@@ -78,9 +74,9 @@ export default function IntegrationDetail() {
             </div>
           </div>
           <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-2">
-            {existing ? (
+            {data?.integration !== null ? (
               <Button
-                onClick={() => onSubmit(null, true)}
+                onClick={() => onSubmit(null, null, true)}
                 className="bg-red-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                 loading={false}>
                 Delete
@@ -91,7 +87,7 @@ export default function IntegrationDetail() {
               className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
               loading={loading}
               type="submit">
-              {existing !== undefined ? 'Update' : 'Create'}
+              {data?.integration !== null ? 'Update' : 'Create'}
             </Button>
           </div>
         </div>

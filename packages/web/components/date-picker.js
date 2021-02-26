@@ -12,7 +12,7 @@ function DatePicker({ interval: { start_date, end_date }, setInterval }) {
     <div
       // @ts-ignore
       ref={ref}
-      className="relative inline-block">
+      className="relative inline-block z-20">
       <div>
         <button
           aria-expanded="true"

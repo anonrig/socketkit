@@ -9,7 +9,7 @@ import Subheader from '../components/sub-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
-  const { data: integrations } = useSWR('users/me/integrations')
+  const { data } = useSWR('integrations')
   const HeaderComponent = router.pathname.includes('/account') ? (
     <Subheader
       items={[
@@ -28,7 +28,7 @@ function AuthorizedLayout({ children }) {
       <Container>{children}</Container>
       <Footer />
 
-      {integrations && integrations?.length === 0 && (
+      {data && data[0].rows.filter((d) => !!d.integration).length === 0 && (
         <Banner
           destination="/settings/integrations"
           longMessage="Please, add an integration for Socketkit to work."
