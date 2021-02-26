@@ -29,7 +29,7 @@ export default {
       account = await createAccount({ identity_id: identity.id })
     }
 
-    await f.grpc.integration_id.destroy({
+    await f.grpc.integrations.destroy({
       account_id: account.account_id,
       provider_id: 'apple',
     })
