@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { promisify } from 'util'
 
 export function promisifyAll(client) {

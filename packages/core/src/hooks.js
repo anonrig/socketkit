@@ -1,5 +1,4 @@
 import { Configuration, PublicApi } from '@ory/kratos-client'
-import { getIdentityIntegrations } from './methods/integrations.js'
 import { getAccounts } from './methods/accounts.js'
 import logger from './logger.js'
 import f from './server.js'
@@ -15,9 +14,6 @@ export const verify = async (request) => {
   try {
     const { data } = await kratos.whoami(cookie, authorization)
     request.user = data
-    request.integrations = await getIdentityIntegrations({
-      identity_id: data.identity.id,
-    })
     request.accounts = await getAccounts({ identity_id: data.identity.id })
   } catch (error) {
     if (error instanceof RequiredError) {

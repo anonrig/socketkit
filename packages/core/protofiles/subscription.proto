@@ -20,8 +20,12 @@ service Transactions {
 }
 
 service Integrations {
-  rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
   rpc create (AccountCreateRequest) returns (ActionStateResponse) {}
+  rpc update(AccountCreateRequest) returns (ActionStateResponse) {}
+  rpc findAll (AccountIdRequest) returns (IntegrationsResponse) {}
+  rpc findOne (AccountIdProviderRequest) returns (IntegrationResponse) {}
+  rpc destroy (AccountIdProviderRequest) returns (ActionStateResponse) {}
+  rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
 }
 
 service Reports {
@@ -257,14 +261,41 @@ message TransactionSums {
 message AccountCreateRequest {
   string account_id = 1;
   string access_token = 2;
+  string provider_id = 3;
+}
+
+message AccessTokenRequest {
+  string access_token = 1;
+}
+
+message AccountIdProviderRequest {
+  string account_id = 1;
+  string provider_id = 2;
 }
 
 message ActionStateResponse {
   bool state = 1;
 }
 
-message AccessTokenRequest {
-  string access_token = 1;
+message IntegrationsResponse {
+  repeated Integration rows = 1;
+}
+
+message IntegrationResponse {
+  Integration row = 1;
+}
+
+message Integration {
+  string last_fetch = 1;
+  string account_id = 2;
+  string provider_id = 3;
+  string access_token = 4;
+  repeated string vendor_ids = 5;
+  oneof optional_last_error_message {
+    string last_error_message = 6;
+  } 
+  string state = 7;
+  int32 failed_fetches = 8;
 }
 
 // Reports

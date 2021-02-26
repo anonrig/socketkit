@@ -34,13 +34,3 @@ export async function createAccount({ identity_id }) {
       .ignore()
   })
 }
-
-export async function accountHasIntegration({ account_id, integration_id }) {
-  const { count } = pg
-    .queryBuilder()
-    .select('*')
-    .from('account_integrations')
-    .where({ account_id, integration_id })
-    .count()
-  return count > 0
-}
