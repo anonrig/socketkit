@@ -60,7 +60,7 @@ export default function fetchIntegrations() {
         reportVersion: '1_2',
       })
     } catch (error) {
-      if (!error_message.includes('404')) {
+      if (!error.message.includes('404')) {
         state = 'error'
         failed_fetches = integration.failed_fetches + 1
         error_message = error.message
