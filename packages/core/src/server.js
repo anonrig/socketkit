@@ -19,6 +19,10 @@ const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   disableRequestLogging: true,
+  logger: {
+    error: (message, ...args) => logger.error(message, args),
+    warn: (message, ...args) => logger.warn(message, args),
+  },
 })
 
 addSchemas(server)
