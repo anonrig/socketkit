@@ -12,7 +12,7 @@ CREATE TABLE applications (
   UNIQUE (bundle_id),
   FOREIGN KEY (developer_id) REFERENCES developers,
   CONSTRAINT applications_last_fetch_check
-    CHECK (last_fetch >= created_at)
+    CHECK (last_fetch >= released_at)
 );
 
 CREATE INDEX applications_last_fetch_idx ON applications (last_fetch);
