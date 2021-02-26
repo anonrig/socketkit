@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node -r dotenv/config src/index.js",
+    "start": "node src/index.js",
     "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
     "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
