@@ -108,55 +108,67 @@ export function findVersions({ application_id, bundle_id }) {
     .orderBy('v.released_at', 'desc')
 }
 
-export async function create(trx, scraped_app) {
-  const logger = Logger.create()
-    .withScope('application-create')
-    .withTag(scraped_app.detail.title)
+export async function create(trx, scraped_apps) {
+  const logger = Logger.create().withScope('applications-create')
+
+  const developers = scraped_apps.reduce((i, s) => {
+    i[s.detail.developerId] = {
+      developer_id: s.detail.developerId,
+      name: s.detail.developer,
+      store_url: s.detail.developerUrl,
+      website: s.detail.developerWebsite,
+    }
+
+    return i
+  }, {})
 
   await pg
     .queryBuilder()
     .transacting(trx)
     .into('developers')
-    .insert({
-      developer_id: scraped_app.detail.developerId,
-      name: scraped_app.detail.developer,
-      store_url: scraped_app.detail.developerUrl,
-      website: scraped_app.detail.developerWebsite,
-    })
+    .insert(Object.values(developers))
     .onConflict(['developer_id'])
     .ignore()
 
-  logger.debug('Developer created')
+  logger.debug('Developers created')
 
-  await pg.queryBuilder().transacting(trx).into('applications').insert({
-    application_id: scraped_app.application_id,
-    developer_id: scraped_app.detail.developerId,
-    bundle_id: scraped_app.detail.appId,
-    released_at: scraped_app.detail.released,
-    default_country_id: scraped_app.default_country_id,
-  })
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .into('applications')
+    .insert(
+      scraped_apps.map((s) => ({
+        application_id: s.application_id,
+        developer_id: s.detail.developerId,
+        bundle_id: s.detail.appId,
+        released_at: s.detail.released,
+        default_country_id: s.default_country_id,
+      })),
+    )
 
-  logger.debug('Application created')
+  logger.debug('Applications created')
 
   await pg
     .queryBuilder()
     .transacting(trx)
     .into('application_versions')
-    .insert(prepareApplicationVersion(scraped_app))
+    .insert(scraped_apps.map(prepareApplicationVersion))
 
-  logger.debug('Application version created')
+  logger.debug('Application versions created')
 
   await pg
     .queryBuilder()
     .transacting(trx)
     .into('application_ratings')
-    .insert({
-      application_id: scraped_app.application_id,
-      country_id: scraped_app.default_country_id,
-      rating_histogram: Object.values(scraped_app.detail.histogram),
-    })
+    .insert(
+      scraped_apps.map((s) => ({
+        application_id: s.application_id,
+        country_id: s.default_country_id,
+        rating_histogram: Object.values(s.detail.histogram),
+      })),
+    )
 
-  logger.debug('Application rating created')
+  logger.debug('Application ratings created')
 }
 
 export async function upsert(trx, scraped_apps) {

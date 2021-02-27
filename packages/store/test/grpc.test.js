@@ -18,8 +18,12 @@ describe('create', () => {
   test('should create facebook', (done) => {
     store.create(
       {
-        application_id: '284882215',
-        country_id: 'us',
+        rows: [
+          {
+            application_id: '284882215',
+            default_country_id: 'us',
+          },
+        ],
       },
       (error, response) => {
         try {

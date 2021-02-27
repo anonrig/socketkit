@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 service Applications {
-  rpc create (ApplicationIdCountryRequest) returns (Empty) {}
+  rpc create (ApplicationsCreateRequest) returns (Empty) {}
   rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
   rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
   rpc findReviews(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
@@ -24,9 +24,13 @@ message ReviewApplicationIdRequest {
   }
 }
 
-message ApplicationIdCountryRequest {
+message ApplicationsCreateRequestRow {
   string application_id = 1;
-  string country_id = 2;
+  string default_country_id = 2;
+}
+
+message ApplicationsCreateRequest {
+  repeated ApplicationsCreateRequestRow rows = 1;
 }
 
 message ApplicationIdRequest {

@@ -39,29 +39,18 @@ export async function findReviews(ctx) {
 }
 
 export function create(ctx) {
-  const { application_id, country_id } = ctx.req
-
   return pg.transaction(async (trx) => {
-    const existing_application_ids = await Applications.exist(trx, [
-      application_id,
-    ])
+    const existing_application_ids = await Applications.exist(
+      trx,
+      ctx.req.rows.map((a) => a.application_id),
+    )
 
-    if (existing_application_ids.length > 0) return
+    const scraped_apps = await scrape(
+      ctx.req.rows.filter(
+        (a) => !existing_application_ids.includes(a.application_id),
+      ),
+    )
 
-    try {
-      const scraped_apps = await scrape([
-        {
-          application_id,
-          default_country_id: country_id,
-        },
-      ])
-
-      await Applications.create(trx, scraped_apps[0])
-    } catch (error) {
-      if (!error.message.includes('404')) {
-        logger.error(error)
-        throw error
-      }
-    }
+    await Applications.create(trx, scraped_apps)
   })
 }
