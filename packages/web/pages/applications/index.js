@@ -5,7 +5,18 @@ import { averageRating } from 'helpers/index.js'
 import Table from 'components/table/table.js'
 import { fetcher } from 'helpers/fetcher.js'
 
-export default function Applications({ initialData }) {
+export async function getServerSideProps(ctx) {
+  const { cookie, referer } = ctx.req?.headers ?? {}
+  const applications = await fetcher(`applications?limit=10`, {
+    headers: { cookie, referer },
+  })
+  return {
+    props: { applications },
+  }
+}
+
+
+export default function Applications({ applications }) {
   const router = useRouter()
   const columns = useMemo(
     () => [
@@ -76,7 +87,7 @@ export default function Applications({ initialData }) {
         </div>
       </div>
       <Table
-        initialData={initialData}
+        initialData={applications}
         url="applications"
         options={{
           limit: 10,
@@ -89,14 +100,4 @@ export default function Applications({ initialData }) {
       />
     </>
   )
-}
-
-export async function getServerSideProps(ctx) {
-  const { cookie, referer } = ctx.req?.headers ?? {}
-  const initialData = await fetcher(`applications?limit=10`, {
-    headers: { cookie, referer },
-  })
-  return {
-    props: { initialData },
-  }
 }
