@@ -13,38 +13,38 @@ export function sum({
       change_date
         ? [
             pg.raw(
-              'round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date >= ?), 2)` +
+              'COALESCE(round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date >= ?), 2), 0)` +
                 ' AS current_total_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund'), 2)` +
+              'COALESCE(round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund'), 2), 0)` +
                 ' AS current_refund_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date < ?), 2)` +
+              'COALESCE(round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date < ?), 2), 0)` +
                 ' AS changed_total_base_developer_proceeds',
               [change_date],
             ),
             pg.raw(
-              'round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund'), 2)` +
+              'COALESCE(round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund'), 2), 0)` +
                 ' AS changed_refund_base_developer_proceeds',
               [change_date],
             ),
           ]
         : [
             pg.raw(
-              'round(sum(base_developer_proceeds), 2)' +
+              'COALESCE(round(sum(base_developer_proceeds), 2), 0)' +
                 ' AS current_total_base_developer_proceeds',
             ),
             pg.raw(
-              'round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE transaction_type = 'refund'), 2)` +
+              'COALESCE(round(sum(base_developer_proceeds)' +
+                ` FILTER (WHERE transaction_type = 'refund'), 2), 0)` +
                 ' AS current_refund_base_developer_proceeds',
             ),
           ],
