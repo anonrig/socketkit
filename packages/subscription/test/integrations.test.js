@@ -41,8 +41,9 @@ describe('Integrations', () => {
       },
       (error, response) => {
         try {
-          expect(error.message).toContain('not found')
-          expect(response).toBeUndefined()
+          expect(error).toBeFalsy()
+          expect(response).toBeDefined()
+          expect(response.row).toBeNull()
           done()
         } catch (error) {
           done(error)
@@ -94,8 +95,8 @@ describe('Integrations', () => {
       },
       (error, response) => {
         try {
-          expect(error).toBeNull()
-          expect(response).toStrictEqual({ state: true })
+          expect(error).toBeTruthy()
+          expect(error.message).toContain('not found')
           done()
         } catch (error) {
           done(error)

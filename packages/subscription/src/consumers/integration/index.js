@@ -47,10 +47,6 @@ export const findOne = async (ctx) => {
   const { account_id, provider_id } = ctx.req
   const integration = await Integrations.findOne({ account_id, provider_id })
 
-  if (!integration) {
-    throw new Error(`Integration not found`)
-  }
-
   ctx.res = {
     row: integration,
   }
@@ -58,6 +54,12 @@ export const findOne = async (ctx) => {
 
 export const update = async (ctx) => {
   const { account_id, provider_id, access_token } = ctx.req
+  const integration = await Integrations.findOne({ account_id, provider_id })
+
+  if (!integration) {
+    throw new Error(`Integration not found`)
+  }
+
   await Integrations.update({ account_id, provider_id, access_token })
   ctx.res = { state: true }
 }
