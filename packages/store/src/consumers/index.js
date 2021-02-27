@@ -17,7 +17,11 @@ export async function findAll(ctx) {
 
 export async function findOne(ctx) {
   const { application_id, bundle_id } = ctx.req
-  ctx.res = { row: await Applications.findOne({ application_id, bundle_id }) }
+  const rows = await Applications.findAll({
+    application_ids: [application_id].filter(Boolean),
+    bundle_ids: [bundle_id].filter(Boolean),
+  })
+  ctx.res = { row: rows[0] }
 }
 
 export async function findVersions(ctx) {
