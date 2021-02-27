@@ -10,7 +10,6 @@ import qs from 'qs'
 
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
-import addSchemas from './schemas.js'
 import Logger from './logger.js'
 import pg from './pg.js'
 
@@ -24,8 +23,6 @@ const server = f({
     warn: (message, ...args) => logger.warn(message, args),
   },
 })
-
-addSchemas(server)
 
 server.register(pressure, {
   healthCheck: async function () {
@@ -61,6 +58,7 @@ server.register(cors, {
 })
 server.register(compress)
 server.register(helmet)
+
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
 

@@ -13,7 +13,7 @@ export default {
           description: { type: 'string' },
           slug: { type: 'string' },
           integration: {
-            type: 'object',
+            type: ['object', 'null'],
             properties: {
               last_fetch: { type: 'string' },
               state: { type: 'string' },

@@ -27,14 +27,6 @@ export default {
                       state: { type: 'string' },
                     },
                   },
-                  // requirement_schema: {
-                  //   type: 'object',
-                  //   properties: {
-                  //     type: { type: 'string' },
-                  //     required: { type: 'array', items: { type: 'string' } },
-                  //     properties: { type: 'object', additionalProperties: true },
-                  //   },
-                  // },
                 },
               },
             },
@@ -47,6 +39,7 @@ export default {
   handler: async ({ accounts: [account] }) => {
     const appstore = await f.grpc.integrations.findAll({
       account_id: account.account_id,
+      provider_id: 'apple',
     })
 
     return [
@@ -57,7 +50,7 @@ export default {
             slug: 'appstore-connect',
             title: 'AppStore Connect',
             description: 'Transactions and Sales support for Apple',
-            integration: appstore.rows[0] ?? null,
+            integration: appstore.rows[0],
           },
         ],
       },
