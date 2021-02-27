@@ -1,7 +1,7 @@
 import path from 'path'
 import Mali from 'mali'
 import Logger from './logger.js'
-import * as Store from './consumers/index.js'
+import * as Applications from './consumers/index.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -16,10 +16,10 @@ const health = path.join(path.resolve(''), 'protofiles/health.proto')
 
 const app = new Mali()
 
-app.addService(file, 'Store', options)
+app.addService(file, 'Applications', options)
 app.addService(health, 'Health', options)
 
-app.use({ Store })
+app.use({ Applications })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (err) => {
