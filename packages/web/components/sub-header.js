@@ -4,9 +4,7 @@ import cx from 'classnames'
 
 function Subheader({ selected_href, items }) {
   return (
-    <nav
-      className="lg:py-2 lg:flex lg:space-x-8 bg-white flex items-center justify-center"
-      aria-label="Global">
+    <nav className="py-2 flex space-x-8 bg-white items-center justify-center" aria-label="Global">
       {items.map((item) => (
         <Link href={item.href} key={item.href}>
           <a

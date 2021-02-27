@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
@@ -12,9 +12,9 @@ export default function IntegrationDetail() {
   const { slug } = router.query
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
-  const { data } = useSWR(`integrations/${slug}`)
+  const { data, error } = useSWR(`integrations/${slug}`)
 
-  async function onSubmit(values, event, isDeleted = false) {
+  async function onSubmit(values, _, isDeleted = false) {
     setLoading(true)
 
     try {
@@ -33,6 +33,13 @@ export default function IntegrationDetail() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+      router.replace('/account/integrations')
+    }
+  }, [error])
 
   return (
     <section aria-labelledby="integration_details_heading">
@@ -64,7 +71,7 @@ export default function IntegrationDetail() {
                   <input
                     ref={register({ required: true })}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                    defaultValue={(data?.integration && data?.integration[key]) || ''}
+                    defaultValue={(data?.integration ?? {})[key] || ''}
                     name={key}
                     type="text"
                     required
@@ -74,7 +81,7 @@ export default function IntegrationDetail() {
             </div>
           </div>
           <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-2">
-            {data?.integration !== null ? (
+            {data?.integration ? (
               <Button
                 onClick={() => onSubmit(null, null, true)}
                 className="bg-red-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
@@ -87,7 +94,7 @@ export default function IntegrationDetail() {
               className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
               loading={loading}
               type="submit">
-              {data?.integration !== null ? 'Update' : 'Create'}
+              {data?.integration ? 'Update' : 'Create'}
             </Button>
           </div>
         </div>

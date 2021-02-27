@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import IntegrationRow from 'components/scenes/account/integration-row.js'
 import { fetcher } from 'helpers/fetcher'
+import toast from 'react-hot-toast'
+import { useEffect } from 'react'
 
 export async function getServerSideProps(ctx) {
   const { cookie, referer } = ctx.req?.headers ?? {}
@@ -14,7 +16,13 @@ export async function getServerSideProps(ctx) {
 }
 
 function Integrations({ integrations }) {
-  const { data } = useSWR('integrations', fetcher, { initialData: integrations })
+  const { data, error } = useSWR('integrations', fetcher, { initialData: integrations })
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+    }
+  }, [error])
 
   return (
     <div className="space-y-4">
@@ -43,8 +51,14 @@ function Integrations({ integrations }) {
 Integrations.propTypes = {
   integrations: PropTypes.arrayOf(
     PropTypes.shape({
-      integration_id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      rows: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          description: PropTypes.string.isRequired,
+          slug: PropTypes.string.isRequired,
+        }),
+      ),
     }),
   ),
   userIntegrations: PropTypes.arrayOf(

@@ -30,7 +30,7 @@ function AuthorizedLayout({ children }) {
 
       {data && data[0].rows.filter((d) => !!d.integration).length === 0 && (
         <Banner
-          destination="/settings/integrations"
+          destination="/account/integrations"
           longMessage="Please, add an integration for Socketkit to work."
           shortMessage="Please, add an integration."
         />

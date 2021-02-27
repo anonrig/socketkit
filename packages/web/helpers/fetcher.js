@@ -7,5 +7,13 @@ export async function fetcher(resource, options = {}) {
       'content-type': 'application/json',
     },
     ...options,
-  }).then((res) => res.json())
+  }).then(async (res) => {
+    const response = await res.json()
+
+    if (res.ok) {
+      return response
+    }
+
+    throw response
+  })
 }

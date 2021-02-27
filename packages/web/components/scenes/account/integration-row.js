@@ -31,7 +31,7 @@ function IntegrationRow({ title, slug, integration, className }) {
           <div className="text-sm font-medium text-gray-900">{title}</div>
           <div className="mt-1 text-sm text-gray-600 flex items-center">
             <div className="sm:mt-1 mt-0">
-              {integration !== null
+              {integration
                 ? `Last fetched at ${dayjs(integration.last_fetch).format(
                     'DD-MM-YYYY',
                   )}. Current status: ${integration.state}`
@@ -43,7 +43,7 @@ function IntegrationRow({ title, slug, integration, className }) {
       <div className="mt-4 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
         <Link href={`/account/integrations/${slug}`}>
           <a className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {integration !== null ? 'Update' : 'Add'}
+            {integration ? 'Update' : 'Add'}
           </a>
         </Link>
       </div>
