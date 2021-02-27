@@ -1,7 +1,7 @@
 import pg from '../pg.js'
 import Logger from '../logger.js'
 
-export async function findAll({ application_ids, bundle_ids, developer_ids }) {
+export function findAll({ application_ids, bundle_ids, developer_ids }) {
   return pg
     .queryBuilder()
     .select({
@@ -56,7 +56,7 @@ export async function findAll({ application_ids, bundle_ids, developer_ids }) {
     .orderBy('v.released_at', 'DESC')
 }
 
-export async function findOne({ application_id, bundle_id }) {
+export function findOne({ application_id, bundle_id }) {
   return pg
     .queryBuilder()
     .select({
@@ -98,7 +98,7 @@ export async function findOne({ application_id, bundle_id }) {
     .first()
 }
 
-export async function findVersions({ application_id, bundle_id }) {
+export function findVersions({ application_id, bundle_id }) {
   return pg
     .queryBuilder()
     .select({
