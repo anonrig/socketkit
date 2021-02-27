@@ -160,7 +160,7 @@ export async function create(scraped_app, country_id, trx) {
   logger.debug('Developer created')
 
   await pg.queryBuilder().transacting(trx).into('applications').insert({
-    application_id,
+    application_id: scraped_app.id,
     developer_id: scraped_app.developerId,
     bundle_id: scraped_app.appId,
     released_at: scraped_app.released,
