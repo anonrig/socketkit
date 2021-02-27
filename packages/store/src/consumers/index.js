@@ -1,4 +1,4 @@
-import * as Applications from '../models/application.js'
+import * as Applications from '../models/applications.js'
 import * as Reviews from '../models/reviews.js'
 import pg from '../pg.js'
 import scraper from 'app-store-scraper'
