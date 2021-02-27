@@ -20,35 +20,35 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       developer_id: 'a.developer_id',
       developer_name: 'd.name',
       bundle_id: 'a.bundle_id',
-      title: 'v.title',
-      description: 'v.description',
-      release_notes: 'v.release_notes',
-      icon: 'v.icon',
-      store_url: 'v.store_url',
-      languages: 'v.languages',
-      screenshots: 'v.screenshots',
-      version: 'v.version_number',
-      ratings: 'r.rating_histogram',
+      title: 'avc.title',
+      description: 'avc.description',
+      release_notes: 'avc.release_notes',
+      icon: 'av.icon',
+      store_url: 'ar.store_url',
+      languages: 'av.language_ids',
+      screenshots: 'avc.screenshots',
+      version: 'ar.latest_version_number',
+      ratings: 'ar.rating_histogram',
       released_at: 'a.released_at',
-      version_released_at: 'v.released_at',
+      version_released_at: 'av.released_at',
     })
     .from('applications AS a')
-    .joinRaw(
-      `
-      CROSS JOIN LATERAL (
-        SELECT *
-        FROM application_versions
-        WHERE application_id = a.application_id
-        ORDER BY released_at DESC
-        LIMIT 1
-      ) AS v
-    `,
-    )
-    .join('application_ratings as r', function () {
-      this.on('r.application_id', 'a.application_id').andOn(
-        'r.country_id',
-        'v.country_id',
+    .join('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
       )
+    })
+    .join('application_versions AS av', function () {
+      this.on('a.application_id', 'av.application_id').andOn(
+        'ar.latest_version_number',
+        'av.version_number',
+      )
+    })
+    .join('application_version_contents AS avc', function () {
+      this.on('a.application_id', 'avc.application_id')
+        .andOn('ar.latest_version_number', 'avc.version_number')
+        .andOn('ar.default_language_id', 'avc.language_id')
     })
     .join('developers as d', 'd.developer_id', 'a.developer_id')
     .where(function () {
@@ -64,7 +64,7 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
         this.whereIn('d.developer_id', developer_ids)
       }
     })
-    .orderBy('v.released_at', 'DESC')
+    .orderBy('av.released_at', 'DESC')
 }
 
 export function findVersions({ application_id, bundle_id }) {
@@ -74,27 +74,32 @@ export function findVersions({ application_id, bundle_id }) {
       application_id: 'a.application_id',
       developer_id: 'a.developer_id',
       bundle_id: 'a.bundle_id',
-      title: 'v.title',
-      description: 'v.description',
-      release_notes: 'v.release_notes',
-      icon: 'v.icon',
-      store_url: 'v.store_url',
-      languages: 'v.languages',
-      screenshots: 'v.screenshots',
-      version: 'v.version_number',
-      ratings: 'r.rating_histogram',
+      title: 'avc.title',
+      description: 'avc.description',
+      release_notes: 'avc.release_notes',
+      icon: 'av.icon',
+      store_url: 'ar.store_url',
+      languages: 'av.language_ids',
+      screenshots: 'avc.screenshots',
+      version: 'av.version_number',
+      ratings: 'ar.rating_histogram',
       released_at: 'a.released_at',
-      version_released_at: 'v.released_at',
+      version_released_at: 'av.released_at',
     })
-    .from('application_versions AS v')
-    .innerJoin('applications AS a', function () {
-      this.on('v.application_id', 'a.application_id')
-    })
-    .join('application_ratings as r', function () {
-      this.on('r.application_id', 'v.application_id').andOn(
-        'r.country_id',
-        'v.country_id',
+    .from('applications AS a')
+    .innerJoin('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
       )
+    })
+    .innerJoin('application_versions AS av', function () {
+      this.on('a.application_id', 'av.application_id')
+    })
+    .join('application_version_contents AS avc', function () {
+      this.on('a.application_id', 'avc.application_id')
+        .andOn('av.version_number', 'avc.version_number')
+        .andOn('ar.default_language_id', 'avc.language_id')
     })
     .where(function () {
       if (application_id) {
@@ -105,7 +110,7 @@ export function findVersions({ application_id, bundle_id }) {
         this.where('a.bundle_id', bundle_id)
       }
     })
-    .orderBy('v.released_at', 'desc')
+    .orderBy('av.released_at', 'DESC')
 }
 
 export async function create(trx, scraped_apps) {
@@ -141,6 +146,7 @@ export async function create(trx, scraped_apps) {
         application_id: s.application_id,
         developer_id: s.detail.developerId,
         bundle_id: s.detail.appId,
+        last_fetch: s.detail.released,
         released_at: s.detail.released,
         default_country_id: s.default_country_id,
       })),
@@ -151,24 +157,67 @@ export async function create(trx, scraped_apps) {
   await pg
     .queryBuilder()
     .transacting(trx)
+    .into('application_releases')
+    .insert(
+      scraped_apps.map((s) => ({
+        application_id: s.application_id,
+        country_id: s.default_country_id,
+        reviews: s.detail.reviews,
+        score: s.detail.score,
+        price: s.detail.price,
+        currency_id: s.detail.currency,
+        default_language_id: s.default_language_id,
+        latest_version_number: s.detail.version,
+        store_url: s.detail.url,
+        rating_histogram: Object.values(s.detail.histogram),
+      })),
+    )
+
+  logger.debug('Application release created')
+
+  await pg
+    .queryBuilder()
+    .transacting(trx)
     .into('application_versions')
-    .insert(scraped_apps.map(prepareApplicationVersion))
+    .insert(
+      scraped_apps.map((s) => ({
+        released_at: s.detail.updated,
+        application_id: s.application_id,
+        version_number: s.detail.version,
+        default_language_id: s.default_language_id,
+        icon: s.detail.icon,
+        size: s.detail.size,
+        required_os_version: s.detail.requiredOsVersion,
+        language_ids: s.detail.languages,
+        website: s.detail.website,
+        content_rating: s.detail.contentRating,
+      })),
+    )
 
   logger.debug('Application versions created')
 
   await pg
     .queryBuilder()
     .transacting(trx)
-    .into('application_ratings')
+    .into('application_version_contents')
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        country_id: s.default_country_id,
-        rating_histogram: Object.values(s.detail.histogram),
+        fetched_country_id: s.default_country_id,
+        language_id: s.default_language_id,
+        version_number: s.detail.version,
+        title: s.detail.title,
+        description: s.detail.description,
+        release_notes: s.detail.releaseNotes,
+        screenshots: {
+          default: s.detail.screenshots ?? [],
+          ipad: s.detail.ipadScreenshots ?? [],
+          appletv: s.detail.appletvScreenshots ?? [],
+        },
       })),
     )
 
-  logger.debug('Application ratings created')
+  logger.debug('Application version contents created')
 }
 
 export async function upsert(trx, scraped_apps) {
@@ -184,59 +233,76 @@ export async function upsert(trx, scraped_apps) {
     )
     .update('last_fetch', pg.fn.now())
 
-  logger.debug('Application last_fetch updated')
+  logger.debug('Applications last_fetch updated')
 
   await pg
     .queryBuilder()
-    .into('application_versions')
-    .insert(scraped_apps.map(prepareApplicationVersion))
-    .onConflict(['application_id', 'country_id', 'version_number'])
-    .ignore()
     .transacting(trx)
+    .into('application_releases')
+    .insert(
+      scraped_apps.map((s) => ({
+        application_id: s.application_id,
+        country_id: s.default_country_id,
+        reviews: s.detail.reviews,
+        score: s.detail.score,
+        price: s.detail.price,
+        currency_id: s.detail.currency,
+        default_language_id: s.default_language_id,
+        latest_version_number: s.detail.version,
+        store_url: s.detail.url,
+        rating_histogram: Object.values(s.detail.histogram),
+      })),
+    )
+    .onConflict(['application_id', 'country_id'])
+    .merge()
 
-  logger.debug('Application versions upserted')
+  logger.debug('Application releases created')
 
-  await Promise.all(
-    scraped_apps.map((s) =>
-      pg
-        .queryBuilder()
-        .transacting(trx)
-        .into('application_ratings')
-        .where({
-          application_id: s.application_id,
-          country_id: s.default_country_id,
-        })
-        .update('rating_histogram', Object.values(s.detail.histogram)),
-    ),
-  )
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .into('application_versions')
+    .insert(
+      scraped_apps.map((s) => ({
+        released_at: s.detail.updated,
+        application_id: s.application_id,
+        version_number: s.detail.version,
+        default_language_id: s.default_language_id,
+        icon: s.detail.icon,
+        size: s.detail.size,
+        required_os_version: s.detail.requiredOsVersion,
+        language_ids: s.detail.languages,
+        website: s.detail.website,
+        content_rating: s.detail.contentRating,
+      })),
+    )
+    .onConflict(['application_id', 'version_number'])
+    .ignore()
 
-  logger.debug('Application ratings updated')
-}
+  logger.debug('New application versions created')
 
-function prepareApplicationVersion(scraped_app) {
-  return {
-    score: scraped_app.detail.score,
-    reviews: scraped_app.detail.reviews,
-    released_at: scraped_app.detail.updated,
-    price: scraped_app.detail.price,
-    release_notes: scraped_app.detail.releaseNotes,
-    application_id: scraped_app.application_id,
-    country_id: scraped_app.default_country_id,
-    version_number: scraped_app.detail.version,
-    title: scraped_app.detail.title,
-    description: scraped_app.detail.description,
-    icon: scraped_app.detail.icon,
-    size: scraped_app.detail.size,
-    required_os_version: scraped_app.detail.requiredOsVersion,
-    store_url: scraped_app.detail.url,
-    currency_id: scraped_app.detail.currency,
-    languages: scraped_app.detail.languages,
-    screenshots: {
-      default: scraped_app.detail.screenshots ?? [],
-      ipad: scraped_app.detail.ipadScreenshots ?? [],
-      appletv: scraped_app.detail.appletvScreenshots ?? [],
-    },
-    website: scraped_app.detail.website,
-    content_rating: scraped_app.detail.contentRating,
-  }
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .into('application_version_contents')
+    .insert(
+      scraped_apps.map((s) => ({
+        application_id: s.application_id,
+        fetched_country_id: s.default_country_id,
+        language_id: s.default_language_id,
+        version_number: s.detail.version,
+        title: s.detail.title,
+        description: s.detail.description,
+        release_notes: s.detail.releaseNotes,
+        screenshots: {
+          default: s.detail.screenshots ?? [],
+          ipad: s.detail.ipadScreenshots ?? [],
+          appletv: s.detail.appletvScreenshots ?? [],
+        },
+      })),
+    )
+    .onConflict(['application_id', 'version_number', 'language_id'])
+    .ignore()
+
+  logger.debug('New application version contents created')
 }

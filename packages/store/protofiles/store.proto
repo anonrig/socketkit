@@ -27,6 +27,7 @@ message ReviewApplicationIdRequest {
 message ApplicationsCreateRequestRow {
   string application_id = 1;
   string default_country_id = 2;
+  string default_language_id = 3;
 }
 
 message ApplicationsCreateRequest {

@@ -22,6 +22,7 @@ describe('create', () => {
           {
             application_id: '284882215',
             default_country_id: 'us',
+            default_language_id: 'EN',
           },
         ],
       },
