@@ -2,10 +2,7 @@ image:
   pullPolicy: Always
 replicaCount: 5
 strategyType: RollingUpdate
-podAnnotations:
-  linkerd.io/inject: enabled
-  config.linkerd.io/trace-collector: linkerd-collector.linkerd:55678
-  config.alpha.linkerd.io/trace-collector-service-account: linkerd-collector
+podAnnotations: {}
 application:
   track: stable
   tier: web
