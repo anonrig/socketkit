@@ -35,6 +35,14 @@ export default {
       client_id,
     })
 
-    return rows
+    const application_ids = rows.map(({ application_id }) => application_id)
+    const applications = await f.grpc.store.findAll({ application_ids })
+
+    return rows.map((row) => ({
+      ...row,
+      application_name: applications.rows.find(
+        (a) => a.application_id === row.application_id,
+      )?.title,
+    }))
   },
 }
