@@ -1,4 +1,3 @@
-import 'newrelic'
 import server from './server.js'
 import config from './config.js'
 import Logger from './logger.js'

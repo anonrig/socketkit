@@ -28,7 +28,6 @@
     "fastify-plugin": "^3.0.0",
     "fastify-sensible": "^3.1.0",
     "knex": "^0.21.18",
-    "newrelic": "^7.1.2",
     "pg": "^8.5.1",
     "qs": "^6.9.6",
     "under-pressure": "^5.6.0",
