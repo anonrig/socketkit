@@ -18,10 +18,7 @@ const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   disableRequestLogging: true,
-  logger: {
-    error: (message, ...args) => logger.error(message, args),
-    warn: (message, ...args) => logger.warn(message, args),
-  },
+  logger: true,
 })
 
 server.register(pressure, {
@@ -61,10 +58,5 @@ server.register(helmet)
 
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
-
-server.addHook('onError', (request, reply, error, done) => {
-  logger.error(error)
-  done()
-})
 
 export default server
