@@ -6,6 +6,7 @@ import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
 import auth from 'fastify-auth'
 import * as sensible from 'fastify-sensible'
+import metrics from 'fastify-metrics'
 import qs from 'qs'
 
 import grpc from './plugins/custom.js'
@@ -55,7 +56,7 @@ server.register(cors, {
 })
 server.register(compress)
 server.register(helmet)
-
+server.register(metrics, { endpoint: '/metrics' })
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
 
