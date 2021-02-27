@@ -10,8 +10,8 @@ export default {
         type: 'object',
         properties: {
           client_id: { type: 'string' },
-          client_total_base_client_purchase: { type: 'string' },
-          client_total_base_developer_proceeds: { type: 'string' },
+          total_base_client_purchase: { type: 'string' },
+          total_base_developer_proceeds: { type: 'string' },
           device_type_id: { type: 'string' },
           device_type_name: { type: 'string' },
           provider_id: { type: 'string' },
