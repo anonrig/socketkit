@@ -28,7 +28,7 @@ CREATE TABLE application_versions (
   release_notes text NOT NULL,
   application_id text NOT NULL,
   country_id text NOT NULL,
-  version text NOT NULL,
+  version_number text NOT NULL,
   title text NOT NULL,
   description text NOT NULL,
   icon text NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE application_versions (
   website text,
   content_rating text NOT NULL,
 
-  PRIMARY KEY (application_id, country_id, version),
+  PRIMARY KEY (application_id, country_id, version_number),
   FOREIGN KEY (application_id) REFERENCES applications,
   CHECK (country_id ~ '\A[a-z]{2}\Z'::text)
 );

@@ -27,7 +27,7 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       store_url: 'v.store_url',
       languages: 'v.languages',
       screenshots: 'v.screenshots',
-      version: 'v.version',
+      version: 'v.version_number',
       ratings: 'r.rating_histogram',
       released_at: 'a.released_at',
       version_released_at: 'v.released_at',
@@ -81,7 +81,7 @@ export function findVersions({ application_id, bundle_id }) {
       store_url: 'v.store_url',
       languages: 'v.languages',
       screenshots: 'v.screenshots',
-      version: 'v.version',
+      version: 'v.version_number',
       ratings: 'r.rating_histogram',
       released_at: 'a.released_at',
       version_released_at: 'v.released_at',
@@ -179,7 +179,7 @@ export async function upsertVersion(scraped_apps, country_id, trx) {
     .insert(
       scraped_apps.map((app) => prepareApplicationVersion(app, country_id)),
     )
-    .onConflict(['application_id', 'country_id', 'version'])
+    .onConflict(['application_id', 'country_id', 'version_number'])
     .ignore()
     .transacting(trx)
 
@@ -208,7 +208,7 @@ function prepareApplicationVersion(scraped_app, country_id) {
     release_notes: scraped_app.releaseNotes,
     application_id: scraped_app.id,
     country_id,
-    version: scraped_app.version,
+    version_number: scraped_app.version,
     title: scraped_app.title,
     description: scraped_app.description,
     icon: scraped_app.icon,
