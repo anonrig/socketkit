@@ -1,6 +1,17 @@
 import pg from '../pg.js'
 import Logger from '../logger.js'
 
+export async function exist(trx, application_ids) {
+  const rows = await pg
+    .queryBuilder()
+    .transacting(trx)
+    .from('applications')
+    .whereIn('application_id', application_ids)
+    .select('application_id')
+
+  return rows.map((r) => r.application_id)
+}
+
 export function findAll({ application_ids, bundle_ids, developer_ids }) {
   return pg
     .queryBuilder()
