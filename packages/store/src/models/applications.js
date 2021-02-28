@@ -161,7 +161,7 @@ export async function create(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        country_id: s.default_country_id,
+        country_id: s.country_id,
         reviews: s.detail.reviews,
         score: s.detail.score,
         price: s.detail.price,
@@ -203,7 +203,7 @@ export async function create(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        fetched_country_id: s.default_country_id,
+        fetched_country_id: s.country_id,
         language_id: s.default_language_id,
         version_number: s.detail.version,
         title: s.detail.title,
@@ -242,7 +242,7 @@ export async function upsert(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        country_id: s.default_country_id,
+        country_id: s.country_id,
         reviews: s.detail.reviews,
         score: s.detail.score,
         price: s.detail.price,
@@ -288,7 +288,7 @@ export async function upsert(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        fetched_country_id: s.default_country_id,
+        fetched_country_id: s.country_id,
         language_id: s.default_language_id,
         version_number: s.detail.version,
         title: s.detail.title,

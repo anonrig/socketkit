@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import pg from '../pg.js'
-import scrape from '../requests/app-store.js'
+import * as AppStore from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
 import * as Reviews from '../models/reviews.js'
 
@@ -26,7 +26,7 @@ export default function fetchApplications(limit) {
         'ar.default_language_id',
       ])
 
-    const scraped_apps = await scrape(applications)
+    const scraped_apps = await AppStore.scrapeAll(applications)
 
     await Applications.upsert(trx, scraped_apps)
 
