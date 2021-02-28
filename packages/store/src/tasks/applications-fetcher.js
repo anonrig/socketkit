@@ -1,31 +1,35 @@
 import dayjs from 'dayjs'
+import pg from '../pg.js'
+import scrape from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
 import * as Reviews from '../models/reviews.js'
-import pg from '../pg.js'
-import scraper from 'app-store-scraper'
 
 export default function fetchApplications(limit) {
   return pg.transaction(async (trx) => {
     const applications = await pg
-      .select('application_id')
+      .queryBuilder()
+      .transacting(trx)
       .from('applications')
       .where('last_fetch', '<', dayjs().subtract(5, 'minutes'))
       .limit(limit)
       .forUpdate()
       .skipLocked()
-      .transacting(trx)
+      .select(['application_id', 'default_country_id'])
 
-    const scraped_apps = await Promise.all(
-      applications.map(({ application_id }) =>
-        scraper.app({ id: application_id, ratings: true }),
-      ),
-    )
+    const scraped_apps = await scrape(applications)
 
-    await Applications.upsertVersion(scraped_apps, 'us', trx)
+    await Applications.upsert(trx, scraped_apps)
 
     await Promise.all(
-      applications.map(({ application_id }) =>
-        Reviews.create({ application_id, country_id: 'us', page: 1 }, trx),
+      applications.map((a) =>
+        Reviews.create(
+          {
+            application_id: a.application_id,
+            country_id: a.default_country_id,
+            page: 1,
+          },
+          trx,
+        ),
       ),
     )
 

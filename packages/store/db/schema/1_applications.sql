@@ -7,10 +7,12 @@ CREATE TABLE applications (
   application_id text NOT NULL,
   developer_id text NOT NULL,
   bundle_id text NOT NULL,
+  default_country_id text NOT NULL,
 
   PRIMARY KEY (application_id),
   UNIQUE (bundle_id),
   FOREIGN KEY (developer_id) REFERENCES developers,
+  CHECK (default_country_id ~ '\A[a-z]{2}\Z'),
   CONSTRAINT applications_last_fetch_check
     CHECK (last_fetch >= released_at)
 );
@@ -43,7 +45,7 @@ CREATE TABLE application_versions (
 
   PRIMARY KEY (application_id, country_id, version_number),
   FOREIGN KEY (application_id) REFERENCES applications,
-  CHECK (country_id ~ '\A[a-z]{2}\Z'::text)
+  CHECK (country_id ~ '\A[a-z]{2}\Z')
 );
 
 GRANT SELECT, INSERT, UPDATE ON application_versions TO "store-worker";

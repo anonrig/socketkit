@@ -108,20 +108,20 @@ export function findVersions({ application_id, bundle_id }) {
     .orderBy('v.released_at', 'desc')
 }
 
-export async function create(scraped_app, country_id, trx) {
+export async function create(trx, scraped_app) {
   const logger = Logger.create()
     .withScope('application-create')
-    .withTag(scraped_app.title)
+    .withTag(scraped_app.detail.title)
 
   await pg
     .queryBuilder()
     .transacting(trx)
     .into('developers')
     .insert({
-      developer_id: scraped_app.developerId,
-      name: scraped_app.developer,
-      store_url: scraped_app.developerUrl,
-      website: scraped_app.developerWebsite,
+      developer_id: scraped_app.detail.developerId,
+      name: scraped_app.detail.developer,
+      store_url: scraped_app.detail.developerUrl,
+      website: scraped_app.detail.developerWebsite,
     })
     .onConflict(['developer_id'])
     .ignore()
@@ -129,10 +129,11 @@ export async function create(scraped_app, country_id, trx) {
   logger.debug('Developer created')
 
   await pg.queryBuilder().transacting(trx).into('applications').insert({
-    application_id: scraped_app.id,
-    developer_id: scraped_app.developerId,
-    bundle_id: scraped_app.appId,
-    released_at: scraped_app.released,
+    application_id: scraped_app.application_id,
+    developer_id: scraped_app.detail.developerId,
+    bundle_id: scraped_app.detail.appId,
+    released_at: scraped_app.detail.released,
+    default_country_id: scraped_app.default_country_id,
   })
 
   logger.debug('Application created')
@@ -141,7 +142,7 @@ export async function create(scraped_app, country_id, trx) {
     .queryBuilder()
     .transacting(trx)
     .into('application_versions')
-    .insert(prepareApplicationVersion(scraped_app, country_id))
+    .insert(prepareApplicationVersion(scraped_app))
 
   logger.debug('Application version created')
 
@@ -150,35 +151,33 @@ export async function create(scraped_app, country_id, trx) {
     .transacting(trx)
     .into('application_ratings')
     .insert({
-      application_id: scraped_app.id,
-      country_id,
-      rating_histogram: Object.values(scraped_app.histogram),
+      application_id: scraped_app.application_id,
+      country_id: scraped_app.default_country_id,
+      rating_histogram: Object.values(scraped_app.detail.histogram),
     })
 
   logger.debug('Application rating created')
 }
 
-export async function upsertVersion(scraped_apps, country_id, trx) {
-  const logger = Logger.create().withScope('application-versions-upsert')
+export async function upsert(trx, scraped_apps) {
+  const logger = Logger.create().withScope('applications-upsert')
 
   await pg
     .queryBuilder()
     .transacting(trx)
-    .update('last_fetch', pg.fn.now())
     .into('applications')
     .whereIn(
       'application_id',
-      scraped_apps.map(({ id }) => id),
+      scraped_apps.map((s) => s.application_id),
     )
+    .update('last_fetch', pg.fn.now())
 
   logger.debug('Application last_fetch updated')
 
   await pg
     .queryBuilder()
     .into('application_versions')
-    .insert(
-      scraped_apps.map((app) => prepareApplicationVersion(app, country_id)),
-    )
+    .insert(scraped_apps.map(prepareApplicationVersion))
     .onConflict(['application_id', 'country_id', 'version_number'])
     .ignore()
     .transacting(trx)
@@ -191,38 +190,41 @@ export async function upsertVersion(scraped_apps, country_id, trx) {
         .queryBuilder()
         .transacting(trx)
         .into('application_ratings')
-        .where({ application_id: s.id, country_id })
-        .update('rating_histogram', Object.values(s.histogram)),
+        .where({
+          application_id: s.application_id,
+          country_id: s.default_country_id,
+        })
+        .update('rating_histogram', Object.values(s.detail.histogram)),
     ),
   )
 
   logger.debug('Application ratings updated')
 }
 
-function prepareApplicationVersion(scraped_app, country_id) {
+function prepareApplicationVersion(scraped_app) {
   return {
-    score: scraped_app.score,
-    reviews: scraped_app.reviews,
-    released_at: scraped_app.updated,
-    price: scraped_app.price,
-    release_notes: scraped_app.releaseNotes,
-    application_id: scraped_app.id,
-    country_id,
-    version_number: scraped_app.version,
-    title: scraped_app.title,
-    description: scraped_app.description,
-    icon: scraped_app.icon,
-    size: scraped_app.size,
-    required_os_version: scraped_app.requiredOsVersion,
-    store_url: scraped_app.url,
-    currency_id: scraped_app.currency,
-    languages: scraped_app.languages,
+    score: scraped_app.detail.score,
+    reviews: scraped_app.detail.reviews,
+    released_at: scraped_app.detail.updated,
+    price: scraped_app.detail.price,
+    release_notes: scraped_app.detail.releaseNotes,
+    application_id: scraped_app.application_id,
+    country_id: scraped_app.default_country_id,
+    version_number: scraped_app.detail.version,
+    title: scraped_app.detail.title,
+    description: scraped_app.detail.description,
+    icon: scraped_app.detail.icon,
+    size: scraped_app.detail.size,
+    required_os_version: scraped_app.detail.requiredOsVersion,
+    store_url: scraped_app.detail.url,
+    currency_id: scraped_app.detail.currency,
+    languages: scraped_app.detail.languages,
     screenshots: {
-      default: scraped_app.screenshots ?? [],
-      ipad: scraped_app.ipadScreenshots ?? [],
-      appletv: scraped_app.appletvScreenshots ?? [],
+      default: scraped_app.detail.screenshots ?? [],
+      ipad: scraped_app.detail.ipadScreenshots ?? [],
+      appletv: scraped_app.detail.appletvScreenshots ?? [],
     },
-    website: scraped_app.website,
-    content_rating: scraped_app.contentRating,
+    website: scraped_app.detail.website,
+    content_rating: scraped_app.detail.contentRating,
   }
 }
