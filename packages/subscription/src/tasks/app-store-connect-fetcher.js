@@ -134,16 +134,17 @@ export default function fetchIntegrations() {
         )
       }
 
-      const application_ids = [
-        ...new Set(transactions.map(({ appAppleId }) => appAppleId)),
-      ]
+      const applications = transactions.reduce((i, t) => {
+        i[t.appAppleId] = {
+          application_id: t.appAppleId,
+          default_country_id: 'us',
+          default_language_id: 'EN',
+        }
 
-      for (const application_id of application_ids) {
-        await client.store.create({
-          application_id,
-          country_id: 'us',
-        })
-      }
+        return i
+      }, {})
+
+      await client.store.applications.create(Object.values(applications))
     }
 
     await pg

@@ -12,10 +12,12 @@ const defaults = {
   oneofs: true,
 }
 
-const { Store } = grpc.loadPackageDefinition(
+const { Applications } = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
 export default {
-  store: promisifyAll(new Store(url, grpc.credentials.createInsecure())),
+  store: {
+    applications: promisifyAll(new Applications(url, grpc.credentials.createInsecure())),
+  },
 }
