@@ -6,7 +6,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node -r dotenv/config src/index.js",
+    "start": "node src/index.js",
     "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
     "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
@@ -19,12 +19,12 @@
     "app-store-scraper": "github:facundoolano/app-store-scraper",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "dotenv": "^8.2.0",
     "knex": "^0.21.18",
     "mali": "^0.40.0",
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
