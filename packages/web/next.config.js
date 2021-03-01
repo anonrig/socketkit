@@ -19,4 +19,13 @@ module.exports = withPlugins([withBundleAnalyzer, withImages], {
     }
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: '/reports',
+        destination: '/reports/trials',
+        permanent: false,
+      },
+    ]
+  },
 })

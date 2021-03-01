@@ -6,25 +6,30 @@ import Footer from 'components/footer.js'
 import Header from 'components/header.js'
 import Container from 'components/container.js'
 import Subheader from '../components/sub-header.js'
+import { route } from 'next/dist/next-server/server/router'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
   const { data } = useSWR('integrations')
-  const HeaderComponent = router.pathname.includes('/account') ? (
-    <Subheader
-      items={[
-        { title: 'Account Settings', href: '/account/settings' },
-        { title: 'Billing', href: '/account/billing' },
-        { title: 'Integrations', href: '/account/integrations' },
-      ]}
-      selected_href={router.pathname}
-    />
-  ) : null
+  let header = null
+
+  if (router.pathname.includes('/account')) {
+    header = (
+      <Subheader
+        items={[
+          { title: 'Account Settings', href: '/account/settings' },
+          { title: 'Billing', href: '/account/billing' },
+          { title: 'Integrations', href: '/account/integrations' },
+        ]}
+        selected_href={router.pathname}
+      />
+    )
+  }
 
   return (
     <>
       <Header />
-      {HeaderComponent}
+      {header}
       <Container>{children}</Container>
       <Footer />
 

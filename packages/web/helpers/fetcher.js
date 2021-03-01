@@ -1,6 +1,11 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-export async function fetcher(resource, options = {}) {
+export async function fetcher(resource, options) {
+  if (options?.qs) {
+    resource = `${resource}?${getQueryString(options.qs)}`
+    delete options.qs
+  }
+
   return fetch(`${process.env.NEXT_PUBLIC_API_URL}/${resource}`, {
     credentials: 'include',
     headers: {
@@ -16,4 +21,10 @@ export async function fetcher(resource, options = {}) {
 
     throw response
   })
+}
+
+export function getQueryString(params) {
+  return Object.keys(params)
+    .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .join('&')
 }
