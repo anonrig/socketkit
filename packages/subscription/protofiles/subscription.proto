@@ -305,6 +305,9 @@ message TrialReportRequest {
   oneof optional_application_id {
     string application_id = 2;
   }
+  oneof optional_interval {
+    string interval = 3;
+  }
 }
 
 message AverageDurationReportRequest {
@@ -312,12 +315,18 @@ message AverageDurationReportRequest {
   oneof optional_application_id {
     string application_id = 2;
   }
+  oneof optional_interval {
+    string interval = 3;
+  }
 }
 
 message MrrReportRequest {
   string account_id = 1;
   oneof optional_application_id {
     string application_id = 2;
+  }
+  oneof optional_interval {
+    string interval = 3;
   }
 }
 
