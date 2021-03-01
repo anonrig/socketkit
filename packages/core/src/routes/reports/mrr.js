@@ -8,16 +8,17 @@ export default {
     querystring: {
       type: 'object',
       properties: {
-        from: {
+        start_date: {
           type: 'string',
           format: 'date',
         },
-        to: {
+        end_date: {
           type: 'string',
           format: 'date',
         },
-        application_id: {
+        interval: {
           type: 'string',
+          default: 'week',
         },
       },
     },
@@ -60,9 +61,9 @@ export default {
 
     return f.grpc.reports.mrr({
       account_id: account.account_id,
-      start_date: query.from,
-      end_date: query.to,
-      application_id: query.application_id,
+      start_date: query.start_date,
+      end_date: query.end_date,
+      interval: `1 ${query.interval}`,
     })
   },
 }
