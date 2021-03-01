@@ -22,7 +22,6 @@
     "dotenv": "^8.2.0",
     "knex": "^0.21.18",
     "mali": "^0.40.0",
-    "newrelic": "^7.1.2",
     "pg": "^8.5.1"
   },
   "devDependencies": {
