@@ -10,12 +10,20 @@ export async function runTasks() {
     return
   }
 
-  logger.info('Searching for 10 applications to process')
-  const processed = await fetchApplications(limit)
-  logger.success(`Processed ${processed} applications`)
-  if (processed < 10) {
-    logger.info('Sleeping for 10 minutes')
-    await sleep(600000)
+  try {
+    logger.info('Searching for 10 applications to process')
+    const processed = await fetchApplications(limit)
+    logger.success(`Processed ${processed} applications`)
+    if (processed < 10) {
+      logger.info('Sleeping for 10 minutes')
+      await sleep(600000)
+    }
+  } catch (error) {
+    logger.error(
+      `Failed to fetch applications due to ${error.response.statusCode} status code.`,
+    )
+    await sleep(60000)
   }
+
   await runTasks()
 }
