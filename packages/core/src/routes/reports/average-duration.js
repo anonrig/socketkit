@@ -41,6 +41,8 @@ export default {
               },
             },
           },
+          secondary_field: { type: 'string' },
+          fields: { type: 'array', items: { type: 'string' } },
         },
       },
     },

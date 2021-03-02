@@ -333,16 +333,22 @@ message MrrReportRequest {
 message TrialReportResponse {
   repeated TrialReportRow rows = 1; 
   repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
 }
 
 message TrialAverageDurationResponse {
   repeated AverageDurationReportRow rows = 1; 
   repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
 }
 
 message MrrReportResponse {
   repeated MrrReportRow rows = 1;
   repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
 }
 
 message TrialReportRow {

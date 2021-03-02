@@ -47,7 +47,7 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    const { row } = await f.grpc.store.findOne({
+    const { row } = await f.grpc.applications.findOne({
       application_id,
     })
 
