@@ -155,5 +155,18 @@ export async function getMRR({
   return {
     rows,
     available_filters,
+    secondary_field: 'mrr',
+    fields: [
+      'mrr',
+      'clients',
+      'new_mrr',
+      'expansion_mrr',
+      'churned_mrr',
+      'contraction_mrr',
+      'net_new_mrr',
+      'mrr_churn',
+      'clients_churn',
+      'arpu',
+    ],
   }
 }
