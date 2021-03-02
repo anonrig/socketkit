@@ -14,7 +14,7 @@ function ActiveLink({ children, className, activeClassName, exact = false, href 
 }
 
 ActiveLink.propTypes = {
-  children: PropTypes.oneOf([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   className: PropTypes.string.isRequired,
   activeClassName: PropTypes.string.isRequired,
   exact: PropTypes.bool,
