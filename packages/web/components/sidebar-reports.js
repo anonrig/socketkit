@@ -1,67 +1,31 @@
-import ActiveLink from './active-link.js'
+import Link from 'next/link'
+import SocketkitConfig from 'socketkit.config.js'
+import cx from 'classnames'
 
 function Sidebar() {
-  const activeClassName = 'bg-gray-50 text-orange-600 hover:text-orange-600'
+  const getReportsForGroup = ({ reports }) =>
+    reports.map((report) => (
+      <Link href={`/reports/${report.slug}`} key={report.slug}>
+        <a
+          className={cx([
+            'hover:bg-gray-100 hover:text-gray-900 text-gray-800 group flex items-center px-3 py-2 text-sm font-medium rounded-md',
+          ])}
+          aria-current="page">
+          <span className="truncate">{report.short_title}</span>
+        </a>
+      </Link>
+    ))
 
   return (
-    <nav className="space-y-1">
-      <ActiveLink
-        activeClassName={activeClassName}
-        className="group rounded-md px-3 py-2 flex items-center text-sm font-medium text-gray-900 hover:text-gray-900 hover:bg-white"
-        href={`/reports/trials`}>
-        <svg
-          className="h-6 w-6 mr-3 -ml-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-          />
-        </svg>
-        <span className="truncate">Free Trials</span>
-      </ActiveLink>
-      <ActiveLink
-        activeClassName={activeClassName}
-        className="group rounded-md px-3 py-2 flex items-center text-sm font-medium text-gray-900 hover:text-gray-900 hover:bg-white"
-        href={`/reports/mrr`}>
-        <svg
-          className="h-6 w-6 mr-3 -ml-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-          />
-        </svg>
-        <span className="truncate">MRR</span>
-      </ActiveLink>
-      <ActiveLink
-        activeClassName={activeClassName}
-        className="group rounded-md px-3 py-2 flex items-center text-sm font-medium text-gray-900 hover:text-gray-900 hover:bg-white"
-        href={`/reports/average-duration`}>
-        <svg
-          className="h-6 w-6 mr-3 -ml-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-          />
-        </svg>
-        <span className="truncate">Average Duration</span>
-      </ActiveLink>
+    <nav className="space-y-4">
+      {SocketkitConfig.report_groups.map((group) => (
+        <div key={group.name} className="space-y-2">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            {group.name}
+          </p>
+          {getReportsForGroup(group)}
+        </div>
+      ))}
     </nav>
   )
 }

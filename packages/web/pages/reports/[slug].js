@@ -6,39 +6,14 @@ import SidebarLayout from 'layouts/sidebar.js'
 import Sidebar from 'components/sidebar-reports.js'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import DatePicker from 'components/date-picker.js'
-import ButtonGroup from '../../components/form/button-group.js'
-import BarChart from '../../components/charts/bar.js'
-import LineChart from '../../components/charts/line.js'
-
-const reports = [
-  {
-    slug: 'trials',
-    title: 'Free Trials',
-    description: 'The number of new free trials started over time',
-    route: 'reports/trials',
-    labelFormat: (l) => `${l} leads`,
-  },
-  {
-    slug: 'mrr',
-    title: 'Monthly Recurring Revenue',
-    description:
-      'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-    route: 'reports/mrr',
-    labelFormat: (l) => `$${l}`,
-  },
-  {
-    slug: 'average-duration',
-    title: 'Average Subscription Duration',
-    description:
-      'The average number of days taken for a lead to convert into an active paying customer.',
-    route: 'reports/average-duration',
-    labelFormat: (l) => `${l} days`,
-  },
-]
+import ButtonGroup from 'components/form/button-group.js'
+import BarChart from 'components/charts/bar.js'
+import LineChart from 'components/charts/line.js'
+import SocketkitConfig from 'socketkit.config.js'
 
 export async function getServerSideProps(ctx) {
   const { slug } = ctx.query
-  const report = reports.find((r) => r.slug === slug)
+  const report = SocketkitConfig.reports.find((r) => r.slug === slug)
 
   if (!report) {
     return {
@@ -61,7 +36,7 @@ export async function getServerSideProps(ctx) {
 }
 
 function Reports({ initialQuery, slug }) {
-  const report = reports.find((r) => r.slug === slug)
+  const report = SocketkitConfig.reports.find((r) => r.slug === slug)
   const [filters, setFilters] = useState({
     ...initialQuery,
     start_date: dayjs(initialQuery.start_date),
@@ -152,17 +127,12 @@ function Reports({ initialQuery, slug }) {
 }
 
 Reports.propTypes = {
-  report: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    route: PropTypes.string.isRequired,
-    labelFormat: PropTypes.func.isRequired,
-  }),
   initialQuery: PropTypes.shape({
     start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
     interval: PropTypes.string.isRequired,
   }),
+  slug: PropTypes.string.isRequired,
 }
 
 export default Reports
