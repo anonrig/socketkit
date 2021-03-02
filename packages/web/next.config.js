@@ -17,6 +17,10 @@ module.exports = withPlugins([withBundleAnalyzer, withImages], {
         fs: 'empty',
       }
     }
+    config.module.rules.push({
+      test: /react-spring/,
+      sideEffects: true,
+    })
     return config
   },
   async redirects() {
