@@ -19,9 +19,13 @@ export async function runTasks() {
       await sleep(600000)
     }
   } catch (error) {
-    logger.error(
-      `Failed to fetch applications due to ${error.response.statusCode} status code.`,
-    )
+    if (error.message) {
+      logger.error(error.message)
+    } else {
+      logger.error(
+        `Failed to fetch applications due to ${error.response?.statusCode} status code.`,
+      )
+    }
     await sleep(60000)
   }
 
