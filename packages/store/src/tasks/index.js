@@ -2,7 +2,7 @@ import fetchApplications from './applications-fetcher.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks')
-const limit = 10
+const limit = 1
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export async function runTasks() {
@@ -11,12 +11,12 @@ export async function runTasks() {
   }
 
   try {
-    logger.info('Searching for 10 applications to process')
+    logger.info(`Searching for ${limit} applications to process`)
     const processed = await fetchApplications(limit)
     logger.success(`Processed ${processed} applications`)
-    if (processed < 10) {
-      logger.info('Sleeping for 10 minutes')
-      await sleep(600000)
+    if (processed < limit) {
+      logger.info('Sleeping for 5 minutes')
+      await sleep(300000)
     }
   } catch (error) {
     if (error.message) {
