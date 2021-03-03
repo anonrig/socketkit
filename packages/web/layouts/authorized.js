@@ -6,7 +6,7 @@ import Footer from 'components/footer.js'
 import Header from 'components/header.js'
 import Container from 'components/container.js'
 import Subheader from '../components/sub-header.js'
-import { route } from 'next/dist/next-server/server/router'
+import TabHeader from './tab-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
@@ -24,6 +24,8 @@ function AuthorizedLayout({ children }) {
         selected_href={router.pathname}
       />
     )
+  } else if (router.pathname.includes('/applications')) {
+    header = <TabHeader />
   }
 
   return (

@@ -95,7 +95,7 @@ export default function Applications({ applications }) {
         columns={columns}
         getRowProps={({ original }) => ({
           key: original.application_id,
-          onClick: () => router.push(`/applications/${original.application_id}`),
+          onClick: () => router.push(`/applications/${original.application_id}/general`),
         })}
       />
     </>
