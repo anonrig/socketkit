@@ -99,6 +99,36 @@ const report_groups = [
       },
     ],
   },
+  {
+    name: 'Churn',
+    reports: [
+      {
+        slug: 'customer-churn-rate',
+        title: 'Customer churn rate',
+        short_title: 'Customer churn rate',
+        description: 'The rate at which your customers are cancelling their subscriptions.',
+        route: 'reports/customer-churn-rate',
+        labelFormat: (l) => `${l} churns`,
+      },
+      {
+        slug: 'net-mrr-churn',
+        title: 'Net MRR churn rate',
+        short_title: 'Net MRR churn rate',
+        description:
+          'The rate at which you are losing MRR through downgrades and cancellations, offset by expansion and reactivation MRR.',
+        route: 'reports/net-mrr-churn',
+        labelFormat: (l) => `%${l}`,
+      },
+      {
+        slug: 'gross-mrr-churn',
+        title: 'Gross MRR churn rate',
+        short_title: 'Gross MRR churn rate',
+        description: 'MRR lost in a given month / MRR at the beginning of the month.',
+        route: 'reports/gross-mrr-churn',
+        labelFormat: (l) => `${l} days`,
+      },
+    ],
+  },
 ]
 
 export default {
