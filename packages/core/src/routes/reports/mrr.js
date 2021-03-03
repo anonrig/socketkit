@@ -35,6 +35,7 @@ export default {
             items: {
               type: 'object',
               properties: {
+                primary: { type: 'string' },
                 month: { type: 'string' },
                 mrr: { type: 'string' },
                 clients: { type: 'number' },
