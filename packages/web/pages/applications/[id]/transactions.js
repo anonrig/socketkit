@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-
-import DatePicker from 'components/date-picker'
 import TableBadge from 'components/table/badge'
 import Table from 'components/table/table'
 import { fetcher } from 'helpers/fetcher.js'
