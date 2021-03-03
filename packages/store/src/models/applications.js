@@ -1,5 +1,6 @@
 import pg from '../pg.js'
 import Logger from '../logger.js'
+import dayjs from 'dayjs'
 
 export async function exist(trx, application_ids) {
   const rows = await pg
@@ -210,17 +211,19 @@ export async function create(trx, scraped_apps) {
         description: s.detail.description,
         release_notes: s.detail.releaseNotes,
         screenshots: {
-          default: s.detail.screenshots ?? [],
-          ipad: s.detail.ipadScreenshots ?? [],
-          appletv: s.detail.appletvScreenshots ?? [],
+          default: s.detail.screenshots || [],
+          ipad: s.detail.ipadScreenshots || [],
+          appletv: s.detail.appletvScreenshots || [],
         },
       })),
     )
 
   logger.debug('Application version contents created')
+
+  return {}
 }
 
-export async function upsert(trx, scraped_apps) {
+export async function upsert(applications, trx) {
   const logger = Logger.create().withScope('applications-upsert')
 
   await pg
@@ -229,9 +232,9 @@ export async function upsert(trx, scraped_apps) {
     .into('applications')
     .whereIn(
       'application_id',
-      scraped_apps.map((s) => s.application_id),
+      applications.filter((a) => !!a).map((a) => a.application_id),
     )
-    .update('last_fetch', pg.fn.now())
+    .update('last_fetch', dayjs())
 
   logger.debug('Applications last_fetch updated')
 
@@ -240,7 +243,7 @@ export async function upsert(trx, scraped_apps) {
     .transacting(trx)
     .into('application_releases')
     .insert(
-      scraped_apps.map((s) => ({
+      applications.map((s) => ({
         application_id: s.application_id,
         country_id: s.country_id,
         reviews: s.detail.reviews,
@@ -263,7 +266,7 @@ export async function upsert(trx, scraped_apps) {
     .transacting(trx)
     .into('application_versions')
     .insert(
-      scraped_apps.map((s) => ({
+      applications.map((s) => ({
         released_at: s.detail.updated,
         application_id: s.application_id,
         version_number: s.detail.version,
@@ -286,7 +289,7 @@ export async function upsert(trx, scraped_apps) {
     .transacting(trx)
     .into('application_version_contents')
     .insert(
-      scraped_apps.map((s) => ({
+      applications.map((s) => ({
         application_id: s.application_id,
         fetched_country_id: s.country_id,
         language_id: s.default_language_id,
@@ -295,9 +298,9 @@ export async function upsert(trx, scraped_apps) {
         description: s.detail.description,
         release_notes: s.detail.releaseNotes,
         screenshots: {
-          default: s.detail.screenshots ?? [],
-          ipad: s.detail.ipadScreenshots ?? [],
-          appletv: s.detail.appletvScreenshots ?? [],
+          default: s.detail.screenshots || [],
+          ipad: s.detail.ipadScreenshots || [],
+          appletv: s.detail.appletvScreenshots || [],
         },
       })),
     )
@@ -305,4 +308,5 @@ export async function upsert(trx, scraped_apps) {
     .ignore()
 
   logger.debug('New application version contents created')
+  return {}
 }

@@ -2,7 +2,7 @@ import fetchApplications from './applications-fetcher.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks')
-const limit = 1
+const limit = 10
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export async function runTasks() {
@@ -19,13 +19,7 @@ export async function runTasks() {
       await sleep(300000)
     }
   } catch (error) {
-    if (error.message) {
-      logger.error(error.message)
-    } else {
-      logger.error(
-        `Failed to fetch applications due to ${error.response?.statusCode} status code.`,
-      )
-    }
+    logger.error(error)
     await sleep(60000)
   }
 

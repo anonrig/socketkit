@@ -9,7 +9,13 @@ export default function fetchApplications(limit) {
     const applications = await pg
       .queryBuilder()
       .transacting(trx)
+      .select([
+        'a.application_id',
+        'a.default_country_id',
+        'ar.default_language_id',
+      ])
       .from('applications AS a')
+      .limit(limit)
       .join('application_releases AS ar', function () {
         this.on('a.application_id', 'ar.application_id').andOn(
           'a.default_country_id',
@@ -17,18 +23,12 @@ export default function fetchApplications(limit) {
         )
       })
       .where('a.last_fetch', '<', dayjs().subtract(5, 'minutes'))
-      .limit(limit)
       .forUpdate()
       .skipLocked()
-      .select([
-        'a.application_id',
-        'a.default_country_id',
-        'ar.default_language_id',
-      ])
 
     const scraped_apps = await AppStore.scrapeAll(applications)
 
-    await Applications.upsert(trx, scraped_apps)
+    await Applications.upsert(scraped_apps, trx)
 
     await Promise.all(
       applications.map((a) =>
