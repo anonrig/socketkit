@@ -16,7 +16,7 @@ export async function runTasks() {
     logger.success(`Processed ${processed} applications`)
     if (processed < limit) {
       logger.info('Sleeping for 5 minutes')
-      await sleep(300000)
+      await sleep(600000)
     }
   } catch (error) {
     logger.error(error)

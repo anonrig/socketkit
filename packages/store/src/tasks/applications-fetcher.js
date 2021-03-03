@@ -8,7 +8,6 @@ export default function fetchApplications(limit) {
   return pg.transaction(async (trx) => {
     const applications = await pg
       .queryBuilder()
-      .transacting(trx)
       .select([
         'a.application_id',
         'a.default_country_id',
@@ -22,26 +21,27 @@ export default function fetchApplications(limit) {
           'ar.country_id',
         )
       })
-      .where('a.last_fetch', '<', dayjs().subtract(5, 'minutes'))
+      .where('a.last_fetch', '<', dayjs().subtract(10, 'minutes'))
       .forUpdate()
       .skipLocked()
+      .transacting(trx)
 
-    const scraped_apps = await AppStore.scrapeAll(applications)
+    // const scraped_apps = await AppStore.scrapeAll(applications)
 
-    await Applications.upsert(scraped_apps, trx)
+    // await Applications.upsert(scraped_apps, trx)
 
-    await Promise.all(
-      applications.map((a) =>
-        Reviews.create(
-          {
-            application_id: a.application_id,
-            country_id: a.default_country_id,
-            page: 1,
-          },
-          trx,
-        ),
-      ),
-    )
+    // await Promise.all(
+    //   applications.map((a) =>
+    //     Reviews.create(
+    //       {
+    //         application_id: a.application_id,
+    //         country_id: a.default_country_id,
+    //         page: 1,
+    //       },
+    //       trx,
+    //     ),
+    //   ),
+    // )
 
     return applications.length
   })
