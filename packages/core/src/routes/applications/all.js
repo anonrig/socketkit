@@ -14,15 +14,8 @@ export default {
             items: {
               type: 'object',
               properties: {
-                provider_id: { type: 'string' },
                 application_id: { type: 'string' },
                 title: { type: 'string' },
-                subscription_package_count: { type: 'number' },
-                version: { type: 'string' },
-                ratings: { type: 'array', items: { type: 'number' } },
-                icon: { type: 'string' },
-                released_at: { type: 'string' },
-                updated_at: { type: 'string' },
               },
             },
           },
