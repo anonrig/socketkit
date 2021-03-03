@@ -14,12 +14,12 @@
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
-    "@grpc/grpc-js": "^1.2.8",
+    "@grpc/grpc-js": "^1.2.9",
     "@grpc/proto-loader": "^0.5.6",
     "app-store-scraper": "github:socketkit/app-store-scraper",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "knex": "^0.21.18",
+    "knex": "^0.21.19",
     "mali": "^0.40.0",
     "pg": "^8.5.1"
   },
