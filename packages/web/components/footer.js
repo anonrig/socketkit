@@ -4,8 +4,8 @@ function Footer() {
   return (
     <footer>
       <Container>
-        <p className="mt-8 text-center text-base text-gray-400">
-          © 2020 Socketkit, Inc. All rights reserved.
+        <p className="mt-8 text-left text-base text-trueGray-500">
+          © 2021 Socketkit, Inc. All rights reserved.
         </p>
       </Container>
     </footer>

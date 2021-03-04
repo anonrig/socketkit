@@ -11,12 +11,12 @@ function ButtonGroup({ selected, items, onSelected }) {
           type="button"
           className={cx([
             selected === item
-              ? 'bg-orange-500 text-white hover:bg-orange-400 border-orange-500'
-              : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-300',
+              ? 'bg-warmGray-50 text-orange-500 hover:bg-white'
+              : 'bg-white text-warmGray-900 hover:text-warmGray-500',
             i === 0 ? 'rounded-l-md' : null,
             i !== 0 && i !== items.length - 1 ? '-ml-px' : null,
             i === items.length - 1 ? '-ml-px rounded-r-md' : null,
-            'relative inline-flex items-center px-4 py-2 border text-xs font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500',
+            'border-gray-300 relative inline-flex items-center px-4 py-2 border text-xs font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500',
           ])}>
           {item}
         </button>

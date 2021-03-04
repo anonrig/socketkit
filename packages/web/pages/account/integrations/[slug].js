@@ -48,14 +48,14 @@ export default function IntegrationDetail() {
           <div className="bg-white py-6 px-4 sm:p-6">
             <div>
               <h2
-                className="text-lg leading-6 font-medium text-gray-900"
+                className="text-lg leading-6 font-medium text-warmGray-900"
                 id="payment_details_heading">
                 {data?.title ?? 'Integration'}
               </h2>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-trueGray-500">
                 Update your integration settings. Learn more from{' '}
                 <a
-                  className="inline underline text-blueGray-800 text-sm font-medium"
+                  className="inline underline text-orange-500 text-sm font-medium"
                   href="https://help.chartmogul.com/hc/en-us/articles/360000109609">
                   our competitor
                 </a>
@@ -64,13 +64,13 @@ export default function IntegrationDetail() {
             </div>
             <div className="mt-6 grid grid-cols-4 gap-6">
               {Object.keys(data?.requirement_schema.properties ?? {}).map((key) => (
-                <div className="col-span-4" key={key}>
-                  <label className="block text-sm font-medium text-gray-700" htmlFor={key}>
+                <div className="col-span-4 text-warmGray-900" key={key}>
+                  <label className="block text-sm font-medium" htmlFor={key}>
                     {data?.requirement_schema.properties[key]?.label ?? key}
                   </label>
                   <input
                     ref={register({ required: true })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                     defaultValue={(data?.integration ?? {})[key] || ''}
                     name={key}
                     type="text"
@@ -80,22 +80,31 @@ export default function IntegrationDetail() {
               ))}
             </div>
           </div>
-          <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-2">
+          <div className="px-4 py-3 sm:px-6 space-x-2 border-t border-gray-200 flex justify-between">
             {data?.integration ? (
               <Button
                 onClick={() => onSubmit(null, null, true)}
-                className="bg-red-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400"
                 loading={false}>
-                Delete
+                Delete & Disable Integration
               </Button>
             ) : null}
 
-            <Button
-              className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-              loading={loading}
-              type="submit">
-              {data?.integration ? 'Update' : 'Create'}
-            </Button>
+            <div className="space-x-4">
+              <Button
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                loading={loading}
+                onClick={() => router.push('/account/integrations')}>
+                Cancel
+              </Button>
+
+              <Button
+                className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
+                loading={loading}
+                type="submit">
+                {data?.integration ? 'Update' : 'Create'}
+              </Button>
+            </div>
           </div>
         </div>
       </form>

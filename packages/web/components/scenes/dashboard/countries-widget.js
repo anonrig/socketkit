@@ -1,18 +1,17 @@
-import { useState } from 'react'
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 
 function CountriesWidget({ range }) {
   const { data } = useSWR(`accounts/countries?from=${range.from}&to=${range.to}&limit=10`)
-  const geoUrl =
-    'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json'
 
   return (
-    <section aria-labelledby="countries_widget_heading" className="lg:col-span-4">
-      <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">Countries</h3>
-      <p className="text-lg text-gray-400">Most promising 5 countries on your audience.</p>
+    <section className="lg:col-span-4">
+      <div className="space-y-0.5">
+        <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-2xl">Countries</h3>
+        <p className="text-md text-trueGray-500">Most promising 5 countries on your audience.</p>
+      </div>
       <dl className="grid grid-cols-1 md:grid-cols-4 space-x-6">
+        <div className="col-span-2 flex flex-1 justify-center items-center"></div>
         <div className="col-span-2">
           <div className="bg-white shadow sm:rounded-md sm:overflow-hidden mt-5">
             <div className="flex flex-col">
@@ -21,25 +20,17 @@ function CountriesWidget({ range }) {
                   <div className="overflow-hidden border-t border-gray-200">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead>
-                        <tr>
-                          <th
-                            className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            scope="col">
+                        <tr className="bg-warmGray-50 text-left text-trueGray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 text-xs font-medium" scope="col">
                             Name
                           </th>
-                          <th
-                            className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            scope="col">
+                          <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
                             Churn Rate
                           </th>
-                          <th
-                            className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            scope="col">
+                          <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
                             Conversion Rate
                           </th>
-                          <th
-                            className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            scope="col">
+                          <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
                             Revenue
                           </th>
                         </tr>
@@ -47,16 +38,16 @@ function CountriesWidget({ range }) {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {data?.slice(0, 5).map((country) => (
                           <tr key={country.country_id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
                               {country.country_name}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                               {((country.churn_count / country.total_count) * 100).toFixed(2)}%
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                               {((country.trial_past_count / country.total_count) * 100).toFixed(2)}%
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                               ${country.revenue ?? 0}
                             </td>
                           </tr>
@@ -68,22 +59,6 @@ function CountriesWidget({ range }) {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-span-2 flex flex-1 justify-center items-center">
-          <ComposableMap projectionConfig={{ scale: 188 }} className="h-96 w-full">
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => <Geography key={geo.rsmKey} geography={geo} />)
-              }
-            </Geographies>
-            {data?.map((d) => (
-              <Marker
-                coordinates={[d.country_coordinates.y, d.country_coordinates.x]}
-                key={d.country_id}>
-                <circle r={8} fill="#F53" />
-              </Marker>
-            ))}
-          </ComposableMap>
         </div>
       </dl>
     </section>

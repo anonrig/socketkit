@@ -46,12 +46,12 @@ function Table({ initialData, columns, getRowProps, url, options }) {
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200" {...getTableProps()}>
-                <thead className="bg-gray-50">
+                <thead className="bg-warmGray-50">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
                         <th
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
                           scope="col"
                           {...column.getHeaderProps()}>
                           {column.render('Header')}
@@ -66,12 +66,12 @@ function Table({ initialData, columns, getRowProps, url, options }) {
 
                     return (
                       <tr
-                        className="hover:bg-gray-50 cursor-pointer"
+                        className="hover:bg-warmGray-50 cursor-pointer"
                         {...row.getRowProps(getRowProps(row))}>
                         {row.cells.map((cell) => {
                           return (
                             <td
-                              className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                              className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500"
                               {...cell.getCellProps()}>
                               {cell.render('Cell')}
                             </td>

@@ -8,7 +8,7 @@ function Sidebar() {
       <Link href={`/reports/${report.slug}`} key={report.slug}>
         <a
           className={cx([
-            'hover:bg-gray-100 hover:text-gray-900 text-gray-800 group flex items-center px-3 py-2 text-sm font-medium rounded-md',
+            'hover:bg-gray-100 hover:text-warmGray-500 text-warmGray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md',
           ])}
           aria-current="page">
           <span className="truncate">{report.short_title}</span>
@@ -17,10 +17,10 @@ function Sidebar() {
     ))
 
   return (
-    <nav className="space-y-4">
+    <nav className="space-y-6">
       {SocketkitConfig.report_groups.map((group) => (
-        <div key={group.name} className="space-y-2">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+        <div key={group.name} className="space-y-1">
+          <p className="text-xs font-semibold text-trueGray-500 uppercase tracking-wider pb-1">
             {group.name}
           </p>
           {getReportsForGroup(group)}

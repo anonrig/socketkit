@@ -33,10 +33,9 @@ export default function Dashboard() {
     <>
       <div className="flex flex-1 space-between mb-5 items-center justify-center">
         <div className="flex-1">
-          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">
+          <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl">
             Good morning, {session?.identity.traits.name?.split(' ')[0]}!
           </h3>
-          <p className="text-xl text-gray-400">Understand your audience better.</p>
         </div>
 
         <RangePicker selected={selected} setSelected={setSelected} ranges={ranges} />

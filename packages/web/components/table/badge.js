@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 function Badge({ children, state }) {
-  let color = 'bg-lime-100 text-lime-800'
+  let color = 'bg-warmGray-50 text-warmGray-900'
 
   if (state === 'danger') {
-    color = 'bg-red-100 text-red-800'
+    color = 'bg-red-50 text-red-800'
   } else if (state === 'info') {
-    color = 'bg-amber-100 text-amber-800'
+    color = 'bg-blue-50 text-warmGray-900'
   }
 
   return (
-    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${color}`}>
+    <span
+      className={cx([
+        `px-2 py-1 inline-flex text-xs font-semibold rounded-md uppercase w-20 text-center justify-center`,
+        color,
+      ])}>
       {children}
     </span>
   )

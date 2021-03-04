@@ -4,14 +4,21 @@ import cx from 'classnames'
 import dayjs from 'dayjs'
 
 function IntegrationRow({ title, slug, integration, className }) {
+  const capitalize = (s) => {
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   return (
     <div
-      className={cx('rounded-md bg-gray-50 px-6 py-5 flex items-start justify-between', className)}>
+      className={cx(
+        'rounded-md px-6 py-5 flex items-center justify-between border border-gray-200',
+        className,
+      )}>
       <h4 className="sr-only">{title}</h4>
-      <div className="flex items-start">
+      <div className="flex items-center">
         <svg
           aria-hidden="true"
-          className="h-6 mt-1 mb-1 w-auto flex-shrink-0 sm:h-6"
+          className="h-6 mt-1 mb-3 w-auto flex-shrink-0 sm:h-6"
           focusable="false"
           height="1em"
           preserveAspectRatio="xMidYMid meet"
@@ -27,22 +34,20 @@ function IntegrationRow({ title, slug, integration, className }) {
             fill="#000"
           />
         </svg>
-        <div className="mt-0 ml-4">
-          <div className="text-sm font-medium text-gray-900">{title}</div>
-          <div className="mt-1 text-sm text-gray-600 flex items-center">
-            <div className="sm:mt-1 mt-0">
-              {integration
-                ? `Last fetched at ${dayjs(integration.last_fetch).format(
-                    'DD-MM-YYYY',
-                  )}. Current status: ${integration.state}`
-                : `Integration not active`}
-            </div>
+        <div className="mt-0 ml-5">
+          <div className="text-md font-medium text-warmGray-900">{title}</div>
+          <div className="text-sm text-trueGray-500 flex items-center">
+            {integration
+              ? `${capitalize(integration.state)}, Last Fetched ${dayjs(
+                  integration.last_fetch,
+                ).format('DD/MM/YYYY')}`
+              : `Integration not active`}
           </div>
         </div>
       </div>
-      <div className="mt-4 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
+      <div className="ml-4 sm:flex-shrink-0">
         <Link href={`/account/integrations/${slug}`}>
-          <a className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <a className="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
             {integration ? 'Update' : 'Add'}
           </a>
         </Link>

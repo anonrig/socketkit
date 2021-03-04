@@ -6,26 +6,18 @@ import Footer from 'components/footer.js'
 import Header from 'components/header.js'
 import Container from 'components/container.js'
 import Subheader from '../components/sub-header.js'
-import TabHeader from './tab-header.js'
+import ApplicationHeader from './application-header.js'
+import SettingsHeader from './settings-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
   const { data } = useSWR('integrations')
   let header = null
 
-  if (router.pathname.includes('/account')) {
-    header = (
-      <Subheader
-        items={[
-          { title: 'Account Settings', href: '/account/settings' },
-          { title: 'Billing', href: '/account/billing' },
-          { title: 'Integrations', href: '/account/integrations' },
-        ]}
-        selected_href={router.pathname}
-      />
-    )
-  } else if (router.pathname.includes('/applications')) {
-    header = <TabHeader />
+  if (router.pathname.startsWith('/applications')) {
+    header = <ApplicationHeader />
+  } else if (router.pathname.startsWith('/account')) {
+    header = <SettingsHeader />
   }
 
   return (

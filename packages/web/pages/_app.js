@@ -13,9 +13,8 @@ import UnauthorizedLayout from '../layouts/unauthorized.js'
 import AuthorizedLayout from '../layouts/authorized.js'
 
 import 'nprogress/nprogress.css'
-import 'react-date-range/dist/styles.css'
-import 'react-date-range/dist/theme/default.css'
 import '../styles/index.css'
+import '../styles/date-range.css'
 
 Progress.configure({ easing: 'ease', speed: 800 })
 

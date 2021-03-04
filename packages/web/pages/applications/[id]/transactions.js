@@ -82,7 +82,7 @@ export default function Transactions({ initialData }) {
       getRowProps={({ original }) => ({
         key: `${original.client_id}-${original.application_id}-${original.subscription_package_id}`,
         onClick: () => router.push(`/customers/${original.client_id}`),
-        className: 'hover:bg-gray-50 cursor-pointer',
+        className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
       })}
     />
   )

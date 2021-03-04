@@ -6,7 +6,7 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "analyze": "ANALYZE=true next build",
+    "analyze": "NODE_ENV=production ANALYZE=true next build",
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
@@ -35,7 +35,6 @@
     "react-dom": "17.0.1",
     "react-hook-form": "^6.15.4",
     "react-hot-toast": "^1.0.2",
-    "react-simple-maps": "^2.3.0",
     "react-table": "^7.6.3",
     "react-waypoint": "^9.0.3",
     "swr": "^0.4.2",

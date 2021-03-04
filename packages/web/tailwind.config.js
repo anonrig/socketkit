@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors')
+const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   purge: {
@@ -14,9 +15,11 @@ module.exports = {
     extend: {
       colors: {
         orange: colors.orange,
+        warmGray: colors.warmGray,
+        trueGray: colors.trueGray,
       },
-      gridTemplateColumns: {
-        3: 'repeat(3, minmax(0, 1fr))',
+      fontFamily: {
+        sans: ['Inter var', ...theme.fontFamily.sans],
       },
     },
   },

@@ -8,8 +8,9 @@ function Settings({ fields }) {
       <div className="shadow sm:rounded-md sm:overflow-hidden">
         <div className="bg-white py-6 px-4 sm:p-6">
           <div>
-            <h2 className="text-lg leading-6 font-medium text-gray-900">Account details</h2>
-            <p className="mt-1 text-sm text-gray-500">Update your account information.</p>
+            <h2 className="text-lg leading-6 font-medium text-warmGray-900">
+              Personal information
+            </h2>
           </div>
           <div className="grid grid-cols-2 gap-6">
             {fields
@@ -19,15 +20,15 @@ function Settings({ fields }) {
                   key={field.name}
                   {...field}
                   className="col-span-2"
-                  labelClassName="block text-sm font-medium text-gray-700"
+                  labelClassName="block text-sm font-medium text-warmGray-700"
                   inputClassName="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                 />
               ))}
           </div>
         </div>
-        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <div className="px-4 py-3 text-right sm:px-6 border-t border-gray-200">
           <Button
-            className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            className="bg-orange-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             loading={false}
             type="submit">
             Save

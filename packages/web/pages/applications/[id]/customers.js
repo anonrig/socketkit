@@ -67,8 +67,7 @@ export default function Customers({ initialData }) {
       columns={columns}
       getRowProps={({ original }) => ({
         key: original.client_id,
-        onClick: () => router.push(`/customers/${original.client_id}`),
-        className: 'hover:bg-gray-50 cursor-pointer',
+        onClick: () => router.push(`/customers/${original.client_id}`)
       })}
     />
   )

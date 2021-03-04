@@ -6,14 +6,10 @@ export default function BillingDetails() {
           <div className="bg-white py-6 px-4 sm:p-6">
             <div>
               <h2
-                className="text-lg leading-6 font-medium text-gray-900"
+                className="text-lg leading-6 font-medium text-warmGray-900"
                 id="payment_details_heading">
-                Payment details
+                Billing Details
               </h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Update your billing information. Please note that updating your location could
-                affect your tax rates.
-              </p>
             </div>
             <div className="mt-6 grid grid-cols-4 gap-6">
               <div className="col-span-4 sm:col-span-2">
@@ -21,7 +17,7 @@ export default function BillingDetails() {
                   First name
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="first_name"
                   type="text"
                 />
@@ -31,7 +27,7 @@ export default function BillingDetails() {
                   Last name
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="last_name"
                   type="text"
                 />
@@ -41,7 +37,7 @@ export default function BillingDetails() {
                   Email address
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="email_address"
                   type="text"
                 />
@@ -53,7 +49,7 @@ export default function BillingDetails() {
                   Expration date
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="expiration_date"
                   placeholder="MM / YY"
                   type="text"
@@ -78,7 +74,7 @@ export default function BillingDetails() {
                   </svg>
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="security_code"
                   type="text"
                 />
@@ -88,7 +84,7 @@ export default function BillingDetails() {
                   Country / Region
                 </label>
                 <select
-                  className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="country">
                   <option>United States</option>
                   <option>Canada</option>
@@ -100,16 +96,16 @@ export default function BillingDetails() {
                   ZIP / Postal
                 </label>
                 <input
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
                   id="postal_code"
                   type="text"
                 />
               </div>
             </div>
           </div>
-          <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <div className="px-4 py-3 text-right sm:px-6 border-t border-gray-200">
             <button
-              className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              className="bg-orange-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
               type="submit">
               Save
             </button>

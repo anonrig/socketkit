@@ -2,9 +2,11 @@
  * @type {import('@nivo/core').Theme} theme
  */
 const theme = {
+  textColor: '#1C1917',
+  fontSize: '0.75rem',
+  fontFamily: `Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
   labels: {
     text: {
-      fontFamily: `i-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
       fontSize: '0.75rem',
     },
   },
@@ -17,7 +19,6 @@ const theme = {
   },
   legends: {
     text: {
-      fontFamily: `i-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
       fontSize: '0.75rem',
     },
   },

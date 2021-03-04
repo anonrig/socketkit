@@ -1,7 +1,10 @@
+@import "https://rsms.me/inter/inter.css";
+
 body {
   @apply font-sans antialiased;
 }
 
 html, body {
-  @apply h-full w-full bg-gray-50;
+  @apply h-full w-full bg-white;
 }
+

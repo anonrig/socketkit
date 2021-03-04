@@ -6,10 +6,14 @@ import logo from '../images/icon-socketkit.svg'
 import MobileMenu from './menu/mobile.js'
 import ProfileDropdown from './menu/profile-dropdown.js'
 import { AuthContext } from '../helpers/is-authorized.js'
+import { useRouter } from 'next/router'
 
 function Header() {
+  const router = useRouter()
   const { session } = useContext(AuthContext)
   const [menuVisible, setMenuVisible] = useState(false)
+  const getActiveClassName = (path) =>
+    router.pathname.startsWith(path) ? 'bg-warmGray-50' : 'bg-white'
   return (
     <header className="bg-white shadow z-10">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -22,15 +26,17 @@ function Header() {
             </div>
             <nav
               aria-label="Global"
-              className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4 text-sm font-medium text-gray-900">
+              className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4 text-sm font-medium text-warmGray-900">
               <Link href="/applications">
-                <a className="px-3 py-2">Applications</a>
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/applications')])}>
+                  Applications
+                </a>
               </Link>
               <Link href="/reports">
-                <a className="px-3 py-2">Reports</a>
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>Reports</a>
               </Link>
               <Link href="/customers">
-                <a className="px-3 py-2">Customers</a>
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/customers')])}>Customers</a>
               </Link>
             </nav>
           </div>
@@ -73,25 +79,6 @@ function Header() {
             </button>
           </div>
           <div className="hidden lg:ml-4 lg:flex lg:items-center">
-            <button
-              className="flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              type="button">
-              <span className="sr-only">View notifications</span>
-              <svg
-                aria-hidden="true"
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                />
-              </svg>
-            </button>
             <ProfileDropdown />
           </div>
         </div>
