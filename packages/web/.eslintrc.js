@@ -1,7 +1,7 @@
 module.exports = {
-  root: true, // Make sure eslint picks up the config at the root of the directory
+  root: true,
   parserOptions: {
-    ecmaVersion: 2020, // Use the latest ecmascript standard
+    ecmaVersion: 2020,
     sourceType: 'module', // Allows using import/export statements
     ecmaFeatures: {
       jsx: true,
@@ -22,6 +22,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended',
   ],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],

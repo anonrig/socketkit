@@ -1,25 +1,23 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { useRouter } from 'next/router'
 
 function Tabs({ selected, items }) {
   const router = useRouter()
+
   return (
     <>
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
-          Select a tab
+          Select a page
         </label>
         <select
-          id="tabs"
           name="tabs"
+          onBlur={({ target: { value } }) => router.push(items.find((i) => i.key === value).href)}
           className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
           {items.map((item) => (
-            <option
-              key={item.key}
-              selected={item.key === selected}
-              onSelect={() => router.push(item.href)}>
+            <option key={item.key} value={item.key}>
               {item.title}
             </option>
           ))}

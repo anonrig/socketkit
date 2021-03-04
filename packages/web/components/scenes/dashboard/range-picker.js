@@ -38,6 +38,7 @@ function RangePicker({ selected, setSelected, ranges }) {
                 <Menu.Item key={range.key}>
                   {({ active }) => (
                     <a
+                      role="link"
                       onClick={() => setSelected(range)}
                       className={cx(
                         'flex justify-between w-full px-4 py-2 text-sm trailing-5',

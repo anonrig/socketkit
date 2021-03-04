@@ -2,26 +2,16 @@ import { useState } from 'react'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import Panel from '../../../components/panel.js'
-import CountrySlide from './countries-slide.js'
 
 function CountriesWidget({ range }) {
-  const [isVisible, setVisible] = useState(false)
-  const { data } = useSWR(`accounts/countries?from=${range.from}&to=${range.to}`)
+  const { data } = useSWR(`accounts/countries?from=${range.from}&to=${range.to}&limit=10`)
   const geoUrl =
     'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json'
 
   return (
     <section aria-labelledby="countries_widget_heading" className="lg:col-span-4">
-      <Panel
-        isVisible={isVisible}
-        setVisible={setVisible}
-        title="Countries"
-        subtitle="Current status of your account">
-        <CountrySlide data={data} />
-      </Panel>
       <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-2xl">Countries</h3>
-      <p className="text-lg text-gray-400">Most promising 4 countries on your audience.</p>
+      <p className="text-lg text-gray-400">Most promising 5 countries on your audience.</p>
       <dl className="grid grid-cols-1 md:grid-cols-4 space-x-6">
         <div className="col-span-2">
           <div className="bg-white shadow sm:rounded-md sm:overflow-hidden mt-5">
@@ -55,7 +45,7 @@ function CountriesWidget({ range }) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {data?.slice(0, 4).map((country) => (
+                        {data?.slice(0, 5).map((country) => (
                           <tr key={country.country_id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {country.country_name}
@@ -73,14 +63,6 @@ function CountriesWidget({ range }) {
                         ))}
                       </tbody>
                     </table>
-
-                    <div className="p-6">
-                      <button
-                        onClick={() => setVisible(true)}
-                        className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                        View all
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
