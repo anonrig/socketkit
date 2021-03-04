@@ -253,7 +253,7 @@ export async function upsert(applications, trx) {
         default_language_id: s.default_language_id,
         latest_version_number: s.detail.version,
         store_url: s.detail.url,
-        rating_histogram: Object.values(s.detail.histogram),
+        rating_histogram: Object.values(s.detail.histogram ?? {}),
       })),
     )
     .onConflict(['application_id', 'country_id'])
