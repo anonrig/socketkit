@@ -21,21 +21,26 @@ export default {
     },
     response: {
       200: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            country_id: { type: 'string' },
-            country_name: { type: 'string' },
-            country_coordinates: {
+        type: 'object',
+        properties: {
+          rows: {
+            type: 'array',
+            items: {
               type: 'object',
-              properties: { x: { type: 'number' }, y: { type: 'number' } },
-              required: ['x', 'y'],
+              properties: {
+                country_id: { type: 'string' },
+                country_name: { type: 'string' },
+                country_coordinates: {
+                  type: 'object',
+                  properties: { x: { type: 'number' }, y: { type: 'number' } },
+                  required: ['x', 'y'],
+                },
+                total_count: { type: 'number' },
+                trial_past_count: { type: 'number' },
+                churn_count: { type: 'number' },
+                revenue: { type: 'number' },
+              },
             },
-            total_count: { type: 'number' },
-            trial_past_count: { type: 'number' },
-            churn_count: { type: 'number' },
-            revenue: { type: 'number' },
           },
         },
       },
@@ -51,13 +56,11 @@ export default {
       throw f.httpErrors.notFound(`Account not found`)
     }
 
-    const { rows } = await f.grpc.subscriptions.groupByCountry({
+    return f.grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       application_id,
       start_date: query.from,
       end_date: query.to,
     })
-
-    return rows
   },
 }
