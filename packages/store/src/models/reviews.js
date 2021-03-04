@@ -1,4 +1,4 @@
-import store from 'app-store-scraper'
+import scraper from 'appstore-sensor'
 import pg from '../pg.js'
 import Logger from '../logger.js'
 
@@ -33,11 +33,11 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
 
   logger.debug(`Fetching reviews for country ${country_id} using page ${page}`)
 
-  const reviews = await store.reviews({
+  const reviews = await scraper.reviews({
     id: application_id,
     country: country_id,
     page,
-    sort: store.sort.RECENT,
+    sort: 'mostRecent',
   })
 
   logger.debug(`Fetched ${reviews.length} reviews`)

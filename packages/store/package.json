@@ -16,14 +16,15 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.2.9",
     "@grpc/proto-loader": "^0.5.6",
-    "app-store-scraper": "github:socketkit/app-store-scraper",
+    "appstore-sensor": "^0.2.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "knex": "^0.21.19",
+    "knex": "^0.95.0",
     "mali": "^0.40.0",
     "pg": "^8.5.1"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.20",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",

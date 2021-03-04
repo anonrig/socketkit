@@ -1,4 +1,4 @@
-import scraper from 'app-store-scraper'
+import scraper from 'appstore-sensor'
 import { country_ids } from '../fixtures.js'
 
 export async function scrape(applications, country_id = null) {
@@ -10,11 +10,11 @@ export async function scrape(applications, country_id = null) {
         detail = await scraper.app({
           id: a.application_id,
           country: country_id || a.default_country_id,
-          lang: a.default_language_id,
-          ratings: true,
+          language: a.default_language_id,
+          include_ratings: true,
         })
       } catch (error) {
-        if (!error.message?.includes('404')) {
+        if (!error.message?.includes('not found')) {
           throw error
         }
       }
