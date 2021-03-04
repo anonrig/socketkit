@@ -1,4 +1,6 @@
 import scraper from 'appstore-sensor'
+import tunnel from 'tunnel'
+import config from '../config.js'
 import pg from '../pg.js'
 import Logger from '../logger.js'
 
@@ -33,12 +35,23 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
 
   logger.debug(`Fetching reviews for country ${country_id} using page ${page}`)
 
-  const reviews = await scraper.reviews({
-    id: application_id,
-    country: country_id,
-    page,
-    sort: 'mostRecent',
-  })
+  const reviews = await scraper.reviews(
+    {
+      id: application_id,
+      country: country_id,
+      page,
+      sort: 'mostRecent',
+    },
+    {
+      agent: config.proxy
+        ? {
+            https: tunnel.httpsOverHttp({
+              proxy: config.proxy,
+            }),
+          }
+        : null,
+    },
+  )
 
   logger.debug(`Fetched ${reviews.length} reviews`)
 
