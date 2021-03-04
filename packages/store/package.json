@@ -16,7 +16,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.2.9",
     "@grpc/proto-loader": "^0.5.6",
-    "appstore-sensor": "^0.2.0",
+    "appstore-sensor": "^0.3.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
     "knex": "^0.95.0",
