@@ -1,5 +1,6 @@
 import path from 'path'
 import Mali from 'mali'
+import Sentry from '@sentry/node'
 import Logger from './logger.js'
 import * as Applications from './consumers/index.js'
 
@@ -19,11 +20,32 @@ const app = new Mali()
 app.addService(file, 'Applications', options)
 app.addService(health, 'Health', options)
 
+app.use(async (context, next) => {
+  logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
+
+  const tracer = Sentry.startTransaction({
+    name: context.fullName,
+    op: 'GET',
+    trimEnd: true,
+  })
+
+  Sentry.setUser({
+    ...context.request.metadata,
+    account_id: context.request.req.account_id,
+  })
+
+  try {
+    await next()
+  } catch (error) {
+    Sentry.captureException(error)
+    logger.fatal(error)
+    throw error
+  } finally {
+    tracer.finish()
+  }
+})
+
 app.use({ Applications })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
-
-app.on('error', (err) => {
-  logger.fatal(err)
-})
 
 export default app
