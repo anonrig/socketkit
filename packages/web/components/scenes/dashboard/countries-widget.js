@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import TreeMapChart from '../../charts/treemap.js'
+import dynamic from 'next/dynamic'
+
+const TreeMapChart = dynamic(
+  () => import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
+  { ssr: false },
+)
 
 function CountriesWidget({ range }) {
   const { data } = useSWR(`accounts/countries?from=${range.from}&to=${range.to}&limit=10`)
