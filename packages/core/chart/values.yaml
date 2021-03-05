@@ -34,13 +34,13 @@ livenessProbe:
   path: "/health"
   initialDelaySeconds: 15
   timeoutSeconds: 15
-  scheme: "HTTP"
+  scheme: "HTTPS"
   probeType: "httpGet"
 readinessProbe:
   path: "/health"
   initialDelaySeconds: 5
   timeoutSeconds: 3
-  scheme: "HTTP"
+  scheme: "HTTPS"
   probeType: "httpGet"
 resources:
   limits:

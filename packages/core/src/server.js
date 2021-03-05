@@ -12,7 +12,6 @@ import qs from 'qs'
 
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
-import Logger from './logger.js'
 import pg from './pg.js'
 
 const server = f({
