@@ -144,7 +144,10 @@ export default function fetchIntegrations() {
         return i
       }, {})
 
-      await client.store.applications.create(Object.values(applications))
+      if (applications.length) {
+        await client.store.applications.create(Object.values(applications))
+      }
+
     }
 
     await pg
