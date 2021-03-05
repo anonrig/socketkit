@@ -6,19 +6,26 @@ import cors from 'fastify-cors'
 import compress from 'fastify-compress'
 import helmet from 'fastify-helmet'
 import auth from 'fastify-auth'
-import * as sensible from 'fastify-sensible'
+import sensible from 'fastify-sensible'
 import metrics from 'fastify-metrics'
 import qs from 'qs'
 
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
 import pg from './pg.js'
+import logger from './logger.js'
 
 const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   disableRequestLogging: true,
   logger: false,
+})
+
+server.setErrorHandler(async (error) => {
+  logger.error(error)
+  Sentry.captureException(error)
+  throw server.httpErrors.internalServerError('Something went wrong')
 })
 
 server.register(pressure, {
@@ -30,7 +37,9 @@ server.register(pressure, {
   exposeStatusRoute: '/health',
 })
 server.register(grpc)
-server.register(sensible)
+server.register(sensible, {
+  errorHandler: false,
+})
 server.register(auth)
 server.register(cors, {
   credentials: true,
