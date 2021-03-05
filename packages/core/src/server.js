@@ -1,4 +1,5 @@
 import f from 'fastify'
+import Sentry from '@sentry/node'
 
 import pressure from 'under-pressure'
 import cors from 'fastify-cors'
@@ -19,7 +20,8 @@ const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   disableRequestLogging: true,
-  logger: true,
+  logger: false,
+  http2: true,
 })
 
 server.register(pressure, {
@@ -59,5 +61,30 @@ server.register(helmet)
 server.register(metrics, { endpoint: '/metrics' })
 server.register(routes, { prefix: '/v1' })
 server.get('/', async () => ({ status: 'up' }))
+
+server.addHook('onError', (request, reply, error, done) => {
+  Sentry.withScope((scope) => {
+    scope.setSpan(request.trace)
+    scope.setUser({
+      ip_address: request.raw.ip,
+    })
+    Sentry.captureException(error)
+  })
+  done()
+})
+
+server.addHook('onRequest', (request, reply, done) => {
+  request.trace = Sentry.startTransaction({
+    op: request.method,
+    name: request.url,
+    trimEnd: true,
+  })
+  done()
+})
+
+server.addHook('onResponse', (request, reply, done) => {
+  request.trace.finish()
+  done()
+})
 
 export default server
