@@ -9,15 +9,20 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
+  try {
+    const processed = await Promise.all([
+      appStoreConnectFetcher(),
+      deleteIntegrations(),
+    ])
 
-  const processed = await Promise.all([
-    appStoreConnectFetcher(),
-    deleteIntegrations(),
-  ])
-
-  if (processed.every((s) => !s)) {
-    logger.info('Sleeping for 10 minutes')
-    await sleep(600000)
+    if (processed.every((s) => !s)) {
+      logger.info('Sleeping for 10 minutes')
+      await sleep(600000)
+    }
+  } catch (error) {
+    logger.error(error)
+    await sleep(60000)
+  } finally {
+    await runTasks()
   }
-  await runTasks()
 }

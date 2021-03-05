@@ -31,8 +31,8 @@ Sentry.init({
 
 const boot = async () => {
   app.start(`0.0.0.0:${config.port}`)
-    await pg.raw('select 1+1 as result')
-    logger.info(`server listening on 0.0.0.0:${config.port}`)
-    await runTasks()
+  await pg.raw('select 1+1 as result')
+  logger.info(`server listening on 0.0.0.0:${config.port}`)
+  await runTasks()
 }
 boot()
