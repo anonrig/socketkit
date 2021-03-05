@@ -6,9 +6,12 @@ import { fetcher } from 'helpers/fetcher'
 /**
  * @param {import("next").NextPageContext} ctx
  */
-export async function getServerSideProps(ctx) {
-  const { id } = ctx.query
-  const { cookie, referer } = ctx.req?.headers ?? {}
+export async function getServerSideProps({
+  query: { id },
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
   const initialData = await fetcher(`applications/${id}/packages?limit=10`, {
     headers: { cookie, referer },
   })
@@ -39,9 +42,7 @@ export default function SubscriptionPackages({ initialData }) {
     <Table
       initialData={initialData}
       url={`applications/${id}/packages`}
-      options={{
-        limit: 10,
-      }}
+      options={{}}
       columns={columns}
       getRowProps={({ original }) => ({
         key: original.subscription_package_id,

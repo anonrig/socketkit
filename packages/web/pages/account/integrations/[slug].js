@@ -25,7 +25,11 @@ export default function IntegrationDetail() {
         }),
       })
       mutate(`integrations`)
-      toast.success('Integration updated successfully.')
+      if (isDeleted) {
+        toast.success('Integration deleted successfully.')
+      } else {
+        toast.success('Integration updated successfully.')
+      }
       router.replace('/account/integrations')
     } catch (error) {
       toast.error(error.message)
@@ -39,7 +43,7 @@ export default function IntegrationDetail() {
       toast.error(error.message)
       router.replace('/account/integrations')
     }
-  }, [error])
+  }, [error, router])
 
   return (
     <section aria-labelledby="integration_details_heading">

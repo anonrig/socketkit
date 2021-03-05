@@ -1,48 +1,55 @@
 /* eslint-disable react/jsx-key */
-import PropTypes from 'prop-types'
-import { useMemo } from 'react'
-import { useTable } from 'react-table'
-import { Waypoint } from 'react-waypoint'
-import { useSWRInfinite } from 'swr'
-import { fetcher } from '../../helpers/fetcher.js'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
+import { useMemo, useRef, useEffect } from 'react'
+import { useTable } from 'react-table'
+import { useSWRInfinite } from 'swr'
+import { fetcher } from 'helpers/fetcher.js'
+import useOnScreen from '../../helpers/use-onscreen.js'
 
 function Table({ initialData, columns, getRowProps, url, options }) {
-  const getKey = (_, previous) => {
+  const loader = useRef()
+  const getKey = (index, previous) => {
     const query = Object.keys(options)
+      .sort()
       .map((k) => `${k}=${options[k]}`)
       .join('&')
 
-    if (previous) {
-      if (previous.cursor) {
-        const cursor = Object.keys(previous.cursor)
-          .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
-          .join('&')
-        return `${url}?${query}&${cursor}`
-      } else {
-        return null
-      }
-    }
+    if (previous && !previous.cursor) return null
+    if (index === 0) return `${url}?${query}`
 
-    return `${url}?${query}`
+    const cursor = Object.keys(previous.cursor)
+      .sort()
+      .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
+      .join('&')
+
+    return `${url}?${query}&${cursor}`
   }
 
-  const { data, size, setSize } = useSWRInfinite(getKey, fetcher, {
-    refreshInterval: 0,
+  const isVisible = useOnScreen(loader)
+  const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher, {
+    refreshInterval: false,
+    refreshWhenHidden: false,
+    refreshWhenOffline: false,
     initialData: initialData ? [initialData] : undefined,
   })
 
-  // @ts-ignore
-  let records = data?.map((d) => d.rows).flat() ?? []
+  const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data: useMemo(() => records, [data, size]),
+    data: memoized,
   })
+
+  useEffect(() => {
+    if (isVisible && !isValidating) {
+      setSize(size + 1)
+    }
+  }, [isVisible, isValidating])
 
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -93,7 +100,7 @@ function Table({ initialData, columns, getRowProps, url, options }) {
           </div>
         </div>
       </div>
-      {records.length > 0 && <Waypoint key={'table'} onEnter={() => setSize(size + 1)} />}
+      <div ref={loader} className="w-full h-4"></div>
     </>
   )
 }
@@ -102,7 +109,7 @@ Table.propTypes = {
   initialData: PropTypes.any,
   url: PropTypes.string.isRequired,
   options: PropTypes.shape({
-    limit: PropTypes.number.isRequired,
+    limit: PropTypes.number,
     from: PropTypes.string,
     to: PropTypes.string,
   }),

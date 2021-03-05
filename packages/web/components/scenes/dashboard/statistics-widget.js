@@ -48,9 +48,9 @@ function StatisticsWidget({ range }) {
           <dt className="text-lg font-bold text-warmGray-900">Refunds</dt>
           <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
             <div className="flex items-baseline text-2xl font-semibold text-orange-500">
-              ${data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0}
+              ${(data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0) * -1}
               <span className="ml-2 text-sm font-medium text-trueGray-500">
-                from ${data?.transaction_sums?.changed_refund_base_developer_proceeds ?? 0}
+                from ${(data?.transaction_sums?.changed_refund_base_developer_proceeds ?? 0) * -1}
               </span>
             </div>
           </dd>

@@ -7,26 +7,47 @@ import { fetcher } from 'helpers/fetcher'
 /**
  * @param {import("next").NextPageContext} ctx
  */
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps({
+  query,
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
   const format = 'YYYY-MM-DD'
-  const { id } = ctx.query
-  const { cookie, referer } = ctx.req?.headers ?? {}
+  const {
+    id,
+    start_date = dayjs().subtract(1, 'month').format(format),
+    end_date = dayjs().format(format),
+  } = query
   const initialData = await fetcher(
-    `applications/${id}/customers?from=${dayjs()
-      .subtract(1, 'month')
-      .format(format)}&to=${dayjs().format(format)}`,
-    {
-      headers: { cookie, referer },
-    },
+    `applications/${id}/customers?from=${start_date}&to=${end_date}`,
+    { headers: { cookie, referer } },
   )
   return {
-    props: { initialData },
+    props: { initialData, id },
   }
 }
 
-export default function Customers({ initialData }) {
+export default function Customers({ initialData, id }) {
   const router = useRouter()
-  const { start_date, end_date, id } = router.query
+  const { start_date, end_date } = router.query
+
+  if (!start_date || !end_date) {
+    router.push(
+      {
+        path: `/applications/[id]/customers`,
+        query: {
+          id,
+          start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+          end_date: dayjs().format('YYYY-MM-DD'),
+        },
+      },
+      undefined,
+      { shallow: true },
+    )
+    return null
+  }
+
   const columns = useMemo(
     () => [
       {
@@ -71,7 +92,6 @@ export default function Customers({ initialData }) {
       initialData={initialData}
       url={`applications/${id}/customers`}
       options={{
-        limit: 10,
         from: dayjs(start_date).format('YYYY-MM-DD'),
         to: dayjs(end_date).format('YYYY-MM-DD'),
       }}

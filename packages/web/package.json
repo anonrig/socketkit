@@ -37,7 +37,6 @@
     "react-hook-form": "^6.15.4",
     "react-hot-toast": "^1.0.2",
     "react-table": "^7.6.3",
-    "react-waypoint": "^9.0.3",
     "swr": "^0.4.2",
     "tailwindcss": "^2.0.3"
   },

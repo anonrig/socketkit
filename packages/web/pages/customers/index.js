@@ -1,9 +1,24 @@
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
-import Table from '../../components/table/table'
-import DatePicker from '../../components/date-picker'
 import { useRouter } from 'next/router'
-import { fetcher } from '../../helpers/fetcher.js'
+import Table from 'components/table/table'
+import DatePicker from 'components/date-picker'
+import { fetcher } from 'helpers/fetcher.js'
+
+export async function getServerSideProps({ query = {}, req: { headers } }) {
+  const format = 'YYYY-MM-DD'
+  const {
+    start_date = dayjs().subtract(1, 'month').format(format),
+    end_date = dayjs().format(format),
+  } = query
+  const { cookie, referer } = headers ?? {}
+  const initialData = await fetcher(`customers?from=${start_date}&to=${end_date}`, {
+    headers: { cookie, referer },
+  })
+  return {
+    props: { initialData },
+  }
+}
 
 export default function Customers({ initialData }) {
   const router = useRouter()
@@ -26,6 +41,7 @@ export default function Customers({ initialData }) {
   const columns = useMemo(
     () => [
       {
+        id: 'client_id',
         Header: 'Client Id',
         accessor: function ClientAccessor(field) {
           return <div className="text-warmGray-900">{field.client_id}</div>
@@ -33,25 +49,30 @@ export default function Customers({ initialData }) {
         className: 'w-32',
       },
       {
+        id: 'device_type_name',
         Header: 'Device',
         accessor: 'device_type_name',
         className: 'w-24',
       },
       {
+        id: 'country_name',
         Header: 'Country',
         accessor: 'country_name',
       },
       {
+        id: 'total_base_client_purchase',
         Header: 'Sales',
         accessor: (field) => `$${parseFloat(field.total_base_client_purchase).toFixed(2)}`,
         className: 'text-right w-24',
       },
       {
+        id: 'total_base_developer_proceeds',
         Header: 'Proceeds',
         accessor: (field) => `$${parseFloat(field.total_base_developer_proceeds).toFixed(2)}`,
         className: 'text-right w-24',
       },
       {
+        id: 'first_interaction',
         Header: 'Start Date',
         accessor: function IntervalAccessor(f) {
           return dayjs(f.first_interaction).format('YYYY-MM-DD')
@@ -110,7 +131,6 @@ export default function Customers({ initialData }) {
         initialData={initialData}
         url="customers"
         options={{
-          limit: 10,
           from: dayjs(start_date).format('YYYY-MM-DD'),
           to: dayjs(end_date).format('YYYY-MM-DD'),
         }}
@@ -123,18 +143,4 @@ export default function Customers({ initialData }) {
       />
     </>
   )
-}
-
-export async function getServerSideProps(ctx) {
-  const format = 'YYYY-MM-DD'
-  const { cookie, referer } = ctx.req?.headers ?? {}
-  const initialData = await fetcher(
-    `customers?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`,
-    {
-      headers: { cookie, referer },
-    },
-  )
-  return {
-    props: { initialData },
-  }
 }

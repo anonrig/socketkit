@@ -6,15 +6,16 @@ import TableBadge from 'components/table/badge'
 import Table from 'components/table/table'
 import { fetcher } from 'helpers/fetcher.js'
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps({ query = {}, req: { headers } }) {
   const format = 'YYYY-MM-DD'
-  const { cookie, referer } = ctx.req?.headers ?? {}
-  const initialData = await fetcher(
-    `transactions?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`,
-    {
-      headers: { cookie, referer },
-    },
-  )
+  const {
+    start_date = dayjs().subtract(1, 'month').format(format),
+    end_date = dayjs().format(format),
+  } = query
+  const { cookie, referer } = headers ?? {}
+  const initialData = await fetcher(`transactions?from=${start_date}&to=${end_date}`, {
+    headers: { cookie, referer },
+  })
   return {
     props: { initialData },
   }
@@ -42,6 +43,7 @@ function Transactions({ initialData }) {
   const columns = useMemo(
     () => [
       {
+        id: 'subscription_package_name',
         Header: 'Subscription',
         accessor: function SubscriptionAccessor(field) {
           return <div className="text-warmGray-900">{field.subscription_package_name}</div>
@@ -49,10 +51,12 @@ function Transactions({ initialData }) {
         className: 'truncate w-24',
       },
       {
+        id: 'country_name',
         Header: 'Country',
         accessor: 'country_name',
       },
       {
+        id: 'base_client_purchase',
         Header: 'Sale',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
@@ -60,6 +64,7 @@ function Transactions({ initialData }) {
         className: 'text-right w-24',
       },
       {
+        id: 'base_developer_proceeds',
         Header: 'Proceed',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
@@ -67,6 +72,7 @@ function Transactions({ initialData }) {
         className: 'text-right w-24',
       },
       {
+        id: 'transaction_type',
         Header: 'Type',
         accessor: function TransactionStateAccessor(field) {
           const state =
@@ -80,6 +86,7 @@ function Transactions({ initialData }) {
         className: 'w-20',
       },
       {
+        id: 'event_date',
         Header: 'Event Date',
         accessor: (field) => `${dayjs(field.event_date).format('DD/MM/YYYY')}`,
         className: 'text-right w-32',
@@ -136,7 +143,6 @@ function Transactions({ initialData }) {
         initialData={initialData}
         url="transactions"
         options={{
-          limit: 10,
           from: dayjs(start_date).format('YYYY-MM-DD'),
           to: dayjs(end_date).format('YYYY-MM-DD'),
         }}
