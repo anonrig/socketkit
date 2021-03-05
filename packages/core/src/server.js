@@ -15,13 +15,15 @@ import routes from './routes/index.js'
 import Logger from './logger.js'
 import pg from './pg.js'
 
-const logger = Logger.create().withScope('http-server')
 const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
   disableRequestLogging: true,
   logger: false,
   http2: true,
+  https: {
+    allowHTTP1: true,
+  },
 })
 
 server.register(pressure, {
