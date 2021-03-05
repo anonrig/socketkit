@@ -74,65 +74,9 @@ export default function fetchIntegrations() {
     if (transactions) {
       // somehow, some transactions doesn't have any eventDate or subscriberId.
       // eliminate those faulty transactions. TODO: investigate this.
-      transactions = transactions.filter((t) => !!t.eventDate)
+      const valid_transactions = transactions.filter((t) => !!t.eventDate)
 
-      // create device types
-      await pg
-        .insert(
-          transactions.map((t) => ({
-            provider_id: 'apple',
-            device_type_id: slug(t.device),
-            name: t.device,
-          })),
-        )
-        .into('device_types')
-        .onConflict(['provider_id', 'device_type_id'])
-        .ignore()
-        .transacting(trx)
-
-      // create client
-      await pg
-        .insert(
-          transactions.map((t) => ({
-            account_id: integration.account_id,
-            provider_id: 'apple',
-            client_id: t.subscriberId,
-            device_type_id: slug(t.device),
-            country_id: t.country,
-            first_interaction: dayjs(t.eventDate).format('YYYY-MM-DD'),
-            total_base_client_purchase: 0,
-            total_base_developer_proceeds: 0,
-          })),
-        )
-        .into('clients')
-        .onConflict(['account_id', 'client_id'])
-        .ignore()
-        .transacting(trx)
-
-      // create subscription package
-      await pg
-        .insert(
-          transactions.map((t) => ({
-            account_id: integration.account_id,
-            application_id: t.appAppleId,
-            subscription_group_id: t.subscriptionGroupId,
-            subscription_package_id: t.subscriptionAppleId,
-            subscription_duration: t.standardSubscriptionDuration,
-            name: t.subscriptionName,
-          })),
-        )
-        .into('subscription_packages')
-        .onConflict(['account_id', 'subscription_package_id'])
-        .ignore()
-        .transacting(trx)
-
-      for (const transaction of transactions) {
-        await parseTransaction(
-          transaction,
-          { account_id: integration.account_id },
-          trx,
-        )
-      }
+      await processTransactions(trx, integration.account_id, valid_transactions)
 
       const applications = transactions.reduce((i, t) => {
         i[t.appAppleId] = {
@@ -144,10 +88,7 @@ export default function fetchIntegrations() {
         return i
       }, {})
 
-      if (applications.length) {
-        await client.store.applications.create(Object.values(applications))
-      }
-
+      await client.store.applications.create(Object.values(applications))
     }
 
     await pg
@@ -166,4 +107,60 @@ export default function fetchIntegrations() {
 
     return integration.state != state || integration.last_fetch != next_day
   })
+}
+
+async function processTransactions(trx, account_id, transactions) {
+  // create device types
+  await pg
+    .insert(
+      transactions.map((t) => ({
+        provider_id: 'apple',
+        device_type_id: slug(t.device),
+        name: t.device,
+      })),
+    )
+    .into('device_types')
+    .onConflict(['provider_id', 'device_type_id'])
+    .ignore()
+    .transacting(trx)
+
+  // create client
+  await pg
+    .insert(
+      transactions.map((t) => ({
+        account_id: account_id,
+        provider_id: 'apple',
+        client_id: t.subscriberId,
+        device_type_id: slug(t.device),
+        country_id: t.country,
+        first_interaction: dayjs(t.eventDate).format('YYYY-MM-DD'),
+        total_base_client_purchase: 0,
+        total_base_developer_proceeds: 0,
+      })),
+    )
+    .into('clients')
+    .onConflict(['account_id', 'client_id'])
+    .ignore()
+    .transacting(trx)
+
+  // create subscription package
+  await pg
+    .insert(
+      transactions.map((t) => ({
+        account_id: account_id,
+        application_id: t.appAppleId,
+        subscription_group_id: t.subscriptionGroupId,
+        subscription_package_id: t.subscriptionAppleId,
+        subscription_duration: t.standardSubscriptionDuration,
+        name: t.subscriptionName,
+      })),
+    )
+    .into('subscription_packages')
+    .onConflict(['account_id', 'subscription_package_id'])
+    .ignore()
+    .transacting(trx)
+
+  for (const transaction of transactions) {
+    await parseTransaction(transaction, { account_id: account_id }, trx)
+  }
 }
