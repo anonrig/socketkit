@@ -93,7 +93,7 @@ describe('Integrations', () => {
         account_id: v4(),
         access_token: v4(),
       },
-      (error, response) => {
+      (error) => {
         try {
           expect(error).toBeTruthy()
           expect(error.message).toContain('not found')
