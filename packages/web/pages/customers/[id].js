@@ -22,7 +22,7 @@ export default function CustomerDetail() {
               <div className="mt-2 flex items-center text-md text-trueGray-500 space-between">
                 Member since
                 <time
-                  className="text-warmGray-900"
+                  className="text-warmGray-900 ml-2"
                   dateTime={dayjs(customer?.first_interaction).format('YYYY-MM-DD')}>
                   {dayjs(customer?.first_interaction).format('DD/MM/YYYY')}
                 </time>
