@@ -19,10 +19,6 @@ const server = f({
   trustProxy: true,
   disableRequestLogging: true,
   logger: false,
-  http2: true,
-  https: {
-    allowHTTP1: true,
-  },
 })
 
 server.register(pressure, {
@@ -67,7 +63,8 @@ server.addHook('onError', (request, reply, error, done) => {
   Sentry.withScope((scope) => {
     scope.setSpan(request.trace)
     scope.setUser({
-      ip_address: request.raw.ip,
+      id: request.user.identity.id,
+      email: request.user.identity.recovery_addresses[0].value,
     })
     Sentry.captureException(error)
   })
@@ -77,7 +74,7 @@ server.addHook('onError', (request, reply, error, done) => {
 server.addHook('onRequest', (request, reply, done) => {
   request.trace = Sentry.startTransaction({
     op: request.method,
-    name: request.url,
+    name: request.routerPath,
     trimEnd: true,
   })
   done()
