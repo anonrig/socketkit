@@ -9,20 +9,20 @@ function SubscriptionRow({
   subscription_package_name,
 }) {
   return (
-    <Link href={`/applications/${application_id}`}>
+    <Link href={`/applications/${application_id}/general`}>
       <a className="block hover:bg-gray-50">
         <div className="px-4 py-4 flex items-center sm:px-6">
           <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
-              <div className="flex text-sm font-medium text-orange-600 truncate">
+              <div className="flex text-sm font-semibold text-orange-500 truncate">
                 <p>{subscription_package_name}</p>
-                <p className="ml-1 font-normal text-gray-500">in {application_name}</p>
+                <p className="ml-1 font-normal text-warmGray-500">in {application_name}</p>
               </div>
               <div className="mt-2 flex">
-                <div className="flex items-center text-sm text-gray-500">
+                <div className="flex items-center text-sm text-warmGray-500">
                   <svg
                     aria-hidden="true"
-                    className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                    className="flex-shrink-0 mr-1.5 h-5 w-5 text-warmGray-500"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -44,7 +44,7 @@ function SubscriptionRow({
           </div>
           <div className="ml-5 flex-shrink-0">
             <svg
-              className="h-5 w-5 text-gray-400"
+              className="h-5 w-5 text-warmGray-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
