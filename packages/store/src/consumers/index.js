@@ -44,12 +44,15 @@ export function create(ctx) {
       trx,
       ctx.req.rows.map((a) => a.application_id),
     )
-
-    const scraped_apps = await AppStore.scrape(
-      ctx.req.rows.filter(
-        (a) => !existing_application_ids.includes(a.application_id),
-      ),
+    const new_applications = ctx.req.rows.filter(
+      (a) => !existing_application_ids.includes(a.application_id),
     )
+
+    if (new_applications.length === 0) {
+      return
+    }
+
+    const scraped_apps = await AppStore.scrape(new_applications)
 
     await Applications.create(trx, scraped_apps)
   })
