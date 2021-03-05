@@ -36,7 +36,7 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function SignIn({ kratos }) {
-  const { action, fields, method, messages } = kratos?.methods.password.config
+  const { action, fields, method, messages } = kratos?.methods.password.config ?? {}
   const oidc = kratos?.methods.oidc.config ?? {}
 
   return (

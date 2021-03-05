@@ -15,6 +15,7 @@
     "@nivo/bar": "^0.67.0",
     "@nivo/core": "^0.67.0",
     "@nivo/line": "^0.67.0",
+    "@nivo/treemap": "^0.67.0",
     "@ory/kratos-client": "^0.5.4-alpha.1",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
