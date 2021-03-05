@@ -36,7 +36,7 @@ export default {
     })
 
     const application_ids = rows.map(({ application_id }) => application_id)
-    const applications = await f.grpc.store.findAll({ application_ids })
+    const applications = await f.grpc.applications.findAll({ application_ids })
 
     return rows.map((row) => ({
       ...row,
