@@ -60,6 +60,7 @@ function DatePicker({ interval: { start_date, end_date }, setInterval }) {
         className="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
         show={isVisible}>
         <DateRangePicker
+          showDateDisplay={false}
           showMonthArrow={false}
           rangeColors={['#f97316']}
           maxDate={new Date()}

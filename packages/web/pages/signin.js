@@ -1,11 +1,10 @@
-import Link from 'next/link'
 import dayjs from 'dayjs'
-import FormField, { KratosFields } from '../components/form/field'
-import LoginProviderForm from '../components/form/login-provider'
-import Button from '../components/form/button'
-import { client } from '../helpers/is-authorized.js'
-import { endpoints } from '../helpers/kratos.js'
-import logo from '../images/icon-socketkit.svg'
+import FormField, { KratosFields } from 'components/form/field'
+import LoginProviderForm from 'components/form/login-provider'
+import Button from 'components/form/button'
+import { client } from 'helpers/is-authorized.js'
+import { endpoints } from 'helpers/kratos.js'
+import logo from 'images/icon-socketkit.svg'
 
 /**
  * @param {import("next").NextPageContext} ctx

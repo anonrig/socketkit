@@ -6,6 +6,20 @@ import TableBadge from 'components/table/badge'
 import Table from 'components/table/table'
 import { fetcher } from 'helpers/fetcher.js'
 
+export async function getServerSideProps(ctx) {
+  const format = 'YYYY-MM-DD'
+  const { cookie, referer } = ctx.req?.headers ?? {}
+  const initialData = await fetcher(
+    `transactions?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`,
+    {
+      headers: { cookie, referer },
+    },
+  )
+  return {
+    props: { initialData },
+  }
+}
+
 function Transactions({ initialData }) {
   const router = useRouter()
   const { start_date, end_date } = router.query
@@ -130,20 +144,6 @@ function Transactions({ initialData }) {
       />
     </>
   )
-}
-
-export async function getServerSideProps(ctx) {
-  const format = 'YYYY-MM-DD'
-  const { cookie, referer } = ctx.req?.headers ?? {}
-  const initialData = await fetcher(
-    `transactions?from=${dayjs().subtract(1, 'month').format(format)}&to=${dayjs().format(format)}`,
-    {
-      headers: { cookie, referer },
-    },
-  )
-  return {
-    props: { initialData },
-  }
 }
 
 export default Transactions
