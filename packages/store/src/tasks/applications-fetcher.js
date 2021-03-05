@@ -26,6 +26,10 @@ export default function fetchApplications(limit) {
       .skipLocked()
       .transacting(trx)
 
+    if (!applications.length) {
+      return 0
+    }
+
     const scraped_apps = await AppStore.scrapeAll(applications)
 
     await Applications.upsert(scraped_apps, trx)
