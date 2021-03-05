@@ -39,16 +39,19 @@ function Customers({ initialData }) {
         accessor: (field) => {
           return `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`
         },
+        className: 'text-right w-24',
       },
       {
         Header: 'Conversion',
         accessor: (field) => {
           return `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`
         },
+        className: 'text-right w-24',
       },
       {
         Header: 'Revenue',
         accessor: (field) => `$${field.revenue ?? 0}`,
+        className: 'text-right w-24',
       },
     ],
     [],

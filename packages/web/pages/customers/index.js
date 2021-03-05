@@ -30,6 +30,12 @@ export default function Customers({ initialData }) {
         accessor: function ClientAccessor(field) {
           return <div className="text-warmGray-900">{field.client_id}</div>
         },
+        className: 'w-32',
+      },
+      {
+        Header: 'Device',
+        accessor: 'device_type_name',
+        className: 'w-24',
       },
       {
         Header: 'Country',
@@ -37,24 +43,20 @@ export default function Customers({ initialData }) {
       },
       {
         Header: 'Sales',
-        accessor: (field) => `$${field.total_base_client_purchase}`,
+        accessor: (field) => `$${parseFloat(field.total_base_client_purchase).toFixed(2)}`,
+        className: 'text-right w-24',
       },
       {
         Header: 'Proceeds',
-        accessor: (field) => `$${field.total_base_developer_proceeds}`,
-      },
-      {
-        Header: 'Device',
-        id: 'device_type_id',
-        accessor: function DeviceAccessor(f) {
-          return f.device_type_name
-        },
+        accessor: (field) => `$${parseFloat(field.total_base_developer_proceeds).toFixed(2)}`,
+        className: 'text-right w-24',
       },
       {
         Header: 'Start Date',
         accessor: function IntervalAccessor(f) {
-          return dayjs(f.first_interaction).format('DD/MM/YYYY')
+          return dayjs(f.first_interaction).format('YYYY-MM-DD')
         },
+        className: 'text-right w-32',
       },
     ],
     [],

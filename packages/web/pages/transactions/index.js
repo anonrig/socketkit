@@ -46,6 +46,7 @@ function Transactions({ initialData }) {
         accessor: function SubscriptionAccessor(field) {
           return <div className="text-warmGray-900">{field.subscription_package_name}</div>
         },
+        className: 'truncate w-24',
       },
       {
         Header: 'Country',
@@ -56,12 +57,14 @@ function Transactions({ initialData }) {
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
         },
+        className: 'text-right w-24',
       },
       {
         Header: 'Proceed',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
         },
+        className: 'text-right w-24',
       },
       {
         Header: 'Type',
@@ -74,10 +77,12 @@ function Transactions({ initialData }) {
               : 'info'
           return <TableBadge state={state}>{field.transaction_type}</TableBadge>
         },
+        className: 'w-20',
       },
       {
         Header: 'Event Date',
         accessor: (field) => `${dayjs(field.event_date).format('DD/MM/YYYY')}`,
+        className: 'text-right w-32',
       },
     ],
     [],

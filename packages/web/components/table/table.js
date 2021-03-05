@@ -5,6 +5,7 @@ import { useTable } from 'react-table'
 import { Waypoint } from 'react-waypoint'
 import { useSWRInfinite } from 'swr'
 import { fetcher } from '../../helpers/fetcher.js'
+import cx from 'classnames'
 
 function Table({ initialData, columns, getRowProps, url, options }) {
   const getKey = (_, previous) => {
@@ -51,7 +52,10 @@ function Table({ initialData, columns, getRowProps, url, options }) {
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
                         <th
-                          className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
+                          className={cx([
+                            'px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider',
+                            column.className,
+                          ])}
                           scope="col"
                           {...column.getHeaderProps()}>
                           {column.render('Header')}
@@ -71,7 +75,10 @@ function Table({ initialData, columns, getRowProps, url, options }) {
                         {row.cells.map((cell) => {
                           return (
                             <td
-                              className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500"
+                              className={cx([
+                                'px-6 py-4 whitespace-nowrap text-sm text-trueGray-500',
+                                cell.column.className,
+                              ])}
                               {...cell.getCellProps()}>
                               {cell.render('Cell')}
                             </td>
