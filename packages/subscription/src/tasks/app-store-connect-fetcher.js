@@ -76,8 +76,6 @@ export default function fetchIntegrations() {
       // eliminate those faulty transactions. TODO: investigate this.
       const valid_transactions = transactions.filter((t) => !!t.eventDate)
 
-      await processTransactions(trx, integration.account_id, valid_transactions)
-
       const applications = transactions.reduce((i, t) => {
         i[t.appAppleId] = {
           application_id: t.appAppleId,
@@ -88,7 +86,10 @@ export default function fetchIntegrations() {
         return i
       }, {})
 
-      await client.store.applications.create(Object.values(applications))
+      await Promise.all([
+        processTransactions(trx, integration.account_id, valid_transactions),
+        client.store.applications.create(Object.values(applications)),
+      ])
     }
 
     await pg
