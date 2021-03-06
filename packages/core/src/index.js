@@ -7,11 +7,10 @@ import Logger from './logger.js'
 import pg from './pg.js'
 
 /// <reference path=”./plugins/index.d.ts” />
-const logger = Logger.create().withScope('application').withTag('start')
+const logger = Logger.create().withScope('application')
 
 Sentry.init({
-  dsn:
-    'https://ef07b3cbc6d442399a62a7813df27920@o482381.ingest.sentry.io/5662728',
+  dsn: config.sentry,
   integrations: [
     new Sentry.Integrations.OnUncaughtException({
       onFatalError(firstError) {

@@ -81,16 +81,19 @@ server.addHook('onError', (request, reply, error, done) => {
 })
 
 server.addHook('onRequest', (request, reply, done) => {
-  request.trace = Sentry.startTransaction({
-    op: request.method,
-    name: request.routerPath,
-    trimEnd: true,
-  })
+  if (request.routerPath.startsWith('/v1/')) {
+    request.trace = Sentry.startTransaction({
+      op: request.method,
+      name: request.routerPath,
+      trimEnd: true,
+    })
+  }
+
   done()
 })
 
 server.addHook('onResponse', (request, reply, done) => {
-  request.trace.finish()
+  request.trace?.finish()
   done()
 })
 
