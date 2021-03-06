@@ -13,6 +13,16 @@ Sentry.init({
   dsn:
     'https://ef07b3cbc6d442399a62a7813df27920@o482381.ingest.sentry.io/5662728',
   integrations: [
+    new Sentry.Integrations.OnUncaughtException({
+      onFatalError(firstError) {
+        Sentry.captureException(firstError)
+        logger.withTag('OnUncaughtException').error(firstError)
+        process.exit(1)
+      },
+    }),
+    new Sentry.Integrations.OnUnhandledRejection({
+      mode: 'strict',
+    }),
     new Sentry.Integrations.Http({ tracing: true }),
     new Tracing.Integrations.Postgres(),
   ],
@@ -20,13 +30,8 @@ Sentry.init({
 })
 
 const start = async () => {
-  try {
-    logger.info(`application booted`)
-    await pg.raw('select 1+1 as result')
-    await server.listen(config.port, '0.0.0.0')
-  } catch (err) {
-    logger.fatal(err)
-    process.exit(1)
-  }
+  await pg.raw('select 1+1 as result')
+  await server.listen(config.port, '0.0.0.0')
+  logger.withTag('start').success(`Application booted on port=${config.port}`)
 }
 start()
