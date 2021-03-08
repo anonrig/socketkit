@@ -1,5 +1,6 @@
 import Layout from "../components/layout.js";
 import { NextSeo } from "next-seo";
+import Image from "next/image";
 export default function Security() {
   return (
     <Layout>
@@ -7,59 +8,48 @@ export default function Security() {
         title="Security & Privacy Practices"
         description="Security and privacy is a fundemental human right. We believe in the right to anonymize user data despite our competitors."
       />
-      <div className="pt-10 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
-        <div className="mx-auto max-w-7xl lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8">
-            <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
-              <div className="lg:py-24">
-                <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-black sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                  <span className="block">Protect your</span>
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-orange-500 block">
-                    customer data
-                  </span>
-                </h1>
-                <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl font-bold">
-                  Privacy & Security is a human right.
-                </p>
-              </div>
+      <div className="relative">
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
+            <div className="absolute inset-0">
+              <Image
+                width={1216}
+                height={428}
+                src={"/assets/security-hero.jpg"}
+                className="h-full w-full object-cover"
+                alt="People using Socketkit"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
+                style={{ mixBlendMode: "multiply" }}
+              />
             </div>
-            <div className="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
-              <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
-                <img
-                  className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                  src="/security.svg"
-                  alt=""
-                />
-              </div>
+            <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
+              <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                <span className="block text-white">Protect your</span>
+                <span className="block text-orange-500">customer data</span>
+              </h1>
+              <p className="mt-6 max-w-lg mx-auto text-center text-xl text-white sm:max-w-3xl">
+                Privacy is a human right.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:pt-24 lg:px-8">
-        <div className="relative md:bg-white md:p-6">
-          <div className="prose prose-orange prose-lg text-gray-500 lg:max-w-none">
-            <p>
-              We believe in the fundemantal right of security and privacy. We do our best to protect both your and your customers data, and protect them from malicious attacks. We're currently in the process of complying with <span>GDPR</span>, <span>CCPA</span> and <span>HIPAA</span>. Please keep in touch for further updates. If you have any questions regarding security and privacy practices in Socketkit, please contact us from <a href="mailto:security@socketkit.com">security@socketkit.com</a>. We're transparent about it.
-            </p>
-            <ol></ol>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative bg-white py-16 sm:py-24 lg:py-32">
+      <div className="relative bg-white py-16 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-          <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+          <p className="mt-2 text-3xl font-extrabold text-warmGray-900 tracking-tight sm:text-4xl">
             We follow the best practices, and we're transparent about it.
           </p>
-          <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+          <p className="mt-5 max-w-prose mx-auto text-xl text-trueGray-500">
             Here is a list of our recent improvements on our SDKs and
             infrastructure.
           </p>
           <div className="mt-12">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
@@ -68,7 +58,7 @@ export default function Security() {
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                         >
                           <path
                             strokeLinecap="round"
@@ -79,10 +69,10 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       SSL Certificates
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       All network communications between CDN and Socketkit
                       servers are end to end encrypted using ECDSA SSL
                       certificates.
@@ -92,12 +82,12 @@ export default function Security() {
               </div>
 
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
                         <svg
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -113,10 +103,10 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       Verify & Sign
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       All communications between SDKs and Socketkit servers are
                       signed and verified using HMAC SHA-512.
                     </p>
@@ -125,7 +115,7 @@ export default function Security() {
               </div>
 
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
@@ -134,7 +124,7 @@ export default function Security() {
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                         >
                           <path
                             strokeLinecap="round"
@@ -145,24 +135,24 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       Web Application Firewall
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       We use a state of the art web application firewall to
-                      track suspicious payloads.
+                      track suspicious payloads and remove unwanted requests.
                     </p>
                   </div>
                 </div>
               </div>
 
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
                         <svg
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -178,10 +168,10 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       Network Firewall
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       We reject all requests except Cloudflare to our internal
                       servers to prevent unauthorized network attempts.
                     </p>
@@ -190,7 +180,7 @@ export default function Security() {
               </div>
 
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
@@ -199,7 +189,7 @@ export default function Security() {
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                         >
                           <path
                             strokeLinecap="round"
@@ -210,10 +200,10 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       Encryption
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       We encrypt and hash all of our users credentials using
                       Argon2 with multiple iterations.
                     </p>
@@ -222,12 +212,12 @@ export default function Security() {
               </div>
 
               <div className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-warmGray-50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
-                      <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg">
+                      <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg bg-white">
                         <svg
-                          className="h-6 w-6 text-orange-600"
+                          className="h-6 w-6 text-orange-500"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -243,18 +233,42 @@ export default function Security() {
                         </svg>
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                    <h3 className="mt-8 text-lg font-semibold text-warmGray-900 tracking-tight">
                       Backups & Transparency
                     </h3>
-                    <p className="mt-5 text-base text-gray-500">
+                    <p className="mt-5 text-base text-trueGray-500">
                       We backup our data regularly to provide 99.99% uptime and
-                      inform users regularly on service interruptions.
+                      inform users on service interruptions.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl pb-24">
+        <p className="mt-3 text-3xl font-extrabold text-warmGray-900">
+          Sidenote;
+        </p>
+        <p className="mt-5 text-lg text-trueGray-500">
+          We believe in the fundemantal right of security and privacy. We do our
+          best to protect both your and your customers data, and protect them
+          from malicious attacks. We're currently in the process of complying
+          with <span className="font-semibold">GDPR</span>,{" "}
+          <span className="font-semibold">CCPA</span> and{" "}
+          <span className="font-semibold">HIPAA</span>. Please keep in touch for
+          further updates. If you have any questions regarding security and
+          privacy practices in Socketkit, please contact us.
+        </p>
+        <div className="mt-6">
+          <a
+            href="mailto:hello@socketkit.com"
+            className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-400"
+          >
+            Contact Us
+          </a>
         </div>
       </div>
     </Layout>
