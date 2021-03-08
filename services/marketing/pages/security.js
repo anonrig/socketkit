@@ -13,10 +13,11 @@ export default function Security() {
           <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                width={1216}
-                height={428}
-                src={"/assets/security-hero.jpg"}
-                className="h-full w-full object-cover"
+                src={"/assets/security-hero.png"}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                className="h-full w-full"
                 alt="People using Socketkit"
               />
               <div

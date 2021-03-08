@@ -15,10 +15,11 @@ export default function Company() {
           <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                width={1216}
-                height={428}
-                src={"/assets/company-hero.jpg"}
-                className="h-full w-full object-cover"
+                src={"/assets/company-hero.png"}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                className="h-full w-full"
                 alt="People using Socketkit"
               />
               <div
@@ -45,7 +46,7 @@ export default function Company() {
           <div className="h-full xl:relative xl:col-start-2">
             <img
               className="h-full w-full object-cover opacity-100 xl:absolute xl:inset-0"
-              src="/assets/company-aboutus.jpg"
+              src="/assets/company-aboutus.png"
               alt="People working on laptops"
             />
             <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-200 to-orange-500" />

@@ -62,7 +62,7 @@ export default function Header() {
                 <span>Solutions</span>
                 <svg
                   className={cx(
-                    "ml-2 h-5 w-5  group-hover:text-trueGray-500 text-warmGray-900"
+                    "ml-2 h-5 w-5 group-hover:text-trueGray-500 text-warmGray-900"
                   )}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"

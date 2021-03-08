@@ -13,11 +13,12 @@ export default function Home() {
             <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
               <div className="absolute inset-0">
                 <Image
-                  width={1216}
-                  height={428}
-                  src={'/assets/landing-hero.jpg'}
-                  className="h-full w-full object-cover"
-                  alt="People using Socketkit"
+                  objectFit="cover"
+                  objectPosition="center"
+                  layout="fill"
+                  src={'/assets/landing-hero.png'}
+                  className="h-full w-full"
+                  alt="A developer accessing Socketkit"
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
@@ -99,9 +100,12 @@ export default function Home() {
         <div className="relative bg-warmGray-50">
           <div className="h-80 absolute bottom-0 xl:inset-0 xl:h-auto xl:grid xl:grid-cols-2 hidden lg:visible">
             <div className="h-full xl:relative xl:col-start-2">
-              <img
-                className="h-full w-full object-cover opacity-100 xl:absolute xl:inset-0"
-                src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
+              <Image
+                className="h-full w-full object-cover xl:absolute xl:inset-0"
+                src={'/assets/people-using-laptop.png'}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
                 alt="People working on laptops"
               />
               <div
