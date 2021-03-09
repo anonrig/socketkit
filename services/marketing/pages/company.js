@@ -1,6 +1,6 @@
 import Layout from '../components/layout.js'
 import Link from 'next/link'
-import { NextSeo, CorporateContactJsonLd } from 'next-seo'
+import { NextSeo } from 'next-seo'
 import Image from 'next/image'
 
 export default function Company() {
@@ -9,11 +9,6 @@ export default function Company() {
       <NextSeo
         title="Company"
         description="Event Management & Subscription Tracking platform for mobile applications without compromising privacy or security."
-      />
-
-      <CorporateContactJsonLd
-        url="https://www.socketkit.com"
-        logo="https://www.socketkit.com/socketkit-logo.svg"
       />
 
       <div className="relative">

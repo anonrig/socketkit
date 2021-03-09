@@ -12,8 +12,8 @@ function MyApp({ Component, pageProps }) {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <DefaultSeo
-        titleTemplate="%s - Socketkit, Inc."
         title="Mobile Analytics & Subscription Tracking Platform"
+        titleTemplate="%s - Socketkit, Inc."
         canonical="https://www.socketkit.com"
         description="Socketkit is a security and privacy focused mobile analytics and subscription tracking platform which gives back the power of data to the user."
         openGraph={{
