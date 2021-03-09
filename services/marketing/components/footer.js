@@ -1,7 +1,34 @@
 import Link from 'next/link'
+import { BreadcrumbJsonLd } from 'next-seo'
+
 export default function Footer() {
   return (
     <footer className="bg-warmGray-50" aria-labelledby="footerHeading">
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Subscription Management',
+            item: 'https://socketkit.com/solutions/subscriptions',
+          },
+          {
+            position: 2,
+            name: 'Mobile Analytics',
+            item: 'https://socketkit.com/solutions/analytics',
+          },
+          {
+            position: 3,
+            name: 'App Reviews',
+            item: 'https://socketkit.com/solutions/reviews',
+          },
+          {
+            position: 4,
+            name: 'About',
+            item: 'https://socketkit.com/company',
+          },
+        ]}
+      />
+
       <h2 className="sr-only">Footer</h2>
       <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:pt-24 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
