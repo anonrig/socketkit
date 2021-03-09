@@ -1,5 +1,6 @@
 import { verify } from '../../hooks.js'
 import f from '../../server.js'
+import { createAccount } from '../../methods/accounts.js'
 
 export default {
   method: 'GET',
@@ -36,9 +37,17 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { integration_id } }) => {
+  handler: async ({
+    user: { identity },
+    accounts: [account],
+    params: { integration_id },
+  }) => {
     if (integration_id !== 'appstore-connect') {
       throw f.httpErrors.notFound()
+    }
+
+    if (!account) {
+      account = await createAccount({ identity_id: identity.id })
     }
 
     const { row: integration } = await f.grpc.integrations.findOne({
