@@ -1,8 +1,11 @@
-import Layout from "../../components/layout.js";
+import { NextSeo } from 'next-seo'
+import Layout from 'components/layout.js'
 
 export default function Analytics() {
   return (
     <Layout>
+      <NextSeo title={'Mobile Analytics & Event Tracking'} description={`@TODO - fix this`} />
+
       <div className="relative bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
         <div className="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
           <div>
@@ -13,9 +16,8 @@ export default function Analytics() {
               No server? No problem.
             </p>
             <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-              Phasellus lorem quam molestie id quisque diam aenean nulla in.
-              Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend
-              condimentum id viverra nulla.
+              Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis
+              nunc, ullamcorper malesuada. Eleifend condimentum id viverra nulla.
             </p>
           </div>
           <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
@@ -28,5 +30,5 @@ export default function Analytics() {
         </div>
       </div>
     </Layout>
-  );
+  )
 }

@@ -2,10 +2,13 @@ import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 
-export default function Subscriptions() {
+export default function Reviews() {
   return (
     <Layout>
-      <NextSeo title={'Subscription Management for AppStore'} description={`@TODO - fix this`} />
+      <NextSeo
+        title={'Tracking Application Reviews'}
+        description={`Understand and analyze feedback from your customers. Track reviews from AppStore and Google Playstore.`}
+      />
 
       <div className="relative bg-white pt-16 sm:pt-24 lg:pt-32 overflow-hidden">
         <div className="mx-auto max-w-md text-center  sm:max-w-3xl lg:max-w-7xl">
