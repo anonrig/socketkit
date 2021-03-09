@@ -59,7 +59,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="mt-12 sm:mt-16 lg:mt-0">
+              <div className="mt-12 sm:mt-16 lg:mt-0 lg:overflow-visible overflow-hidden pb-8 lg:pb-0">
                 <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
@@ -101,7 +101,7 @@ export default function Home() {
         {/* Stats section */}
         <div className="relative bg-warmGray-50">
           <div className="h-80 absolute bottom-0 xl:inset-0 xl:h-auto xl:grid xl:grid-cols-2 hidden lg:visible">
-            <div className="h-full xl:relative xl:col-start-2">
+            <div className="h-full absolute inset-0 col-start-2">
               <Image
                 className="h-full w-full object-cover xl:absolute xl:inset-0"
                 src={'/assets/people-using-laptop.png'}

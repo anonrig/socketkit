@@ -43,7 +43,7 @@ export default function Company() {
 
       <div className="relative bg-warmGray-50 my-28">
         <div className="h-80 absolute bottom-0 xl:inset-0 xl:h-auto xl:grid xl:grid-cols-2 hidden lg:visible">
-          <div className="h-full xl:relative xl:col-start-2">
+          <div className="h-full absolute inset-0 col-start-2">
             <img
               className="h-full w-full object-cover opacity-100 xl:absolute xl:inset-0"
               src="/assets/company-aboutus.png"
