@@ -138,8 +138,8 @@ export default function Pricing() {
                         Data Ownership
                       </dt>
                       <dd className="mt-2 text-base text-trueGray-500">
-                        Your customers' data belong to you. We only store and process it with your
-                        permission.
+                        Your customers&apos; data belong to you. We only store and process it with
+                        your permission.
                       </dd>
                     </div>
                   </div>

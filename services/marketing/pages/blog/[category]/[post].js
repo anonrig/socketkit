@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import { BlogJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 import { fetchEntry } from 'helpers/contentful.js'
+import extractor from 'keyword-extractor'
 
 export async function getServerSideProps({ query: { category, post }, resolvedUrl }) {
   const entry = await fetchEntry('guide', category, post)
@@ -30,7 +31,14 @@ export default function Post({ entry, url }) {
               publishedTime: entry.sys.createdAt,
               modifiedTime: entry.sys.updatedAt,
               expirationTime: '2022-12-21T22:04:11Z',
+              authors: [entry.fields.author.fields.name],
               section: entry.fields.category.fields.title,
+              tags: extractor.extract(entry.fields.short_description, {
+                language: 'english',
+                remove_digits: true,
+                return_changed_case: true,
+                remove_duplicates: true,
+              }),
             },
             images: [
               {
@@ -51,11 +59,12 @@ export default function Post({ entry, url }) {
           authorName={entry.fields.author.fields.name}
           description={entry.fields.short_description}
         />
+
         <div className="relative py-16 bg-white overflow-hidden">
           <div className="relative px-4 sm:px-6 lg:px-8">
             <div className="text-lg max-w-prose mx-auto">
               <h1>
-                <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
+                <span className="block text-base text-center text-orange-500 font-bold tracking-wide uppercase">
                   {entry.fields.category.fields.title}
                 </span>
                 <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -66,9 +75,9 @@ export default function Post({ entry, url }) {
                 {entry.fields.short_description}
               </p>
             </div>
-            <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
-              <ReactMarkdown>{entry.fields.full_content}</ReactMarkdown>
-            </div>
+            <ReactMarkdown className="mt-6 prose prose-orange prose-lg text-warmGray-500 mx-auto">
+              {entry.fields.full_content}
+            </ReactMarkdown>
           </div>
         </div>
       </>

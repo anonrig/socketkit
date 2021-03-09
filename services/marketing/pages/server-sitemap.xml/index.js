@@ -4,7 +4,7 @@ import { fetchEntries } from 'helpers/contentful.js'
 export async function getServerSideProps(ctx) {
   const posts = await fetchEntries()
   const urls = posts.map((post) => ({
-    loc: `https://socketkit.com/blog/guides/${post.fields.slug}`,
+    loc: `https://www.socketkit.com/blog/guides/${post.fields.slug}`,
     lastmod: post.sys.updatedAt,
     changefreq: 'weekly',
   }))

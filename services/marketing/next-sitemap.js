@@ -4,6 +4,6 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: ['/server-sitemap.xml'],
   robotsTxtOptions: {
-    additionalSitemaps: ['https://socketkit.com/server-sitemap.xml'],
+    additionalSitemaps: ['https://www.socketkit.com/server-sitemap.xml'],
   },
 }

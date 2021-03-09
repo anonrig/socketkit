@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
       <DefaultSeo
         titleTemplate="%s - Socketkit, Inc."
         title="Mobile Analytics & Subscription Tracking Platform"
+        canonical="https://www.socketkit.com"
         description="Socketkit is a security and privacy focused mobile analytics and subscription tracking platform which gives back the power of data to the user."
         openGraph={{
           type: 'website',
