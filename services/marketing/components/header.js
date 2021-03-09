@@ -172,15 +172,15 @@ export default function Header() {
             </Transition>
           </div>
 
-          <Link href="/pricing">
-            <a className="text-base font-medium text-warmGray-900 hover:text-warmGray-500">
-              Pricing
-            </a>
-          </Link>
-
           <Link href="/security">
             <a className="text-base font-medium text-warmGray-900 hover:text-warmGray-500">
               Security
+            </a>
+          </Link>
+
+          <Link href="/pricing">
+            <a className="text-base font-medium text-warmGray-900 hover:text-warmGray-500">
+              Pricing
             </a>
           </Link>
         </nav>

@@ -162,7 +162,7 @@ export default function Pricing() {
                       className="pointer-events-none absolute h-12 w-full flex items-center justify-center"
                       aria-hidden="true">
                       <svg
-                        className="h-6 w-6 text-cyan-200"
+                        className="h-6 w-6 text-trueGray-500"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -191,7 +191,7 @@ export default function Pricing() {
                 <ul className="bg-cyan-700 bg-opacity-50 rounded sm:grid sm:grid-cols-2 sm:grid-rows-3 sm:grid-flow-col">
                   <li className="py-4 px-4 flex items-center text-base text-trueGray-500">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -206,9 +206,9 @@ export default function Pricing() {
                     </svg>
                     <span className="ml-3">Unlimited Customers</span>
                   </li>
-                  <li className="border-t border-cyan-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500">
+                  <li className="border-t border-warmGray-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -223,9 +223,9 @@ export default function Pricing() {
                     </svg>
                     <span className="ml-3">Unlimited Transactions</span>
                   </li>
-                  <li className="border-t border-cyan-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500">
+                  <li className="border-t border-warmGray-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -240,9 +240,9 @@ export default function Pricing() {
                     </svg>
                     <span className="ml-3">CSV Exports</span>
                   </li>
-                  <li className="border-t border-cyan-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-t-0 sm:border-l">
+                  <li className="border-t border-warmGray-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-t-0 sm:border-l">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -257,9 +257,9 @@ export default function Pricing() {
                     </svg>
                     <span className="ml-3">Built-in Security</span>
                   </li>
-                  <li className="border-t border-cyan-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-l">
+                  <li className="border-t border-warmGray-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-l">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -274,9 +274,9 @@ export default function Pricing() {
                     </svg>
                     <span className="ml-3">24/7 support</span>
                   </li>
-                  <li className="border-t border-cyan-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-l">
+                  <li className="border-t border-warmGray-300 border-opacity-25 py-4 px-4 flex items-center text-base text-trueGray-500 sm:border-l">
                     <svg
-                      className="h-6 w-6 text-cyan-200"
+                      className="h-6 w-6 text-trueGray-500"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -294,7 +294,7 @@ export default function Pricing() {
                 </ul>
                 <a
                   href="https://web.socketkit.com"
-                  className="w-full border border-transparent rounded-md py-4 px-8 flex items-center justify-center text-lg leading-6 font-medium text-cyan-700 bg-orange-400 md:px-10">
+                  className="w-full border border-transparent rounded-md py-4 px-8 flex items-center justify-center text-lg leading-6 font-medium text-white bg-orange-500 md:px-10">
                   Start using for free
                 </a>
                 <p className="text-warmGray-500 text-center text-sm">
