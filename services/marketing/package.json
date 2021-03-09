@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     "dayjs": "^1.10.4",
     "next": "10.0.8",
     "next-seo": "^4.20.0",
+    "next-sitemap": "^1.5.16",
     "postcss": "^8.2.7",
     "postcss-flexbugs-fixes": "^5.0.2",
     "react": "17.0.1",
