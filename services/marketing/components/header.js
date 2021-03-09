@@ -1,12 +1,13 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Transition } from "@headlessui/react";
-import { useState } from "react";
-import cx from "classnames";
+import Link from 'next/link'
+import Image from 'next/image'
+import { Transition } from '@headlessui/react'
+import { useState } from 'react'
+import cx from 'classnames'
+import { LogoJsonLd } from 'next-seo'
 
 export default function Header() {
-  const [mobileVisible, setMobileVisible] = useState(false);
-  const [solutionsVisible, setSolutionsVisible] = useState(false);
+  const [mobileVisible, setMobileVisible] = useState(false)
+  const [solutionsVisible, setSolutionsVisible] = useState(false)
 
   return (
     <header>
@@ -16,21 +17,19 @@ export default function Header() {
             <Link href="/">
               <a>
                 <span className="sr-only">Socketkit, Inc.</span>
-                <Image
-                  height={35}
-                  width={165}
-                  src="/socketkit-logo.svg"
-                  alt="Socketkit, Inc."
-                />
+                <Image height={35} width={165} src="/socketkit-logo.svg" alt="Socketkit, Inc." />
               </a>
             </Link>
+            <LogoJsonLd
+              logo="http://www.socketkit.com/socketkit-logo.svg"
+              url="https://www.socketkit.com"
+            />
           </div>
           <div className="-mr-2 -my-2 md:hidden">
             <button
               type="button"
               onClick={() => setMobileVisible(true)}
-              className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-trueGray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500"
-            >
+              className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-trueGray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
               <span className="sr-only">Open menu</span>
               <svg
                 className="h-6 w-6"
@@ -38,8 +37,7 @@ export default function Header() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                aria-hidden="true"
-              >
+                aria-hidden="true">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -55,20 +53,16 @@ export default function Header() {
                 type="button"
                 onClick={() => setSolutionsVisible(!solutionsVisible)}
                 className={cx(
-                  solutionsVisible ? "text-warmGray-900" : "text-warmGray-900",
-                  "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-warmGray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                )}
-              >
+                  solutionsVisible ? 'text-warmGray-900' : 'text-warmGray-900',
+                  'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-warmGray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500',
+                )}>
                 <span>Solutions</span>
                 <svg
-                  className={cx(
-                    "ml-2 h-5 w-5 group-hover:text-trueGray-500 text-warmGray-900"
-                  )}
+                  className={cx('ml-2 h-5 w-5 group-hover:text-trueGray-500 text-warmGray-900')}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
-                  aria-hidden="true"
-                >
+                  aria-hidden="true">
                   <path
                     fillRule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -83,8 +77,7 @@ export default function Header() {
                 leave="transition ease-in duration-150"
                 enterTo="opacity-100 translate-y-0"
                 leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
+                leaveTo="opacity-0 translate-y-1">
                 <div className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-80 max-w-md sm:px-0">
                   <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
@@ -96,12 +89,11 @@ export default function Header() {
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
-                            aria-hidden="true"
-                          >
+                            aria-hidden="true">
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                             />
                           </svg>
@@ -124,12 +116,11 @@ export default function Header() {
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
-                            aria-hidden="true"
-                          >
+                            aria-hidden="true">
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
                             />
                           </svg>
@@ -152,19 +143,16 @@ export default function Header() {
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
-                            aria-hidden="true"
-                          >
+                            aria-hidden="true">
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                             />
                           </svg>
                           <div className="ml-4">
-                            <p className="text-base font-medium text-warmGray-900">
-                              Reviews
-                            </p>
+                            <p className="text-base font-medium text-warmGray-900">Reviews</p>
                             <p className="mt-1 text-sm text-trueGray-500">
                               Track your application's reviews across the globe.
                             </p>
@@ -192,14 +180,12 @@ export default function Header() {
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <a
               href="https://web.socketkit.com/signin"
-              className="whitespace-nowrap text-base font-medium text-warmGray-900 hover:text-warmGray-500"
-            >
+              className="whitespace-nowrap text-base font-medium text-warmGray-900 hover:text-warmGray-500">
               Sign in
             </a>
             <a
               href="https://web.socketkit.com/signup"
-              className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-400"
-            >
+              className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-400">
               Sign up
             </a>
           </div>
@@ -211,26 +197,19 @@ export default function Header() {
           enterTo="opacity-100 scale-100"
           leave="duration-100 ease-in"
           leaveFrom="opacity-100 scale-100"
-          leaveTo="opacity-0 scale-95"
-        >
+          leaveTo="opacity-0 scale-95">
           <div className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
             <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="pt-5 pb-6 px-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <img
-                      src="/socketkit-icon.svg"
-                      alt="Socketkit, Inc"
-                      height={40}
-                      width={40}
-                    />
+                    <img src="/socketkit-icon.svg" alt="Socketkit, Inc" height={40} width={40} />
                   </div>
                   <div className="-mr-2">
                     <button
                       type="button"
                       onClick={() => setMobileVisible(false)}
-                      className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-trueGray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500"
-                    >
+                      className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-trueGray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
                       <span className="sr-only">Close menu</span>
                       <svg
                         className="h-6 w-6"
@@ -238,8 +217,7 @@ export default function Header() {
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        aria-hidden="true"
-                      >
+                        aria-hidden="true">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -254,19 +232,13 @@ export default function Header() {
                   <nav className="grid grid-cols-1 gap-7">
                     <a
                       href="#"
-                      className="-m-3 p-3 flex items-center rounded-lg hover:bg-warmGray-50"
-                    >
-                      <div className="ml-4 text-base font-medium text-warmGray-900">
-                        Security
-                      </div>
+                      className="-m-3 p-3 flex items-center rounded-lg hover:bg-warmGray-50">
+                      <div className="ml-4 text-base font-medium text-warmGray-900">Security</div>
                     </a>
                     <a
                       href="#"
-                      className="-m-3 p-3 flex items-center rounded-lg hover:bg-warmGray-50"
-                    >
-                      <div className="ml-4 text-base font-medium text-warmGray-900">
-                        About
-                      </div>
+                      className="-m-3 p-3 flex items-center rounded-lg hover:bg-warmGray-50">
+                      <div className="ml-4 text-base font-medium text-warmGray-900">About</div>
                     </a>
                   </nav>
                 </div>
@@ -274,15 +246,13 @@ export default function Header() {
               <div className="py-6 px-5">
                 <a
                   href="https://web.socketkit.com/signup"
-                  className="w-full flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-400"
-                >
+                  className="w-full flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-400">
                   Sign up
                 </a>
                 <p className="mt-6 text-center text-base font-medium text-trueGray-500">
                   <a
                     href="https://web.socketkit.com/signin"
-                    className="text-warmGray-900 hover:text-warmGray-500"
-                  >
+                    className="text-warmGray-900 hover:text-warmGray-500">
                     Sign in
                   </a>
                 </p>
@@ -292,5 +262,5 @@ export default function Header() {
         </Transition>
       </div>
     </header>
-  );
+  )
 }
