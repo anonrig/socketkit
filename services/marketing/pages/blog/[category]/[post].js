@@ -31,7 +31,6 @@ export default function Post({ entry, url }) {
               publishedTime: entry.sys.createdAt,
               modifiedTime: entry.sys.updatedAt,
               expirationTime: '2022-12-21T22:04:11Z',
-              authors: [entry.fields.author.fields.name],
               section: entry.fields.category.fields.title,
               tags: extractor.extract(entry.fields.short_description, {
                 language: 'english',
