@@ -45,21 +45,22 @@ export default function Pricing() {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true">
+                        stroke="currentColor">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                          d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
                         />
                       </svg>
                     </div>
                     <div className="ml-4">
-                      <dt className="text-lg leading-6 font-medium text-warmGray-900">Customers</dt>
+                      <dt className="text-lg leading-6 font-medium text-warmGray-900">
+                        Realtime Analytics
+                      </dt>
                       <dd className="mt-2 text-base text-trueGray-500">
-                        Understand your customers' usage and flow without compromising their
-                        privacy.
+                        Get real time insights on your customers and transactions, and respond fast
+                        to market changes.
                       </dd>
                     </div>
                   </div>
@@ -178,10 +179,10 @@ export default function Pricing() {
                     <span>
                       <span className="flex flex-col text-center">
                         <span className="text-5xl font-extrabold text-warmGray-900 tracking-tight">
-                          %1
+                          %0.5
                         </span>
                         <span className="mt-2 text-base font-medium text-cyan-100">
-                          MRR per month
+                          of Your MRR
                         </span>
                       </span>
                     </span>
@@ -296,6 +297,9 @@ export default function Pricing() {
                   className="w-full border border-transparent rounded-md py-4 px-8 flex items-center justify-center text-lg leading-6 font-medium text-cyan-700 bg-orange-400 md:px-10">
                   Start using for free
                 </a>
+                <p className="text-warmGray-500 text-center text-sm">
+                  Socketkit is always <span className="font-semibold">free up to $5000</span> Monthly Recurring Revenue.
+                </p>
               </div>
             </div>
           </div>
