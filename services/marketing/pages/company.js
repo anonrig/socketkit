@@ -1,7 +1,7 @@
-import Layout from "../components/layout.js";
-import Link from "next/link";
-import { NextSeo } from "next-seo";
-import Image from "next/image";
+import Layout from '../components/layout.js'
+import Link from 'next/link'
+import { NextSeo } from 'next-seo'
+import Image from 'next/image'
 
 export default function Company() {
   return (
@@ -15,7 +15,7 @@ export default function Company() {
           <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                src={"/assets/company-hero.png"}
+                src={'/assets/company-hero.png'}
                 layout="fill"
                 objectFit="cover"
                 objectPosition="center"
@@ -24,7 +24,7 @@ export default function Company() {
               />
               <div
                 className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
-                style={{ mixBlendMode: "multiply" }}
+                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
             <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
@@ -58,36 +58,29 @@ export default function Company() {
         </div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 xl:grid xl:grid-cols-2 xl:grid-flow-col-dense xl:gap-x-8">
           <div className="relative pt-24 pb-24 xl:col-start-1 xl:pb-24">
-            <p className="mt-3 text-3xl sm:text-4xl font-extrabold text-warmGray-900">
-              About us
+            <p className="mt-3 text-3xl sm:text-4xl font-extrabold text-warmGray-900">About us</p>
+            <p className="mt-5 text-lg text-trueGray-500">
+              We're a small team from New York & Istanbul who cares about privacy and security and
+              wanted to distrupt the event management and tracking industry which enables faulty
+              solutions to a simple problem: protecting users privacy.
             </p>
             <p className="mt-5 text-lg text-trueGray-500">
-              We're a small team from New York & Istanbul who cares about
-              privacy and security and wanted to distrupt the event management
-              and tracking industry which enables faulty solutions to a simple
-              problem: protecting users privacy.
+              Analytics tracking companies doesn't care about consumer privacy and force developers
+              to use <b>binary</b> libraries, frameworks, which makes it impossible to keep track of
+              which software is installed on your bundled mobile applications.
             </p>
             <p className="mt-5 text-lg text-trueGray-500">
-              Analytics tracking companies doesn't care about consumer privacy
-              and force developers to use <b>binary</b> libraries, frameworks,
-              which makes it impossible to keep track of which software is
-              installed on your bundled mobile applications.
-            </p>
-            <p className="mt-5 text-lg text-trueGray-500">
-              We care about privacy and security. We limit the data collected
-              from mobile applications and release it open-sourcely on{" "}
+              We care about privacy and security. We limit the data collected from mobile
+              applications and release it open-sourcely on{' '}
               <a
                 href="https://github.com/socketkit"
-                className="text-orange-500 hover:underline font-semibold"
-              >
+                className="text-orange-500 hover:underline font-semibold">
                 GitHub
               </a>
-              . To learn more about our security and privacy rules, visit our{" "}
+              . To learn more about our security and privacy rules, visit our{' '}
               <Link href="/security">
-                <a className="text-orange-500 hover:underline font-semibold">
-                  Security
-                </a>
-              </Link>{" "}
+                <a className="text-orange-500 hover:underline font-semibold">Security</a>
+              </Link>{' '}
               page.
             </p>
           </div>
@@ -101,19 +94,15 @@ export default function Company() {
               Get in touch
             </h2>
             <p className="mt-4 text-lg text-trueGray-500 sm:mt-3 text-center">
-              We’d love to hear from you!<br></br>Send us a message using the form
-              below, or email us.
+              We’d love to hear from you!<br></br>Send us a message using the form below, or email
+              us.
             </p>
             <form
               action="#"
               method="POST"
-              className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
-            >
+              className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
               <div>
-                <label
-                  htmlFor="first_name"
-                  className="block text-sm font-medium text-trueGray-500"
-                >
+                <label htmlFor="first_name" className="block text-sm font-medium text-trueGray-500">
                   First name
                 </label>
                 <div className="mt-1">
@@ -126,10 +115,7 @@ export default function Company() {
                 </div>
               </div>
               <div>
-                <label
-                  htmlFor="last_name"
-                  className="block text-sm font-medium text-trueGray-500"
-                >
+                <label htmlFor="last_name" className="block text-sm font-medium text-trueGray-500">
                   Last name
                 </label>
                 <div className="mt-1">
@@ -142,10 +128,7 @@ export default function Company() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-trueGray-500"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-trueGray-500">
                   Email
                 </label>
                 <div className="mt-1">
@@ -161,14 +144,10 @@ export default function Company() {
                 <div className="flex justify-between">
                   <label
                     htmlFor="how_can_we_help"
-                    className="block text-sm font-medium text-trueGray-500"
-                  >
+                    className="block text-sm font-medium text-trueGray-500">
                     How can we help you?
                   </label>
-                  <span
-                    id="how_can_we_help_description"
-                    className="text-sm text-gray-500"
-                  >
+                  <span id="how_can_we_help_description" className="text-sm text-gray-500">
                     Max. 500 characters
                   </span>
                 </div>
@@ -178,15 +157,13 @@ export default function Company() {
                     name="how_can_we_help"
                     aria-describedby="how_can_we_help_description"
                     rows="4"
-                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
-                  ></textarea>
+                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"></textarea>
                 </div>
               </div>
               <div className="text-right sm:col-span-2">
                 <button
                   type="submit"
-                  className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                >
+                  className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
                   Submit
                 </button>
               </div>
@@ -195,5 +172,5 @@ export default function Company() {
         </div>
       </div>
     </Layout>
-  );
+  )
 }

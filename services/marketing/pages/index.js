@@ -22,15 +22,13 @@ export default function Home() {
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
-                  style={{ mixBlendMode: "multiply" }}
+                  style={{ mixBlendMode: 'multiply' }}
                 />
               </div>
               <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                   <span className="block text-white">Take control of your</span>
-                  <span className="block text-orange-500">
-                    analytical data
-                  </span>
+                  <span className="block text-orange-500">analytical data</span>
                 </h1>
                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-white sm:max-w-3xl">
                   Subscription management & event tracking for privacy advocates.
@@ -54,7 +52,9 @@ export default function Home() {
                       Subscription Management
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
-                      Monitor your mobile application subscription from a single place. Monitor your mobile application subscription from a single place.  Monitor your mobile application subscription from a single place. 
+                      Monitor your mobile application subscription from a single place. Monitor your
+                      mobile application subscription from a single place. Monitor your mobile
+                      application subscription from a single place.
                     </p>
                   </div>
                 </div>
@@ -79,7 +79,9 @@ export default function Home() {
                       Easy to Use Reports
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
-                      Monitor your mobile application subscription from a single place. Monitor your mobile application subscription from a single place.  Monitor your mobile application subscription from a single place. 
+                      Monitor your mobile application subscription from a single place. Monitor your
+                      mobile application subscription from a single place. Monitor your mobile
+                      application subscription from a single place.
                     </p>
                   </div>
                 </div>
@@ -108,8 +110,7 @@ export default function Home() {
                 objectPosition="center"
                 alt="People working on laptops"
               />
-              <div
-                className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-200 to-orange-500"/>
+              <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-200 to-orange-500" />
               <div
                 aria-hidden="true"
                 className="absolute inset-x-0 top-0 h-128 bg-gradient-to-b from-warmGray-50 xl:inset-y-0 xl:left-0 xl:h-full xl:w-128 xl:bg-gradient-to-r"
@@ -119,39 +120,29 @@ export default function Home() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 xl:grid xl:grid-cols-2 xl:grid-flow-col-dense xl:gap-x-8">
             <div className="relative pt-24 pb-24 xl:col-start-1 xl:pb-24">
               <h2 className="text-sm font-semibold tracking-wide uppercase">
-                <span className="text-orange-500">
-                  Valuable Metrics
-                </span>
+                <span className="text-orange-500">Valuable Metrics</span>
               </h2>
               <p className="mt-3 text-3xl font-extrabold text-warmGray-900">
                 Get actionable data that will help grow your business
               </p>
               <p className="mt-5 text-lg text-trueGray-500">
-                Rhoncus sagittis risus arcu erat lectus bibendum. Ut in
-                adipiscing quis in viverra tristique sem. Ornare feugiat viverra
-                eleifend fusce orci in quis amet. Sit in et vitae tortor, massa.
-                Dapibus laoreet amet lacus nibh integer quis. Eu vulputate diam
+                Rhoncus sagittis risus arcu erat lectus bibendum. Ut in adipiscing quis in viverra
+                tristique sem. Ornare feugiat viverra eleifend fusce orci in quis amet. Sit in et
+                vitae tortor, massa. Dapibus laoreet amet lacus nibh integer quis. Eu vulputate diam
                 sit tellus quis at.
               </p>
               <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
                 <p>
-                  <span className="block text-2xl font-bold text-blue-500">
-                    28K+
-                  </span>
+                  <span className="block text-2xl font-bold text-blue-500">28K+</span>
                   <span className="mt-1 block text-base text-trueGray-500">
-                    <span className="font-semibold">Subscriptions</span>{" "}
-                    are tracked monthly using Socketkit.
+                    <span className="font-semibold">Subscriptions</span> are tracked monthly using
+                    Socketkit.
                   </span>
                 </p>
                 <p>
-                  <span className="block text-2xl font-bold text-blue-500">
-                    96K+
-                  </span>
+                  <span className="block text-2xl font-bold text-blue-500">96K+</span>
                   <span className="mt-1 block text-base text-trueGray-500">
-                    <span className="font-semibold">
-                      Transactions
-                    </span>{" "}
-                    were made using Socketkit.
+                    <span className="font-semibold">Transactions</span> were made using Socketkit.
                   </span>
                 </p>
               </div>
@@ -161,5 +152,5 @@ export default function Home() {
         <CTA />
       </main>
     </Layout>
-  );
+  )
 }
