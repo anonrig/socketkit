@@ -26,6 +26,11 @@ export default function Footer() {
                       </a>
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/solutions/reviews">
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">Reviews</a>
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div className="mt-12 md:mt-0">
@@ -35,9 +40,7 @@ export default function Footer() {
                 <ul className="mt-4 space-y-4">
                   <li>
                     <Link href="/pricing">
-                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">
-                        Pricing & Plans
-                      </a>
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">Pricing</a>
                     </Link>
                   </li>
                   <li>
@@ -53,20 +56,18 @@ export default function Footer() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-trueGray-500 tracking-wider uppercase">
-                  Legal
+                  Company
                 </h3>
                 <ul className="mt-4 space-y-4">
                   <li>
-                    <Link href="/privacy">
-                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">
-                        Privacy Policy
-                      </a>
+                    <Link href="/company">
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">About</a>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/terms">
+                    <Link href="/security">
                       <a className="text-base text-warmGray-500 hover:text-warmGray-400">
-                        Terms and Conditions
+                        Security
                       </a>
                     </Link>
                   </li>
