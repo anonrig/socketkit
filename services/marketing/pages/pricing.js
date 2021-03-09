@@ -298,7 +298,8 @@ export default function Pricing() {
                   Start using for free
                 </a>
                 <p className="text-warmGray-500 text-center text-sm">
-                  Socketkit is always <span className="font-semibold">free up to $5000</span> Monthly Recurring Revenue.
+                  Socketkit is always <span className="font-semibold">free up to $5000</span>{' '}
+                  Monthly Recurring Revenue.
                 </p>
               </div>
             </div>

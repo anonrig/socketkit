@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 export default function CTA() {
   return (
@@ -11,11 +11,13 @@ export default function CTA() {
           </span>
         </h2>
         <div className="mt-6 space-y-4 sm:space-y-0 sm:flex sm:space-x-5">
-          <a href="https://web.socketkit.com" className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-400">
+          <a
+            href="https://web.socketkit.com"
+            className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-500 hover:bg-orange-400">
             Create an Account
           </a>
         </div>
       </div>
     </div>
-  );
+  )
 }
