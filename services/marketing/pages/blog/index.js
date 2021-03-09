@@ -1,7 +1,8 @@
-import Layout from 'components/layout.js'
-import dayjs from 'dayjs'
-import { fetchEntries } from 'helpers/contentful.js'
 import Link from 'next/link'
+import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
+import Layout from 'components/layout.js'
+import { fetchEntries } from 'helpers/contentful.js'
 
 export async function getServerSideProps() {
   const entries = await fetchEntries('guide')
@@ -9,9 +10,12 @@ export async function getServerSideProps() {
 }
 
 export default function Guides({ entries = [] }) {
-  console.log('entries', entries[0])
   return (
     <Layout>
+      <NextSeo
+        title={'Guides & Tips'}
+        description={`We care about sharing the things we learned along the way. Here's the tips and tricks on using Socketkit with your mobile application.`}
+      />
       <div className="relative bg-white pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
         <div className="absolute inset-0">
           <div className="bg-white h-1/3 sm:h-2/3" />
