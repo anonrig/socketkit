@@ -1,80 +1,71 @@
 import PropTypes from 'prop-types'
 import FormField, { KratosFields } from './field'
 import Button from './button'
-import { useState } from 'react'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 
-function Form({
-  active,
-  action,
-  method,
-  fields,
-  messages,
-  formClassName,
-  labelClassName,
-  inputClassName,
-}) {
-  const [isLoading, setLoading] = useState(false)
+function Form({ actions, kratos, preAction }) {
+  const methodKeys = Object.keys(kratos.methods).filter((m) => m !== 'oidc')
+  const { config } = kratos.methods[methodKeys[0]]
+
+  useEffect(() => {
+    if (config.messages?.length > 0) {
+      config.messages?.forEach((m) => {
+        toast(m.text, {
+          duration: 10000,
+          role: 'alert',
+          ariaLive: 'assertive',
+          type: m.type,
+          id: m.id,
+        })
+      })
+    }
+  }, [config.messages])
+
   return (
-    <form className={formClassName} action={action} method={method}>
-      {(fields ?? [])
+    <form className={'space-y-6'} action={config.action} method={config.method}>
+      {(config.fields ?? [])
         .map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
         .sort((a, b) => a.order - b.order)
         .map((field) => (
-          <FormField
-            key={field.name}
-            {...field}
-            labelClassName={labelClassName}
-            inputClassName={inputClassName}
-          />
+          <FormField key={field.name} {...field} />
         ))}
+      {preAction}
       <div>
-        {messages?.map((message) => (
-          <p key={message.id} className="font-medium text-sm mt-2 text-center text-orange-600">
+        <Button loading={false} type="submit">
+          {actions.primary}
+        </Button>
+
+        {actions.secondary && (
+          <Link href={actions.secondary.href}>
+            <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
+              {actions.secondary.label}
+            </a>
+          </Link>
+        )}
+      </div>
+      <div>
+        {config.messages?.map((message) => (
+          <p key={message.id} className="font-medium text-sm mt-2 text-center text-red-600">
             {message.text}
           </p>
         ))}
-      </div>
-      <div>
-        {active === 'password' && (
-          <Button loading={isLoading} type="submit">
-            Sign up
-          </Button>
-        )}
-
-        <Link href="/signin">
-          <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
-            Go back to login
-          </a>
-        </Link>
       </div>
     </form>
   )
 }
 
 Form.propTypes = {
-  active: PropTypes.string,
-  action: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
-  fields: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      required: PropTypes.bool,
-      type: PropTypes.string.isRequired,
-      value: PropTypes.string,
+  actions: PropTypes.shape({
+    primary: PropTypes.string.isRequired,
+    secondary: PropTypes.shape({
+      label: PropTypes.string,
+      href: PropTypes.string,
     }),
-  ),
-  messages: PropTypes.arrayOf(
-    PropTypes.shape({
-      context: PropTypes.shape({ property: PropTypes.string }),
-      id: PropTypes.number,
-      text: PropTypes.string,
-      type: PropTypes.string,
-    }),
-  ),
-  formClassName: PropTypes.string,
-  labelClassName: PropTypes.string,
-  inputClassName: PropTypes.string,
+  }).isRequired,
+  kratos: PropTypes.any.isRequired,
+  preAction: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
 }
 
 export default Form

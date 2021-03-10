@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import { Transition } from '@headlessui/react'
 import { DateRangePicker } from 'react-date-range'
 import dayjs from 'dayjs'
-
-import useVisible from '../helpers/use-visible'
 import toast from 'react-hot-toast'
+
+import useVisible from 'helpers/use-visible'
 
 function DatePicker({ interval: { start_date, end_date }, setInterval }) {
   const { ref, isVisible, setVisible } = useVisible(false)

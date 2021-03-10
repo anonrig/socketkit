@@ -15,8 +15,9 @@ function Button({ loading, children, ...props }) {
 }
 
 Button.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   type: PropTypes.any,
 }
+
 export default Button

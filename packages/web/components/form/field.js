@@ -2,16 +2,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import fields from './kratos-fields'
 
-function FormField({
-  name,
-  type,
-  value,
-  required,
-  className,
-  labelClassName,
-  inputClassName,
-  messages,
-}) {
+function FormField({ name, type, value, required, className, messages }) {
   const hasError =
     messages && messages.length > 0 && (messages ?? []).filter((m) => m.type === 'error').length > 0
   const isProvider = name === 'provider'
@@ -27,23 +18,24 @@ function FormField({
         [className]: type !== 'hidden',
       })}>
       {type !== 'hidden' && (
-        <div className="flex justify-between">
-          <label className={labelClassName} htmlFor={name}>
-            {fields[name]?.label ?? name}
-          </label>
-          {required && <span className="text-sm text-gray-500">Required</span>}
-        </div>
+        <label className={'block text-sm font-medium text-gray-700'} htmlFor={name}>
+          {fields[name]?.label ?? name}
+        </label>
       )}
-      <div className="relative mt-1">
+      <div className="mt-1 relative rounded-md shadow-sm">
         <input
-          className={cx(inputClassName, {
-            'border-red-300': hasError,
-            'placeholder-red-300': hasError,
-          })}
+          autoComplete="on"
+          className={cx(
+            'appearance-none block w-full px-3 py-2 border border-warmGray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
+            {
+              'border-red-500': hasError,
+              'placeholder-red-500': hasError,
+            },
+          )}
           defaultValue={value}
+          required={required}
           name={name}
           type={fields[name]?.type ?? type}
-          required={required}
           hidden={type === 'hidden'}
         />
         {hasError && (
@@ -66,7 +58,7 @@ function FormField({
       {messages?.map((message) => (
         <p
           className={cx('mt-2 text-sm', {
-            'text-red-600': message.type === 'error',
+            'text-red-500': message.type === 'error',
             'text-trueGray-500': message.type !== 'error',
           })}
           key={message.id}>
