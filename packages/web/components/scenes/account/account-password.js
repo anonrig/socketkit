@@ -2,17 +2,15 @@ import PropTypes from 'prop-types'
 import FormField from 'components/form/field'
 import Button from 'components/form/button'
 
-function AccountSettings({ fields }) {
+function AccountPassword({ fields }) {
   return (
     <section aria-labelledby="account_details_heading">
       <div className="shadow sm:rounded-md sm:overflow-hidden">
         <div className="bg-white py-6 px-4 sm:p-6">
           <div>
-            <h2 className="text-lg leading-6 font-medium text-warmGray-900">
-              Personal information
-            </h2>
+            <h2 className="text-lg leading-6 font-medium text-warmGray-900">Update Password</h2>
           </div>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6 mt-6">
             {fields
               .filter((f) => f.name !== 'traits.picture')
               .map((field) => (
@@ -39,7 +37,7 @@ function AccountSettings({ fields }) {
   )
 }
 
-AccountSettings.propTypes = {
+AccountPassword.propTypes = {
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -50,4 +48,4 @@ AccountSettings.propTypes = {
   ),
 }
 
-export default AccountSettings
+export default AccountPassword

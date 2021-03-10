@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import Settings from 'components/scenes/account/account-settings.js'
 import { endpoints } from 'helpers/kratos.js'
 import { client } from 'helpers/is-authorized.js'
-import { useEffect, useState } from 'react'
 import redirect from 'helpers/redirect'
+import Settings from 'components/scenes/account/account-settings.js'
+import Password from 'components/scenes/account/account-password.js'
 
 /**
  * @param {import("next").NextPageContext} ctx
@@ -27,6 +28,7 @@ export async function getServerSideProps(ctx) {
 export default function AccountSettings({ flow }) {
   const [kratos, setKratos] = useState(null)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     try {
       const { data: kratos } = await client.getSelfServiceSettingsFlow(flow)
@@ -40,19 +42,18 @@ export default function AccountSettings({ flow }) {
     } catch (error) {
       return redirect()
     }
-  }, [])
+  }, [flow])
 
-  const profile = kratos?.methods.profile.config ?? {}
-  const oidc = kratos?.methods.oidc.config ?? {}
+  const { profile, oidc, password } = kratos?.methods ?? {}
 
   return (
-    <>
-      <form action={profile.action} method={profile.method}>
-        <Settings fields={profile.fields ?? []} />
+    <div className="space-y-8">
+      <form action={profile?.config.action} method={profile?.config.method}>
+        <Settings fields={profile?.config.fields ?? []} />
       </form>
-      {/* <form action={oidc.action} method={oidc.method}>
-        <Providers fields={oidc.fields ?? []} />
-      </form> */}
-    </>
+      <form action={password?.config.action} method={password?.config.method}>
+        <Password fields={password?.config.fields ?? []} />
+      </form>
+    </div>
   )
 }
