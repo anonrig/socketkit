@@ -67,7 +67,7 @@ function FormField({
         <p
           className={cx('mt-2 text-sm', {
             'text-red-600': message.type === 'error',
-            'text-gray-500': message.type !== 'error',
+            'text-trueGray-500': message.type !== 'error',
           })}
           key={message.id}>
           {message.text}

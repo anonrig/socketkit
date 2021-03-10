@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
+import Image from 'next/image'
 
-import logo from '../images/icon-socketkit.svg'
 import MobileMenu from './menu/mobile.js'
 import ProfileDropdown from './menu/profile-dropdown.js'
 import { AuthContext } from '../helpers/is-authorized.js'
@@ -21,7 +21,9 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <img alt="Socketkit, Inc." className="h-8 w-auto cursor-pointer" src={logo} />
+                <a>
+                  <Image alt="Socketkit, Inc." width={48} height={48} src="/socketkit-icon.svg" />
+                </a>
               </Link>
             </div>
             <nav
@@ -33,10 +35,14 @@ function Header() {
                 </a>
               </Link>
               <Link href="/reports">
-                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>Reports</a>
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>
+                  Reports
+                </a>
               </Link>
               <Link href="/customers">
-                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/customers')])}>Customers</a>
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/customers')])}>
+                  Customers
+                </a>
               </Link>
             </nav>
           </div>

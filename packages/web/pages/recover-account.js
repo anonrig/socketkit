@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
-import { endpoints } from '../helpers/kratos.js'
-import { client } from '../helpers/is-authorized.js'
-import FormField, { KratosFields } from '../components/form/field.js'
-import Button from '../components/form/button.js'
-import logo from '../images/icon-socketkit.svg'
+import Image from 'next/image'
+import { endpoints } from 'helpers/kratos.js'
+import { client } from 'helpers/is-authorized.js'
+import FormField, { KratosFields } from 'components/form/field.js'
+import Button from 'components/form/button.js'
 
 /**
  * @param {import("next").NextPageContext} ctx
@@ -42,7 +42,7 @@ export default function RecoverAccount({ kratos }) {
   return (
     <>
       <div>
-        <img alt="Socketkit, Inc." className="h-12 w-auto" src={logo} />
+      <Image alt="Socketkit, Inc" src="/socketkit-icon.svg" width={50} height={50} />
         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Recover Account</h2>
       </div>
       <div className="mt-8">
@@ -73,7 +73,7 @@ export default function RecoverAccount({ kratos }) {
                 Send reset email
               </Button>
               <a
-                className="text-sm text-gray-700 w-full flex justify-center pt-4"
+                className="text-sm text-warmGray-900 w-full flex justify-center pt-4"
                 href={endpoints.login}>
                 Go back to login
               </a>

@@ -43,7 +43,9 @@ function Form({
         )}
 
         <Link href="/signin">
-          <a className="text-sm text-gray-700 w-full flex justify-center pt-4">Go back to login</a>
+          <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
+            Go back to login
+          </a>
         </Link>
       </div>
     </form>

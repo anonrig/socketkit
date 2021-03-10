@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import logo from 'images/icon-socketkit.svg'
+import Image from 'next/image'
 import { client } from 'helpers/is-authorized.js'
 import { endpoints } from 'helpers/kratos.js'
 import Form from 'components/form/form.js'
@@ -39,7 +39,7 @@ export default function SignUp({ kratos }) {
   return (
     <>
       <div>
-        <img alt="Socketkit, Inc." className="h-12 w-auto" src={logo} />
+        <Image alt="Socketkit, Inc" src="/socketkit-icon.svg" width={50} height={50} />
         <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Create an account</h2>
       </div>
       <div className="mt-8">

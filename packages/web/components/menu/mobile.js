@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link'
-import logo from '../../images/logo-socketkit-color.svg'
-import { endpoints } from '../../helpers/kratos.js'
+import Image from 'next/image'
+import { endpoints } from 'helpers/kratos.js'
 
 function MobileMenu({ visible, setVisible, profile }) {
   return (
@@ -19,7 +19,7 @@ function MobileMenu({ visible, setVisible, profile }) {
           <div className="pt-3 pb-2">
             <div className="flex items-center justify-between px-4">
               <div>
-                <img alt="Socketkit, Inc." className="h-8 w-auto cursor-pointer" src={logo} />
+                <Image alt="Socketkit, Inc." src="/socketkit-logo.png" height={44} width={44} />
               </div>
               <div className="-mr-2">
                 <button
