@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: 'https://socketkit.com',
+  siteUrl: 'https://www.socketkit.com',
   changefreq: 'weekly',
   generateRobotsTxt: true,
   exclude: ['/server-sitemap.xml'],
