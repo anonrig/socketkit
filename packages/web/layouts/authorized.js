@@ -1,20 +1,12 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Banner from 'components/banner.js'
 import Footer from 'components/footer.js'
 import Header from 'components/header.js'
 import Container from 'components/container.js'
-
-const ApplicationHeader = dynamic(
-  () => import('./application-header.js' /* webpackChunkName: "ApplicationHeader" */),
-  { ssr: false },
-)
-const SettingsHeader = dynamic(
-  () => import('./settings-header.js' /* webpackChunkName: "SettingsHeader" */),
-  { ssr: false },
-)
+import ApplicationHeader from './application-header.js'
+import SettingsHeader from './settings-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()

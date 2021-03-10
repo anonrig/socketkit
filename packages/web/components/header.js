@@ -21,9 +21,13 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <a>
-                  <Image alt="Socketkit, Inc." width={48} height={48} src="/socketkit-icon.svg" />
-                </a>
+                <Image
+                  alt="Socketkit, Inc."
+                  width={38}
+                  height={38}
+                  src="/socketkit-icon.svg"
+                  className="cursor-pointer"
+                />
               </Link>
             </div>
             <nav
@@ -47,7 +51,7 @@ function Header() {
             </nav>
           </div>
 
-          <div className="flex items-center lg:hidden">
+          <div className="flex items-center lg:hidden z-20">
             <button
               aria-expanded="false"
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -83,14 +87,18 @@ function Header() {
                 />
               </svg>
             </button>
+
+            <MobileMenu
+              visible={menuVisible}
+              setVisible={setMenuVisible}
+              profile={session?.identity}
+            />
           </div>
           <div className="hidden lg:ml-4 lg:flex lg:items-center">
             <ProfileDropdown />
           </div>
         </div>
       </div>
-
-      <MobileMenu visible={menuVisible} setVisible={setMenuVisible} profile={session?.identity} />
     </header>
   )
 }
