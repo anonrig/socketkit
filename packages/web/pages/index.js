@@ -1,11 +1,32 @@
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
-import CountriesWidget from '../components/scenes/dashboard/countries-widget.js'
-import RangePicker from '../components/scenes/dashboard/range-picker.js'
-import StatisticsWidget from '../components/scenes/dashboard/statistics-widget.js'
-import { AuthContext } from '../helpers/is-authorized.js'
 
-export default function Dashboard() {
+import { fetcher } from 'helpers/fetcher.js'
+import CountriesWidget from 'components/scenes/dashboard/countries-widget.js'
+import RangePicker from 'components/scenes/dashboard/range-picker.js'
+import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
+import { AuthContext } from 'helpers/is-authorized.js'
+
+export async function getServerSideProps({
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
+  const from = dayjs().subtract(1, 'month').format('YYYY-MM-DD')
+  const to = dayjs().format('YYYY-MM-DD')
+  const countries = await fetcher(`accounts/countries`, {
+    headers: { cookie, referer },
+    qs: { from, to, limit: 10 },
+  })
+
+  return {
+    props: {
+      countries,
+    },
+  }
+}
+
+export default function Dashboard({ countries }) {
   const { session } = useContext(AuthContext)
   const ranges = [
     {
@@ -42,7 +63,7 @@ export default function Dashboard() {
       </div>
       <section className="space-y-8">
         <StatisticsWidget range={selected} />
-        <CountriesWidget range={selected} />
+        <CountriesWidget range={selected} initialData={countries} />
       </section>
     </>
   )

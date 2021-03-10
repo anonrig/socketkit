@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import dynamic from 'next/dynamic'
+import { fetcher } from 'helpers/fetcher.js'
 
 const TreeMapChart = dynamic(
   () => import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
   { ssr: false },
 )
 
-function CountriesWidget({ range }) {
-  const { data } = useSWR(`accounts/countries?from=${range.from}&to=${range.to}&limit=10`)
+function CountriesWidget({ range, initialData }) {
+  const { data } = useSWR(
+    `accounts/countries?from=${range.from}&to=${range.to}&limit=10`,
+    fetcher,
+    { initialData },
+  )
 
   function getRandomColor() {
     var letters = '0123456789ABCDEF'
@@ -94,6 +99,15 @@ CountriesWidget.propTypes = {
     from: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
   }),
+  initialData: PropTypes.arrayOf(
+    PropTypes.shape({
+      country_id: PropTypes.string.isRequired,
+      churn_count: PropTypes.number.isRequired,
+      total_count: PropTypes.number.isRequired,
+      trial_past_count: PropTypes.number.isRequired,
+      revenue: PropTypes.number.isRequired,
+    }),
+  ),
 }
 
 export default CountriesWidget
