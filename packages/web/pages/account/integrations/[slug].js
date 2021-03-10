@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
@@ -7,12 +7,29 @@ import Button from 'components/form/button.js'
 import { useRouter } from 'next/router'
 import { fetcher } from 'helpers/fetcher.js'
 
-export default function IntegrationDetail() {
+export async function getServerSideProps({
+  query: { slug },
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
+  const integrations = await fetcher(`integrations/${slug}`, {
+    headers: { cookie, referer },
+  })
+
+  return {
+    props: {
+      integrations,
+    },
+  }
+}
+
+export default function IntegrationDetail({ integrations }) {
   const router = useRouter()
   const { slug } = router.query
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
-  const { data, error } = useSWR(`integrations/${slug}`)
+  const { data } = useSWR(`integrations/${slug}`, fetcher, { initialData: integrations })
 
   async function onSubmit(values, _, isDeleted = false) {
     setLoading(true)
@@ -28,7 +45,7 @@ export default function IntegrationDetail() {
       if (isDeleted) {
         toast.success('Integration deleted successfully.')
       } else {
-        toast.success('Integration updated successfully.')
+        toast.info('Integration updated successfully.')
       }
       router.replace('/account/integrations')
     } catch (error) {
@@ -37,13 +54,6 @@ export default function IntegrationDetail() {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message)
-      router.replace('/account/integrations')
-    }
-  }, [error, router])
 
   return (
     <section aria-labelledby="integration_details_heading">
@@ -57,11 +67,13 @@ export default function IntegrationDetail() {
                 {data?.title ?? 'Integration'}
               </h2>
               <p className="mt-1 text-sm text-trueGray-500">
-                Update your integration settings. Learn more from{' '}
+                Learn how to get your access token from{' '}
                 <a
-                  className="inline underline text-orange-500 text-sm font-medium"
-                  href="https://help.chartmogul.com/hc/en-us/articles/360000109609">
-                  our competitor
+                  className="inline underline text-orange-500 text-sm font-semibold"
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://www.socketkit.com/blog/guides/how-to-integrate-appstore-connect">
+                  our guide
                 </a>
                 .
               </p>

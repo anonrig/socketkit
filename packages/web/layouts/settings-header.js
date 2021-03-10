@@ -24,12 +24,7 @@ function SettingsHeader() {
               href: `/account/settings`,
             },
             {
-              key: 'status',
-              title: 'Account Status',
-              href: `/account/status`,
-            },
-            {
-              key: 'packages',
+              key: 'users',
               title: 'Users',
               href: `/account/users`,
             },
@@ -42,11 +37,6 @@ function SettingsHeader() {
               key: 'integrations',
               title: 'Integrations & API',
               href: `/account/integrations`,
-            },
-            {
-              key: 'faq',
-              title: 'FAQ',
-              href: `/account/faq`,
             },
           ]}
         />
