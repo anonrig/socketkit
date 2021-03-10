@@ -59,6 +59,8 @@ export default function fetchIntegrations() {
         date: next_day.format('YYYYMMDD'),
         reportVersion: '1_2',
       })
+
+      state = 'active'
     } catch (error) {
       if (!error.message.includes('404')) {
         state = 'error'
