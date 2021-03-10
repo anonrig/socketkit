@@ -37,15 +37,17 @@ export default function fetchIntegrations() {
     }
 
     logger.info(
-      `Processing ${integration.account_id} with last fetch date ${integration.last_fetch}`,
+      `Processing ${integration.account_id} with last fetch date ${dayjs(
+        integration.last_fetch,
+      ).format('YYYY-MM-DD')}`,
     )
 
     const vendor_id = integration.vendor_ids[0]
     let state = integration.state
     let failed_fetches = 0
     let next_day = dayjs(integration.last_fetch).add(1, 'day')
-    let transactions
-    let error_message
+    let transactions = null
+    let error_message = null
 
     try {
       const reporter = new AppStoreReporter.default({
