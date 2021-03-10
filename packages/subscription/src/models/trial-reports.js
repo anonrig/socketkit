@@ -50,7 +50,7 @@ export async function getFreeTrials({
         CROSS JOIN LATERAL (
           SELECT count(DISTINCT client_id) AS client_count
           FROM client_transactions AS t
-          WHERE t.account_id = ? 
+          WHERE t.account_id = ?
             AND t.transaction_type = ?
             AND t.event_date >= g AND t.event_date < g + ?::interval
             ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
@@ -113,7 +113,7 @@ export async function averageDuration({
             AVG(s.free_trial_duration) AS average_trial_duration,
             AVG(s.subscription_duration) AS average_subscription_duration
           FROM client_subscriptions AS s
-          WHERE s.account_id = ? 
+          WHERE s.account_id = ?
             AND s.free_trial_duration != '00:00:00'
             AND LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval
             ${fields.length ? ['AND'].concat(fields).join(' ') : ''}

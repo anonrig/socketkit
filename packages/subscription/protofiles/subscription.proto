@@ -30,11 +30,12 @@ service Integrations {
 
 service Reports {
   rpc trials(TrialReportRequest) returns (TrialReportResponse) {}
+  rpc subscribers(SubscriberReportRequest) returns (SubscriberReportResponse) {}
   rpc averageDuration(AverageDurationReportRequest) returns (TrialAverageDurationResponse) {}
   rpc mrr(MrrReportRequest) returns (MrrReportResponse) {}
 }
 
-// Generics 
+// Generics
 
 message Empty {}
 
@@ -79,7 +80,7 @@ message ClientPaginationRequest {
   string account_id = 1;
   oneof optional_application_id {
     string application_id = 2;
-  } 
+  }
   oneof optional_start_date {
     string start_date = 3;
   }
@@ -293,7 +294,7 @@ message Integration {
   repeated string vendor_ids = 5;
   oneof optional_last_error_message {
     string last_error_message = 6;
-  } 
+  }
   string state = 7;
   int32 failed_fetches = 8;
 }
@@ -308,6 +309,42 @@ message TrialReportRequest {
   oneof optional_interval {
     string interval = 3;
   }
+}
+
+message TrialReportResponse {
+  repeated TrialReportRow rows = 1;
+  repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
+}
+
+message TrialReportRow {
+  string primary = 1;
+  int32 secondary = 2;
+  int32 previous_client_count = 3;
+}
+
+message SubscriberReportRequest {
+  string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
+  oneof optional_interval {
+    string interval = 3;
+  }
+}
+
+message SubscriberReportResponse {
+  repeated SubscriberReportRow rows = 1;
+  repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
+}
+
+message SubscriberReportRow {
+  string primary = 1;
+  int32 secondary = 2;
+  int32 previous_client_count = 3;
 }
 
 message AverageDurationReportRequest {
@@ -330,15 +367,8 @@ message MrrReportRequest {
   }
 }
 
-message TrialReportResponse {
-  repeated TrialReportRow rows = 1; 
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
-}
-
 message TrialAverageDurationResponse {
-  repeated AverageDurationReportRow rows = 1; 
+  repeated AverageDurationReportRow rows = 1;
   repeated string available_filters = 2;
   string secondary_field = 3;
   repeated string fields = 4;
@@ -349,12 +379,6 @@ message MrrReportResponse {
   repeated string available_filters = 2;
   string secondary_field = 3;
   repeated string fields = 4;
-}
-
-message TrialReportRow {
-  string primary = 1;
-  int32 secondary = 2;
-  int32 previous_client_count = 3;
 }
 
 message AverageDurationReportRow {
