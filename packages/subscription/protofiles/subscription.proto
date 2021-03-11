@@ -343,8 +343,8 @@ message SubscriberReportResponse {
 
 message SubscriberReportRow {
   string primary = 1;
-  int32 secondary = 2;
-  int32 previous_client_count = 3;
+  int32 count = 2;
+  string avg_total_base_developer_proceeds = 3;
 }
 
 message AverageDurationReportRequest {

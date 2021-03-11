@@ -31,7 +31,8 @@ export async function get({
       primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
         interval.split(' ')[1],
       ]),
-      secondary: pg.raw(`l.subscription_count::int`)
+      count: pg.raw(`l.subscription_count::int`),
+      avg_total_base_developer_proceeds: 'avg_total_base_developer_proceeds',
     })
     .from(
       pg.raw(`generate_series (?::date, ?::date, ?::interval) AS g`, [
@@ -43,7 +44,9 @@ export async function get({
     .joinRaw(
       `
         CROSS JOIN LATERAL (
-          SELECT count(*) AS subscription_count
+          SELECT
+            count(*) AS count,
+            avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
           FROM client_subscriptions s
           WHERE s.account_id = ?
             AND s.active_period && daterange(g::date, (g + ?::interval)::date)
@@ -60,7 +63,7 @@ export async function get({
   return {
     rows,
     available_filters,
-    secondary_field: 'secondary',
-    fields: ['secondary'],
+    secondary_field: 'count',
+    fields: ['count', 'avg_total_base_developer_proceeds'],
   }
 }
