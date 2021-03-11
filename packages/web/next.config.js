@@ -27,7 +27,7 @@ module.exports = withPlugins([withBundleAnalyzer, withImages], {
     return [
       {
         source: '/reports',
-        destination: '/reports/trials',
+        destination: '/reports/mrr',
         permanent: false,
       },
     ]
