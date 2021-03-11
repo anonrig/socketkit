@@ -37,6 +37,7 @@
     "react-hook-form": "^6.15.4",
     "react-hot-toast": "^1.0.2",
     "react-table": "^7.6.3",
+    "react-use-intercom": "^1.1.9",
     "swr": "^0.5.0",
     "tailwindcss": "^2.0.3"
   },

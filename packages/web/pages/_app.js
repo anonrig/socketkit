@@ -21,6 +21,7 @@ const AuthorizedLayout = dynamic(() =>
 import 'nprogress/nprogress.css'
 import 'styles/index.css'
 import 'styles/date-range.css'
+import { IntercomProvider } from 'react-use-intercom'
 
 Progress.configure({ easing: 'ease', speed: 800 })
 router.events.on('routeChangeStart', () => Progress.start())
@@ -88,9 +89,11 @@ function MyApp({ Component, pageProps }) {
           fetcher,
         }}>
         <AuthContext.Provider value={{ session }}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <IntercomProvider appId="oz6arehx">
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </IntercomProvider>
         </AuthContext.Provider>
       </SWRConfig>
     </>
