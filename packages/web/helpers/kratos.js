@@ -7,4 +7,5 @@ export const endpoints = {
   profile: `${basePath}/self-service/settings/browser`,
   logout: `${basePath}/self-service/browser/flows/logout`,
   verification: `${basePath}/self-service/verification/browser`,
+  errors: `${basePath}/self-service/errors`,
 }
