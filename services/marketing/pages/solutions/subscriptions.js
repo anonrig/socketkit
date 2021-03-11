@@ -6,14 +6,17 @@ import CTA from 'components/cta.js'
 export default function Subscriptions() {
   return (
     <Layout>
-      <NextSeo title={'Subscription Management for AppStore'} description={`@TODO - fix this`} />
+      <NextSeo
+        title={'Subscription Management for AppStore'}
+        description={`Understand where your mobile application customers and revenues are coming from.`}
+      />
 
       <div className="relative bg-white pt-16 sm:pt-24 lg:pt-32 overflow-hidden">
         <div className="mx-auto max-w-md text-center  sm:max-w-3xl lg:max-w-7xl">
           <div>
-            <p className="text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
               Subscription Management <br></br>for AppStore & Google Playstore
-            </p>
+            </h1>
             <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
               Understand where your customers and revenues are coming from.
             </p>

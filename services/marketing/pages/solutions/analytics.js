@@ -4,7 +4,10 @@ import Layout from 'components/layout.js'
 export default function Analytics() {
   return (
     <Layout>
-      <NextSeo title={'Mobile Analytics & Event Tracking'} description={`@TODO - fix this`} />
+      <NextSeo
+        title={'Mobile Analytics & Event Tracking'}
+        description={`Easily used cross-platform user behavior analysis for growing teams and businesses. Built specifically for businesses who wants to be privacy and security compliant.`}
+      />
 
       <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
         <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24">
