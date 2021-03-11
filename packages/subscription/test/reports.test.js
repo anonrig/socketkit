@@ -18,6 +18,27 @@ afterAll(async (done) => {
 })
 
 describe('Reports', () => {
+  test('subscribers', (done) => {
+    grpc.reports.subscribers(
+      { account_id: TEST_ACCOUNT_ID },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeInstanceOf(Object)
+          expect(response.available_filters).toBeInstanceOf(Object)
+          expect(response.rows).toBeInstanceOf(Array)
+          response.rows.forEach(({ primary, count }) => {
+            expect(primary).toBeDefined()
+            expect(count).toBeGreaterThanOrEqual(0)
+          })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+
   test('trials', (done) => {
     grpc.reports.trials(
       { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },

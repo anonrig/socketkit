@@ -29,6 +29,7 @@ service Integrations {
 }
 
 service Reports {
+  rpc subscribers(SubscribersReportRequest) returns (SubscribersReportResponse) {}
   rpc trials(TrialsReportRequest) returns (TrialsReportResponse) {}
   rpc subscriptions(SubscriptionsReportRequest) returns (SubscriptionsReportResponse) {}
   rpc averageDuration(AverageDurationReportRequest) returns (AverageDurationReportResponse) {}
@@ -300,6 +301,26 @@ message Integration {
 }
 
 // Reports
+
+message SubscribersReportRequest {
+  string account_id = 1;
+  oneof optional_interval {
+    string interval = 2;
+  }
+}
+
+message SubscribersReportResponse {
+  repeated SubscribersReportRow rows = 1;
+  repeated string available_filters = 2;
+  string secondary_field = 3;
+  repeated string fields = 4;
+}
+
+message SubscribersReportRow {
+  string primary = 1;
+  int32 count = 2;
+  string avg_age = 3;
+}
 
 message TrialsReportRequest {
   string account_id = 1;
