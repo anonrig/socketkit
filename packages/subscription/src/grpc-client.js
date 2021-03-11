@@ -18,6 +18,8 @@ const { Applications } = grpc.loadPackageDefinition(
 
 export default {
   store: {
-    applications: promisifyAll(new Applications(url, grpc.credentials.createInsecure())),
+    applications: promisifyAll(
+      new Applications(url, grpc.credentials.createInsecure()),
+    ),
   },
 }

@@ -12,17 +12,11 @@ export async function get({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  transaction_type,
   application_id,
-  client_currency_id,
 }) {
-  const available_filters = [
-    'application_id',
-  ]
+  const available_filters = ['application_id']
   const whereCondition = getWhereCondition(available_filters, {
-    transaction_type,
     application_id,
-    client_currency_id,
   })
   const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
@@ -31,7 +25,7 @@ export async function get({
       primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
         interval.split(' ')[1],
       ]),
-      count: pg.raw(`l.subscription_count::int`),
+      count: pg.raw(`l.count::int`),
       avg_total_base_developer_proceeds: 'avg_total_base_developer_proceeds',
     })
     .from(
@@ -53,11 +47,7 @@ export async function get({
             ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) l
       `,
-      [
-        account_id,
-        interval,
-        ...whereCondition.map(({ value }) => value),
-      ],
+      [account_id, interval, ...whereCondition.map(({ value }) => value)],
     )
 
   return {
