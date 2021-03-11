@@ -28,11 +28,7 @@ export default function Footer() {
                       </a>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/solutions/reviews">
-                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">Reviews</a>
-                    </Link>
-                  </li>
+                  <li className="text-base text-warmGray-500">Reviews</li>
                 </ul>
               </div>
               <div className="mt-12 md:mt-0">
