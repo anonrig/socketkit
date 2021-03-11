@@ -8,7 +8,10 @@ export async function getServerSideProps(ctx) {
 
   if (!rows.length) {
     return {
-      notFound: true,
+      redirect: {
+        destination: '/applications/integration-required',
+        permanent: false,
+      },
     }
   }
 

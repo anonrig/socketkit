@@ -3,9 +3,8 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { fetcher } from 'helpers/fetcher.js'
 
-const TreeMapChart = dynamic(
-  () => import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
-  { ssr: false },
+const TreeMapChart = dynamic(() =>
+  import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
 )
 
 function CountriesWidget({ range, initialData }) {
@@ -26,14 +25,14 @@ function CountriesWidget({ range, initialData }) {
 
   return (
     <section className="lg:col-span-4">
-      <div className="space-y-0.5 mb-5">
-        <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-2xl">Countries</h3>
-        <p className="text-md text-trueGray-500">Most promising 5 countries on your audience.</p>
-      </div>
-      <dl className="grid grid-cols-1 md:grid-cols-4 lg:space-x-6 space-y-6">
-        <div className="col-span-2 flex flex-1 justify-center items-center rounded-md overflow-hidden">
+      <dl className="grid grid-cols-1 md:grid-cols-4 lg:space-x-6 bg-white shadow-lgs rounded-md">
+        <div className="col-span-2 flex flex-1 flex-col justify-center items-left rounded-md overflow-hidden h-80">
+          <h3 className="font-bold text-warmGray-900 sm:tracking-tight text-2xl py-3.5 px-4 sm:px-6 z-10">
+            Countries
+          </h3>
+
           <TreeMapChart
-            id="countries"
+            id="Countries Summary"
             rows={(data ?? []).map((c) => ({
               id: c.country_name,
               value: c.revenue,
@@ -44,31 +43,37 @@ function CountriesWidget({ range, initialData }) {
           />
         </div>
         <div className="col-span-2 flex flex-1">
-          <div className="bg-white shadow sm:rounded-md sm:overflow-hidden w-full sm:px-6 lg:px-0">
+          <div className="bg-white sm:overflow-hidden w-full sm:px-6 lg:px-0 rounded-md">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="w-full lg:px-8">
-                <div className="overflow-hidden border-t border-gray-200">
-                  <table className="min-w-full divide-y divide-gray-200">
+                <div className="overflow-hidden lg:pt-2 pl-6 lg:pl-0">
+                  <table className="min-w-full">
                     <thead>
-                      <tr className="bg-warmGray-50 text-left text-trueGray-500 uppercase tracking-wider">
-                        <th className="px-6 py-3 text-xs font-medium" scope="col">
+                      <tr className="text-left text-trueGray-500 uppercase tracking-wider">
+                        <th className="pr-6 py-3.5 lg:py-4 text-xs font-medium" scope="col">
                           Name
                         </th>
-                        <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
+                        <th
+                          className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
+                          scope="col">
                           Churn Rate
                         </th>
-                        <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
+                        <th
+                          className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
+                          scope="col">
                           Conversion Rate
                         </th>
-                        <th className="px-6 py-3 text-xs font-medium text-right" scope="col">
+                        <th
+                          className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
+                          scope="col">
                           Revenue
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white">
                       {data?.slice(0, 5).map((country) => (
                         <tr key={country.country_id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
+                          <td className="pr-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
                             {country.country_name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">

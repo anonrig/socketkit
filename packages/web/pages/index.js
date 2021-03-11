@@ -6,6 +6,7 @@ import CountriesWidget from 'components/scenes/dashboard/countries-widget.js'
 import RangePicker from 'components/scenes/dashboard/range-picker.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
 import { AuthContext } from 'helpers/is-authorized.js'
+import CustomersWidget from '../components/scenes/dashboard/subscribers-widget.js'
 
 export async function getServerSideProps({
   req: {
@@ -52,7 +53,7 @@ export default function Dashboard({ countries }) {
 
   return (
     <>
-      <div className="flex flex-1 space-between mb-5 items-center justify-center">
+      <div className="flex flex-1 space-between mb-10 items-center justify-center flex-col md:flex-row space-y-6 md:space-y-0">
         <div className="flex-1">
           <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl">
             Good morning, {session?.identity.traits.name?.split(' ')[0]}!
@@ -61,8 +62,9 @@ export default function Dashboard({ countries }) {
 
         <RangePicker selected={selected} setSelected={setSelected} ranges={ranges} />
       </div>
-      <section className="space-y-8">
+      <section className="space-y-10">
         <StatisticsWidget range={selected} />
+        <CustomersWidget range={selected} />
         <CountriesWidget range={selected} initialData={countries} />
       </section>
     </>

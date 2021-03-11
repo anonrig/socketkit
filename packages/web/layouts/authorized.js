@@ -13,9 +13,15 @@ function AuthorizedLayout({ children }) {
   const { data } = useSWR('integrations')
   let header = null
 
+  // Application header
   if (router.pathname.startsWith('/applications')) {
-    header = <ApplicationHeader />
-  } else if (router.pathname.startsWith('/account')) {
+    // Don't render header on integration required page.
+    if (!router.pathname.includes('integration-required')) {
+      header = <ApplicationHeader />
+    }
+  }
+  // Account header 
+  else if (router.pathname.startsWith('/account')) {
     header = <SettingsHeader />
   }
 

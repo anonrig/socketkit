@@ -31,7 +31,7 @@ function Tabs({ selected, items }) {
                 <a
                   className={cx([
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
-                    selected.includes(item.key)
+                    selected?.includes(item.key)
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
                       : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
                   ])}>

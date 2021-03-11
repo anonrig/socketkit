@@ -3,7 +3,7 @@ import { ResponsiveLine } from '@nivo/line'
 import dayjs from 'dayjs'
 import theme from './theme.js'
 
-function LineChart({ id, rows, fields, labelFormat }) {
+function LineChart({ id, rows, fields, labelFormat, ...props }) {
   const tickValues =
     rows.length > 10
       ? rows.filter((r, i) => i % 4 == 0).map((r) => r.primary)
@@ -65,6 +65,7 @@ function LineChart({ id, rows, fields, labelFormat }) {
           </div>
         </div>
       )}
+      {...props}
     />
   )
 }

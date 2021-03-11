@@ -6,9 +6,9 @@ function StatisticsWidget({ range }) {
 
   return (
     <aside className="lg:col-span-4">
-      <dl className="grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-4 md:divide-y-0 md:divide-x">
+      <dl className="grid grid-cols-1 rounded-lg bg-white overflow-hidden md:grid-cols-4 shadow-lgs">
         <div>
-          <div className="px-4 py-5 sm:p-6">
+          <div className="h-full px-4 py-5 sm:p-6">
             <dt className="text-lg font-bold text-warmGray-900">Active Subscriptions</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-orange-500">
@@ -21,7 +21,7 @@ function StatisticsWidget({ range }) {
           </div>
         </div>
         <div>
-          <div className="px-4 py-5 sm:p-6">
+          <div className="h-full px-4 py-5 sm:p-6 bg-warmGray-50">
             <dt className="text-lg font-bold text-warmGray-900">Active Trials</dt>
             <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-orange-500">
@@ -33,7 +33,7 @@ function StatisticsWidget({ range }) {
             </dd>
           </div>
         </div>
-        <div className="px-4 py-5 sm:p-6">
+        <div className="h-full px-4 py-5 sm:p-6">
           <dt className="text-lg font-bold text-warmGray-900">Sales</dt>
           <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
             <div className="flex items-baseline text-2xl font-semibold text-orange-500">
@@ -44,7 +44,7 @@ function StatisticsWidget({ range }) {
             </div>
           </dd>
         </div>
-        <div className="px-4 py-5 sm:p-6">
+        <div className="h-full px-4 py-5 sm:p-6 bg-warmGray-50">
           <dt className="text-lg font-bold text-warmGray-900">Refunds</dt>
           <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
             <div className="flex items-baseline text-2xl font-semibold text-orange-500">

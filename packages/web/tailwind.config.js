@@ -13,6 +13,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      boxShadow: {
+        lgs: '0 5px 15px 5px rgba(0, 0, 0, 0.05)',
+      },
       colors: {
         orange: colors.orange,
         warmGray: colors.warmGray,
