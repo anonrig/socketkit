@@ -14,6 +14,7 @@ function Header() {
   const [menuVisible, setMenuVisible] = useState(false)
   const getActiveClassName = (path) =>
     router.pathname.startsWith(path) ? 'bg-warmGray-50' : 'bg-white'
+
   return (
     <header className="bg-white shadow z-10">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -21,13 +22,9 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <Image
-                  alt="Socketkit, Inc."
-                  width={38}
-                  height={38}
-                  src="/socketkit-icon.svg"
-                  className="cursor-pointer"
-                />
+                <a>
+                  <Image alt="Socketkit, Inc." width={38} height={38} src="/socketkit-icon.svg" />
+                </a>
               </Link>
             </div>
             <nav
