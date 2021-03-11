@@ -56,10 +56,10 @@ export default function Pricing() {
                     </div>
                     <div className="ml-4">
                       <dt className="text-lg leading-6 font-medium text-warmGray-900">
-                        Realtime Analytics
+                        Real-time Analytics
                       </dt>
                       <dd className="mt-2 text-base text-trueGray-500">
-                        Get real time insights on your customers and transactions, and respond fast
+                        Get real-time insights on your customers and transactions, and respond fast
                         to market changes.
                       </dd>
                     </div>

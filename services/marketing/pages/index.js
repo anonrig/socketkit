@@ -72,9 +72,8 @@ export default function Home() {
                       Subscription Management
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
-                      Monitor your mobile application subscription from a single place. Monitor your
-                      mobile application subscription from a single place. Monitor your mobile
-                      application subscription from a single place.
+                      Connect your App Store Connect or Google PlayStore account to easily track
+                      your subscriptions and in-app purchases across the globe.
                     </p>
                   </div>
                 </div>
@@ -96,12 +95,12 @@ export default function Home() {
                 <div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-warmGray-900">
-                      Easy to Use Reports
+                      Actionable Insights
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
-                      Monitor your mobile application subscription from a single place. Monitor your
-                      mobile application subscription from a single place. Monitor your mobile
-                      application subscription from a single place.
+                      Better understand your audience and your income flow from application stores
+                      using the pre-made reports by Socketkit. Figure out where you're losing your
+                      audience and the reason behind it.
                     </p>
                   </div>
                 </div>
@@ -146,10 +145,9 @@ export default function Home() {
                 Get actionable data that will help grow your business
               </p>
               <p className="mt-5 text-lg text-trueGray-500">
-                Rhoncus sagittis risus arcu erat lectus bibendum. Ut in adipiscing quis in viverra
-                tristique sem. Ornare feugiat viverra eleifend fusce orci in quis amet. Sit in et
-                vitae tortor, massa. Dapibus laoreet amet lacus nibh integer quis. Eu vulputate diam
-                sit tellus quis at.
+                Learn your conversion and churn rates from different countries and audiences to get
+                actionable data best fits your business. Analyze your revenue flow from various
+                filters and better understand anomalies and act upon them.
               </p>
               <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
                 <p>
@@ -162,7 +160,8 @@ export default function Home() {
                 <p>
                   <span className="block text-2xl font-bold text-blue-500">96K+</span>
                   <span className="mt-1 block text-base text-trueGray-500">
-                    <span className="font-semibold">Transactions</span> were made using Socketkit.
+                    <span className="font-semibold">Transactions</span> were stored and analyzed on
+                    Socketkit.
                   </span>
                 </p>
               </div>

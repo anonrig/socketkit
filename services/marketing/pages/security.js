@@ -199,7 +199,7 @@ export default function Security() {
                       Encryption
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      We encrypt and hash all of our users credentials using Argon2 with multiple
+                      We encrypt and hash all of our users' credentials using Argon2 with multiple
                       iterations.
                     </p>
                   </div>
@@ -231,7 +231,7 @@ export default function Security() {
                       Backups & Transparency
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      We backup our data regularly to provide 99.99% uptime and inform users on
+                      We back up our data regularly to provide 99.99% uptime and inform users on
                       service interruptions.
                     </p>
                   </div>
@@ -245,10 +245,10 @@ export default function Security() {
       <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl pb-24">
         <p className="mt-3 text-3xl font-extrabold text-warmGray-900">Sidenote;</p>
         <p className="mt-5 text-lg text-trueGray-500">
-          We believe in the fundemantal right of security and privacy. We do our best to protect
-          both your and your customers data, and protect them from malicious attacks. We&apos;re
-          currently in the process of complying with <span className="font-semibold">GDPR</span>,{' '}
-          <span className="font-semibold">CCPA</span> and{' '}
+          We believe in the fundamental right to security and privacy. We do our best to protect
+          your and your customer's data and protect them from malicious attacks. We're currently in
+          the process of complying with <span className="font-semibold">GDPR</span>,{' '}
+          <span className="font-semibold">CCPA</span>, and{' '}
           <span className="font-semibold">HIPAA</span>. Please keep in touch for further updates. If
           you have any questions regarding security and privacy practices in Socketkit, please
           contact us.
