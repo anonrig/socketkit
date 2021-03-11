@@ -21,9 +21,15 @@ export default function Header() {
           <div className="flex px-2 lg:px-0 flex-1 lg:justify-start justify-between items-center">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <a>
+                <a className="items-center flex">
                   <span className="sr-only">Socketkit, Inc.</span>
-                  <Image height={35} width={165} src="/socketkit-logo.svg" alt="Socketkit, Inc." />
+                  <Image
+                    height={30}
+                    width={130}
+                    src="/socketkit-logo.svg"
+                    alt="Socketkit, Inc."
+                    objectPosition="bottom"
+                  />
                 </a>
               </Link>
               <LogoJsonLd
@@ -109,7 +115,7 @@ export default function Header() {
                             </svg>
                             <div className="ml-4 flex-1">
                               <p className="text-base font-medium text-warmGray-900 flex justify-between">
-                                Event Tracking <Badge title="Coming Soon" />
+                                Mobile Analytics <Badge title="Coming Soon" />
                               </p>
                               <p className="mt-1 text-sm text-trueGray-500">
                                 Understand your users&apos; behaviour without compromising privacy.
