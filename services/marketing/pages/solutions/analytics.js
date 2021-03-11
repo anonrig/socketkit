@@ -6,26 +6,43 @@ export default function Analytics() {
     <Layout>
       <NextSeo title={'Mobile Analytics & Event Tracking'} description={`@TODO - fix this`} />
 
-      <div className="relative bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
-        <div className="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
-          <div>
-            <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">
-              Serverless
-            </h2>
-            <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-              No server? No problem.
-            </p>
-            <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-              Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis
-              nunc, ullamcorper malesuada. Eleifend condimentum id viverra nulla.
-            </p>
+      <div className="bg-white pb-8 sm:pb-12 lg:pb-12">
+        <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24">
+          <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+            <div>
+              <div className="my-24">
+                <div className="mt-12 sm:max-w-xl">
+                  <div className="mb-4">
+                    <span className="rounded bg-trueGray-50 px-2.5 py-1 text-xs font-semibold text-orange-500 tracking-wide uppercase">
+                      Coming Soon
+                    </span>
+                  </div>
+                  <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                    Mobile Analytics
+                  </h1>
+                  <p className="mt-6 text-xl text-warmGray-900 font-semibold">
+                    Secure behavior analysis with built-in fraud prevention.
+                  </p>
+                  <p className="mt-6 text-xl text-gray-500">
+                    Easily used cross-platform user behavior analysis for growing teams and
+                    businesses. Built specifically for businesses who wants to be privacy and
+                    security compliant.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
-            <img
-              className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
-              src="https://tailwindui.com/img/component-images/green-project-app-screenshot.jpg"
-              alt=""
-            />
+
+          <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
+            <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+              <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                <img
+                  className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                  src="/assets/solutions-analytics-hero.jpg"
+                  alt="Event Tracking & Analysis for Mobile Applications"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
