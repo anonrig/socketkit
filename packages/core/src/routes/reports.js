@@ -11,8 +11,8 @@ export default (f, _opts, done) => {
     previous_secondary: { type: 'number' },
   })
   addRoute(f, '/subscribers', f.grpc.reports.subscribers, {
-    secondary: { type: 'number' },
-    previous_secondary: { type: 'number' },
+    count: { type: 'number' },
+    avg_total_base_developer_proceeds: { type: 'string' },
   })
   addRoute(f, '/mrr', f.grpc.reports.mrr, {
     month: { type: 'string' },
