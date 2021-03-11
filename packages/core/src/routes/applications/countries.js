@@ -52,10 +52,6 @@ export default {
     params: { application_id },
     query,
   }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     return f.grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       application_id,

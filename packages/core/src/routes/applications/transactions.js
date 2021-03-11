@@ -66,10 +66,6 @@ export default {
     query,
     params: { application_id },
   }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     return f.grpc.transactions.findAll({
       account_id: account.account_id,
       application_id,

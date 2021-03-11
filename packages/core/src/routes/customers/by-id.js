@@ -24,10 +24,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], params: { client_id } }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     const { row } = await f.grpc.clients.findOne({
       account_id: account.account_id,
       client_id,

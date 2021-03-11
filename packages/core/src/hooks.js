@@ -1,5 +1,5 @@
 import { Configuration, PublicApi } from '@ory/kratos-client'
-import { getAccounts } from './methods/accounts.js'
+import { createAccount, getAccounts } from './methods/accounts.js'
 import logger from './logger.js'
 import f from './server.js'
 import { RequiredError } from '@ory/kratos-client/dist/base.js'
@@ -15,6 +15,13 @@ export const verify = async (request) => {
     const { data } = await kratos.whoami(cookie, authorization)
     request.user = data
     request.accounts = await getAccounts({ identity_id: data.identity.id })
+
+    if (request.accounts.length == 0) {
+      const account = await createAccount({
+        identity_id: request.user.identity.id,
+      })
+      request.accounts = [account]
+    }
   } catch (error) {
     if (error instanceof RequiredError) {
       throw f.httpErrors.forbidden()

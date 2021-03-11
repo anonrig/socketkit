@@ -25,10 +25,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account] }) => {
-    if (!account) {
-      return []
-    }
-
     const applications = await f.grpc.subscriptions.groupByApplication({
       account_id: account.account_id,
     })

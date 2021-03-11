@@ -43,10 +43,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], params: { application_id } }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     const { row } = await f.grpc.applications.findOne({
       application_id,
     })

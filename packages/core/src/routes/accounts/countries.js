@@ -43,10 +43,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     const { rows } = await f.grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       start_date: query.from,

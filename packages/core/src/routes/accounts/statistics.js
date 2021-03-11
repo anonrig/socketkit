@@ -57,10 +57,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
     const [subscription_counts, transaction_sums] = await Promise.all([
       f.grpc.subscriptions.count({
         account_id: account.account_id,

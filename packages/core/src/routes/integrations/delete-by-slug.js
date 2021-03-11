@@ -16,17 +16,9 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({
-    user: { identity },
-    accounts: [account],
-    params: { integration_id },
-  }) => {
+  handler: async ({ accounts: [account], params: { integration_id } }) => {
     if (integration_id !== 'appstore-connect') {
       throw f.httpErrors.notFound()
-    }
-
-    if (!account) {
-      account = await createAccount({ identity_id: identity.id })
     }
 
     await f.grpc.integrations.destroy({

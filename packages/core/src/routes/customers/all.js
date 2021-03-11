@@ -63,10 +63,6 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
-    if (!account) {
-      return []
-    }
-
     return f.grpc.clients.findAll({
       account_id: account.account_id,
       start_date: query.from,
