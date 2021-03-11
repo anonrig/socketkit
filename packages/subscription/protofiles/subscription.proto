@@ -29,9 +29,9 @@ service Integrations {
 }
 
 service Reports {
-  rpc trials(TrialReportRequest) returns (TrialReportResponse) {}
-  rpc subscribers(SubscriberReportRequest) returns (SubscriberReportResponse) {}
-  rpc averageDuration(AverageDurationReportRequest) returns (TrialAverageDurationResponse) {}
+  rpc trials(TrialsReportRequest) returns (TrialsReportResponse) {}
+  rpc subscriptions(SubscriptionsReportRequest) returns (SubscriptionsReportResponse) {}
+  rpc averageDuration(AverageDurationReportRequest) returns (AverageDurationReportResponse) {}
   rpc mrr(MrrReportRequest) returns (MrrReportResponse) {}
 }
 
@@ -301,47 +301,47 @@ message Integration {
 
 // Reports
 
-message TrialReportRequest {
+message TrialsReportRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
   oneof optional_interval {
-    string interval = 3;
+    string interval = 2;
+  }
+  oneof optional_application_id {
+    string application_id = 3;
   }
 }
 
-message TrialReportResponse {
-  repeated TrialReportRow rows = 1;
+message TrialsReportResponse {
+  repeated TrialsReportRow rows = 1;
   repeated string available_filters = 2;
   string secondary_field = 3;
   repeated string fields = 4;
 }
 
-message TrialReportRow {
+message TrialsReportRow {
   string primary = 1;
   int32 secondary = 2;
   int32 previous_client_count = 3;
 }
 
-message SubscriberReportRequest {
+message SubscriptionsReportRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
   oneof optional_interval {
-    string interval = 3;
+    string interval = 2;
+  }
+  oneof optional_application_id {
+    string application_id = 3;
   }
 }
 
-message SubscriberReportResponse {
-  repeated SubscriberReportRow rows = 1;
+message SubscriptionsReportResponse {
+  repeated SubscriptionsReportRow rows = 1;
   repeated string available_filters = 2;
   string secondary_field = 3;
   repeated string fields = 4;
 }
 
-message SubscriberReportRow {
+message SubscriptionsReportRow {
   string primary = 1;
   int32 count = 2;
   string avg_total_base_developer_proceeds = 3;
@@ -349,25 +349,25 @@ message SubscriberReportRow {
 
 message AverageDurationReportRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
   oneof optional_interval {
-    string interval = 3;
+    string interval = 2;
+  }
+  oneof optional_application_id {
+    string application_id = 3;
   }
 }
 
 message MrrReportRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
   oneof optional_interval {
-    string interval = 3;
+    string interval = 2;
+  }
+  oneof optional_application_id {
+    string application_id = 3;
   }
 }
 
-message TrialAverageDurationResponse {
+message AverageDurationReportResponse {
   repeated AverageDurationReportRow rows = 1;
   repeated string available_filters = 2;
   string secondary_field = 3;
