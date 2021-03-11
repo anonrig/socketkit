@@ -29,7 +29,7 @@ function SettingsHeader() {
               href: `/account/users`,
             },
             {
-              key: 'billing-plan',
+              key: 'billing',
               title: 'Billing & Plan',
               href: `/account/billing`,
             },

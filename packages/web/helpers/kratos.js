@@ -6,4 +6,5 @@ export const endpoints = {
   recover: `${basePath}/self-service/recovery/browser`,
   profile: `${basePath}/self-service/settings/browser`,
   logout: `${basePath}/self-service/browser/flows/logout`,
+  verification: `${basePath}/self-service/verification/browser`,
 }
