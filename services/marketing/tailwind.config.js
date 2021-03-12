@@ -8,7 +8,7 @@ module.exports = {
       .map((p) => ['js'].map((e) => `./${p}/**/*.${e}`))
       .flat(3)
   },
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
       colors: {
