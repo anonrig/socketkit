@@ -6,11 +6,15 @@ export default (f, _opts, done) => {
     average_trial_duration: { type: 'number' },
     average_subscription_duration: { type: 'number' },
   })
+  addRoute(f, '/subscribers', f.grpc.reports.subscribers, {
+    count: { type: 'number' },
+    avg_age: { type: 'string' },
+  })
   addRoute(f, '/trials', f.grpc.reports.trials, {
     secondary: { type: 'number' },
     previous_secondary: { type: 'number' },
   })
-  addRoute(f, '/subscribers', f.grpc.reports.subscribers, {
+  addRoute(f, '/subscriptions', f.grpc.reports.subscriptions, {
     count: { type: 'number' },
     avg_total_base_developer_proceeds: { type: 'string' },
   })
