@@ -23,11 +23,15 @@ app.addService(health, 'Health', options)
 app.use(async (context, next) => {
   logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
 
-  const tracer = Sentry.startTransaction({
-    name: context.fullName,
-    op: 'GET',
-    trimEnd: true,
-  })
+  let tracer = null
+
+  if (!context.fullName.includes('health')) {
+    tracer = Sentry.startTransaction({
+      name: context.fullName,
+      op: 'GET',
+      trimEnd: true,
+    })
+  }
 
   Sentry.setUser({
     ...context.request.metadata,
@@ -41,7 +45,7 @@ app.use(async (context, next) => {
     logger.fatal(error)
     throw error
   } finally {
-    tracer.finish()
+    tracer?.finish()
   }
 })
 
