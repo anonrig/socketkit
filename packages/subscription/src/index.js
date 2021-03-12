@@ -10,6 +10,7 @@ import app from './grpc.js'
 const logger = Logger.create().withScope('application')
 
 Sentry.init({
+  enabled: config.isProduction,
   dsn:
     'https://8dea2b3ff0a04428905b1928d294e5fe@o482381.ingest.sentry.io/5662769',
   tracesSampleRate: 1.0,
