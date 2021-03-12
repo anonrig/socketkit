@@ -14,14 +14,14 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <DefaultSeo
         title="Mobile Analytics & Subscription Tracking"
-        titleTemplate="%s - Socketkit, Inc."
-        canonical="https://www.socketkit.com"
-        description="Socketkit is a security and privacy focused mobile analytics and subscription tracking platform which gives back the power of data to the user."
+        titleTemplate="%s - Socketkit"
+        canonical="https://socketkit.com"
+        description="Socketkit is a security and privacy focused mobile analytics and subscription tracking platform for AppStore and Playstore which gives back the power of data to the user."
         openGraph={{
           type: 'website',
           locale: 'en_US',
-          url: 'https://www.socketkit.com/',
-          site_name: 'Socketkit - Mobile Analytics & Subscription Tracking Platform',
+          url: 'https://socketkit.com/',
+          site_name: 'Mobile Analytics & Subscription Tracking Platform - Socketkit',
         }}
       />
       <IntercomProvider appId="oz6arehx">
