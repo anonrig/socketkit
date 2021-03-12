@@ -39,16 +39,16 @@ function MyApp({ Component, pageProps }) {
         const { data } = await client.whoami()
         setSession(data)
       } catch (error) {
-        if (error.message.includes(401)) {
+        if (error.statusCode === 401) {
           if (!['/signin', '/signup', '/recover-account', '/failed'].includes(router.pathname)) {
             window.location.href = endpoints.login
-            return null
+          } else if ('/' === router.pathname) {
+            window.location.href = endpoints.login
           } else {
             setSession(null)
           }
         } else {
           window.location.href = endpoints.login
-          return null
         }
       }
     }
