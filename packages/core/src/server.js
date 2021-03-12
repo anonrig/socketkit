@@ -23,9 +23,13 @@ const server = f({
 })
 
 server.setErrorHandler(async (error) => {
-  logger.error(error)
-  Sentry.captureException(error)
-  throw server.httpErrors.internalServerError('Something went wrong')
+  if (error.statusCode) {
+    throw error
+  } else {
+    logger.error(error)
+    Sentry.captureException(error)
+    throw server.httpErrors.internalServerError('Something went wrong')
+  }
 })
 
 server.register(pressure, {

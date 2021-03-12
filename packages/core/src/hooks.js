@@ -28,7 +28,6 @@ export const verify = async (request) => {
     } else if (error.message.includes('401')) {
       throw f.httpErrors.unauthorized()
     } else {
-      logger.fatal(error)
       throw f.httpErrors.internalServerError()
     }
   }
