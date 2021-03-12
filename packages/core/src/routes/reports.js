@@ -74,8 +74,6 @@ function addRoute(f, path, grpc_method, additional_properties) {
                 },
               },
             },
-            secondary_field: { type: 'string' },
-            fields: { type: 'array', items: { type: 'string' } },
           },
         },
       },

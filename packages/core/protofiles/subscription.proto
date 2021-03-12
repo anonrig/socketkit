@@ -311,9 +311,6 @@ message SubscribersReportRequest {
 
 message SubscribersReportResponse {
   repeated SubscribersReportRow rows = 1;
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
 }
 
 message SubscribersReportRow {
@@ -334,9 +331,6 @@ message TrialsReportRequest {
 
 message TrialsReportResponse {
   repeated TrialsReportRow rows = 1;
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
 }
 
 message TrialsReportRow {
@@ -357,9 +351,6 @@ message SubscriptionsReportRequest {
 
 message SubscriptionsReportResponse {
   repeated SubscriptionsReportRow rows = 1;
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
 }
 
 message SubscriptionsReportRow {
@@ -378,6 +369,16 @@ message AverageDurationReportRequest {
   }
 }
 
+message AverageDurationReportResponse {
+  repeated AverageDurationReportRow rows = 1;
+}
+
+message AverageDurationReportRow {
+  string primary = 1;
+  int32 average_trial_duration = 2;
+  int32 average_subscription_duration = 3;
+}
+
 message MrrReportRequest {
   string account_id = 1;
   oneof optional_interval {
@@ -388,24 +389,8 @@ message MrrReportRequest {
   }
 }
 
-message AverageDurationReportResponse {
-  repeated AverageDurationReportRow rows = 1;
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
-}
-
 message MrrReportResponse {
   repeated MrrReportRow rows = 1;
-  repeated string available_filters = 2;
-  string secondary_field = 3;
-  repeated string fields = 4;
-}
-
-message AverageDurationReportRow {
-  string primary = 1;
-  int32 average_trial_duration = 2;
-  int32 average_subscription_duration = 3;
 }
 
 message MrrReportRow {
