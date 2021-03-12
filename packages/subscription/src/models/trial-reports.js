@@ -66,9 +66,6 @@ export async function getFreeTrials({
 
   return {
     rows,
-    available_filters,
-    secondary_field: 'secondary',
-    fields: ['secondary', 'previous_client_count'],
   }
 }
 
@@ -124,8 +121,5 @@ export async function averageDuration({
 
   return {
     rows,
-    available_filters,
-    secondary_field: 'average_trial_duration',
-    fields: ['average_trial_duration', 'average_subscription_duration'],
   }
 }

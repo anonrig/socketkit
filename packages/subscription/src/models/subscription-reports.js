@@ -52,8 +52,5 @@ export async function get({
 
   return {
     rows,
-    available_filters,
-    secondary_field: 'count',
-    fields: ['count', 'avg_total_base_developer_proceeds'],
   }
 }

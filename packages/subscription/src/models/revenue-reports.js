@@ -54,19 +54,19 @@ export async function getMRR({
       client_id: 'this_month.client_id',
       month: 'this_month.month',
       new_mrr: pg.raw(`
-        case 
+        case
           when previous_month.month is null then this_month.total
-          else 0 
+          else 0
         end
       `),
       contraction_mrr: pg.raw(`
-        case 
+        case
           when previous_month.total is null then 0
-          when previous_month.total > this_month.total then previous_month.total - this_month.total 
+          when previous_month.total > this_month.total then previous_month.total - this_month.total
         end
       `),
       expansion_mrr: pg.raw(`
-        case 
+        case
           when previous_month.total is null then 0
           when previous_month.total < this_month.total then this_month.total  - previous_month.total
         end
@@ -154,19 +154,5 @@ export async function getMRR({
 
   return {
     rows,
-    available_filters,
-    secondary_field: 'mrr',
-    fields: [
-      'mrr',
-      'clients',
-      'new_mrr',
-      'expansion_mrr',
-      'churned_mrr',
-      'contraction_mrr',
-      'net_new_mrr',
-      'mrr_churn',
-      'clients_churn',
-      'arpu',
-    ],
   }
 }

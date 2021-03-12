@@ -60,8 +60,5 @@ export async function get({
 
   return {
     rows,
-    available_filters: [],
-    secondary_field: 'count',
-    fields: ['count', 'avg_age'],
   }
 }
