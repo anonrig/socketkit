@@ -9,6 +9,7 @@ const report_groups = [
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
         route: 'reports/mrr',
+        secondary_field: 'mrr',
         labelFormat: (l) => `$${l}`,
       },
       {
@@ -31,6 +32,7 @@ const report_groups = [
         short_title: 'Trials',
         description: 'The number of new free trials started over time',
         route: 'reports/trials',
+        secondary_field: 'secondary',
         labelFormat: (l) => `${l} leads`,
       },
       {
@@ -49,6 +51,7 @@ const report_groups = [
         description:
           'The average number of days taken for a lead to convert into an active paying customer.',
         route: 'reports/average-duration',
+        secondary_field: 'average_trial_duration',
         labelFormat: (l) => `${l} days`,
       },
     ],
@@ -62,6 +65,7 @@ const report_groups = [
         short_title: 'Subscribers',
         description: 'The number of active paying subscribers.',
         route: 'reports/subscribers',
+        secondary_field: 'count',
         labelFormat: (l) => `${l} subscribers`,
       },
       {
@@ -95,6 +99,7 @@ const report_groups = [
         short_title: 'Subscriptions',
         description: 'The number of active, paid subscriptions.',
         route: 'reports/subscriptions',
+        secondary_field: 'count',
         labelFormat: (l) => `$${l}`,
       },
     ],

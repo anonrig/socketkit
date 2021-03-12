@@ -139,13 +139,13 @@ function Reports({ initialQuery, slug }) {
             <LineChart
               id={`${filters.interval}-${filters.type}`}
               rows={data?.rows ?? []}
-              fields={[data?.secondary_field] ?? []}
+              fields={[report.secondary_field] ?? []}
               labelFormat={report.labelFormat}
             />
           ) : (
             <BarChart
               rows={data?.rows ?? []}
-              fields={[data?.secondary_field] ?? []}
+              fields={[report.secondary_field] ?? []}
               labelFormat={report.labelFormat}
             />
           )}
