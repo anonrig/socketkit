@@ -1,6 +1,6 @@
 import Layout from '../components/layout.js'
 import Link from 'next/link'
-import { NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Image from 'next/image'
 
 export default function Company() {
@@ -9,6 +9,16 @@ export default function Company() {
       <NextSeo
         title="Company"
         description="Event Management & Subscription Tracking platform for mobile applications without compromising privacy or security."
+      />
+
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Company',
+            item: 'https://socketkit.com/company',
+          },
+        ]}
       />
 
       <div className="relative">

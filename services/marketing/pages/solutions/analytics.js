@@ -1,4 +1,4 @@
-import { NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 
 export default function Analytics() {
@@ -7,6 +7,16 @@ export default function Analytics() {
       <NextSeo
         title={'Mobile Analytics & Event Tracking'}
         description={`Easily used cross-platform user behavior analysis for growing teams and businesses. Built specifically for businesses who wants to be privacy and security compliant.`}
+      />
+
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Analytics',
+            item: 'https://socketkit.com/solutions/analytics',
+          }
+        ]}
       />
 
       <div className="bg-white pb-8 sm:pb-12 lg:pb-12">

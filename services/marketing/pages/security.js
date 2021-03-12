@@ -1,4 +1,4 @@
-import { NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Image from 'next/image'
 import Layout from 'components/layout.js'
 
@@ -9,6 +9,17 @@ export default function Security() {
         title="Security & Privacy Practices"
         description="Security and privacy is a fundemental human right. We believe in the right to anonymize user data despite our competitors."
       />
+
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Security',
+            item: 'https://socketkit.com/security',
+          },
+        ]}
+      />
+
       <div className="relative">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">

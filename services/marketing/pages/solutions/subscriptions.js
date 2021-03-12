@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 import CTA from 'components/cta.js'
 
@@ -7,8 +7,18 @@ export default function Subscriptions() {
   return (
     <Layout>
       <NextSeo
-        title={'Subscription Management for AppStore'}
-        description={`Understand where your mobile application customers and revenues are coming from.`}
+        title={'Subscription Management for Application Stores'}
+        description={`Understand where your Apple AppStore and Google Playstore application customers and revenues are coming from.`}
+      />
+
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Subscriptions',
+            item: 'https://socketkit.com/solutions/subscriptions',
+          },
+        ]}
       />
 
       <div className="relative bg-white pt-16 sm:pt-24 lg:pt-32 overflow-hidden">

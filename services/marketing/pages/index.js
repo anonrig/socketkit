@@ -1,30 +1,10 @@
 import Image from 'next/image'
-import { BreadcrumbJsonLd } from 'next-seo'
 import CTA from 'components/cta.js'
 import Layout from 'components/layout.js'
 
 export default function Home() {
   return (
     <Layout>
-      <BreadcrumbJsonLd
-        itemListElements={[
-          {
-            position: 1,
-            name: 'Pricing',
-            item: 'https://socketkit.com/pricing',
-          },
-          {
-            position: 2,
-            name: 'Security',
-            item: 'https://socketkit.com/security',
-          },
-          {
-            position: 3,
-            name: 'About',
-            item: 'https://socketkit.com/company',
-          },
-        ]}
-      />
       <main>
         {/* Hero section */}
         <div className="relative">

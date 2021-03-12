@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown'
-import { BlogJsonLd, NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, BlogJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 import { fetchEntry } from 'helpers/contentful.js'
 import extractor from 'keyword-extractor'
@@ -49,6 +49,22 @@ export default function Post({ entry, url }) {
             ],
           }}
         />
+
+        <BreadcrumbJsonLd
+          itemListElements={[
+            {
+              position: 1,
+              name: 'Guides & Tips',
+              item: 'https://socketkit.com/blog',
+            },
+            {
+              position: 2,
+              name: entry.fields.title,
+              item: `https://socketkit.com${url}`,
+            },
+          ]}
+        />
+
         <BlogJsonLd
           url={url}
           title={entry.fields.title}

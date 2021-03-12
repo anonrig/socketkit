@@ -1,4 +1,4 @@
-import { NextSeo } from 'next-seo'
+import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 
 export default function Pricing() {
@@ -8,6 +8,17 @@ export default function Pricing() {
         title={'Pricing & Plans'}
         description={`Our pricing model is simple. Start using Socketkit freely up to $5000 MRR, and than scale as you go. Join now.`}
       />
+
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Pricing',
+            item: 'https://socketkit.com/pricing',
+          },
+        ]}
+      />
+
       <div className="bg-white">
         <div>
           <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
