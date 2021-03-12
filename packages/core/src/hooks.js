@@ -25,6 +25,8 @@ export const verify = async (request) => {
   } catch (error) {
     if (error instanceof RequiredError) {
       throw f.httpErrors.forbidden()
+    } else if (error.message.includes('401')) {
+      throw f.httpErrors.unauthorized()
     } else {
       logger.fatal(error)
       throw f.httpErrors.internalServerError()
