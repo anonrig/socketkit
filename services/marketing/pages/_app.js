@@ -1,6 +1,7 @@
 import 'tailwindcss/tailwind.css'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
+import { IntercomProvider } from 'react-use-intercom'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -23,7 +24,9 @@ function MyApp({ Component, pageProps }) {
           site_name: 'Socketkit - Mobile Analytics & Subscription Tracking Platform',
         }}
       />
-      <Component {...pageProps} />
+      <IntercomProvider appId="oz6arehx">
+        <Component {...pageProps} />
+      </IntercomProvider>
     </>
   )
 }

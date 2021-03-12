@@ -26,6 +26,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-markdown": "^5.0.3",
+    "react-use-intercom": "^1.1.9",
     "sharp": "^0.27.2",
     "tailwindcss": "^2.0.3"
   },
