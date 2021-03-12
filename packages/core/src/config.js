@@ -5,5 +5,4 @@ export default {
     subscription: process.env.SUBSCRIPTION_GRPC_URL ?? 'localhost:3001',
     store: process.env.STORE_GRPC_URL ?? 'localhost:3003',
   },
-  sentry: process.env.SENTRY_DSN,
 }

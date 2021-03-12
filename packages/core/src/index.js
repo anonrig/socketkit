@@ -10,8 +10,6 @@ import pg from './pg.js'
 const logger = Logger.create().withScope('application')
 
 Sentry.init({
-  enabled: config.isProduction,
-  dsn: config.sentry,
   integrations: [
     new Sentry.Integrations.OnUncaughtException({
       onFatalError(firstError) {
