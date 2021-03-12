@@ -29,7 +29,7 @@ export async function get({
       avg_total_base_developer_proceeds: 'avg_total_base_developer_proceeds',
     })
     .from(
-      pg.raw(`generate_series (?::date, ?::date, ?::interval) AS g`, [
+      pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
         start_date,
         end_date,
         interval,

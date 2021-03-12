@@ -39,7 +39,7 @@ export async function getFreeTrials({
       ),
     })
     .from(
-      pg.raw(`generate_series (?::date, ?::date, ?::interval) AS g`, [
+      pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
         start_date,
         end_date,
         interval,
@@ -100,7 +100,7 @@ export async function averageDuration({
       ),
     })
     .from(
-      pg.raw(`generate_series (?::date, ?::date, ?::interval) AS g`, [
+      pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
         start_date,
         end_date,
         interval,

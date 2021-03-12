@@ -23,7 +23,7 @@ export async function get({
       avg_age: 'avg_age',
     })
     .from(
-      pg.raw(`generate_series (?::date, ?::date, ?::interval) AS g`, [
+      pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
         start_date,
         end_date,
         interval,
