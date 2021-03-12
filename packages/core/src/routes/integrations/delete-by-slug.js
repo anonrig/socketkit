@@ -1,6 +1,5 @@
 import { verify } from '../../hooks.js'
 import f from '../../server.js'
-import { createAccount } from '../../methods/accounts.js'
 
 export default {
   method: 'DELETE',
