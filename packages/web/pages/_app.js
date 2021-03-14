@@ -4,7 +4,7 @@ import { DefaultSeo } from 'next-seo'
 import router, { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Progress from 'nprogress'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 
 import { endpoints } from 'helpers/kratos.js'
@@ -33,27 +33,30 @@ function MyApp({ Component, pageProps }) {
   const [session, setSession] = useState(undefined)
   const Layout = session === null ? UnauthorizedLayout : AuthorizedLayout
 
-  useEffect(() => {
-    async function call() {
-      try {
-        const { data } = await client.whoami()
-        setSession(data)
-      } catch (error) {
-        if (error.statusCode === 401) {
-          if (!['/signin', '/signup', '/recover-account', '/failed'].includes(router.pathname)) {
-            window.location.href = endpoints.login
-          } else if ('/' === router.pathname) {
-            window.location.href = endpoints.login
-          } else {
-            setSession(null)
-          }
-        } else {
+  const fetchUser = useCallback(async () => {
+    try {
+      const { data } = await client.whoami()
+      console.log('data', data)
+      setSession(data)
+    } catch (error) {
+      if (error.message.includes('401')) {
+        if (
+          !['/signin', '/signup', '/recover-account', '/failed'].includes(router.pathname) ||
+          '/' === router.pathname
+        ) {
           window.location.href = endpoints.login
+        } else {
+          setSession(null)
         }
+      } else {
+        window.location.href = endpoints.login
       }
     }
-    call()
   }, [router.pathname])
+
+  useEffect(() => {
+    fetchUser()
+  }, [fetchUser])
 
   if (session === undefined) {
     return null

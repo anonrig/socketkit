@@ -13,17 +13,21 @@ export async function getServerSideProps({
     headers: { cookie, referer },
   },
 }) {
-  const from = dayjs().subtract(1, 'month').format('YYYY-MM-DD')
-  const to = dayjs().format('YYYY-MM-DD')
-  const countries = await fetcher(`accounts/countries`, {
-    headers: { cookie, referer },
-    qs: { from, to, limit: 10 },
-  })
+  try {
+    const from = dayjs().subtract(1, 'month').format('YYYY-MM-DD')
+    const to = dayjs().format('YYYY-MM-DD')
+    const countries = await fetcher(`accounts/countries`, {
+      headers: { cookie, referer },
+      qs: { from, to, limit: 10 },
+    })
 
-  return {
-    props: {
-      countries,
-    },
+    return {
+      props: {
+        countries,
+      },
+    }
+  } catch (error) {
+    return { props: { countries: [] } }
   }
 }
 
