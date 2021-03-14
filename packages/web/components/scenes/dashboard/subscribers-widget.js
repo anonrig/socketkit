@@ -11,7 +11,7 @@ function SubscribersWidget({ range, initialData }) {
   const {
     data,
   } = useSWR(
-    `reports/subscribers?start_date=${range.from}&end_date=${range.to}&interval=day`,
+    `reports/subsciption/subscribers?start_date=${range.from}&end_date=${range.to}&interval=day`,
     fetcher,
     { initialData },
   )
@@ -31,7 +31,7 @@ function SubscribersWidget({ range, initialData }) {
               <LineChart
                 id="subscribers-dashboard-widget"
                 rows={data?.rows ?? []}
-                fields={["count"]}
+                fields={['y0']}
                 labelFormat={(l) => `${l} subscribers`}
                 margin={{ top: 75, left: 0, right: 0, bottom: 0 }}
                 axisLeft={null}
@@ -55,7 +55,7 @@ function SubscribersWidget({ range, initialData }) {
               <LineChart
                 id="subscribers-dashboard-widget"
                 rows={data?.rows ?? []}
-                fields={["count"]}
+                fields={['y0']}
                 labelFormat={(l) => `${l} subscribers`}
                 margin={{ top: 75, left: 0, right: 0, bottom: 0 }}
                 axisLeft={null}

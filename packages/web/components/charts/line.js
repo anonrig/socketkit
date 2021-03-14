@@ -5,9 +5,7 @@ import theme from './theme.js'
 
 function LineChart({ id, rows, fields, labelFormat, ...props }) {
   const tickValues =
-    rows.length > 10
-      ? rows.filter((r, i) => i % 4 == 0).map((r) => r.primary)
-      : rows.map((r) => r.primary)
+    rows.length > 10 ? rows.filter((r, i) => i % 4 == 0).map((r) => r.x) : rows.map((r) => r.x)
 
   const xValues = []
   const maximum = Math.max(...rows.map((r) => r[fields[0]]))
@@ -24,7 +22,7 @@ function LineChart({ id, rows, fields, labelFormat, ...props }) {
         {
           id,
           data: rows.map((r) => ({
-            x: r.primary,
+            x: r.x,
             y: fields[0] ? r[fields[0]] : 0,
           })),
         },

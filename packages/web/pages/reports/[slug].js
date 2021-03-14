@@ -53,7 +53,7 @@ function Reports({ initialQuery, slug }) {
     type: 'line',
   })
   const { data } = useSWR(
-    `${report.route}?${getQueryString({
+    `reports/subscription/${slug}?${getQueryString({
       start_date: filters.start_date.format('YYYY-MM-DD'),
       end_date: filters.end_date.format('YYYY-MM-DD'),
       interval: filters.interval,
@@ -139,13 +139,13 @@ function Reports({ initialQuery, slug }) {
             <LineChart
               id={`${filters.interval}-${filters.type}`}
               rows={data?.rows ?? []}
-              fields={[report.secondary_field] ?? []}
+              fields={['y0'] ?? []}
               labelFormat={report.labelFormat}
             />
           ) : (
             <BarChart
               rows={data?.rows ?? []}
-              fields={[report.secondary_field] ?? []}
+              fields={['y0'] ?? []}
               labelFormat={report.labelFormat}
             />
           )}

@@ -8,8 +8,6 @@ const report_groups = [
         short_title: 'MRR',
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-        route: 'reports/mrr',
-        secondary_field: 'mrr',
         labelFormat: (l) => `$${l}`,
       },
       {
@@ -18,7 +16,6 @@ const report_groups = [
         short_title: 'MRR Movement',
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-        route: 'reports/mrr-movement',
         labelFormat: (l) => `$${l}`,
       },
     ],
@@ -31,8 +28,6 @@ const report_groups = [
         title: 'Free Trials',
         short_title: 'Trials',
         description: 'The number of new free trials started over time',
-        route: 'reports/trials',
-        secondary_field: 'secondary',
         labelFormat: (l) => `${l} leads`,
       },
       {
@@ -41,7 +36,6 @@ const report_groups = [
         short_title: 'Trial-to-paid conversion rate',
         description:
           'The percentage of free trials that have converted to active paying customers over time. ',
-        route: 'reports/trial-to-paid',
         labelFormat: (l) => `%${l}`,
       },
       {
@@ -50,8 +44,6 @@ const report_groups = [
         short_title: 'Average Cycle',
         description:
           'The average number of days taken for a lead to convert into an active paying customer.',
-        route: 'reports/average-duration',
-        secondary_field: 'average_trial_duration',
         labelFormat: (l) => `${l} days`,
       },
     ],
@@ -64,8 +56,6 @@ const report_groups = [
         title: 'Subscribers',
         short_title: 'Subscribers',
         description: 'The number of active paying subscribers.',
-        route: 'reports/subscribers',
-        secondary_field: 'count',
         labelFormat: (l) => `${l} subscribers`,
       },
       {
@@ -74,7 +64,6 @@ const report_groups = [
         short_title: 'Average Sale Price',
         description:
           'The average MRR of new customers at the moment they convert to a paid account.',
-        route: 'reports/average-sale',
         labelFormat: (l) => `$${l}`,
       },
       {
@@ -82,7 +71,6 @@ const report_groups = [
         title: 'Customer Lifetime Value',
         short_title: 'Customer Lifetime Value',
         description: 'An estimate of the total subscription value of an average customer.',
-        route: 'reports/customer-lifetime-value',
         labelFormat: (l) => `$${l}`,
       },
       {
@@ -90,8 +78,6 @@ const report_groups = [
         title: 'Subscriptions',
         short_title: 'Subscriptions',
         description: 'The number of active, paid subscriptions.',
-        route: 'reports/subscriptions',
-        secondary_field: 'count',
         labelFormat: (l) => `$${l}`,
       },
       {
@@ -100,7 +86,6 @@ const report_groups = [
         short_title: 'Average Revenue Per Subscription',
         description: 'The average MRR across your active customers. (aka ARPU & ARPC)',
         route: 'reports/subscriptions',
-        secondary_field: 'avg_total_base_developer_proceeds',
         labelFormat: (l) => `$${l}`,
       },
     ],
