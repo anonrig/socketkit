@@ -60,10 +60,6 @@ function addRoute(f, path, grpc_method, additional_properties) {
         200: {
           type: 'object',
           properties: {
-            available_filters: {
-              type: 'array',
-              items: { type: 'string' },
-            },
             rows: {
               type: 'array',
               items: {
