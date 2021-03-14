@@ -1,6 +1,6 @@
 import { verify } from '../../hooks.js'
 import f from '../../server.js'
-import { createAccount, getAccounts } from '../../methods/accounts.js'
+import { createAccount, getAccounts } from '../../models/accounts.js'
 
 export default {
   method: 'PUT',

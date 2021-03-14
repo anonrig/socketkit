@@ -1,5 +1,5 @@
 import { Configuration, PublicApi } from '@ory/kratos-client'
-import { createAccount, getAccounts } from './methods/accounts.js'
+import { createAccount, getAccounts } from './models/accounts.js'
 import logger from './logger.js'
 import f from './server.js'
 import { RequiredError } from '@ory/kratos-client/dist/base.js'
