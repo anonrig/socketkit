@@ -8,6 +8,7 @@ const reports = {
   trials: TrialReports.getFreeTrials,
   'average-sales-cycle': TrialReports.averageDuration,
   subscriptions: SubscriptionReports.get,
+  'average-revenue-per-subscription': SubscriptionReports.get,
   mrr: RevenueReports.getMRR,
 }
 

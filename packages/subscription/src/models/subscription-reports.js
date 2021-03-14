@@ -8,6 +8,7 @@ function getWhereCondition(fields, data) {
 }
 
 export async function get({
+  report_id,
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
@@ -23,8 +24,11 @@ export async function get({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: pg.raw(`l.count::int`),
-      y1: 'avg_total_base_developer_proceeds',
+      y0: {
+        subscriptions: 'l.count',
+        'average-revenue-per-subscription':
+          'l.avg_total_base_developer_proceeds',
+      }[report_id],
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -49,7 +53,7 @@ export async function get({
     )
 
   return {
-    ny: 2,
+    ny: 1,
     rows,
   }
 }
