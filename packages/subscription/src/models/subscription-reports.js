@@ -22,11 +22,9 @@ export async function get({
   const rows = await pg
     .queryBuilder()
     .select({
-      primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
-        interval.split(' ')[1],
-      ]),
-      count: pg.raw(`l.count::int`),
-      avg_total_base_developer_proceeds: 'avg_total_base_developer_proceeds',
+      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: pg.raw(`l.count::int`),
+      y1: 'avg_total_base_developer_proceeds',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -51,6 +49,7 @@ export async function get({
     )
 
   return {
+    ny: 2,
     rows,
   }
 }

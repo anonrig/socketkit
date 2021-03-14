@@ -30,13 +30,9 @@ export async function getFreeTrials({
   const rows = await pg
     .queryBuilder()
     .select({
-      primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
-        interval.split(' ')[1],
-      ]),
-      secondary: pg.raw(`l.client_count::int`),
-      previous_client_count: pg.raw(
-        `COALESCE(lag(l.client_count) OVER (ORDER BY g), 0)::int`,
-      ),
+      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: pg.raw(`l.client_count::int`),
+      y1: pg.raw(`COALESCE(lag(l.client_count) OVER (ORDER BY g), 0)::int`),
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -65,6 +61,7 @@ export async function getFreeTrials({
     )
 
   return {
+    nvalues: 2,
     rows,
   }
 }
@@ -86,13 +83,11 @@ export async function averageDuration({
   const rows = await pg
     .queryBuilder()
     .select({
-      primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
-        interval.split(' ')[1],
-      ]),
-      average_trial_duration: pg.raw(
+      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: pg.raw(
         `COALESCE(EXTRACT(epoch FROM l.average_trial_duration) / 86400, 0)`,
       ),
-      average_subscription_duration: pg.raw(
+      y1: pg.raw(
         `COALESCE(EXTRACT(epoch FROM l.average_subscription_duration) / 86400, 0)`,
       ),
     })
@@ -120,6 +115,7 @@ export async function averageDuration({
     )
 
   return {
+    ny: 2,
     rows,
   }
 }

@@ -19,17 +19,16 @@ afterAll(async (done) => {
 
 describe('Reports', () => {
   test('subscribers', (done) => {
-    grpc.reports.subscribers(
-      { account_id: TEST_ACCOUNT_ID },
+    grpc.reports.get(
+      { report_id: 'subscribers', account_id: TEST_ACCOUNT_ID },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.available_filters).toBeInstanceOf(Object)
           expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ primary, count }) => {
-            expect(primary).toBeDefined()
-            expect(count).toBeGreaterThanOrEqual(0)
+          response.rows.forEach(({ x, y0 }) => {
+            expect(x).toBeDefined()
+            expect(y0).toBeDefined()
           })
           done()
         } catch (error) {
@@ -40,18 +39,20 @@ describe('Reports', () => {
   })
 
   test('trials', (done) => {
-    grpc.reports.trials(
-      { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
+    grpc.reports.get(
+      {
+        report_id: 'trials',
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+      },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.available_filters).toBeInstanceOf(Object)
-          expect(response.available_filters.length > 0).toBeTruthy()
           expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ primary, secondary }) => {
-            expect(primary).toBeDefined()
-            expect(secondary).toBeDefined()
+          response.rows.forEach(({ x, y0 }) => {
+            expect(x).toBeDefined()
+            expect(y0).toBeDefined()
           })
           done()
         } catch (error) {
@@ -62,18 +63,20 @@ describe('Reports', () => {
   })
 
   test('subscriptions', (done) => {
-    grpc.reports.subscriptions(
-      { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
+    grpc.reports.get(
+      {
+        report_id: 'subscriptions',
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+      },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.available_filters).toBeInstanceOf(Object)
-          expect(response.available_filters.length > 0).toBeTruthy()
           expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ primary, count }) => {
-            expect(primary).toBeDefined()
-            expect(count).toBeGreaterThanOrEqual(0)
+          response.rows.forEach(({ x, y0 }) => {
+            expect(x).toBeDefined()
+            expect(y0).toBeDefined()
           })
           done()
         } catch (error) {
@@ -84,17 +87,20 @@ describe('Reports', () => {
   })
 
   test('averageDuration', (done) => {
-    grpc.reports.averageDuration(
-      { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
+    grpc.reports.get(
+      {
+        report_id: 'average-sales-cycle',
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+      },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
-          expect(response.available_filters).toBeInstanceOf(Object)
-          expect(response.available_filters.length > 0).toBeTruthy()
           expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ primary }) => {
-            expect(primary).toBeDefined()
+          response.rows.forEach(({ x, y0 }) => {
+            expect(x).toBeDefined()
+            expect(y0).toBeDefined()
           })
           done()
         } catch (error) {

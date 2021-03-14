@@ -16,11 +16,9 @@ export async function get({
   const rows = await pg
     .queryBuilder()
     .select({
-      primary: pg.raw(`(date_trunc(?, g)::date)::text`, [
-        interval.split(' ')[1],
-      ]),
-      count: pg.raw(`l.count::int`),
-      avg_age: 'avg_age',
+      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: pg.raw(`l.count::int`),
+      y1: 'avg_age',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -51,14 +49,11 @@ export async function get({
             )
         ) l
       `,
-      [
-        account_id,
-        interval,
-        interval,
-      ],
+      [account_id, interval, interval],
     )
 
   return {
+    ny: 2,
     rows,
   }
 }

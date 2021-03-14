@@ -126,21 +126,19 @@ export async function getMRR({
     .with('v_mrr_churn', v_mrr_churn)
     .with('v_totals', v_totals)
     .select({
-      month: pg.raw(`v_totals.month`),
-      mrr: pg.raw(`ROUND(COALESCE(v_mrr.mrr, 0), 2)`),
-      clients: pg.raw(`v_mrr.clients`),
-      new_mrr: pg.raw('ROUND(COALESCE(v_totals.new_mrr, 0), 2)'),
-      expansion_mrr: pg.raw('ROUND(COALESCE(v_totals.expansion_mrr, 0), 2)'),
-      churned_mrr: pg.raw(`ROUND(COALESCE(v_mrr_churn.churned_mrr*-1, 0), 2)`),
-      contraction_mrr: pg.raw(
-        `ROUND(COALESCE(v_totals.contraction_mrr*-1, 0), 2)`,
-      ),
-      net_new_mrr: pg.raw(
+      x: pg.raw(`v_totals.month`),
+      y0: pg.raw(`ROUND(COALESCE(v_mrr.mrr, 0), 2)`),
+      y1: pg.raw(`v_mrr.clients`),
+      y2: pg.raw('ROUND(COALESCE(v_totals.new_mrr, 0), 2)'),
+      y3: pg.raw('ROUND(COALESCE(v_totals.expansion_mrr, 0), 2)'),
+      y4: pg.raw(`ROUND(COALESCE(v_mrr_churn.churned_mrr*-1, 0), 2)`),
+      y5: pg.raw(`ROUND(COALESCE(v_totals.contraction_mrr*-1, 0), 2)`),
+      y6: pg.raw(
         `ROUND(COALESCE(new_mrr + expansion_mrr - churned_mrr - contraction_mrr, 0), 2)`,
       ),
-      mrr_churn: pg.raw(`ROUND(COALESCE(v_mrr_churn.mrr_churn, 0), 2)`),
-      clients_churn: pg.raw(`COALESCE(v_mrr_churn.clients_churn, 0)`),
-      arpu: pg.raw(`ROUND(COALESCE(v_mrr.arpu, 0), 2)`),
+      y7: pg.raw(`ROUND(COALESCE(v_mrr_churn.mrr_churn, 0), 2)`),
+      y8: pg.raw(`COALESCE(v_mrr_churn.clients_churn, 0)`),
+      y9: pg.raw(`ROUND(COALESCE(v_mrr.arpu, 0), 2)`),
     })
     .from('v_totals')
     .leftJoin('v_mrr_churn', function () {
@@ -153,6 +151,7 @@ export async function getMRR({
     .orderBy('v_totals.month', 'desc')
 
   return {
+    ny: 10,
     rows,
   }
 }

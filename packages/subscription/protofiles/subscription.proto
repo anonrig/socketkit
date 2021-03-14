@@ -29,11 +29,7 @@ service Integrations {
 }
 
 service Reports {
-  rpc subscribers(SubscribersReportRequest) returns (SubscribersReportResponse) {}
-  rpc trials(TrialsReportRequest) returns (TrialsReportResponse) {}
-  rpc subscriptions(SubscriptionsReportRequest) returns (SubscriptionsReportResponse) {}
-  rpc averageDuration(AverageDurationReportRequest) returns (AverageDurationReportResponse) {}
-  rpc mrr(MrrReportRequest) returns (MrrReportResponse) {}
+  rpc get(ReportsRequest) returns (ReportsResponse) {}
 }
 
 // Generics
@@ -302,107 +298,29 @@ message Integration {
 
 // Reports
 
-message SubscribersReportRequest {
-  string account_id = 1;
+message ReportsRequest {
+  string report_id = 1;
+  string account_id = 2;
   oneof optional_interval {
-    string interval = 2;
+    string interval = 3;
   }
 }
 
-message SubscribersReportResponse {
-  repeated SubscribersReportRow rows = 1;
+message ReportsResponse {
+  uint32 ny = 1;
+  repeated ReportsRow rows = 2;
 }
 
-message SubscribersReportRow {
-  string primary = 1;
-  int32 count = 2;
-  string avg_age = 3;
-}
-
-message TrialsReportRequest {
-  string account_id = 1;
-  oneof optional_interval {
-    string interval = 2;
-  }
-  oneof optional_application_id {
-    string application_id = 3;
-  }
-}
-
-message TrialsReportResponse {
-  repeated TrialsReportRow rows = 1;
-}
-
-message TrialsReportRow {
-  string primary = 1;
-  int32 secondary = 2;
-  int32 previous_client_count = 3;
-}
-
-message SubscriptionsReportRequest {
-  string account_id = 1;
-  oneof optional_interval {
-    string interval = 2;
-  }
-  oneof optional_application_id {
-    string application_id = 3;
-  }
-}
-
-message SubscriptionsReportResponse {
-  repeated SubscriptionsReportRow rows = 1;
-}
-
-message SubscriptionsReportRow {
-  string primary = 1;
-  int32 count = 2;
-  string avg_total_base_developer_proceeds = 3;
-}
-
-message AverageDurationReportRequest {
-  string account_id = 1;
-  oneof optional_interval {
-    string interval = 2;
-  }
-  oneof optional_application_id {
-    string application_id = 3;
-  }
-}
-
-message AverageDurationReportResponse {
-  repeated AverageDurationReportRow rows = 1;
-}
-
-message AverageDurationReportRow {
-  string primary = 1;
-  int32 average_trial_duration = 2;
-  int32 average_subscription_duration = 3;
-}
-
-message MrrReportRequest {
-  string account_id = 1;
-  oneof optional_interval {
-    string interval = 2;
-  }
-  oneof optional_application_id {
-    string application_id = 3;
-  }
-}
-
-message MrrReportResponse {
-  repeated MrrReportRow rows = 1;
-}
-
-message MrrReportRow {
-  string month = 1;
-  string mrr = 2;
-  int32 clients = 3;
-  string new_mrr = 4;
-  string expansion_mrr = 5;
-  string churned_mrr = 6;
-  string contraction_mrr = 7;
-  string net_new_mrr = 8;
-  string mrr_churn = 9;
-  int32 clients_churn = 10;
-  string arpu = 11;
+message ReportsRow {
+  string x = 1;
+  float y0 = 2;
+  optional float y1 = 3;
+  optional float y2 = 4;
+  optional float y3 = 5;
+  optional float y4 = 6;
+  optional float y5 = 7;
+  optional float y6 = 8;
+  optional float y7 = 9;
+  optional float y8 = 10;
+  optional float y9 = 11;
 }

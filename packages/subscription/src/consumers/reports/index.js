@@ -3,22 +3,18 @@ import * as TrialReports from '../../models/trial-reports.js'
 import * as SubscriptionReports from '../../models/subscription-reports.js'
 import * as RevenueReports from '../../models/revenue-reports.js'
 
-export const subscribers = async (ctx) => {
-  ctx.res = await SubscriberReports.get(ctx.req)
+const reports = {
+  subscribers: SubscriberReports.get,
+  trials: TrialReports.getFreeTrials,
+  'average-sales-cycle': TrialReports.averageDuration,
+  subscriptions: SubscriptionReports.get,
+  mrr: RevenueReports.getMRR,
 }
 
-export const trials = async (ctx) => {
-  ctx.res = await TrialReports.getFreeTrials(ctx.req)
-}
-
-export const subscriptions = async (ctx) => {
-  ctx.res = await SubscriptionReports.get(ctx.req)
-}
-
-export const averageDuration = async (ctx) => {
-  ctx.res = await TrialReports.averageDuration(ctx.req)
-}
-
-export const mrr = async (ctx) => {
-  ctx.res = await RevenueReports.getMRR(ctx.req)
+export const get = async (ctx) => {
+  const report_func = reports[ctx.req.report_id]
+  if (!report_func) {
+    throw new Error('Report not found')
+  }
+  ctx.res = await report_func(ctx.req)
 }
