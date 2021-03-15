@@ -46,12 +46,21 @@ export async function get({
             count(*) AS count,
             avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
           FROM client_subscriptions s
-          WHERE s.account_id = ?
-            AND s.active_period && daterange(g::date, (g + ?::interval)::date)
+          WHERE s.account_id = ? AND
+            s.active_period && daterange(g::date, (g + ?::interval)::date) AND
+            daterange(
+              (lower(s.active_period) + s.free_trial_duration)::date,
+              upper(s.active_period)
+            ) && daterange(g::date, (g + ?::interval)::date)
             ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) l
       `,
-      [account_id, interval, ...whereCondition.map(({ value }) => value)],
+      [
+        account_id,
+        interval,
+        interval,
+        ...whereCondition.map(({ value }) => value),
+      ],
     )
 
   return {
