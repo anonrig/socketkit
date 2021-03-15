@@ -48,11 +48,14 @@ message ClientIdRequest {
 
 message AccountIdRequest {
   string account_id = 1;
+  oneof optional_application_id {
+    string application_id = 2;
+  }
   oneof optional_start_date {
-    string start_date = 2;
+    string start_date = 3;
   }
   oneof optional_end_date {
-    string end_date = 3;
+    string end_date = 4;
   }
 }
 
