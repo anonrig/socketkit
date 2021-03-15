@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useRouter } from 'next/router'
 import Table from 'components/table/table.js'
 import { fetcher } from 'helpers/fetcher'
 
@@ -16,12 +15,11 @@ export async function getServerSideProps({
     headers: { cookie, referer },
   })
   return {
-    props: { initialData },
+    props: { initialData, id },
   }
 }
 
-export default function SubscriptionPackages({ initialData }) {
-  const { id } = useRouter().query
+export default function SubscriptionPackages({ initialData, id }) {
   const columns = useMemo(
     () => [
       {

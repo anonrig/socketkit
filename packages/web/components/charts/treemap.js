@@ -16,7 +16,7 @@ function TreeMapChart({ id, rows, identity }) {
       animate={true}
       label={identity}
       valueFormat={'>-$.2s'}
-      labelSkipSize={55}
+      labelSkipSize={60}
       enableParentLabel={false}
       theme={{
         ...theme,

@@ -1,9 +1,31 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import { fetcher } from 'helpers/fetcher.js'
 
-function ApplicationInformation() {
-  const { id } = useRouter().query
-  const { data: application } = useSWR(`applications/${id}`)
+export async function getServerSideProps({
+  query: { id },
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
+  try {
+    const data = await fetcher(`applications/${id}`, {
+      headers: { cookie, referer },
+    })
+
+    return { props: { initialData: data } }
+  } catch (error) {
+    if (error.message.includes('not found')) {
+      return {
+        notFound: true,
+      }
+    }
+    return { props: { initialData: null, id } }
+  }
+}
+
+function ApplicationInformation({ initialData, id }) {
+  const { data: application } = useSWR(`applications/${id}`, fetcher, { initialData })
 
   return (
     <aside className="space-y-6">

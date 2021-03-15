@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import dynamic from 'next/dynamic'
@@ -18,8 +18,7 @@ const LineChart = dynamic(() =>
   import('components/charts/line.js' /* webpackChunkName: "LineChart" */),
 )
 
-export async function getServerSideProps(ctx) {
-  const { slug } = ctx.query
+export async function getServerSideProps({ query: { slug } }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)
 
   if (!report) {
@@ -31,9 +30,10 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       initialQuery: {
-        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        start_date: dayjs()
+          .subtract(report.default_month ?? 1, 'month')
+          .format('YYYY-MM-DD'),
         end_date: dayjs().format('YYYY-MM-DD'),
-        interval: 'day',
       },
       slug: report.slug,
     },
@@ -43,10 +43,10 @@ export async function getServerSideProps(ctx) {
 function Reports({ initialQuery, slug }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)
   const [filters, setFilters] = useState({
-    ...initialQuery,
     start_date: dayjs(initialQuery.start_date),
     end_date: dayjs(initialQuery.end_date),
-    type: 'line',
+    type: report.defaults?.graph ?? 'line',
+    interval: report.defaults?.interval ?? 'day',
   })
   const { data } = useSWR(
     `reports/subscription/${slug}?${getQueryString({
@@ -57,6 +57,17 @@ function Reports({ initialQuery, slug }) {
     fetcher,
     { refreshInterval: 0 },
   )
+
+  useEffect(() => {
+    setFilters({
+      ...filters,
+      interval: report.defaults?.interval ?? 'day',
+      start_date: dayjs().subtract(report.defaults?.range ?? 2, 'month'),
+      type: report.defaults?.graph ?? filters.type,
+    })
+  }, [report])
+
+  console.log(report.defaults)
 
   return (
     <SidebarLayout leading={<Sidebar />}>
@@ -130,9 +141,13 @@ function Reports({ initialQuery, slug }) {
             </div>
           </div>
         </div>
-        <div className="bg-white py-5 px-4 sm:px-6 h-96 w-full">
+        <div className="bg-white py-5 px-4 sm:px-6 h-96 w-full" key={report.slug}>
           {filters.type === 'line' ? (
-            <LineChart rows={data?.rows ?? []} formats={report.formats ?? {}} />
+            <LineChart
+              rows={data?.rows ?? []}
+              formats={report.formats ?? {}}
+              yFormat={report.defaults?.y_format}
+            />
           ) : (
             <BarChart rows={data?.rows ?? []} formats={report.formats ?? {}} />
           )}
@@ -146,7 +161,6 @@ Reports.propTypes = {
   initialQuery: PropTypes.shape({
     start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
-    interval: PropTypes.string.isRequired,
   }),
   slug: PropTypes.string.isRequired,
 }

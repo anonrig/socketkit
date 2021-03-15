@@ -22,7 +22,7 @@ function Header() {
           <div className="flex px-2 lg:px-0">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <a>
+                <a className="flex items-center">
                   <Image alt="Socketkit, Inc." width={38} height={38} src="/socketkit-icon.svg" />
                 </a>
               </Link>
@@ -35,7 +35,7 @@ function Header() {
                   Applications
                 </a>
               </Link>
-              <Link href="/reports">
+              <Link href="/reports/mrr">
                 <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>
                   Reports
                 </a>

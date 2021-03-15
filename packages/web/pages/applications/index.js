@@ -17,7 +17,7 @@ export async function getServerSideProps(ctx) {
 
   return {
     redirect: {
-      destination: `/applications/${rows[0].application_id}/general`,
+      destination: `/applications/${rows.reverse()[0].application_id}/general`,
       permanent: false,
     },
   }

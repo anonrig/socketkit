@@ -3,7 +3,7 @@ import { ResponsiveBar } from '@nivo/bar'
 import dayjs from 'dayjs'
 import theme from './theme.js'
 
-function BarChart({ rows, formats }) {
+function BarChart({ rows, formats, ...props }) {
   const fields = Object.keys(formats ?? {})
   const tickValues =
     rows.length > 10
@@ -58,6 +58,7 @@ function BarChart({ rows, formats }) {
         tickValues,
         format: (s) => dayjs(s).format('MMM DD, YY'),
       }}
+      {...props}
     />
   )
 }

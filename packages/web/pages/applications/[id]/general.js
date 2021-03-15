@@ -1,10 +1,30 @@
 import useSWR from 'swr'
-import { useRouter } from 'next/router'
+import { fetcher } from 'helpers/fetcher.js'
 
-function ApplicationDashboard() {
-  const { id } = useRouter().query
-  const { data } = useSWR(`applications/${id}/statistics`)
-  const { data: application } = useSWR(`applications/${id}`)
+export async function getServerSideProps({
+  query: { id },
+  req: {
+    headers: { cookie, referer },
+  },
+}) {
+  try {
+    const data = await fetcher(`applications/${id}/statistics`, {
+      headers: { cookie, referer },
+    })
+
+    return { props: { initialData: data, id } }
+  } catch (error) {
+    if (error.message.includes('not found')) {
+      return {
+        notFound: true,
+      }
+    }
+    return { props: { initialData: null, id } }
+  }
+}
+
+function ApplicationDashboard({ initialData, id }) {
+  const { data } = useSWR(`applications/${id}/statistics`, fetcher, { initialData })
 
   return (
     <aside className="space-y-6">
@@ -13,18 +33,12 @@ function ApplicationDashboard() {
           <div className="px-4 py-5 sm:p-6">
             <div className="flex items-center">
               <div className="">
-                <dt className="text-sm font-medium text-gray-500 truncate">Monthly Revenue</dt>
+                <dt className="text-sm font-medium text-gray-500 truncate">
+                  Annual Recurring Revenue
+                </dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    $
-                    {(
-                      parseFloat(
-                        data?.transaction_sums?.current_total_base_developer_proceeds ?? 0,
-                      ) +
-                      parseFloat(
-                        data?.transaction_sums?.current_refund_base_developer_proceeds ?? 0,
-                      )
-                    ).toFixed(2)}
+                    ${(data?.transaction_sums.current_total_base_developer_proceeds ?? 0) * 12}
                   </div>
                 </dd>
               </div>
@@ -35,7 +49,23 @@ function ApplicationDashboard() {
           <div className="px-4 py-5 sm:p-6">
             <div className="flex items-center">
               <div className="">
-                <dt className="text-sm font-medium text-gray-500 truncate">Active Subscribers</dt>
+                <dt className="text-sm font-medium text-gray-500 truncate">
+                  Monthly Recurring Revenue
+                </dt>
+                <dd className="flex items-baseline">
+                  <div className="text-2xl font-semibold text-gray-900">
+                    ${data?.transaction_sums.current_total_base_developer_proceeds ?? 0}
+                  </div>
+                </dd>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="px-4 py-5 sm:p-6">
+            <div className="flex items-center">
+              <div className="">
+                <dt className="text-sm font-medium text-gray-500 truncate">Active Subscriptions</dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
                     {data?.subscription_counts?.current ?? 0}
@@ -54,18 +84,6 @@ function ApplicationDashboard() {
                   <div className="text-2xl font-semibold text-gray-900">
                     {data?.subscription_counts.current_trial ?? 0}
                   </div>
-                </dd>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
-            <div className="flex items-center">
-              <div className="">
-                <dt className="text-sm font-medium text-gray-500 truncate">Latest Version</dt>
-                <dd className="flex items-baseline">
-                  <div className="text-2xl font-semibold text-gray-900">{application?.version}</div>
                 </dd>
               </div>
             </div>

@@ -8,7 +8,15 @@ const report_groups = [
         short_title: 'MRR',
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-        labelFormat: (l) => `$${l}`,
+        formats: {
+          y0: '$%',
+        },
+        defaults: {
+          interval: 'month',
+          range: 6,
+          graph: 'bar',
+          y_format: '>-.2f',
+        },
       },
       {
         slug: 'mrr-movement',
@@ -16,7 +24,6 @@ const report_groups = [
         short_title: 'MRR Movement',
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-        labelFormat: (l) => `$${l}`,
       },
     ],
   },
@@ -31,6 +38,11 @@ const report_groups = [
         formats: {
           y0: '% leads',
         },
+        defaults: {
+          interval: 'day',
+          range: 1,
+          graph: 'line',
+        },
       },
       {
         slug: 'trial-to-paid',
@@ -38,7 +50,6 @@ const report_groups = [
         short_title: 'Trial-to-paid conversion rate',
         description:
           'The percentage of free trials that have converted to active paying customers over time. ',
-        labelFormat: (l) => `%${l}`,
       },
       {
         slug: 'average-sales-cycle',
@@ -48,6 +59,11 @@ const report_groups = [
           'The average number of days taken for a lead to convert into an active paying customer.',
         formats: {
           y0: '% days',
+        },
+        defaults: {
+          interval: 'day',
+          range: 2,
+          graph: 'bar',
         },
       },
     ],
@@ -63,6 +79,11 @@ const report_groups = [
         formats: {
           y0: '% subscribers',
         },
+        defaults: {
+          interval: 'day',
+          range: 1,
+          graph: 'line',
+        },
       },
       {
         slug: 'average-sale',
@@ -73,13 +94,22 @@ const report_groups = [
         formats: {
           y0: '$%',
         },
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
       {
         slug: 'customer-lifetime-value',
         title: 'Customer Lifetime Value',
         short_title: 'Customer Lifetime Value',
         description: 'An estimate of the total subscription value of an average customer.',
-        labelFormat: (l) => `$${l}`,
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
       {
         slug: 'subscriptions',
@@ -89,6 +119,11 @@ const report_groups = [
         formats: {
           y0: '% subscriptions',
         },
+        defaults: {
+          interval: 'day',
+          range: 1,
+          graph: 'line',
+        },
       },
       {
         slug: 'average-revenue-per-subscription',
@@ -96,7 +131,11 @@ const report_groups = [
         short_title: 'Average Revenue Per Subscription',
         description: 'The average MRR across your active customers. (aka ARPU & ARPC)',
         route: 'reports/subscriptions',
-        labelFormat: (l) => `$${l}`,
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
     ],
   },
@@ -109,7 +148,11 @@ const report_groups = [
         short_title: 'Customer churn rate',
         description: 'The rate at which your customers are cancelling their subscriptions.',
         route: 'reports/customer-churn-rate',
-        labelFormat: (l) => `${l} churns`,
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
       {
         slug: 'net-mrr-churn',
@@ -118,7 +161,11 @@ const report_groups = [
         description:
           'The rate at which you are losing MRR through downgrades and cancellations, offset by expansion and reactivation MRR.',
         route: 'reports/net-mrr-churn',
-        labelFormat: (l) => `%${l}`,
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
       {
         slug: 'gross-mrr-churn',
@@ -126,7 +173,11 @@ const report_groups = [
         short_title: 'Gross MRR churn rate',
         description: 'MRR lost in a given month / MRR at the beginning of the month.',
         route: 'reports/gross-mrr-churn',
-        labelFormat: (l) => `${l} days`,
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'line',
+        },
       },
     ],
   },
