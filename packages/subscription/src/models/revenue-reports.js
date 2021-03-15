@@ -180,7 +180,7 @@ export async function getSalesRefunds({
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
       y0: 'l.renewal_sum',
-      y0: 'l.refund_sum',
+      y1: 'l.refund_sum',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -197,7 +197,7 @@ export async function getSalesRefunds({
               FILTER (WHERE transaction_type = 'renewal')
               AS renewal_sum,
             sum(base_developer_proceeds)
-              FILTER (WHERE transaction_type = 'refund')
+              FILTER (WHERE transaction_type = 'refund') * -1
               AS refund_sum
           FROM client_transactions t
           WHERE t.account_id = ? AND

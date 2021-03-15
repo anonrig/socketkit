@@ -25,12 +25,9 @@ export async function get({
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
       y0:
-        report_id == 'subscriptions'
-          ? { subscriptions: 'l.count' }
-          : {
-              'average-revenue-per-subscription':
-                'l.avg_total_base_developer_proceeds',
-            },
+        report_id === 'subscriptions'
+          ? 'l.count'
+          : 'l.avg_total_base_developer_proceeds',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [

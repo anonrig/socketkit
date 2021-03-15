@@ -18,7 +18,6 @@ export async function get({
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
       y0: pg.raw(`l.count::int`),
-      y1: 'avg_age',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -31,8 +30,7 @@ export async function get({
       `
         CROSS JOIN LATERAL (
           SELECT
-            count(*) AS count,
-            avg(g - first_interaction) AS avg_age
+            count(*) AS count
           FROM clients c
           WHERE
             c.account_id = ? AND
@@ -53,7 +51,7 @@ export async function get({
     )
 
   return {
-    ny: 2,
+    ny: 1,
     rows,
   }
 }
