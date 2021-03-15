@@ -7,8 +7,8 @@ function Banner({ shortMessage, longMessage, destination }) {
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="p-2 rounded-lg bg-orange-500 shadow-md sm:p-3 sm:px-4">
           <div className="flex items-center justify-between flex-wrap">
-            <div className="w-0 flex-1 flex items-center">
-              <span className="flex p-2 rounded-full bg-trueGray-100">
+            <div className="flex-1 flex items-center">
+              <span className="p-2 rounded-full bg-trueGray-100 flex">
                 <svg
                   aria-hidden="true"
                   className="h-6 w-6 text-orange-500"
@@ -29,7 +29,7 @@ function Banner({ shortMessage, longMessage, destination }) {
                 <span className="hidden md:inline">{longMessage}</span>
               </p>
             </div>
-            <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+            <div className="mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
               <Link href={destination}>
                 <a className="flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-orange-500 bg-white hover:text-orange-400">
                   Add an Integration
