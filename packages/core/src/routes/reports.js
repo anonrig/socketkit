@@ -55,6 +55,7 @@ function addRoute(f, path, grpc_method, additional_properties) {
             default: 'week',
           },
         },
+        required: ['start_date', 'end_date', 'interval'],
       },
       response: {
         200: {
@@ -68,6 +69,7 @@ function addRoute(f, path, grpc_method, additional_properties) {
                   primary: { type: 'string' },
                   ...additional_properties,
                 },
+                required: ['primary'],
               },
             },
           },
