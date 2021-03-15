@@ -87,9 +87,6 @@ export async function averageDuration({
       y0: pg.raw(
         `COALESCE(EXTRACT(epoch FROM l.average_trial_duration) / 86400, 0)`,
       ),
-      y1: pg.raw(
-        `COALESCE(EXTRACT(epoch FROM l.average_subscription_duration) / 86400, 0)`,
-      ),
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -115,7 +112,7 @@ export async function averageDuration({
     )
 
   return {
-    ny: 2,
+    ny: 1,
     rows,
   }
 }
