@@ -54,10 +54,6 @@ export default (f, _opts, done) => {
     },
     preHandler: verify,
     handler: async ({ accounts: [account], query, params }) => {
-      if (!account) {
-        throw f.httpErrors.notFound(`Account not found`)
-      }
-
       return f.grpc.reports.get({
         report_id: params.report_id,
         account_id: account.account_id,
