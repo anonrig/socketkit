@@ -67,8 +67,6 @@ function Reports({ initialQuery, slug }) {
     })
   }, [report])
 
-  console.log(report.defaults)
-
   return (
     <SidebarLayout leading={<Sidebar />}>
       <div className="lg:flex lg:items-start lg:justify-between">
