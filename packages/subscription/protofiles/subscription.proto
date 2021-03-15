@@ -301,9 +301,9 @@ message Integration {
 message ReportsRequest {
   string report_id = 1;
   string account_id = 2;
-  oneof optional_interval {
-    string interval = 3;
-  }
+  string interval = 3;
+  string start_date = 4;
+  string end_date = 5;
 }
 
 message ReportsResponse {
