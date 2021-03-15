@@ -64,7 +64,7 @@ function SubscribersWidget({ range, initialData }) {
                   y1: '$% refund',
                 }}
                 yFormat={'>-.2f'}
-                margin={{ top: 75, left: 0, right: 0, bottom: 0 }}
+                margin={{ top: 75, left: 0, right: 0, bottom: 2 }}
                 colors={['#16A34A', '#DC2626']}
                 axisLeft={null}
                 axisBottom={null}
