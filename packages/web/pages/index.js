@@ -55,12 +55,23 @@ export default function Dashboard({ countries }) {
   ]
   const [selected, setSelected] = useState(ranges[1])
 
+  const getLabel = () => {
+    const hr = dayjs().hour()
+    if (hr >= 0 && hr < 12) {
+      return 'Good morning'
+    } else if (hr >= 12 && hr <= 17) {
+      return 'Good afternoon'
+    } else {
+      return 'Good evening'
+    }
+  }
+
   return (
     <>
       <div className="flex flex-1 space-between mb-10 items-center justify-center flex-col md:flex-row space-y-6 md:space-y-0">
         <div className="flex-1">
           <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl">
-            Good morning, {session?.identity.traits.name?.split(' ')[0]}!
+            {getLabel()}, {session?.identity.traits.name?.split(' ')[0]}!
           </h3>
         </div>
 
