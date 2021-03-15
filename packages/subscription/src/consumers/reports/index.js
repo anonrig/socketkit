@@ -10,6 +10,7 @@ const reports = {
   subscriptions: SubscriptionReports.get,
   'average-revenue-per-subscription': SubscriptionReports.get,
   mrr: RevenueReports.getMRR,
+  'sales-refunds': RevenueReports.getSalesRefunds,
 }
 
 export const get = async (ctx) => {

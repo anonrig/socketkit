@@ -133,4 +133,28 @@ describe('Reports', () => {
       },
     )
   })
+
+  test('salesRefunds', (done) => {
+    grpc.reports.get(
+      {
+        report_id: 'sales-refunds',
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeInstanceOf(Object)
+          expect(response.rows).toBeInstanceOf(Array)
+          response.rows.forEach(({ x, y0 }) => {
+            expect(x).toBeDefined()
+            expect(y0).toBeDefined()
+          })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
 })
