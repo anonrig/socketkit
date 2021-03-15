@@ -3,7 +3,8 @@ import { ResponsiveLine } from '@nivo/line'
 import dayjs from 'dayjs'
 import theme from './theme.js'
 
-function LineChart({ id, rows, fields, labelFormat, ...props }) {
+function LineChart({ rows, formats, ...props }) {
+  const fields = Object.keys(formats ?? {})
   const tickValues =
     rows.length > 10 ? rows.filter((r, i) => i % 4 == 0).map((r) => r.x) : rows.map((r) => r.x)
 
@@ -18,15 +19,13 @@ function LineChart({ id, rows, fields, labelFormat, ...props }) {
 
   return (
     <ResponsiveLine
-      data={[
-        {
-          id,
-          data: rows.map((r) => ({
-            x: r.x,
-            y: fields[0] ? r[fields[0]] : 0,
-          })),
-        },
-      ]}
+      data={fields.map((field) => ({
+        id: field,
+        data: rows.map((r) => ({
+          x: r.x,
+          y: r[field],
+        })),
+      }))}
       curve="catmullRom"
       margin={{ top: 10, left: 40, right: 28, bottom: 35 }}
       padding={0.2}
@@ -36,7 +35,6 @@ function LineChart({ id, rows, fields, labelFormat, ...props }) {
       colors={['#3b82f6']}
       pointSize={0}
       enableArea={true}
-      min={0}
       enableGridX={false}
       axisLeft={{
         tickSize: 0,
@@ -57,7 +55,11 @@ function LineChart({ id, rows, fields, labelFormat, ...props }) {
       theme={theme}
       sliceTooltip={({ slice }) => (
         <div className="bg-white opacity-100 px-4 py-2 rounded-md text-left font-sans shadow-md text-warmGray-900">
-          <div className="text-md font-bold">{labelFormat(slice.points[0].data.y)}</div>
+          {slice.points.map((point) => (
+            <div key={point.id} className="text-md font-bold">
+              {(formats[point.serieId] ?? '').replace('%', point.data.yFormatted)}
+            </div>
+          ))}
           <div className="text-sm font-medium">
             {dayjs(slice.points[0].data.x).format('MMMM DD')}
           </div>
@@ -69,10 +71,8 @@ function LineChart({ id, rows, fields, labelFormat, ...props }) {
 }
 
 LineChart.propTypes = {
-  id: PropTypes.string.isRequired,
   rows: PropTypes.arrayOf(PropTypes.any).isRequired,
-  fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  labelFormat: PropTypes.func.isRequired,
+  formats: PropTypes.object.isRequired,
 }
 
 export default LineChart

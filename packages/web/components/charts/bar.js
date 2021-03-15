@@ -3,7 +3,8 @@ import { ResponsiveBar } from '@nivo/bar'
 import dayjs from 'dayjs'
 import theme from './theme.js'
 
-function BarChart({ rows, fields, labelFormat }) {
+function BarChart({ rows, formats }) {
+  const fields = Object.keys(formats ?? {})
   const tickValues =
     rows.length > 10
       ? rows.filter((r, i) => i % 4 == 0).map((r) => r.primary)
@@ -25,7 +26,7 @@ function BarChart({ rows, fields, labelFormat }) {
       borderRadius={0}
       borderColor="#3b82f6"
       borderWidth={1}
-      indexBy="primary"
+      indexBy="x"
       margin={{ top: 10, right: 0, bottom: 35, left: 40 }}
       padding={0.2}
       valueScale={{ type: 'linear' }}
@@ -37,9 +38,9 @@ function BarChart({ rows, fields, labelFormat }) {
       colors={['#bfdbfe']}
       groupMode={'stacked'} //stacked
       theme={theme}
-      tooltip={({ indexValue, value }) => (
+      tooltip={({ indexValue, value, id }) => (
         <div className="bg-white opacity-100 px-4 py-2 rounded-md text-left font-sans shadow-md text-warmGray-900">
-          <div className="text-md font-bold">{labelFormat(value)}</div>
+          <div className="text-md font-bold">{(formats[id] ?? '').replace('%', value)}</div>
           <div className="text-sm font-medium">{dayjs(indexValue).format('MMMM DD')}</div>
         </div>
       )}
@@ -63,8 +64,7 @@ function BarChart({ rows, fields, labelFormat }) {
 
 BarChart.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.any).isRequired,
-  fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  labelFormat: PropTypes.func.isRequired,
+  formats: PropTypes.object.isRequired,
 }
 
 export default BarChart

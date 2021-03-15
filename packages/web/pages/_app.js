@@ -36,7 +36,6 @@ function MyApp({ Component, pageProps }) {
   const fetchUser = useCallback(async () => {
     try {
       const { data } = await client.whoami()
-      console.log('data', data)
       setSession(data)
     } catch (error) {
       if (error.message.includes('401')) {

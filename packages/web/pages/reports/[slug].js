@@ -11,13 +11,11 @@ import DatePicker from 'components/date-picker.js'
 import SocketkitConfig from 'socketkit.config.js'
 import Dropdown from 'components/dropdown.js'
 
-const BarChart = dynamic(
-  () => import('components/charts/bar.js' /* webpackChunkName: "BarChart" */),
-  { ssr: false },
+const BarChart = dynamic(() =>
+  import('components/charts/bar.js' /* webpackChunkName: "BarChart" */),
 )
-const LineChart = dynamic(
-  () => import('components/charts/line.js' /* webpackChunkName: "LineChart" */),
-  { ssr: false },
+const LineChart = dynamic(() =>
+  import('components/charts/line.js' /* webpackChunkName: "LineChart" */),
 )
 
 export async function getServerSideProps(ctx) {
@@ -30,15 +28,13 @@ export async function getServerSideProps(ctx) {
     }
   }
 
-  const initialQuery = {
-    start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-    end_date: dayjs().format('YYYY-MM-DD'),
-    interval: 'day',
-  }
-
   return {
     props: {
-      initialQuery,
+      initialQuery: {
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
+        interval: 'day',
+      },
       slug: report.slug,
     },
   }
@@ -136,18 +132,9 @@ function Reports({ initialQuery, slug }) {
         </div>
         <div className="bg-white py-5 px-4 sm:px-6 h-96 w-full">
           {filters.type === 'line' ? (
-            <LineChart
-              id={`${filters.interval}-${filters.type}`}
-              rows={data?.rows ?? []}
-              fields={['y0'] ?? []}
-              labelFormat={report.labelFormat}
-            />
+            <LineChart rows={data?.rows ?? []} formats={report.formats ?? {}} />
           ) : (
-            <BarChart
-              rows={data?.rows ?? []}
-              fields={['y0'] ?? []}
-              labelFormat={report.labelFormat}
-            />
+            <BarChart rows={data?.rows ?? []} formats={report.formats ?? {}} />
           )}
         </div>
       </div>

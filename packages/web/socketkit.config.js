@@ -28,7 +28,9 @@ const report_groups = [
         title: 'Free Trials',
         short_title: 'Trials',
         description: 'The number of new free trials started over time',
-        labelFormat: (l) => `${l} leads`,
+        formats: {
+          y0: '% leads',
+        },
       },
       {
         slug: 'trial-to-paid',
@@ -44,7 +46,9 @@ const report_groups = [
         short_title: 'Average Cycle',
         description:
           'The average number of days taken for a lead to convert into an active paying customer.',
-        labelFormat: (l) => `${l} days`,
+        formats: {
+          y0: '% days',
+        },
       },
     ],
   },
@@ -56,7 +60,9 @@ const report_groups = [
         title: 'Subscribers',
         short_title: 'Subscribers',
         description: 'The number of active paying subscribers.',
-        labelFormat: (l) => `${l} subscribers`,
+        formats: {
+          y0: '% subscribers',
+        },
       },
       {
         slug: 'average-sale',
@@ -64,7 +70,9 @@ const report_groups = [
         short_title: 'Average Sale Price',
         description:
           'The average MRR of new customers at the moment they convert to a paid account.',
-        labelFormat: (l) => `$${l}`,
+        formats: {
+          y0: '$%',
+        },
       },
       {
         slug: 'customer-lifetime-value',
@@ -78,7 +86,9 @@ const report_groups = [
         title: 'Subscriptions',
         short_title: 'Subscriptions',
         description: 'The number of active, paid subscriptions.',
-        labelFormat: (l) => `$${l}`,
+        formats: {
+          y0: '% subscriptions',
+        },
       },
       {
         slug: 'average-revenue-per-subscription',
