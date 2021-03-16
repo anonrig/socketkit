@@ -130,11 +130,13 @@ const report_groups = [
         title: 'Average Revenue Per Subscription',
         short_title: 'Average Revenue Per Subscription',
         description: 'The average MRR across your active customers. (aka ARPU & ARPC)',
-        route: 'reports/subscriptions',
+        formats: {
+          y0: '$%',
+        },
         defaults: {
-          interval: 'month',
-          range: 3,
-          graph: 'line',
+          interval: 'day',
+          range: 2,
+          graph: 'bar',
         },
       },
     ],
