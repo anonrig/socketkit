@@ -54,21 +54,12 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query, params }) => {
-    try {
-      const response = await f.grpc.reports.get({
-        report_id: params.report_id,
-        account_id: account.account_id,
-        start_date: query.start_date,
-        end_date: query.end_date,
-        interval: `1 ${query.interval}`,
-      })
-      // don't return response in order to grab the error in this scope
-      return response
-    } catch (error) {
-      if (error.message?.includes('not found')) {
-        throw f.httpErrors.notFound(error.message)
-      }
-      throw error
-    }
+    return f.grpc.reports.get({
+      report_id: params.report_id,
+      account_id: account.account_id,
+      start_date: query.start_date,
+      end_date: query.end_date,
+      interval: `1 ${query.interval}`,
+    })
   },
 }

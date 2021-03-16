@@ -15,6 +15,8 @@ import routes from './routes/index.js'
 import pg from './pg.js'
 import logger from './logger.js'
 
+import grpcjs from '@grpc/grpc-js'
+
 const server = f({
   querystringParser: (str) => qs.parse(str, { plainObjects: true }),
   trustProxy: true,
@@ -23,9 +25,26 @@ const server = f({
 })
 
 server.setErrorHandler(async (error) => {
-  if (error.statusCode) {
+  console.log('ERROR', error.metadata)
+  if (error.code) {
+    // Handle grpc related error codes.
+    switch (error.code) {
+      case grpcjs.status.NOT_FOUND:
+        throw server.httpErrors.notFound(error.message)
+      case grpcjs.status.PERMISSION_DENIED:
+        throw server.httpErrors.unauthorized(error.message)
+      case grpcjs.status.RESOURCE_EXHAUSTED:
+        throw server.httpErrors.serviceUnavailable(error.message)
+      default:
+        logger.fatal(error)
+        Sentry.captureException(error)
+        throw server.httpErrors.internalServerError('Something went wrong')
+    }
+  } else if (error.statusCode) {
+    // Handle custom error codes
     throw error
   } else {
+    // Handle uncaught errors due to runtime issues
     logger.error(error)
     Sentry.captureException(error)
     throw server.httpErrors.internalServerError('Something went wrong')
