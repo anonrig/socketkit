@@ -25,7 +25,6 @@ const server = f({
 })
 
 server.setErrorHandler(async (error) => {
-  console.log('ERROR', error.metadata)
   if (error.code) {
     // Handle grpc related error codes.
     switch (error.code) {
