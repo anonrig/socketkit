@@ -3,7 +3,7 @@ import accounts from './accounts/index.js'
 import integrations from './integrations/index.js'
 import customers from './customers/index.js'
 import transactions from './transactions/index.js'
-import reports from './reports.js'
+import reports from './reports/index.js'
 
 export default (f, _opts, done) => {
   f.register(applications, { prefix: 'applications' })
