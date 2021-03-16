@@ -1,25 +1,13 @@
 import pg from '../pg.js'
 import dayjs from 'dayjs'
 
-function getWhereCondition(fields, data) {
-  return fields
-    .filter((f) => data[f])
-    .map((f) => ({ query: `s.${f} = ?`, field: f, value: data[f] }))
-}
-
 export async function get({
   report_id,
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  application_id,
 }) {
-  const available_filters = ['application_id']
-  const whereCondition = getWhereCondition(available_filters, {
-    application_id,
-  })
-  const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
     .queryBuilder()
     .select({
@@ -49,15 +37,9 @@ export async function get({
               (lower(s.active_period) + s.free_trial_duration)::date,
               upper(s.active_period)
             ) && daterange(g::date, (g + ?::interval)::date)
-            ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) l
       `,
-      [
-        account_id,
-        interval,
-        interval,
-        ...whereCondition.map(({ value }) => value),
-      ],
+      [account_id, interval, interval],
     )
 
   return {

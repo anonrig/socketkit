@@ -1,12 +1,6 @@
 import pg from '../pg.js'
 import dayjs from 'dayjs'
 
-function getWhereCondition(fields, data) {
-  return fields
-    .filter((f) => data[f])
-    .map((f) => ({ query: `s.${f} = ?`, field: f, value: data[f] }))
-}
-
 export async function get({
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),

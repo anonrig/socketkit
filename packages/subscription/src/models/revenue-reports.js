@@ -3,9 +3,9 @@ import pg from '../pg.js'
 
 export async function getMRR({
   account_id,
-  interval = '1 month',
   start_date,
   end_date,
+  interval = '1 month',
 }) {
   const rows = await pg
     .queryBuilder()
@@ -40,24 +40,12 @@ export async function getMRR({
   }
 }
 
-function getWhereCondition(fields, data) {
-  return fields
-    .filter((f) => data[f])
-    .map((f) => ({ query: `s.${f} = ?`, field: f, value: data[f] }))
-}
-
 export async function getSalesRefunds({
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  application_id,
 }) {
-  const available_filters = ['application_id']
-  const whereCondition = getWhereCondition(available_filters, {
-    application_id,
-  })
-  const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
     .queryBuilder()
     .select({
@@ -86,10 +74,9 @@ export async function getSalesRefunds({
           WHERE t.account_id = ? AND
             t.event_date >= g AND
             t.event_date < g + ?::interval
-            ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) l
       `,
-      [account_id, interval, ...whereCondition.map(({ value }) => value)],
+      [account_id, interval],
     )
 
   return {
@@ -103,18 +90,12 @@ export async function getAverageSale({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  application_id,
 }) {
-  const available_filters = ['application_id']
-  const whereCondition = getWhereCondition(available_filters, {
-    application_id,
-  })
-  const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: 'l.mrr'
+      y0: 'l.mrr',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -144,10 +125,9 @@ export async function getAverageSale({
                 t1.transaction_type = 'renewal' AND
                 t1.event_date < t.event_date
             )
-            ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) l
       `,
-      [account_id, interval, ...whereCondition.map(({ value }) => value)],
+      [account_id, interval],
     )
 
   return {

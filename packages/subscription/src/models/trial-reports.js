@@ -1,32 +1,12 @@
 import pg from '../pg.js'
 import dayjs from 'dayjs'
 
-function getWhereCondition(fields, data) {
-  return fields
-    .filter((f) => data[f])
-    .map((f) => ({ query: `t.${f} = ?`, field: f, value: data[f] }))
-}
-
 export async function getFreeTrials({
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  transaction_type,
-  application_id,
-  client_currency_id,
 }) {
-  const available_filters = [
-    'transaction_type',
-    'application_id',
-    'client_currency_id',
-  ]
-  const whereCondition = getWhereCondition(available_filters, {
-    transaction_type,
-    application_id,
-    client_currency_id,
-  })
-  const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
     .queryBuilder()
     .select({
@@ -49,15 +29,9 @@ export async function getFreeTrials({
           WHERE t.account_id = ?
             AND t.transaction_type = ?
             AND t.event_date >= g AND t.event_date < g + ?::interval
-            ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) AS l
       `,
-      [
-        account_id,
-        'trial',
-        interval,
-        ...whereCondition.map(({ value }) => value),
-      ],
+      [account_id, 'trial', interval],
     )
 
   return {
@@ -71,15 +45,7 @@ export async function averageDuration({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
-  subscription_package_id,
-  subscription_group_id,
 }) {
-  const available_filters = ['subscription_package_id', 'subscription_group_id']
-  const whereCondition = getWhereCondition(available_filters, {
-    subscription_group_id,
-    subscription_package_id,
-  })
-  const fields = whereCondition.map(({ query }) => query).join(' AND ')
   const rows = await pg
     .queryBuilder()
     .select({
@@ -105,10 +71,9 @@ export async function averageDuration({
           WHERE s.account_id = ?
             AND s.free_trial_duration != '00:00:00'
             AND LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval
-            ${fields.length ? ['AND'].concat(fields).join(' ') : ''}
         ) AS l
       `,
-      [account_id, interval, ...whereCondition.map(({ value }) => value)],
+      [account_id, interval],
     )
 
   return {
