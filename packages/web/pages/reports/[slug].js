@@ -31,7 +31,7 @@ export async function getServerSideProps({ query: { slug } }) {
     props: {
       initialQuery: {
         start_date: dayjs()
-          .subtract(report.default_month ?? 1, 'month')
+          .subtract(report.defaults?.range ?? 1, 'month')
           .format('YYYY-MM-DD'),
         end_date: dayjs().format('YYYY-MM-DD'),
       },
