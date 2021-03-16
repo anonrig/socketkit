@@ -15,7 +15,7 @@ export default function Analytics() {
             position: 1,
             name: 'Analytics',
             item: 'https://socketkit.com/solutions/analytics',
-          }
+          },
         ]}
       />
 

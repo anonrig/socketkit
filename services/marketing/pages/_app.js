@@ -3,7 +3,7 @@ import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
 import { IntercomProvider } from 'react-use-intercom'
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -16,13 +16,33 @@ function MyApp({ Component, pageProps }) {
         title="Mobile Analytics & Subscription Tracking"
         titleTemplate="%s - Socketkit"
         canonical="https://socketkit.com"
-        description="Socketkit is a security and privacy focused mobile analytics and subscription tracking platform for AppStore and Playstore which gives back the power of data to the user."
+        description="Get valuable subscription and user insights from your mobile application and act faster upon your product's revenue change. Make your app GDPR and privacy compliant."
         openGraph={{
           type: 'website',
           locale: 'en_US',
           url: 'https://socketkit.com/',
-          site_name: 'Mobile Analytics & Subscription Tracking Platform - Socketkit',
+          title: 'Mobile Analytics & Subscription Tracking for mobile apps',
+          description: `Get valuable subscription and user insights from your mobile application and act faster upon your product's revenue change. Make your app GDPR and privacy compliant.`,
+          site_name: 'Socketkit',
+          images: [
+            {
+              url: 'https://cdn.socketkit.com/seo/og-image.jpg',
+              width: 1024,
+              height: 538,
+              alt: 'Socketkit: Mobile Analytics & Subscription Tracking for mobile apps',
+            },
+          ],
         }}
+        twitter={{
+          title: 'Mobile Analytics & Subscription Tracking for mobile apps',
+        }}
+        additionalMetaTags={[
+          { content: 'nositelinkssearchbox', name: 'google' },
+          {
+            httpEquiv: 'x-ua-compatible',
+            content: 'IE=edge',
+          },
+        ]}
       />
       <IntercomProvider appId="oz6arehx">
         <Component {...pageProps} />
@@ -30,5 +50,3 @@ function MyApp({ Component, pageProps }) {
     </>
   )
 }
-
-export default MyApp

@@ -7,8 +7,8 @@ export default function Subscriptions() {
   return (
     <Layout>
       <NextSeo
-        title={'Subscription Management for Application Stores'}
-        description={`Understand where your Apple AppStore and Google Playstore application customers and revenues are coming from.`}
+        title={'Subscription Management for Appstore & PlayStore'}
+        description={`Understand where your Apple AppStore and Google Playstore application customers and revenues are coming from. Access to different reports including MRR and ARPU.`}
       />
 
       <BreadcrumbJsonLd
