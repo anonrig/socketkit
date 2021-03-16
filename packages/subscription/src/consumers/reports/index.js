@@ -3,6 +3,8 @@ import * as TrialReports from '../../models/trial-reports.js'
 import * as SubscriptionReports from '../../models/subscription-reports.js'
 import * as RevenueReports from '../../models/revenue-reports.js'
 
+import grpc from '@grpc/grpc-js'
+
 const reports = new Map([
   ['subscribers', SubscriberReports.get],
   ['trials', TrialReports.getFreeTrials],
@@ -17,7 +19,9 @@ const reports = new Map([
 export const get = async (ctx) => {
   const { report_id } = ctx.req
   if (!reports.has(report_id)) {
-    throw new Error(`Report not found`)
+    const error = new Error('Report not found')
+    error.code = grpc.status.NOT_FOUND
+    throw error
   }
   ctx.res = await reports.get(report_id)(ctx.req)
 }
