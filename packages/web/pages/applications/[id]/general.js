@@ -38,7 +38,10 @@ function ApplicationDashboard({ initialData, id }) {
                 </dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    ${(data?.transaction_sums.current_total_base_developer_proceeds ?? 0) * 12}
+                    $
+                    {(
+                      (data?.transaction_sums.current_total_base_developer_proceeds ?? 0) * 12
+                    ).toFixed(2)}
                   </div>
                 </dd>
               </div>
