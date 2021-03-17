@@ -50,6 +50,14 @@ const report_groups = [
         short_title: 'Trial-to-paid conversion rate',
         description:
           'The percentage of free trials that have converted to active paying customers over time. ',
+        formats: {
+          y0: '%',
+        },
+        defaults: {
+          interval: 'day',
+          range: 1,
+          graph: 'line',
+        },
       },
       {
         slug: 'average-sales-cycle',
