@@ -54,12 +54,23 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query, params }) => {
-    return f.grpc.reports.get({
+    const { ny, rows } = await f.grpc.reports.get({
       report_id: params.report_id,
       account_id: account.account_id,
       start_date: query.start_date,
       end_date: query.end_date,
       interval: `1 ${query.interval}`,
     })
+
+    return {
+      rows: rows.map((row) =>
+        Object.keys(row)
+          .filter((key) => key == 'x' || key < 'y' + ny)
+          .reduce((obj, key) => {
+            obj[key] = row[key]
+            return obj
+          }, {}),
+      ),
+    }
   },
 }
