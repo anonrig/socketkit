@@ -115,9 +115,9 @@ export async function getTrialToPaid({
           WHERE
             s.account_id = ? AND
             s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-            (lower(s.active_period) + s.free_trial_duration)::date >= g.date AND
-            (lower(s.active_period) + s.free_trial_duration)::date <
-              (g.date + ?::interval)::date
+            s.free_trial_duration > '00:00'::interval AND
+            (lower(s.active_period) + s.free_trial_duration)::date <@
+              daterange(g.date,  (g.date + ?::interval)::date)
         ) l
       `,
       [account_id, interval, interval],
