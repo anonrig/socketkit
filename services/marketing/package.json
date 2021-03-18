@@ -80,10 +80,16 @@
       "amd": true,
       "node": true
     },
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "prettier",
+      "react-hooks"
+    ],
     "extends": [
       "eslint:recommended",
       "plugin:react/recommended",
-      "plugin:jsx-a11y/recommended",
+      "plugin:jsx-a11y/strict",
       "plugin:prettier/recommended",
       "plugin:react-hooks/recommended"
     ],

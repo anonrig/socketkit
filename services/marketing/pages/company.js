@@ -115,60 +115,51 @@ export default function Company() {
               <div>
                 <label htmlFor="first_name" className="block text-sm font-medium text-trueGray-500">
                   First name
-                </label>
-                <div className="mt-1">
                   <input
                     type="text"
                     name="first_name"
+                    id="first_name"
                     autoComplete="given-name"
-                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
+                    className="mt-1 block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
                   />
-                </div>
+                </label>
               </div>
               <div>
                 <label htmlFor="last_name" className="block text-sm font-medium text-trueGray-500">
                   Last name
-                </label>
-                <div className="mt-1">
                   <input
                     type="text"
                     name="last_name"
                     autoComplete="family-name"
-                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
+                    id="last_name"
+                    className="mt-1 block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
                   />
-                </div>
+                </label>
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="email" className="block text-sm font-medium text-trueGray-500">
                   Email
-                </label>
-                <div className="mt-1">
                   <input
                     name="email"
                     type="email"
                     autoComplete="email"
-                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
+                    className="mt-1 block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
                   />
-                </div>
+                </label>
               </div>
               <div className="sm:col-span-2">
                 <div className="flex justify-between">
                   <label
                     htmlFor="how_can_we_help"
-                    className="block text-sm font-medium text-trueGray-500">
+                    className="block text-sm font-medium text-trueGray-500 w-full">
                     How can we help you?
+                    <textarea
+                      id="how_can_we_help"
+                      name="how_can_we_help"
+                      aria-describedby="how_can_we_help_description"
+                      rows="4"
+                      className="mt-1 block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"></textarea>
                   </label>
-                  <span id="how_can_we_help_description" className="text-sm text-gray-500">
-                    Max. 500 characters
-                  </span>
-                </div>
-                <div className="mt-1">
-                  <textarea
-                    id="how_can_we_help"
-                    name="how_can_we_help"
-                    aria-describedby="how_can_we_help_description"
-                    rows="4"
-                    className="block w-full shadow-sm sm:text-sm focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"></textarea>
                 </div>
               </div>
               <div className="text-right sm:col-span-2">
