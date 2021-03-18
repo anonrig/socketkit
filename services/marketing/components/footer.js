@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-warmGray-50" aria-labelledby="footerHeading">
+    <footer className="bg-warmGray-50" aria-label="footerHeading">
       <h2 className="sr-only">Footer</h2>
       <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:pt-24 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
