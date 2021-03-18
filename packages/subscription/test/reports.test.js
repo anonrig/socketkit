@@ -1,10 +1,10 @@
+import dayjs from 'dayjs'
 import grpc from './helper.js'
 import config from '../src/config.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
-const TEST_APPLICATION_ID = `1494736719`
 
 beforeAll(async (done) => {
   logger.pauseLogs()
@@ -20,15 +20,22 @@ afterAll(async (done) => {
 describe('Reports', () => {
   test('subscribers', (done) => {
     grpc.reports.get(
-      { report_id: 'subscribers', account_id: TEST_ACCOUNT_ID },
+      {
+        report_id: 'subscribers',
+        account_id: TEST_ACCOUNT_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
+      },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -43,16 +50,19 @@ describe('Reports', () => {
       {
         report_id: 'trials',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -67,16 +77,19 @@ describe('Reports', () => {
       {
         report_id: 'average-sales-cycle',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -91,16 +104,19 @@ describe('Reports', () => {
       {
         report_id: 'subscriptions',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -115,16 +131,19 @@ describe('Reports', () => {
       {
         report_id: 'average-revenue-per-subscription',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -139,16 +158,19 @@ describe('Reports', () => {
       {
         report_id: 'sales-refunds',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
@@ -163,16 +185,19 @@ describe('Reports', () => {
       {
         report_id: 'average-sale',
         account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
+        interval: '1 week',
+        start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+        end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response).toBeInstanceOf(Object)
+          expect(response.ny).toBeGreaterThanOrEqual(1)
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach(({ x, y0 }) => {
-            expect(x).toBeDefined()
-            expect(y0).toBeDefined()
+            expect(x).toHaveLength(10)
+            expect(y0).toBeGreaterThanOrEqual(0)
           })
           done()
         } catch (error) {
