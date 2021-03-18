@@ -11,6 +11,7 @@ export async function getFreeTrials({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: 'l.client_count',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -33,7 +34,7 @@ export async function getFreeTrials({
     )
 
   return {
-    nvalues: 2,
+    ny: 1,
     rows,
   }
 }
