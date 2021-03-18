@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { BreadcrumbJsonLd } from 'next-seo'
 
 export default function Footer() {
   return (

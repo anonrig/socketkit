@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 export default function CTA() {
   return (
     <div className="bg-white">

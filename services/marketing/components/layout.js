@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useIntercom } from 'react-use-intercom'
+import PropTypes from 'prop-types'
 import Header from 'components/header.js'
 import Footer from 'components/footer.js'
 
-export default function Layout({ children }) {
+function Layout({ children }) {
   const router = useRouter()
   const intercom = useIntercom()
 
@@ -24,3 +25,12 @@ export default function Layout({ children }) {
     </div>
   )
 }
+
+Layout.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.node.isRequired,
+    PropTypes.arrayOf(PropTypes.node).isRequired,
+  ]).isRequired,
+}
+
+export default Layout

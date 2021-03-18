@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Transition } from '@headlessui/react'
 import cx from 'classnames'
 import { LogoJsonLd } from 'next-seo'
-import { Badge } from './badge.js'
+import Badge from './badge.js'
 import useVisible from 'hooks/use-visible.js'
 import MobileHeader from './mobile-header.js'
 

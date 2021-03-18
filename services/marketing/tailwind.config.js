@@ -6,7 +6,7 @@ module.exports = {
     enabled: process.env.NODE_ENV === 'production',
     content: ['components', 'helpers', 'images', 'layouts', 'pages']
       .map((p) => ['js'].map((e) => `./${p}/**/*.${e}`))
-      .flat(3)
+      .flat(3),
   },
   darkMode: false,
   theme: {
