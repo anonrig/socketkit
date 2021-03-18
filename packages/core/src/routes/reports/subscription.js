@@ -65,8 +65,9 @@ export default {
     return {
       rows: rows.map((row) =>
         Object.keys(row)
-          .filter((key) => key == 'x' || key < 'y' + ny)
+          .filter((key) => key === 'x' || key < 'y' + ny)
           .reduce((obj, key) => {
+            // eslint-disable-next-line security/detect-object-injection
             obj[key] = row[key]
             return obj
           }, {}),
