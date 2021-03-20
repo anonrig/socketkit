@@ -50,8 +50,10 @@ app.use(async (context, next) => {
   try {
     await next()
   } catch (error) {
-    Sentry.captureException(error)
-    logger.fatal(error)
+    if (!error.code) {
+      Sentry.captureException(error)
+      logger.fatal(error)
+    }
     throw error
   } finally {
     tracer?.finish()
@@ -66,9 +68,5 @@ app.use({
   Reports,
 })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
-
-app.on('error', (err) => {
-  logger.fatal(err)
-})
 
 export default app
