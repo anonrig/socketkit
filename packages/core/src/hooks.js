@@ -16,7 +16,7 @@ export const verify = async (request) => {
     request.user = data
     request.accounts = await getAccounts({ identity_id: data.identity.id })
 
-    if (request.accounts.length == 0) {
+    if (request.accounts.length === 0) {
       const account = await createAccount({
         identity_id: request.user.identity.id,
       })
@@ -28,6 +28,7 @@ export const verify = async (request) => {
     } else if (error.message.includes('401')) {
       throw f.httpErrors.unauthorized()
     } else {
+      logger.fatal(error)
       throw f.httpErrors.internalServerError()
     }
   }
