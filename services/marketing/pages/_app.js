@@ -1,7 +1,6 @@
-import 'tailwindcss/tailwind.css'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
-import { IntercomProvider } from 'react-use-intercom'
+import 'tailwindcss/tailwind.css'
 
 export default function MyApp({ Component, pageProps }) {
   return (
@@ -44,9 +43,7 @@ export default function MyApp({ Component, pageProps }) {
           },
         ]}
       />
-      <IntercomProvider appId="oz6arehx">
-        <Component {...pageProps} />
-      </IntercomProvider>
+      <Component {...pageProps} />
     </>
   )
 }
