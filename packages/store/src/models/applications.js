@@ -122,7 +122,7 @@ export async function create(trx, scraped_apps) {
       developer_id: s.detail.developerId,
       name: s.detail.developer,
       store_url: s.detail.developerUrl,
-      website: s.detail.developerWebsite,
+      website: s.detail.developerWebsite ?? null,
     }
 
     return i
@@ -149,7 +149,7 @@ export async function create(trx, scraped_apps) {
         bundle_id: s.detail.appId,
         last_fetch: s.detail.released,
         released_at: s.detail.released,
-        default_country_id: s.default_country_id,
+        default_country_id: s.default_country_id.toLowerCase(),
       })),
     )
 
@@ -162,12 +162,12 @@ export async function create(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        country_id: s.country_id,
+        country_id: s.country_id.toLowerCase(),
         reviews: s.detail.reviews,
         score: s.detail.score,
         price: s.detail.price,
         currency_id: s.detail.currency,
-        default_language_id: s.default_language_id,
+        default_language_id: s.default_language_id.toUpperCase(),
         latest_version_number: s.detail.version,
         store_url: s.detail.url,
         rating_histogram: Object.values(s.detail.histogram),
@@ -185,11 +185,11 @@ export async function create(trx, scraped_apps) {
         released_at: s.detail.updated,
         application_id: s.application_id,
         version_number: s.detail.version,
-        default_language_id: s.default_language_id,
+        default_language_id: s.default_language_id.toUpperCase(),
         icon: s.detail.icon,
         size: s.detail.size,
         required_os_version: s.detail.requiredOsVersion,
-        language_ids: s.detail.languages,
+        language_ids: s.detail.languages.map((l) => l.toUpperCase()),
         website: s.detail.website,
         content_rating: s.detail.contentRating,
       })),
@@ -204,8 +204,8 @@ export async function create(trx, scraped_apps) {
     .insert(
       scraped_apps.map((s) => ({
         application_id: s.application_id,
-        fetched_country_id: s.country_id,
-        language_id: s.default_language_id,
+        fetched_country_id: s.country_id.toLowerCase(),
+        language_id: s.default_language_id.toUpperCase(),
         version_number: s.detail.version,
         title: s.detail.title,
         description: s.detail.description,
@@ -292,7 +292,7 @@ export async function upsert(applications, trx) {
       applications.map((s) => ({
         application_id: s.application_id,
         fetched_country_id: s.country_id,
-        language_id: s.default_language_id,
+        language_id: s.default_language_id.toUpperCase(),
         version_number: s.detail.version,
         title: s.detail.title,
         description: s.detail.description,

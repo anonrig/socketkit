@@ -18,7 +18,7 @@ export async function scrape(applications, country_id = null) {
         detail = await scraper.app(
           {
             id: a.application_id,
-            country: country_id || a.default_country_id,
+            country: country_id ?? a.default_country_id,
             language: a.default_language_id,
             include_ratings: true,
           },
@@ -37,7 +37,7 @@ export async function scrape(applications, country_id = null) {
 
       return {
         application_id: a.application_id,
-        country_id,
+        country_id: country_id ?? a.default_country_id,
         default_country_id: a.default_country_id,
         default_language_id: a.default_language_id,
         detail,
