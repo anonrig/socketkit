@@ -1,15 +1,17 @@
-import 'tailwindcss/tailwind.css'
-import { SWRConfig } from 'swr'
-import { DefaultSeo } from 'next-seo'
-import router, { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-import Progress from 'nprogress'
-import { useCallback, useEffect, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
-
-import { endpoints } from 'helpers/kratos.js'
 import { fetcher } from 'helpers/fetcher.js'
 import { AuthContext, client } from 'helpers/is-authorized.js'
+import { endpoints } from 'helpers/kratos.js'
+import { DefaultSeo } from 'next-seo'
+import dynamic from 'next/dynamic'
+import router, { useRouter } from 'next/router'
+import Progress from 'nprogress'
+import 'nprogress/nprogress.css'
+import { useCallback, useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
+import 'styles/date-range.css'
+import 'styles/index.css'
+import { SWRConfig } from 'swr'
+import 'tailwindcss/tailwind.css'
 
 const UnauthorizedLayout = dynamic(() =>
   import('layouts/unauthorized.js' /* webpackChunkName: "UnauthorizedLayout" */),
@@ -17,11 +19,6 @@ const UnauthorizedLayout = dynamic(() =>
 const AuthorizedLayout = dynamic(() =>
   import('layouts/authorized.js' /* webpackChunkName: "AuthorizedLayout" */),
 )
-
-import 'nprogress/nprogress.css'
-import 'styles/index.css'
-import 'styles/date-range.css'
-import { IntercomProvider } from 'react-use-intercom'
 
 Progress.configure({ easing: 'ease', speed: 800 })
 router.events.on('routeChangeStart', () => Progress.start())
@@ -91,11 +88,9 @@ function MyApp({ Component, pageProps }) {
           fetcher,
         }}>
         <AuthContext.Provider value={{ session }}>
-          <IntercomProvider appId="oz6arehx">
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </IntercomProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </AuthContext.Provider>
       </SWRConfig>
     </>

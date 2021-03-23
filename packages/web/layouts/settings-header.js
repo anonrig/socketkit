@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Tabs from 'components/tabs.js'
+import { useRouter } from 'next/router'
 
 function SettingsHeader() {
   const router = useRouter()
