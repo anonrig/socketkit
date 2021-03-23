@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
-    "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
+    "dev": "nodemon -r dotenv/config",
+    "test": "node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },

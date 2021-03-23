@@ -1,5 +1,6 @@
 node_modules/
 build/
 .env.development
+.env
 coverage
 newrelic_agent.log
