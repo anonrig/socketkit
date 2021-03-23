@@ -1,10 +1,9 @@
 import Sentry from '@sentry/node'
 import Tracing from '@sentry/tracing'
-
-import server from './server.js'
 import config from './config.js'
 import Logger from './logger.js'
 import pg from './pg.js'
+import server from './server.js'
 
 /// <reference path=”./plugins/index.d.ts” />
 const logger = Logger.create().withScope('application')
@@ -21,7 +20,6 @@ Sentry.init({
     new Sentry.Integrations.OnUnhandledRejection({
       mode: 'strict',
     }),
-    new Sentry.Integrations.Http({ tracing: true }),
     new Tracing.Integrations.Postgres(),
   ],
   tracesSampleRate: 1.0,
