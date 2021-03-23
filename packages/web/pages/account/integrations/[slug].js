@@ -1,11 +1,10 @@
+import Button from 'components/form/button.js'
+import { fetcher } from 'helpers/fetcher.js'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
-
-import Button from 'components/form/button.js'
-import { useRouter } from 'next/router'
-import { fetcher } from 'helpers/fetcher.js'
 
 export async function getServerSideProps({
   query: { slug },
@@ -45,7 +44,7 @@ export default function IntegrationDetail({ integrations }) {
       if (isDeleted) {
         toast.success('Integration deleted successfully.')
       } else {
-        toast.info('Integration updated successfully.')
+        toast.success('Integration updated successfully.')
       }
       router.replace('/account/integrations')
     } catch (error) {
