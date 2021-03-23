@@ -103,8 +103,8 @@ const report_groups = [
           y0: '$%',
         },
         defaults: {
-          interval: 'month',
-          range: 3,
+          interval: 'week',
+          range: 2,
           graph: 'line',
         },
       },
@@ -113,9 +113,12 @@ const report_groups = [
         title: 'Customer Lifetime Value',
         short_title: 'Customer Lifetime Value',
         description: 'An estimate of the total subscription value of an average customer.',
+        formats: {
+          y0: '$%',
+        },
         defaults: {
-          interval: 'month',
-          range: 3,
+          interval: 'week',
+          range: 2,
           graph: 'line',
         },
       },
