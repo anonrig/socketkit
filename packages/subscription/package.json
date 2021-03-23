@@ -6,8 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config",
-    "test": "DOTENV_CONFIG_PATH=.env.development node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
+    "dev": "nodemon -r dotenv/config",
+    "test": "node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js",
     "seed": "node -r dotenv/config ./node_modules/.bin/knex seed:run --esm",

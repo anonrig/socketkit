@@ -1,13 +1,13 @@
-import path from 'path'
-import Mali from 'mali'
 import Sentry from '@sentry/node'
-
-import Logger from './logger.js'
+import Mali from 'mali'
+import path from 'path'
 import * as Clients from './consumers/client/index.js'
-import * as Subscriptions from './consumers/subscription/index.js'
-import * as Transactions from './consumers/transaction/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
+import * as Subscriptions from './consumers/subscription/index.js'
+import * as Transactions from './consumers/transaction/index.js'
+import Logger from './logger.js'
+
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -40,24 +40,14 @@ app.use(async (context, next) => {
       op: 'GET',
       trimEnd: true,
     })
+
+    Sentry.setUser({
+      ...context.request.metadata,
+      account_id: context.request.req.account_id,
+    })
   }
 
-  Sentry.setUser({
-    ...context.request.metadata,
-    account_id: context.request.req.account_id,
-  })
-
-  try {
-    await next()
-  } catch (error) {
-    if (!error.code) {
-      Sentry.captureException(error)
-      logger.fatal(error)
-    }
-    throw error
-  } finally {
-    tracer?.finish()
-  }
+  return next().then(() => tracer?.finish())
 })
 
 app.use({
@@ -68,5 +58,12 @@ app.use({
   Reports,
 })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
+
+app.on('error', (error) => {
+  if (!error.code) {
+    Sentry.captureException(error)
+    logger.fatal(error)
+  }
+})
 
 export default app
