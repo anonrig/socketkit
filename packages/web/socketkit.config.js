@@ -198,4 +198,5 @@ const report_groups = [
 export default {
   report_groups,
   reports: report_groups.map((g) => g.reports).flat(),
+  payments_enabled: false,
 }
