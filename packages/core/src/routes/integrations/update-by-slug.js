@@ -1,6 +1,5 @@
 import { verify } from '../../hooks.js'
 import f from '../../server.js'
-import { createAccount, getAccounts } from '../../models/accounts.js'
 
 export default {
   method: 'PUT',
@@ -40,7 +39,9 @@ export default {
     })
 
     if (!state) {
-      throw f.httpErrors.preconditionFailed()
+      throw f.httpErrors.preconditionFailed(
+        `Token validation failed. Please, make sure you've entered the correct token.`,
+      )
     }
 
     try {
