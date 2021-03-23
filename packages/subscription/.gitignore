@@ -3,5 +3,6 @@ build
 tsconfig.tsbuildinfo
 .env.local
 .env.development
+.env
 coverage
 newrelic_agent.log
