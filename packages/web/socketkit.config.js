@@ -4,16 +4,15 @@ const report_groups = [
     reports: [
       {
         slug: 'mrr',
-        title: 'Monthly Recurring Revenue',
-        short_title: 'MRR',
-        description:
-          'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
+        title: 'Recurring Revenue',
+        short_title: 'Revenue',
+        description: 'Recurring revenue is a calculation of your normalised (amortized) revenue.',
         formats: {
           y0: '$%',
         },
         defaults: {
-          interval: 'month',
-          range: 6,
+          interval: 'day',
+          range: 2,
           graph: 'bar',
           y_format: '>-.2f',
         },
@@ -119,7 +118,7 @@ const report_groups = [
         defaults: {
           interval: 'week',
           range: 2,
-          graph: 'line',
+          graph: 'bar',
         },
       },
       {
