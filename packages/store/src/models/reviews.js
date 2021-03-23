@@ -55,6 +55,10 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
 
   logger.debug(`Fetched ${reviews.length} reviews`)
 
+  if (reviews.length === 0) {
+    return
+  }
+
   await pg
     .queryBuilder()
     .insert(
