@@ -35,7 +35,7 @@ export default {
     }
 
     const { state } = await f.grpc.integrations.validate({
-      access_token: body.requirement_payload.access_token,
+      access_token: body.requirement_payload.access_token.trim(),
     })
 
     if (!state) {
