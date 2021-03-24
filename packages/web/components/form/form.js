@@ -50,6 +50,13 @@ Form.propTypes = {
   }).isRequired,
   kratos: PropTypes.any.isRequired,
   preAction: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
 }
 
 export default Form
