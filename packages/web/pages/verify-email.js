@@ -10,7 +10,7 @@ export async function getServerSideProps(ctx) {
 
   const redirect = () => {
     ctx.res.statusCode = 302
-    ctx.res?.setHeader('Location', 'https://web.socketkit.com')
+    ctx.res?.setHeader('Location', '/')
     return { props: {} }
   }
 
@@ -25,7 +25,7 @@ export async function getServerSideProps(ctx) {
       return redirect()
     }
 
-    if (data.state === 'passed_challenge') {
+    if (['passed_challenge', 'sent_email'].includes(data.state)) {
       return redirect()
     }
 
