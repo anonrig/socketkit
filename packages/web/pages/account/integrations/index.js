@@ -5,13 +5,22 @@ import { fetcher } from 'helpers/fetcher'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 
-export async function getServerSideProps(ctx) {
-  const { cookie, referer } = ctx.req?.headers ?? {}
-  const integrations = await fetcher(`integrations`, {
+export async function getServerSideProps({
+  req: {
     headers: { cookie, referer },
-  })
-  return {
-    props: { integrations },
+  },
+}) {
+  try {
+    const integrations = await fetcher(`integrations`, {
+      headers: { cookie, referer },
+    })
+    return {
+      props: { integrations },
+    }
+  } catch (error) {
+    return {
+      props: { integrations: [] },
+    }
   }
 }
 
