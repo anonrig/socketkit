@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 function CTA({ title, subtitle, primaryButton, secondaryButton }) {
   return (
-    <div className="lg:flex lg:items-center lg:justify-between shadow px-6 py-5 rounded-md">
+    <div className="flex justify-between items-start lg:items-center lg:justify-between shadow px-6 py-5 rounded-md">
       <h2 className="text-xl font-extrabold tracking-tight text-warmGray-900">
         <span className="block">{title}</span>
         {subtitle && (
           <span className="block text-trueGray-500 text-lg font-semibold">{subtitle}</span>
         )}
       </h2>
-      <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+      <div className="sm:mt-0 mt-8 flex lg:mt-0 lg:flex-shrink-0">
         {!!secondaryButton && (
           <div className="inline-flex rounded-md shadow">
             <Link href={secondaryButton.href}>
