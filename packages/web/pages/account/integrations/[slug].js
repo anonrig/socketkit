@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Button from 'components/form/button.js'
 import { fetcher } from 'helpers/fetcher.js'
 import { useRouter } from 'next/router'
@@ -23,7 +24,7 @@ export async function getServerSideProps({
   }
 }
 
-export default function IntegrationDetail({ integrations }) {
+function IntegrationDetail({ integrations }) {
   const router = useRouter()
   const { slug } = router.query
   const [loading, setLoading] = useState(false)
@@ -126,3 +127,15 @@ export default function IntegrationDetail({ integrations }) {
     </section>
   )
 }
+
+IntegrationDetail.propTypes = {
+  integrations: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      requirement_schema: PropTypes.any,
+      integration: PropTypes.any,
+    }),
+  ),
+}
+
+export default IntegrationDetail
