@@ -96,6 +96,7 @@ function Customers({ initialData, id }) {
 }
 
 Customers.propTypes = {
+  id: PropTypes.string.isRequired,
   initialData: PropTypes.shape({
     rows: PropTypes.arrayOf(
       PropTypes.shape({
