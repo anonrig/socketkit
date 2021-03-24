@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -39,11 +39,11 @@ export default {
   preHandler: verify,
   handler: async ({ accounts: [account], params: { application_id } }) => {
     const [subscription_counts, transaction_sums] = await Promise.all([
-      f.grpc.subscriptions.count({
+      grpc.subscriptions.count({
         account_id: account.account_id,
         application_id,
       }),
-      f.grpc.transactions.sum({
+      grpc.transactions.sum({
         account_id: account.account_id,
         application_id,
       }),

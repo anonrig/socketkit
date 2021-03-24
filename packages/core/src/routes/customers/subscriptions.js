@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -26,13 +26,13 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], params: { client_id } }) => {
-    const { rows } = await f.grpc.clients.findSubscriptions({
+    const { rows } = await grpc.clients.findSubscriptions({
       account_id: account.account_id,
       client_id,
     })
 
     const application_ids = rows.map(({ application_id }) => application_id)
-    const applications = await f.grpc.applications.findAll({ application_ids })
+    const applications = await grpc.applications.findAll({ application_ids })
 
     return rows.map((row) => ({
       ...row,

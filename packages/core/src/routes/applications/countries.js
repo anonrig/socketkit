@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -52,7 +52,7 @@ export default {
     params: { application_id },
     query,
   }) => {
-    return f.grpc.subscriptions.groupByCountry({
+    return grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       application_id,
       start_date: query.from,

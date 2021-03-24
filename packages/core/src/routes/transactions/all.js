@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -63,11 +63,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
-    if (!account) {
-      throw f.httpErrors.notFound(`Account not found`)
-    }
-
-    return f.grpc.transactions.findAll({
+    return grpc.transactions.findAll({
       account_id: account.account_id,
       limit: query.limit,
       start_date: query.from,

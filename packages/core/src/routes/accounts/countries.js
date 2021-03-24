@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -43,7 +43,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
-    const { rows } = await f.grpc.subscriptions.groupByCountry({
+    const { rows } = await grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       start_date: query.from,
       end_date: query.to,

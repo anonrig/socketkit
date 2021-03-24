@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -58,12 +58,12 @@ export default {
   preHandler: verify,
   handler: async ({ accounts: [account], query }) => {
     const [subscription_counts, transaction_sums] = await Promise.all([
-      f.grpc.subscriptions.count({
+      grpc.subscriptions.count({
         account_id: account.account_id,
         start_date: query.from,
         end_date: query.to,
       }),
-      f.grpc.transactions.sum({
+      grpc.transactions.sum({
         account_id: account.account_id,
         start_date: dayjs(query.from)
           .add(dayjs(query.from).diff(dayjs(query.to)))

@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -54,7 +54,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], query, params }) => {
-    const { ny, rows } = await f.grpc.reports.get({
+    const { ny, rows } = await grpc.reports.get({
       report_id: params.report_id,
       account_id: account.account_id,
       start_date: query.start_date,

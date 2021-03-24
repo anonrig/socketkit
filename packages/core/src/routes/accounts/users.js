@@ -35,7 +35,7 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts, query }) => {
+  handler: async ({ accounts }) => {
     const users = await getAccountIdentities({
       account_ids: accounts.map((account) => account.account_id),
     })

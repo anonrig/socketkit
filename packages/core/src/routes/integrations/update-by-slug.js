@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'PUT',
@@ -25,16 +25,15 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({
-    accounts: [account],
-    body,
-    params: { integration_id },
-  }) => {
+  handler: async (
+    { accounts: [account], body, params: { integration_id } },
+    reply,
+  ) => {
     if (integration_id !== 'appstore-connect') {
-      throw f.httpErrors.notFound()
+      return reply.notFound()
     }
 
-    const { state } = await f.grpc.integrations.validate({
+    const { state } = await grpc.integrations.validate({
       access_token: body.requirement_payload.access_token.trim(),
     })
 
@@ -45,14 +44,14 @@ export default {
     }
 
     try {
-      await f.grpc.integrations.update({
+      await grpc.integrations.update({
         account_id: account.account_id,
         provider_id: 'apple',
         access_token: body.requirement_payload.access_token,
       })
     } catch (error) {
       if (error.message?.includes('not found')) {
-        await f.grpc.integrations.create({
+        await grpc.integrations.create({
           account_id: account.account_id,
           provider_id: 'apple',
           access_token: body.requirement_payload.access_token,

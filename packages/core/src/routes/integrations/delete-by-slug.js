@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'DELETE',
@@ -15,12 +15,15 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { integration_id } }) => {
+  handler: async (
+    { accounts: [account], params: { integration_id } },
+    reply,
+  ) => {
     if (integration_id !== 'appstore-connect') {
-      throw f.httpErrors.notFound()
+      return reply.notFound()
     }
 
-    await f.grpc.integrations.destroy({
+    await grpc.integrations.destroy({
       account_id: account.account_id,
       provider_id: 'apple',
     })

@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -66,7 +66,7 @@ export default {
     query,
     params: { application_id },
   }) => {
-    return f.grpc.transactions.findAll({
+    return grpc.transactions.findAll({
       account_id: account.account_id,
       application_id,
       limit: query.limit,

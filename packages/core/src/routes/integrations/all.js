@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -37,7 +37,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], user: { identity } }) => {
-    const appstore = await f.grpc.integrations.findAll({
+    const appstore = await grpc.integrations.findAll({
       account_id: account.account_id,
       provider_id: 'apple',
     })

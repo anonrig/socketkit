@@ -1,5 +1,5 @@
 import { verify } from '../../hooks.js'
-import f from '../../server.js'
+import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
@@ -32,7 +32,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [account], params: { application_id } }) => {
-    return f.grpc.subscriptions.findPackages({
+    return grpc.subscriptions.findPackages({
       account_id: account.account_id,
       application_id,
     })

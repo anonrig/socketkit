@@ -3,7 +3,6 @@ import { RequiredError } from '@ory/kratos-client/dist/base.js'
 import config from './config.js'
 import { createAccount, getAccounts } from './models/accounts.js'
 import logger from './logger.js'
-import f from './server.js'
 
 export const kratos = new PublicApi(
   new Configuration({ basePath: config.kratos.public }),
@@ -13,7 +12,7 @@ export const kratos_private = new AdminApi(
   new Configuration({ basePath: config.kratos.private }),
 )
 
-export const verify = async (request) => {
+export const verify = async (request, reply) => {
   const { cookie, authorization } = request.headers
 
   try {
@@ -29,12 +28,12 @@ export const verify = async (request) => {
     }
   } catch (error) {
     if (error instanceof RequiredError) {
-      throw f.httpErrors.forbidden()
+      reply.forbidden()
     } else if (error.message.includes('401')) {
-      throw f.httpErrors.unauthorized()
+      reply.unauthorized()
     } else {
       logger.fatal(error)
-      throw f.httpErrors.internalServerError()
+      reply.internalServerError(error.message)
     }
   }
 }
