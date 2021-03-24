@@ -8,7 +8,10 @@ export default function AccountBilling() {
     return (
       <div className="mb-48">
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-          🚀 Free in beta!
+          <span role="img" aria-label="rocket">
+            🚀
+          </span>{' '}
+          Free in beta!
         </h2>
         <p className="text-xl text-warmGray-500 mb-4">Socketkit is free to use while in beta.</p>
       </div>
