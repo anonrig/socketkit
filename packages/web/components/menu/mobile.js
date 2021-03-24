@@ -105,11 +105,11 @@ function MobileMenu({ visible, setVisible, profile }) {
                   Integrations
                 </button>
               </Link>
-              <button
+              <a
                 href={endpoints.logout}
                 className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                 Log out
-              </button>
+              </a>
             </div>
           </div>
         </div>
