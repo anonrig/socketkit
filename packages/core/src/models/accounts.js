@@ -33,3 +33,12 @@ export async function createAccount({ identity_id }) {
       .transacting(trx)
   })
 }
+
+export async function getAccountIdentities({ account_ids }) {
+  return pg
+    .queryBuilder()
+    .select('*')
+    .from('account_identities')
+    .whereIn('account_id', account_ids)
+    .orderBy('created_at')
+}

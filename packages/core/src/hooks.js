@@ -1,11 +1,16 @@
-import { Configuration, PublicApi } from '@ory/kratos-client'
+import { Configuration, PublicApi, AdminApi } from '@ory/kratos-client'
+import { RequiredError } from '@ory/kratos-client/dist/base.js'
+import config from './config.js'
 import { createAccount, getAccounts } from './models/accounts.js'
 import logger from './logger.js'
 import f from './server.js'
-import { RequiredError } from '@ory/kratos-client/dist/base.js'
 
-const kratos = new PublicApi(
-  new Configuration({ basePath: 'https://login.socketkit.com' }),
+export const kratos = new PublicApi(
+  new Configuration({ basePath: config.kratos.public }),
+)
+
+export const kratos_private = new AdminApi(
+  new Configuration({ basePath: config.kratos.private }),
 )
 
 export const verify = async (request) => {
