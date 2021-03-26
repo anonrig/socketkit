@@ -21,13 +21,13 @@
     "appstore-sensor": "^0.3.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "knex": "^0.95.2",
+    "knex": "^0.95.3",
     "mali": "^0.41.1",
     "pg": "^8.5.1",
     "tunnel": "^0.0.6"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.21",
+    "@types/jest": "^26.0.22",
     "dotenv": "^8.2.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
