@@ -54,6 +54,10 @@ export function create(ctx) {
 
     const scraped_apps = await AppStore.scrape(new_applications)
 
+    if (scraped_apps.length === 0) {
+      return
+    }
+
     await Applications.create(trx, scraped_apps)
   })
 }
