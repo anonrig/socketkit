@@ -43,13 +43,14 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       sort: 'mostRecent',
     },
     {
+      timeout: 5000,
       agent: config.proxy
         ? {
             https: tunnel.httpsOverHttp({
               proxy: config.proxy,
             }),
           }
-        : null,
+        : undefined,
     },
   )
 

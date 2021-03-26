@@ -3,11 +3,14 @@ import tunnel from 'tunnel'
 import { country_ids } from '../fixtures.js'
 import config from '../config.js'
 
-const agent = config.proxy && {
-  https: tunnel.httpsOverHttp({
-    proxy: config.proxy,
-  }),
-}
+const agent =
+  config.proxy !== null
+    ? {
+        https: tunnel.httpsOverHttp({
+          proxy: config.proxy,
+        }),
+      }
+    : undefined
 
 export async function scrape(applications, country_id = null) {
   const scraped_applications = await Promise.all(

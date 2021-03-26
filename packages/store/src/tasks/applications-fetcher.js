@@ -21,12 +21,12 @@ export default function fetchApplications(limit) {
           'ar.country_id',
         )
       })
-      .where('a.last_fetch', '<', dayjs().subtract(2, 'minutes'))
+      .where('a.last_fetch', '<', dayjs().subtract(30, 'hour'))
       .forUpdate()
       .skipLocked()
       .transacting(trx)
 
-    if (!applications.length) {
+    if (applications.length === 0) {
       return 0
     }
 
