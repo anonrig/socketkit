@@ -1,10 +1,16 @@
+const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV } = process.env
+
+const isProxyEnabled = PROXY_HOST && PROXY_PORT && PROXY_AUTH
+
 export default {
-  port: process.env.PORT ? parseInt(process.env.PORT) : 3003,
-  proxy: !!process.env.PROXY_HOST
+  isProduction: NODE_ENV === 'production',
+  port: PORT ? parseInt(PORT) : 3003,
+  isProxyEnabled,
+  proxy: isProxyEnabled
     ? {
-        host: process.env.PROXY_HOST,
-        port: process.env.PROXY_PORT,
-        proxyAuth: process.env.PROXY_AUTH,
+        host: PROXY_HOST,
+        port: PROXY_PORT,
+        proxyAuth: PROXY_AUTH,
       }
     : null,
 }
