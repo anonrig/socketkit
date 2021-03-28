@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
+    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js",
     "seed": "node -r dotenv/config ./node_modules/.bin/knex seed:run --esm",
