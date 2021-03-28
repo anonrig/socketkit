@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
+    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
@@ -18,10 +18,10 @@
     "@grpc/proto-loader": "^0.5.6",
     "@sentry/node": "^6.2.3",
     "@sentry/tracing": "^6.2.3",
-    "appstore-sensor": "^0.3.0",
+    "appstore-sensor": "^0.4.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
-    "knex": "^0.95.3",
+    "knex": "^0.95.4",
     "mali": "^0.41.1",
     "pg": "^8.5.1",
     "tunnel": "^0.0.6"
@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "dotenv": "^8.2.0",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
