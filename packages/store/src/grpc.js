@@ -31,22 +31,23 @@ app.use(async (context, next) => {
       op: 'GET',
       trimEnd: true,
     })
-  }
 
-  Sentry.setUser({
-    ...context.request.metadata,
-    account_id: context.request.req.account_id,
-  })
+    Sentry.setUser({
+      ...context.request.metadata,
+      account_id: context.request.req.account_id,
+    })
+  }
 
   try {
     await next()
   } catch (error) {
+    tracer?.finish()
     Sentry.captureException(error)
     logger.fatal(error)
     throw error
-  } finally {
-    tracer?.finish()
   }
+
+  tracer?.finish()
 })
 
 app.use({ Applications })
