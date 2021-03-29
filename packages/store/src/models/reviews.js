@@ -1,8 +1,6 @@
-import scraper from 'appstore-sensor'
-import tunnel from 'tunnel'
-import config from '../config.js'
 import pg from '../pg.js'
 import Logger from '../logger.js'
+import { scrapeReviews } from '../requests/app-store.js'
 
 export async function findAll({
   application_id,
@@ -35,49 +33,40 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
 
   logger.debug(`Fetching reviews for country ${country_id} using page ${page}`)
 
-  const reviews = await scraper.reviews(
-    {
-      id: application_id,
-      country: country_id,
-      page,
-      sort: 'mostRecent',
-    },
-    {
-      timeout: 5000,
-      agent: config.proxy
-        ? {
-            https: tunnel.httpsOverHttp({
-              proxy: config.proxy,
-            }),
-          }
-        : undefined,
-    },
-  )
+  try {
+    const reviews = await scrapeReviews(application_id, country_id, page)
 
-  logger.debug(`Fetched ${reviews.length} reviews`)
+    logger.debug(`Fetched ${reviews.length} reviews`)
 
-  if (reviews.length === 0) {
-    return
-  }
+    if (reviews.length === 0) {
+      return
+    }
 
-  await pg
-    .queryBuilder()
-    .insert(
-      reviews.map((review) => ({
-        review_id: review.id,
-        application_id: application_id,
-        version: review.version,
-        country_id,
-        score: review.score,
-        username: review.userName,
-        user_url: review.userUrl,
-        url: review.url,
-        title: review.title,
-        text: review.text,
-      })),
+    await pg
+      .queryBuilder()
+      .insert(
+        reviews.map((review) => ({
+          review_id: review.id,
+          application_id: application_id,
+          version: review.version,
+          country_id,
+          score: review.score,
+          username: review.userName,
+          user_url: review.userUrl,
+          url: review.url,
+          title: review.title,
+          text: review.text,
+        })),
+      )
+      .into('application_reviews')
+      .onConflict(['review_id'])
+      .merge()
+      .transacting(trx)
+  } catch (error) {
+    logger.fatal(
+      `Uncaught exception on reviews fetch for application_id=${application_id} country_id=${country_id}`,
     )
-    .into('application_reviews')
-    .onConflict(['review_id'])
-    .merge()
-    .transacting(trx)
+    logger.fatal(error)
+    return null
+  }
 }

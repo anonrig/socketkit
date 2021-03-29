@@ -4,6 +4,7 @@ import * as AppStore from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
 import * as Reviews from '../models/reviews.js'
 import logger from '../logger.js'
+import { country_ids } from '../fixtures.js'
 
 export default function fetchApplications(limit) {
   return pg.transaction(async (trx) => {
@@ -30,10 +31,23 @@ export default function fetchApplications(limit) {
     logger.info(`Found ${applications.length} applications available`)
 
     if (applications.length === 0) {
+      logger.warn(`Couldn't find any application to scrape`)
       return 0
     }
 
-    const scraped_apps = await AppStore.scrapeAll(applications)
+    const scraped_apps = await Promise.all(
+      country_ids
+        .map((country) =>
+          applications.map((app) =>
+            AppStore.scrapeApp(
+              app.application_id,
+              country,
+              app.default_language_id,
+            ),
+          ),
+        )
+        .flat(),
+    )
 
     if (scraped_apps.length !== 0) {
       await Applications.upsert(scraped_apps, trx)

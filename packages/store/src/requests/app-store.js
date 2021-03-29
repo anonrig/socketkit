@@ -1,60 +1,69 @@
 import scraper from 'appstore-sensor'
 import tunnel from 'tunnel'
-import { country_ids } from '../fixtures.js'
 import config from '../config.js'
+import logger from '../logger.js'
 
-const agent =
-  config.proxy !== null
-    ? {
+const extraOptions = config.isProxyEnabled
+  ? {
+      agent: {
         https: tunnel.httpsOverHttp({
           proxy: config.proxy,
         }),
-      }
-    : undefined
+      },
+    }
+  : {}
 
-export async function scrape(applications, country_id = null) {
-  const scraped_applications = await Promise.all(
-    applications.map(async (a) => {
-      let detail = null
+export async function scrapeApp(application_id, country_id, language) {
+  let detail = null
 
-      try {
-        detail = await scraper.app(
-          {
-            id: a.application_id,
-            country: country_id ?? a.default_country_id,
-            language: a.default_language_id,
-            include_ratings: true,
-          },
-          {
-            timeout: 5000,
-            agent: agent,
-          },
-        )
-      } catch (error) {
-        if (!error.message?.includes('not found')) {
-          throw error
-        }
-      }
+  try {
+    detail = await scraper.app(
+      {
+        id: application_id,
+        country: country_id,
+        language: language,
+        include_ratings: true,
+      },
+      {
+        timeout: 5000,
+        ...extraOptions,
+      },
+    )
+  } catch (error) {
+    if (!error.message?.includes('not found')) {
+      logger.error(
+        `Received ${error.message} on application_id=${application_id}, country_id=${country_id} and language=${language}`,
+      )
+      throw error
+    }
+  }
 
-      if (detail === null) return null
+  if (detail === null) {
+    return null
+  }
 
-      return {
-        application_id: a.application_id,
-        country_id: country_id ?? a.default_country_id,
-        default_country_id: a.default_country_id,
-        default_language_id: a.default_language_id,
-        detail,
-      }
-    }),
-  )
-
-  return scraped_applications.filter((a) => !!a)
+  return {
+    application_id,
+    country_id,
+    default_country_id: country_id,
+    default_language_id: language,
+    detail,
+  }
 }
 
-export async function scrapeAll(applications) {
-  const nested = await Promise.all(
-    country_ids.map((country) => scrape(applications, country)),
+export async function scrapeReviews(application_id, country_id, page) {
+  const reviews = await scraper.reviews(
+    {
+      id: application_id,
+      country: country_id,
+      page,
+      sort: 'mostRecent',
+    },
+    {
+      timeout: 5000,
+      ...extraOptions,
+    },
   )
 
-  return nested.flat()
+  return reviews
 }
