@@ -31,7 +31,9 @@ const start = async () => {
   await pg.raw('select 1+1 as result')
   server.start(`0.0.0.0:${config.port}`)
   logger.withTag('start').success(`Application booted on port=${config.port}`)
-  await runTasks()
+  setImmediate(async () => {
+    await runTasks()
+  })
 }
 
 start()
