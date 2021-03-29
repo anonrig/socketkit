@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://socketkit.com
+
+# Sitemaps
+Sitemap: https://socketkit.com/sitemap.xml
+Sitemap: https://socketkit.com/server-sitemap.xml
