@@ -1,47 +1,41 @@
-{{- if and (.Values.service.enabled) (or (.Values.ingress.enabled) (not (hasKey .Values.ingress "enabled"))) -}}
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "chart.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ $fullName }}
   labels:
-{{ include "sharedlabels" . | indent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-{{- if .Values.ingress.annotations }}
-{{ toYaml .Values.ingress.annotations | indent 4 }}
-{{- end }}
-    kubernetes.io/tls-acme: "true"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
+  {{- if .Values.ingress.tls }}
   tls:
-  - hosts:
-{{- if .Values.service.commonName }}
-    - {{ template "hostname" .Values.service.commonName }}
-{{- end }}
-    - {{ template "hostname" .Values.service.url }}
-{{- if .Values.service.additionalHosts }}
-{{- range $host := .Values.service.additionalHosts }}
-    - {{ template "hostname" $host }}
-{{- end -}}
-{{- end }}
-    secretName: {{ .Values.ingress.tls.secretName | default (printf "%s-tls" (include "fullname" .)) }}
+    {{- range .Values.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
   rules:
-  - host: {{ template "hostname" .Values.service.url }}
-    http:
-      &httpRule
-      paths:
-      - path: {{ .Values.ingress.path | default "/" | quote }}
-        backend:
-          serviceName: {{ template "fullname" . }}
-          servicePort: {{ .Values.service.externalPort }}
-{{- if .Values.service.commonName }}
-  - host: {{ template "hostname" .Values.service.commonName }}
-    http:
-      <<: *httpRule
-{{- end -}}
-{{- if .Values.service.additionalHosts }}
-{{- range $host := .Values.service.additionalHosts }}
-  - host: {{ template "hostname" $host }}
-    http:
-      <<: *httpRule
-{{- end -}}
-{{- end -}}
-{{- end -}}
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+          {{- end }}
+    {{- end }}
+  {{- end }}

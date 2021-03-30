@@ -1,38 +1,28 @@
-{{- if .Values.application.initializeCommand -}}
-apiVersion: batch/v1
-kind: Job
+{{- if .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "trackableappname" . }}-db-initialize
+  name: {{ include "chart.fullname" . }}
   labels:
-{{ include "sharedlabels" . | indent 4 }}
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-delete-policy": before-hook-creation
-    "helm.sh/hook-weight": "0"
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
-  template:
-    metadata:
-      labels:
-        app: {{ template "appname" . }}
-        release: {{ .Release.Name }}
-    spec:
-      restartPolicy: Never
-      imagePullSecrets:
-{{ toYaml .Values.image.secrets | indent 10 }}
-      containers:
-      - name: {{ .Chart.Name }}
-        image: {{ template "imagename" . }}
-        command: ["/bin/sh"]
-        args: ["-c", "{{ .Values.application.initializeCommand }}"]
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        {{- if .Values.application.secretName }}
-        envFrom:
-        - secretRef:
-            name: {{ .Values.application.secretName }}
-        {{- end }}
-        env:
-        - name: GITLAB_ENVIRONMENT_NAME
-          value: {{ .Values.gitlab.envName | quote }}
-        - name: GITLAB_ENVIRONMENT_URL
-          value: {{ .Values.gitlab.envURL | quote }}
-{{- end -}}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "chart.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

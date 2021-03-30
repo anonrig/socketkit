@@ -1,41 +1,44 @@
-replicaCount: 3
-strategyType: RollingUpdate
-podAnnotations: {}
-application:
-  track: stable
-  tier: web
-  migrateCommand:
-  initializeCommand:
-hpa:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
-gitlab:
-  app: store
-  env: prod
-  envName: production
-  envURL: https://store.socketkit.com
-service:
-  enabled: true
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: "registry.gitlab.com/socketkit/store"
+  pullPolicy: Always
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
   annotations: {}
-  name: store
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
   type: ClusterIP
-  url: https://store.socketkit.com
-  externalPort: 3003
-  internalPort: 3003
+  port: 3003
+
 ingress:
   enabled: false
-livenessProbe:
-  initialDelaySeconds: 15
-  timeoutSeconds: 15
-  probeType: 'exec'
-  command: ["/bin/grpc_health_probe", "-addr=:3003"]
-readinessProbe:
-  initialDelaySeconds: 15
-  timeoutSeconds: 15
-  probeType: 'exec'
-  command: ["/bin/grpc_health_probe", "-addr=:3003"]
+  tls: []
+
 resources:
   limits:
     cpu: 100m
@@ -43,8 +46,16 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-podDisruptionBudget:
-  enabled: true
-  minAvailable: 1
-networkPolicy:
+
+autoscaling:
   enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
