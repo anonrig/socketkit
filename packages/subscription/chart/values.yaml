@@ -1,47 +1,41 @@
+replicaCount: 1
+
 image:
+  repository: "registry.gitlab.com/socketkit/subscription"
   pullPolicy: Always
-replicaCount: 5
-strategyType: RollingUpdate
-podAnnotations: {}
-application:
-  track: stable
-  tier: web
-  migrateCommand:
-  initializeCommand:
-  secretName:
-  secretChecksum:
-hpa:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
-gitlab:
-  app: subscription
-  env: prod
-  envName: production
-  envURL: https://subscription.socketkit.com
-service:
-  enabled: true
+  tag: "latest"
+
+imagePullSecrets:
+  - name: "subscription-worker-registry"
+nameOverride: "subscription-worker"
+fullnameOverride: "subscription-worker"
+
+serviceAccount:
+  create: true
   annotations: {}
-  name: subscription
+  name: "subscription-worker-account"
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
   type: ClusterIP
-  url: https://subscription.socketkit.com
-  externalPort: 3001
-  internalPort: 3001
+  port: 3001
+
 ingress:
   enabled: false
-prometheus:
-  metrics: true
-livenessProbe:
-  initialDelaySeconds: 60
-  timeoutSeconds: 60
-  probeType: 'exec'
-  command: ["/bin/grpc_health_probe", "-addr=:3001"]
-readinessProbe:
-  initialDelaySeconds: 60
-  timeoutSeconds: 60
-  probeType: 'exec'
-  command: ["/bin/grpc_health_probe", "-addr=:3001"]
+  tls: []
+
 resources:
   limits:
     cpu: 100m
@@ -49,8 +43,19 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-podDisruptionBudget:
-  enabled: true
-  minAvailable: 1
-networkPolicy:
+
+autoscaling:
   enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+application:
+  secretName: "subscription-worker-environment"

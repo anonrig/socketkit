@@ -1,26 +1,15 @@
-{{- if .Values.service.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}
-  annotations:
-{{- if .Values.service.annotations }}
-{{ toYaml .Values.service.annotations | indent 4 }}
-{{- end }}
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "{{ .Values.service.internalPort }}"
+  name: {{ include "chart.fullname" . }}
   labels:
-    track: "{{ .Values.application.track }}"
-{{ include "sharedlabels" . | indent 4 }}
+    {{- include "chart.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
-    protocol: TCP
-    name: {{ .Values.service.name }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
-    app: {{ template "appname" . }}
-    tier: "{{ .Values.application.tier }}"
-    track: "{{ .Values.application.track }}"
-{{- end -}}
+    {{- include "chart.selectorLabels" . | nindent 4 }}
