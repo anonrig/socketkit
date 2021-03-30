@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import _ from 'lodash'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
@@ -36,8 +37,8 @@ export default function fetchApplications(limit) {
     }
 
     const scraped_apps = await Promise.all(
-      country_ids
-        .map((country) =>
+      country_ids.map((country) =>
+        Promise.all(
           applications.map((app) =>
             AppStore.scrapeApp(
               app.application_id,
@@ -45,12 +46,37 @@ export default function fetchApplications(limit) {
               app.default_language_id,
             ),
           ),
-        )
-        .flat(),
+        ),
+      ),
     )
 
-    if (scraped_apps.length !== 0) {
-      await Applications.upsert(scraped_apps, trx)
+    const normalized = scraped_apps.flat().filter((a) => !!a)
+
+    console.log('normalized', normalized)
+    if (normalized.length !== 0) {
+      await Applications.upsert(normalized, trx)
+    }
+
+    if (applications.length > normalized.length) {
+      const different_applications = _.difference(
+        applications,
+        normalized,
+        (a, n) => a.application_id === n.application_id,
+      )
+
+      if (different_applications.length > 0) {
+        await pg
+          .queryBuilder()
+          .update({ last_fetch: dayjs() })
+          .from('applications')
+          .whereIn(
+            'application_id',
+            different_applications.map((a) => a.application_id),
+          )
+          .transacting(trx)
+          .onConflict(['application_id'])
+          .ignore()
+      }
     }
 
     await Promise.all(
@@ -66,6 +92,6 @@ export default function fetchApplications(limit) {
       ),
     )
 
-    return applications.length
+    return normalized.length
   })
 }

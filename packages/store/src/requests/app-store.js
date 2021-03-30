@@ -17,6 +17,9 @@ export async function scrapeApp(application_id, country_id, language) {
   let detail = null
 
   try {
+    logger.info(
+      `Fetching application with id ${application_id} on country=${country_id}`,
+    )
     detail = await scraper.app(
       {
         id: application_id,
