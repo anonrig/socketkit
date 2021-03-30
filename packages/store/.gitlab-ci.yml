@@ -3,50 +3,49 @@
 # Author: Florent CHAUVEAU <florent.chauveau@gmail.com>
 # Mentioned here: https://blog.callr.tech/building-docker-images-with-gitlab-ci-best-practices/
 
+image: docker:19.03.12
+services:
+  - docker:19.03.12-dind
+
 stages:
   - build
   - push
 
+variables:
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_BUILD_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
 Build:
-  image: docker:19.03.12
   stage: build
-  services:
-    - docker:19.03.12-dind
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker pull $CONTAINER_RELEASE_IMAGE || true
     - >
       docker build
       --pull
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      --cache-from $CONTAINER_RELEASE_IMAGE
+      --tag $CONTAINER_BUILD_IMAGE
       .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CONTAINER_BUILD_IMAGE
 
 Push latest:
-  image: docker:19.03.12
   stage: push
-  services:
-    - docker:19.03.12-dind
   only:
     - master
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker pull $CONTAINER_BUILD_IMAGE
+    - docker tag $CONTAINER_BUILD_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
 
-# Finally, the goal here is to Docker tag any Git tag
-# GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
 Push tag:
-  image: docker:19.03.12
   stage: push
-  services:
-    - docker:19.03.12-dind
   only:
     - tags
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker pull $CONTAINER_BUILD_IMAGE
+    - docker tag $CONTAINER_BUILD_IMAGE $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
