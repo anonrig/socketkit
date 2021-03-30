@@ -22,14 +22,14 @@ Sentry.init({
     new Sentry.Integrations.OnUnhandledRejection({
       mode: 'strict',
     }),
-    new Sentry.Integrations.Http(),
+    new Sentry.Integrations.Http({ tracing: true }),
     new Tracing.Integrations.Postgres(),
   ],
 })
 
 const start = async () => {
-  await pg.raw('select 1+1 as result')
   server.start(`0.0.0.0:${config.port}`)
+  await pg.raw('select 1+1 as result')
   logger.withTag('start').success(`Application booted on port=${config.port}`)
   setImmediate(async () => {
     await runTasks()

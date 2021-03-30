@@ -23,7 +23,7 @@ export default function fetchApplications(limit) {
           'ar.country_id',
         )
       })
-      .where('a.last_fetch', '<', dayjs().subtract(30, 'hour'))
+      .where('a.last_fetch', '<', dayjs().subtract(24, 'hour'))
       .forUpdate()
       .skipLocked()
       .transacting(trx)
