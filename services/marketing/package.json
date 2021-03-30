@@ -16,17 +16,17 @@
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.0",
     "classnames": "^2.2.6",
-    "contentful": "^8.2.0",
+    "contentful": "^8.2.1",
     "dayjs": "^1.10.4",
     "keyword-extractor": "^0.0.19",
-    "next": "10.0.9",
+    "next": "10.1.2",
     "next-seo": "^4.23.0",
-    "next-sitemap": "^1.6.9",
+    "next-sitemap": "^1.6.18",
     "postcss-flexbugs-fixes": "^5.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-markdown": "^5.0.3",
-    "sharp": "^0.27.2"
+    "sharp": "^0.28.0"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.17",
