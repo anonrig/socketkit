@@ -1,19 +1,15 @@
-# This is a GitLab CI configuration to build the project as a docker image
-# The file is generic enough to be dropped in a project containing a working Dockerfile
-# Author: Florent CHAUVEAU <florent.chauveau@gmail.com>
-# Mentioned here: https://blog.callr.tech/building-docker-images-with-gitlab-ci-best-practices/
+image: docker:stable
 
-image: docker:19.03.12
 services:
-  - docker:19.03.12-dind
+  - docker:stable-dind
 
 stages:
   - build
   - push
 
 variables:
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: "tcp://localhost:2375"
   CONTAINER_BUILD_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   
@@ -27,6 +23,8 @@ Build:
     - >
       docker build
       --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
       --cache-from $CONTAINER_RELEASE_IMAGE
       --tag $CONTAINER_BUILD_IMAGE
       .
