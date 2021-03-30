@@ -1,0 +1,52 @@
+# This is a GitLab CI configuration to build the project as a docker image
+# The file is generic enough to be dropped in a project containing a working Dockerfile
+# Author: Florent CHAUVEAU <florent.chauveau@gmail.com>
+# Mentioned here: https://blog.callr.tech/building-docker-images-with-gitlab-ci-best-practices/
+
+stages:
+  - build
+  - push
+
+Build:
+  image: docker:19.03.12
+  stage: build
+  services:
+    - docker:19.03.12-dind
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u $CI_JOB_USER --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - >
+      docker build
+      --pull
+      --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+Push latest:
+  image: docker:19.03.12
+  stage: push
+  services:
+    - docker:19.03.12-dind
+  only:
+    - master
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u $CI_JOB_USER --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+# Finally, the goal here is to Docker tag any Git tag
+# GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
+Push tag:
+  image: docker:19.03.12
+  stage: push
+  services:
+    - docker:19.03.12-dind
+  only:
+    - tags
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u $CI_JOB_USER --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
