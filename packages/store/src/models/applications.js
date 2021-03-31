@@ -21,6 +21,7 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       application_id: 'a.application_id',
       developer_id: 'a.developer_id',
       developer_name: 'd.name',
+      developer_url: 'd.store_url',
       bundle_id: 'a.bundle_id',
       title: 'avc.title',
       description: 'avc.description',
@@ -33,6 +34,13 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       ratings: 'ar.rating_histogram',
       released_at: 'a.released_at',
       version_released_at: 'av.released_at',
+      reviews: 'ar.reviews',
+      score: 'ar.score',
+      price: 'ar.price',
+      currency: 'ar.currency_id',
+      content_rating: 'av.content_rating',
+      required_os_version: 'av.required_os_version',
+      size: 'av.size',
     })
     .from('applications AS a')
     .join('application_releases AS ar', function () {
