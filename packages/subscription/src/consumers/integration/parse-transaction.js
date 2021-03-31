@@ -48,9 +48,9 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       application_id,
     })
     .into('client_subscriptions')
-    .onConflict(['account_id', 'subscription_package_id', 'client_id'])
-    .merge()
     .transacting(trx)
+    .onConflict(['account_id', 'subscription_package_id', 'client_id'])
+    .ignore()
 
   await pg
     .queryBuilder()
