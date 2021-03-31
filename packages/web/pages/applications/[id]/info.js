@@ -1,6 +1,10 @@
 import useSWR from 'swr'
-import { useRouter } from 'next/router'
 import { fetcher } from 'helpers/fetcher.js'
+import dynamic from 'next/dynamic'
+
+const Zoom = dynamic(() => import('react-medium-image-zoom'))
+
+import 'react-medium-image-zoom/dist/styles.css'
 
 export async function getServerSideProps({
   query: { id },
@@ -13,7 +17,7 @@ export async function getServerSideProps({
       headers: { cookie, referer },
     })
 
-    return { props: { initialData: data } }
+    return { props: { initialData: data, id } }
   } catch (error) {
     if (error.message.includes('not found')) {
       return {
@@ -39,12 +43,13 @@ function ApplicationInformation({ initialData, id }) {
 
           <div className="overflow-y-scroll flex flex-row items-center space-x-4 mt-4">
             {application?.screenshots?.default.map((link) => (
-              <img
-                className="w-48 rounded-lg object-contain"
-                src={link}
-                alt={application?.title}
-                key={link}
-              />
+              <Zoom key={link}>
+                <img
+                  src={link}
+                  className="w-48 rounded-lg object-contain"
+                  alt={application?.title}
+                />
+              </Zoom>
             ))}
           </div>
         </div>

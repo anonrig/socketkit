@@ -23,7 +23,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.19.0",
     "dayjs": "^1.10.4",
-    "next": "10.0.9",
+    "next": "10.1.2",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.7.0",
     "next-seo": "^4.23.0",
@@ -34,11 +34,12 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^6.15.5",
     "react-hot-toast": "^1.0.2",
+    "react-medium-image-zoom": "^4.3.3",
     "react-table": "^7.6.3",
-    "swr": "^0.5.4"
+    "swr": "^0.5.5"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^10.0.9",
+    "@next/bundle-analyzer": "^10.1.2",
     "@tailwindcss/jit": "^0.1.17",
     "autoprefixer": "^10.2.5",
     "eslint": "^7.23.0",
@@ -47,7 +48,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.2.8",
+    "postcss": "^8.2.9",
     "prettier": "^2.2.1",
     "tailwindcss": "^2.0.4"
   },
