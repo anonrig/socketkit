@@ -6,6 +6,7 @@ services:
 stages:
   - build
   - push
+  - deploy
 
 variables:
   DOCKER_TLS_CERTDIR: ""
@@ -47,3 +48,19 @@ Push tag:
     - docker pull $CONTAINER_BUILD_IMAGE
     - docker tag $CONTAINER_BUILD_IMAGE $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+Deploy:
+  stage: deploy
+  image: alpine:3.8
+  before_script:
+    - apk add --no-cache git bash
+    - git remote set-url origin https://${CI_USERNAME}:${CI_PUSH_TOKEN}@gitlab.com/andrew.kaczynski/gitops-webapp.git
+    - git config --global user.email "technology@socketkit.com"
+    - git config --global user.name "Socketkit CI/CD"
+  script:
+    - git checkout -B master
+    - git pull origin master
+    - git tag -a production -f
+    - git push -f --tags
+  only:
+    - master
