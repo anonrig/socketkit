@@ -99,6 +99,14 @@ message Application {
   string released_at = 13;
   string version_released_at = 14;
   string developer_name = 16;
+  int32 reviews = 17;
+  int32 score = 18;
+  string developer_url = 19;
+  int32 price = 20;
+  string currency = 21;
+  string content_rating = 22;
+  string required_os_version = 23;
+  string size = 24;
 }
 
 message Screenshot {
