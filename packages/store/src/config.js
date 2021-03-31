@@ -9,8 +9,12 @@ export default {
   proxy: isProxyEnabled
     ? {
         host: PROXY_HOST,
-        port: parseInt(PROXY_PORT),
+        port: parseInt(PROXY_PORT, 10),
         proxyAuth: PROXY_AUTH,
       }
     : null,
+  reviews_fetch_interval: 15, // minutes
+  reviews_batch_size: 10,
+  applications_fetch_interval: 1, // hour
+  applications_batch_size: 1,
 }

@@ -12,29 +12,25 @@ const extraOptions = config.isProxyEnabled
       },
     }
   : {}
-
 export async function scrapeApp(application_id, country_id, language) {
   let detail = null
 
   try {
-    logger.info(
-      `Fetching application with id ${application_id} on country=${country_id}`,
-    )
     detail = await scraper.app(
       {
         id: application_id,
         country: country_id,
-        language: language,
+        language,
         include_ratings: true,
       },
-      {
-        timeout: 5000,
-        ...extraOptions,
-      },
+      Object.assign({}, { timeout: 5000 }, extraOptions),
     )
   } catch (error) {
-    if (!error.message?.includes('not found')) {
-      logger.error(
+    if (
+      !error.message?.includes('not found') &&
+      !error.message?.includes('Bad Request')
+    ) {
+      logger.debug(
         `Received ${error.message} on application_id=${application_id}, country_id=${country_id} and language=${language}`,
       )
       throw error
@@ -62,10 +58,7 @@ export async function scrapeReviews(application_id, country_id, page) {
       page,
       sort: 'mostRecent',
     },
-    {
-      timeout: 5000,
-      ...extraOptions,
-    },
+    Object.assign({}, { timeout: 5000 }, extraOptions),
   )
 
   return reviews

@@ -1,20 +1,25 @@
 import dayjs from 'dayjs'
 import _ from 'lodash'
+import PromisePool from '@supercharge/promise-pool'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
-import * as Reviews from '../models/reviews.js'
-import logger from '../logger.js'
-import { country_ids } from '../fixtures.js'
+import Logger from '../logger.js'
+import config from '../config.js'
 
-export default function fetchApplications(limit) {
+export default function fetchApplications(
+  limit = config.applications_batch_size,
+) {
+  const logger = Logger.create().withScope('fetchApplications')
+
   return pg.transaction(async (trx) => {
     const applications = await pg
       .queryBuilder()
       .select([
         'a.application_id',
         'a.default_country_id',
-        'ar.default_language_id',
+        'a.failed_fetches',
+        'av.language_ids',
       ])
       .from('applications AS a')
       .limit(limit)
@@ -24,46 +29,88 @@ export default function fetchApplications(limit) {
           'ar.country_id',
         )
       })
-      .where('a.last_fetch', '<', dayjs().subtract(24, 'hour'))
+      .join('application_versions AS av', function () {
+        this.on('a.application_id', 'av.application_id').andOn(
+          'ar.latest_version_number',
+          'av.version_number',
+        )
+      })
+      .where(
+        'a.last_fetch',
+        '<',
+        dayjs().subtract(config.applications_fetch_interval, 'hours'),
+      )
+      .andWhere('a.is_active', true)
       .forUpdate()
       .skipLocked()
       .transacting(trx)
 
-    logger.info(`Found ${applications.length} applications available`)
-
     if (applications.length === 0) {
-      logger.warn(`Couldn't find any application to scrape`)
       return 0
     }
 
-    const scraped_apps = await Promise.all(
-      country_ids.map((country) =>
-        Promise.all(
-          applications.map((app) =>
-            AppStore.scrapeApp(
-              app.application_id,
-              country,
-              app.default_language_id,
-            ),
-          ),
-        ),
-      ),
-    )
+    let enabled_applications = []
 
-    const normalized = scraped_apps.flat().filter((a) => !!a)
+    for (let app of applications) {
+      try {
+        await AppStore.scrapeApp(app.application_id, app.default_country_id)
+        enabled_applications.push(app)
+      } catch (error) {
+        // @TODO Filter error.message
+        logger.warn(error)
+        await pg
+          .queryBuilder()
+          .update({
+            last_error_message: error.message,
+            failed_fetches: app.failed_fetches + 1,
+            isActive: false,
+          })
+          .where({ application_id: app.application_id })
+          .from('applications')
+          .transacting(trx)
+      }
+    }
 
-    console.log('normalized', normalized)
+    const parseLanguages = async (app, country, languages) => {
+      const { results, errors } = await PromisePool.for(languages)
+        .withConcurrency(5)
+        .process((language) =>
+          AppStore.scrapeApp(app.application_id, country, language),
+        )
+
+      if (errors.length) {
+        logger.warn(errors)
+      }
+
+      return results
+    }
+
+    const { results, errors } = await PromisePool.for(enabled_applications)
+      .withConcurrency(config.applications_batch_size)
+      .process(async (app) =>
+        parseLanguages(app, app.default_country_id, app.language_ids),
+      )
+
+    if (errors.length) {
+      logger.warn(errors)
+    }
+
+    // We don't throw errors for not found application requests.
+    const normalized = results.flat().filter((v) => !!v)
+
     if (normalized.length !== 0) {
       await Applications.upsert(normalized, trx)
     }
 
-    if (applications.length > normalized.length) {
+    if (enabled_applications.length > normalized.length) {
       const different_applications = _.difference(
         applications,
         normalized,
         (a, n) => a.application_id === n.application_id,
       )
 
+      // We should update last_fetch for not found applications.
+      // This prevents us from inhibiting progress.
       if (different_applications.length > 0) {
         await pg
           .queryBuilder()
@@ -74,24 +121,9 @@ export default function fetchApplications(limit) {
             different_applications.map((a) => a.application_id),
           )
           .transacting(trx)
-          .onConflict(['application_id'])
-          .ignore()
       }
     }
 
-    await Promise.all(
-      applications.map((a) =>
-        Reviews.create(
-          {
-            application_id: a.application_id,
-            country_id: a.default_country_id,
-            page: 1,
-          },
-          trx,
-        ),
-      ),
-    )
-
-    return normalized.length
+    return enabled_applications.length
   })
 }

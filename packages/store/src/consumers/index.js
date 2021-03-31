@@ -52,12 +52,22 @@ export function create(ctx) {
       return
     }
 
-    const scraped_apps = await AppStore.scrape(new_applications)
+    const scraped_apps = await Promise.all(
+      new_applications.map((app) =>
+        AppStore.scrapeApp(
+          app.application_id,
+          app.default_country_id,
+          app.default_language_id,
+        ),
+      ),
+    )
 
-    if (scraped_apps.length === 0) {
+    const normalized = scraped_apps.filter((a) => !!a)
+
+    if (normalized.length === 0) {
       return
     }
 
-    await Applications.create(trx, scraped_apps)
+    await Applications.create(trx, normalized)
   })
 }

@@ -1,6 +1,7 @@
 import pg from '../pg.js'
 import Logger from '../logger.js'
 import { scrapeReviews } from '../requests/app-store.js'
+import dayjs from 'dayjs'
 
 export async function findAll({
   application_id,
@@ -39,7 +40,7 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
     logger.debug(`Fetched ${reviews.length} reviews`)
 
     if (reviews.length === 0) {
-      return
+      return null
     }
 
     await pg
@@ -60,8 +61,16 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       )
       .into('application_reviews')
       .onConflict(['review_id'])
-      .merge()
+      .ignore()
       .transacting(trx)
+
+    await pg
+      .queryBuilder()
+      .update({ last_fetch: dayjs() })
+      .from('reviews_watchlist')
+      .where({ application_id, country_id })
+      .transacting(trx)
+
   } catch (error) {
     logger.fatal(
       `Uncaught exception on reviews fetch for application_id=${application_id} country_id=${country_id}`,

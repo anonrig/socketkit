@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import pg from '../pg.js'
 import Logger from '../logger.js'
 import dayjs from 'dayjs'
@@ -150,6 +151,8 @@ export async function create(trx, scraped_apps) {
         last_fetch: s.detail.released,
         released_at: s.detail.released,
         default_country_id: s.default_country_id.toLowerCase(),
+        last_error_message: null,
+        is_active: true,
       })),
     )
 
@@ -243,18 +246,21 @@ export async function upsert(applications, trx) {
     .transacting(trx)
     .into('application_releases')
     .insert(
-      applications.map((s) => ({
-        application_id: s.application_id,
-        country_id: s.country_id,
-        reviews: s.detail.reviews,
-        score: s.detail.score,
-        price: s.detail.price,
-        currency_id: s.detail.currency,
-        default_language_id: s.default_language_id,
-        latest_version_number: s.detail.version,
-        store_url: s.detail.url,
-        rating_histogram: Object.values(s.detail.histogram ?? {}),
-      })),
+      _.uniqBy(
+        applications.map((s) => ({
+          application_id: s.application_id,
+          country_id: s.country_id,
+          reviews: s.detail.reviews,
+          score: s.detail.score,
+          price: s.detail.price,
+          currency_id: s.detail.currency,
+          default_language_id: s.default_language_id,
+          latest_version_number: s.detail.version,
+          store_url: s.detail.url,
+          rating_histogram: Object.values(s.detail.histogram ?? {}),
+        })),
+        ({ application_id, country_id }) => `${application_id}-${country_id}`,
+      ),
     )
     .onConflict(['application_id', 'country_id'])
     .merge()
