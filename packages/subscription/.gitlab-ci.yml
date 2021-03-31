@@ -58,7 +58,7 @@ Deploy:
   script:
     - git checkout -B master
     - git pull origin master
-    - git tag -a production -f
-    - git push -f --tags
+    - git tag -a production-$CI_COMMIT_SHA -m "Production release for commit $CI_COMMIT_SHA"
+    - git push --tags
   only:
     - master
