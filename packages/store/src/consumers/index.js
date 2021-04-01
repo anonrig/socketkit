@@ -26,7 +26,17 @@ export async function findOne(ctx) {
 export async function findVersions(ctx) {
   const { application_id, bundle_id } = ctx.req
   ctx.res = {
-    rows: await Applications.findVersions({ application_id, bundle_id }),
+    rows: await Applications.findVersions({
+      application_id,
+      bundle_id,
+    }),
+  }
+}
+
+export async function findVersion(ctx) {
+  const { application_id, bundle_id, version } = ctx.req
+  ctx.res = {
+    row: await Applications.findVersion({ application_id, bundle_id, version }),
   }
 }
 

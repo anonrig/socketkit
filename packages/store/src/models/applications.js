@@ -81,20 +81,8 @@ export function findVersions({ application_id, bundle_id }) {
   return pg
     .queryBuilder()
     .select({
-      application_id: 'a.application_id',
-      developer_id: 'a.developer_id',
-      bundle_id: 'a.bundle_id',
-      title: 'avc.title',
-      description: 'avc.description',
-      release_notes: 'avc.release_notes',
-      icon: 'av.icon',
-      store_url: 'ar.store_url',
-      languages: 'av.language_ids',
-      screenshots: 'avc.screenshots',
       version: 'av.version_number',
-      ratings: 'ar.rating_histogram',
-      released_at: 'a.released_at',
-      version_released_at: 'av.released_at',
+      released_at: 'av.released_at',
     })
     .from('applications AS a')
     .innerJoin('application_releases AS ar', function () {
@@ -105,6 +93,51 @@ export function findVersions({ application_id, bundle_id }) {
     })
     .innerJoin('application_versions AS av', function () {
       this.on('a.application_id', 'av.application_id')
+    })
+    .where(function () {
+      if (application_id) {
+        this.where('a.application_id', application_id)
+      }
+
+      if (bundle_id) {
+        this.where('a.bundle_id', bundle_id)
+      }
+    })
+    .orderBy('av.released_at', 'DESC')
+}
+
+export function findVersion({ application_id, bundle_id, version }) {
+  return pg
+    .queryBuilder()
+    .select({
+      application_id: 'a.application_id',
+      bundle_id: 'a.bundle_id',
+      screenshots: 'avc.screenshots',
+      title: 'avc.title',
+      description: 'avc.description',
+      release_notes: 'avc.release_notes',
+      languages: 'av.language_ids',
+      version: 'ar.latest_version_number',
+      ratings: 'ar.rating_histogram',
+      released_at: 'av.released_at',
+      price: 'ar.price',
+      currency: 'ar.currency_id',
+      content_rating: 'av.content_rating',
+      required_os_version: 'av.required_os_version',
+      size: 'av.size',
+      reviews: 'ar.reviews',
+      score: 'ar.score',
+    })
+    .from('applications AS a')
+    .join('developers as d', 'd.developer_id', 'a.developer_id')
+    .innerJoin('application_versions AS av', function () {
+      this.on('av.application_id', 'a.application_id')
+    })
+    .innerJoin('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
+      )
     })
     .join('application_version_contents AS avc', function () {
       this.on('a.application_id', 'avc.application_id')
@@ -119,8 +152,10 @@ export function findVersions({ application_id, bundle_id }) {
       if (bundle_id) {
         this.where('a.bundle_id', bundle_id)
       }
+
+      this.where('av.version_number', version)
     })
-    .orderBy('av.released_at', 'DESC')
+    .first()
 }
 
 export async function create(trx, scraped_apps) {

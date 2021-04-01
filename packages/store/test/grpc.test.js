@@ -122,7 +122,8 @@ describe('findVersions', () => {
         expect(error).toBeNull()
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach((version) => {
-          expect(version.application_id).toEqual('284882215')
+          expect(version.version).toBeDefined()
+          expect(version.released_at).toBeDefined()
         })
         done()
       } catch (error) {
