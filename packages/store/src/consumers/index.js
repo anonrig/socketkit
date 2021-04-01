@@ -6,7 +6,7 @@ import * as Reviews from '../models/reviews.js'
 export async function findAll(ctx) {
   const { application_ids, bundle_ids, developer_ids } = ctx.req
   ctx.res = {
-    rows: await Applications.findAll({
+    rows: await Applications.findAllSimplified({
       application_ids,
       bundle_ids,
       developer_ids,

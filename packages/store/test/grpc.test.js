@@ -47,7 +47,10 @@ describe('findAll', () => {
         expect(response).toBeInstanceOf(Object)
         expect(response.rows).toBeInstanceOf(Array)
         expect(response.rows.length).toEqual(1)
-        expect(response.rows[0].application_id).toBe('284882215')
+        response.rows.forEach((row) => {
+          expect(row.application_id).toBe('284882215')
+          expect(row.bundle_id).toBe('com.facebook.Facebook')
+        })
         done()
       } catch (error) {
         done(error)

@@ -14,6 +14,50 @@ export async function exist(trx, application_ids) {
   return rows.map((r) => r.application_id)
 }
 
+export function findAllSimplified({
+  application_ids,
+  bundle_ids,
+  developer_ids,
+}) {
+  return pg
+    .queryBuilder()
+    .select({
+      application_id: 'a.application_id',
+      bundle_id: 'a.bundle_id',
+      title: 'avc.title',
+      released_at: 'a.released_at',
+      developer_id: 'a.developer_id',
+      developer_name: 'd.name',
+    })
+    .from('applications AS a')
+    .join('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
+      )
+    })
+    .join('application_version_contents AS avc', function () {
+      this.on('a.application_id', 'avc.application_id')
+        .andOn('ar.latest_version_number', 'avc.version_number')
+        .andOn('ar.default_language_id', 'avc.language_id')
+    })
+    .join('developers as d', 'd.developer_id', 'a.developer_id')
+    .where(function () {
+      if (application_ids?.length > 0) {
+        this.whereIn('a.application_id', application_ids)
+      }
+
+      if (bundle_ids?.length > 0) {
+        this.whereIn('a.bundle_id', bundle_ids)
+      }
+
+      if (developer_ids?.length > 0) {
+        this.whereIn('d.developer_id', developer_ids)
+      }
+    })
+    .orderBy('a.released_at', 'DESC')
+}
+
 export function findAll({ application_ids, bundle_ids, developer_ids }) {
   return pg
     .queryBuilder()
