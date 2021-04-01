@@ -113,14 +113,14 @@ message IntegrationResponse {
 message Review {
   string review_id = 1;
   string application_id = 2;
-  string version = 3;
+  string version_number = 3;
   string country_id = 4;
   int32 score = 5;
   string username = 6;
   string user_url = 7;
-  string url = 8;
+  string review_url = 8;
   string title = 9;
-  string text = 10;
+  string content = 10;
 }
 
 message Application {

@@ -49,14 +49,14 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
         reviews.map((review) => ({
           review_id: review.id,
           application_id: application_id,
-          version: review.version,
+          version_number: review.version,
           country_id,
           score: review.score,
           username: review.userName,
           user_url: review.userUrl,
-          url: review.url,
+          review_url: review.url,
           title: review.title,
-          text: review.text,
+          content: review.text,
         })),
       )
       .into('reviews')
