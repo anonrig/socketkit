@@ -12,6 +12,8 @@ service Applications {
   rpc findIntegration (IntegrationRequest) returns (IntegrationResponse) {}
   rpc createIntegration (IntegrationRequest) returns (Empty) {}
   rpc deleteIntegration (IntegrationRequest) returns (Empty) {}
+
+  rpc search (SearchRequest) returns (SearchResponse) {}
 }
 
 // Generics
@@ -19,6 +21,14 @@ service Applications {
 message Empty {}
 
 // Requests
+
+message SearchRequest {
+  string text = 1;
+
+  oneof optional_country_id {
+    string country_id = 2;
+  }
+}
 
 message AccountIdRequest {
   string account_id = 1;
@@ -106,6 +116,10 @@ message IntegrationsResponse {
 
 message IntegrationResponse {
   Integration row = 1;
+}
+
+message SearchResponse {
+  repeated SearchResponseRow rows = 1;
 }
 
 // Models
@@ -202,4 +216,10 @@ message Integration {
   string country_id = 5;
   string created_at = 6;
 }
+
+message SearchResponseRow {
+  string application_id = 1;
+  string bundle_id = 2;
+  string title = 3;
+  string icon = 4;
 }

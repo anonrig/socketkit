@@ -2,6 +2,18 @@ import _ from 'lodash'
 import pg from '../pg.js'
 import Logger from '../logger.js'
 import dayjs from 'dayjs'
+import * as Requests from '../requests/app-store.js'
+
+export async function search({ text, country_id }) {
+  const results = await Requests.search(text, country_id)
+
+  return results.map((r) => ({
+    application_id: r.id,
+    bundle_id: r.appId,
+    title: r.title,
+    icon: r.icon,
+  }))
+}
 
 export async function exist(
   application_ids,

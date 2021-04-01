@@ -12,6 +12,14 @@ const extraOptions = config.isProxyEnabled
       },
     }
   : {}
+
+export async function search(term, country = 'US') {
+  return scraper.search(
+    { term, country },
+    Object.assign({}, { timeout: 5000 }, extraOptions),
+  )
+}
+
 export async function scrapeApp(application_id, country_id, language) {
   let detail = null
 

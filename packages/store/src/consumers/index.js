@@ -6,6 +6,12 @@ import * as Applications from '../models/applications.js'
 import * as Reviews from '../models/reviews.js'
 import * as Integrations from '../models/integrations.js'
 
+export async function search(ctx) {
+  const { text } = ctx.req
+  ctx.res = {
+    rows: await Applications.search({ text }),
+  }
+}
 export async function findIntegrations(ctx) {
   const { account_id } = ctx.req
   ctx.res = {
