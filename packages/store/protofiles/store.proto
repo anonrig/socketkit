@@ -197,6 +197,9 @@ message ApplicationVersionSimplified {
 message Integration {
   string account_id = 1;
   string application_id = 2;
-  string country_id = 3;
-  string created_at = 4;
+  string application_title = 3;
+  string application_icon = 4;
+  string country_id = 5;
+  string created_at = 6;
+}
 }

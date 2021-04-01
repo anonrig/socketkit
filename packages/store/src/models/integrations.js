@@ -6,6 +6,8 @@ export async function findAll({ account_id }) {
     .select({
       account_id: 'i.account_id',
       application_id: 'i.application_id',
+      application_title: 'avc.title',
+      application_icon: 'av.icon',
       country_id: 'i.country_id',
       created_at: 'i.created_at',
     })
@@ -14,6 +16,23 @@ export async function findAll({ account_id }) {
       'i.account_id': account_id,
     })
     .join('applications AS a', 'a.application_id', 'i.application_id')
+    .join('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
+      )
+    })
+    .join('application_version_contents AS avc', function () {
+      this.on('a.application_id', 'avc.application_id')
+        .andOn('ar.latest_version_number', 'avc.version_number')
+        .andOn('ar.default_language_id', 'avc.language_id')
+    })
+    .join('application_versions AS av', function () {
+      this.on('a.application_id', 'av.application_id').andOn(
+        'ar.latest_version_number',
+        'av.version_number',
+      )
+    })
     .orderBy('created_at', 'desc')
 }
 
@@ -23,6 +42,8 @@ export async function findOne({ account_id, application_id, country_id }, trx) {
     .select({
       account_id: 'i.account_id',
       application_id: 'i.application_id',
+      application_title: 'avc.title',
+      application_icon: 'av.icon',
       country_id: 'i.country_id',
       created_at: 'i.created_at',
     })
@@ -33,6 +54,23 @@ export async function findOne({ account_id, application_id, country_id }, trx) {
       'i.country_id': country_id.toLowerCase(),
     })
     .join('applications AS a', 'a.application_id', 'i.application_id')
+    .join('application_releases AS ar', function () {
+      this.on('a.application_id', 'ar.application_id').andOn(
+        'a.default_country_id',
+        'ar.country_id',
+      )
+    })
+    .join('application_version_contents AS avc', function () {
+      this.on('a.application_id', 'avc.application_id')
+        .andOn('ar.latest_version_number', 'avc.version_number')
+        .andOn('ar.default_language_id', 'avc.language_id')
+    })
+    .join('application_versions AS av', function () {
+      this.on('a.application_id', 'av.application_id').andOn(
+        'ar.latest_version_number',
+        'av.version_number',
+      )
+    })
     .transacting(trx)
     .first()
 }
