@@ -204,6 +204,8 @@ describe('findIntegrations', () => {
           expect(response.rows).toBeInstanceOf(Array)
           response.rows.forEach((integration) => {
             expect(integration.account_id).toEqual(TEST_ACCOUNT_ID)
+            expect(integration.application_title).toBeDefined()
+            expect(integration.application_icon).toBeDefined()
           })
           done()
         } catch (error) {
@@ -228,6 +230,8 @@ describe('findIntegration', () => {
           expect(response).toBeDefined()
           expect(response.row.account_id).toEqual(TEST_ACCOUNT_ID)
           expect(response.row.application_id).toEqual(TEST_APPLICATION_ID)
+          expect(response.row.application_title).toBeDefined()
+          expect(response.row.application_icon).toBeDefined()
           done()
         } catch (error) {
           done(error)
