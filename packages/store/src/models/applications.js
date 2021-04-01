@@ -3,15 +3,19 @@ import pg from '../pg.js'
 import Logger from '../logger.js'
 import dayjs from 'dayjs'
 
-export async function exist(trx, application_ids) {
+export async function exist(
+  application_ids,
+  trx,
+  returns = ['application_id'],
+) {
   const rows = await pg
     .queryBuilder()
     .transacting(trx)
     .from('applications')
     .whereIn('application_id', application_ids)
-    .select('application_id')
+    .select(returns)
 
-  return rows.map((r) => r.application_id)
+  return returns.length == 1 ? rows.map((r) => r[returns[0]]) : rows
 }
 
 export function findAllSimplified({

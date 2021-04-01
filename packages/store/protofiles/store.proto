@@ -7,6 +7,11 @@ service Applications {
   rpc findReviews(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
   rpc findVersions (ApplicationIdRequest) returns (ApplicationVersionsResponse) {}
   rpc findVersion (ApplicationVersionRequest) returns (ApplicationVersionResponse) {}
+
+  rpc findIntegrations (AccountIdRequest) returns (IntegrationsResponse) {}
+  rpc findIntegration (IntegrationRequest) returns (IntegrationResponse) {}
+  rpc createIntegration (IntegrationRequest) returns (Empty) {}
+  rpc deleteIntegration (IntegrationRequest) returns (Empty) {}
 }
 
 // Generics
@@ -14,6 +19,10 @@ service Applications {
 message Empty {}
 
 // Requests
+
+message AccountIdRequest {
+  string account_id = 1;
+}
 
 message ReviewApplicationIdRequest {
   string application_id = 1;
@@ -63,6 +72,12 @@ message ApplicationVersionRequest {
   string version = 3;
 }
 
+message IntegrationRequest {
+  string account_id = 1;
+  string application_id = 2;
+  string country_id = 3;
+}
+
 // Responses
 
 message ApplicationsResponse {
@@ -83,6 +98,14 @@ message ApplicationResponse {
 
 message ApplicationVersionResponse {
   ApplicationVersion row = 1;
+}
+
+message IntegrationsResponse {
+  repeated Integration rows = 1;
+}
+
+message IntegrationResponse {
+  Integration row = 1;
 }
 
 // Models
@@ -169,4 +192,11 @@ message ApplicationVersion {
 message ApplicationVersionSimplified {
   string version = 1;
   string released_at = 2;
+}
+
+message Integration {
+  string account_id = 1;
+  string application_id = 2;
+  string country_id = 3;
+  string created_at = 4;
 }

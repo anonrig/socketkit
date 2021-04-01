@@ -3,6 +3,9 @@ import config from '../src/config.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 
+const TEST_ACCOUNT_ID = 'd5999420-8cf7-4b38-87c8-a5c751696ff4'
+const TEST_APPLICATION_ID = '1541177024'
+
 beforeAll((done) => {
   logger.pauseLogs()
   app.start(`0.0.0.0:${config.port}`)
@@ -164,5 +167,93 @@ describe('findReviews', () => {
         done(error)
       }
     })
+  })
+})
+
+describe('createIntegration', () => {
+  test('should create', (done) => {
+    store.createIntegration(
+      {
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+        country_id: 'us',
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeDefined()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+})
+
+describe('findIntegrations', () => {
+  test('should find all integrations', (done) => {
+    store.findIntegrations(
+      {
+        account_id: TEST_ACCOUNT_ID,
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeDefined()
+          expect(response.rows).toBeInstanceOf(Array)
+          response.rows.forEach((integration) => {
+            expect(integration.account_id).toEqual(TEST_ACCOUNT_ID)
+          })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+})
+
+describe('findIntegration', () => {
+  test('should find one integration', (done) => {
+    store.findIntegration(
+      {
+        account_id: TEST_ACCOUNT_ID,
+        application_id: TEST_APPLICATION_ID,
+        country_id: 'us',
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeDefined()
+          expect(response.row.account_id).toEqual(TEST_ACCOUNT_ID)
+          expect(response.row.application_id).toEqual(TEST_APPLICATION_ID)
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
+  })
+})
+
+describe('deleteIntegration', () => {
+  test('should find one integration', (done) => {
+    store.deleteIntegration(
+      {
+        account_id: TEST_ACCOUNT_ID,
+        application_id: 'hello',
+        country_id: 'us',
+      },
+      (error, response) => {
+        try {
+          expect(error).toBeNull()
+          expect(response).toBeDefined()
+          done()
+        } catch (error) {
+          done(error)
+        }
+      },
+    )
   })
 })
