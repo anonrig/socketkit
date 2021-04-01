@@ -12,7 +12,7 @@ export async function findAll({
   return pg
     .queryBuilder()
     .select('*')
-    .from('application_reviews')
+    .from('reviews')
     .where({ application_id })
     .andWhere(function () {
       if (country_id) {
@@ -59,7 +59,7 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
           text: review.text,
         })),
       )
-      .into('application_reviews')
+      .into('reviews')
       .onConflict(['review_id'])
       .ignore()
       .transacting(trx)
@@ -70,7 +70,6 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       .from('reviews_watchlist')
       .where({ application_id, country_id })
       .transacting(trx)
-
   } catch (error) {
     logger.fatal(
       `Uncaught exception on reviews fetch for application_id=${application_id} country_id=${country_id}`,
