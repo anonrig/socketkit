@@ -25,7 +25,7 @@ function ApplicationHeader() {
                   <Menu.Button>
                     <h2 className="text-2xl font-extrabold leading-7 text-gray-900 sm:truncate flex flex-row items-center align-middle">
                       <img
-                        src={application?.icon}
+                        src={(application?.icon ?? '').replaceAll('512', '28')}
                         className="h-7 w-7 rounded-md mr-4"
                         alt={application?.title}
                       />
