@@ -220,6 +220,7 @@ message Integration {
 message SearchResponseRow {
   string application_id = 1;
   string bundle_id = 2;
-  string title = 3;
-  string icon = 4;
+  string application_title = 3;
+  string application_icon = 4;
+}
 }

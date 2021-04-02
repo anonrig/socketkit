@@ -10,8 +10,8 @@ export async function search({ text, country_id }) {
   return results.map((r) => ({
     application_id: r.id,
     bundle_id: r.appId,
-    title: r.title,
-    icon: r.icon,
+    application_title: r.title,
+    application_icon: r.icon,
   }))
 }
 
