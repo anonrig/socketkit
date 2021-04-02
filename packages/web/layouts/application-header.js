@@ -126,6 +126,11 @@ function ApplicationHeader() {
               title: 'Countries',
               href: `/applications/${application?.application_id}/countries`,
             },
+            {
+              key: 'reviews',
+              title: 'Reviews',
+              href: `/applications/${application?.application_id}/reviews`,
+            },
           ]}
         />
       </aside>
