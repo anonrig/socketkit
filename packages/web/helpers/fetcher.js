@@ -2,7 +2,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export async function fetcher(resource, options = {}) {
   if (options?.qs) {
-    resource = `${resource}?${getQueryString(options.qs)}`
+    if (Object.keys(options.qs).length > 0) {
+      resource = `${resource}?${getQueryString(options.qs)}`
+    }
     delete options.qs
   }
 
