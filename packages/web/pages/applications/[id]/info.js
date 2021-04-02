@@ -33,7 +33,11 @@ export async function getServerSideProps({
 
 function ApplicationInformation({ initialData, id }) {
   const router = useRouter()
-  const { data: application } = useSWR(`applications/${id}`, fetcher, { initialData })
+  const { data: application } = useSWR(`applications/${id}`, fetcher, {
+    initialData,
+    refreshInterval: 0,
+  })
+  const { data: versions } = useSWR(`applications/${id}/versions`, fetcher, { refreshInterval: 0 })
 
   return (
     <div className="flex-grow lg:flex space-y-8 lg:space-y-0">
@@ -109,10 +113,13 @@ function ApplicationInformation({ initialData, id }) {
             See Developer on AppStore
           </a>
         </div>
-        <div className="relative flex flex-1 flex-col space-y-4 text-sm">
+        <div className="flex items-center justify-between flex-wrap sm:flex-nowrap mt-12">
+          <h3 className="text-lg leading-6 font-bold text-gray-900">Information</h3>
+        </div>
+        <div className="relative flex flex-1 flex-col space-y-6 text-sm mt-4">
           <div className="flex flex-row flex-1 justify-between">
             <dt className="font-medium text-gray-500">Latest Version</dt>
-            <dd className="text-gray-900">{application?.version}</dd>
+            <dd className="text-gray-900">v{application?.version}</dd>
           </div>
           <div className="flex flex-row flex-1 justify-between">
             <dt className="font-medium text-gray-500">Released At</dt>
@@ -145,6 +152,22 @@ function ApplicationInformation({ initialData, id }) {
           <div className="flex flex-row flex-1 justify-between">
             <dt className="font-medium text-gray-500">Required OS Version</dt>
             <dd className="text-gray-900">{application?.required_os_version}</dd>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between flex-wrap sm:flex-nowrap mt-12">
+          <h3 className="text-lg leading-6 font-bold text-gray-900">Tracked Versions</h3>
+        </div>
+        <div className="mt-4 text-sm whitespace-pre-wrap">
+          <div className="relative flex flex-1 flex-col space-y-6 text-sm">
+            {versions?.map(({ version, released_at }) => (
+              <div className="flex flex-row flex-1 justify-between" key={version}>
+                <dt className="font-medium text-gray-500">
+                  {dayjs(released_at).format('DD MMMM, YYYY')}
+                </dt>
+                <dd className="text-gray-900">v{version}</dd>
+              </div>
+            ))}
           </div>
         </div>
       </div>
