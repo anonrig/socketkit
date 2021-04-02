@@ -3,12 +3,13 @@ import Logger from '../logger.js'
 import { scrapeReviews } from '../requests/app-store.js'
 import dayjs from 'dayjs'
 
-export async function findAll({
-  application_id,
-  country_id,
-  version,
-  limit = 10,
-}) {
+export async function findAll(
+  { application_id, country_id, version },
+  {
+    cursor,
+    limit = 10,
+  },
+) {
   return pg
     .queryBuilder()
     .select('*')
@@ -21,6 +22,16 @@ export async function findAll({
 
       if (version) {
         this.andWhere({ version })
+      }
+
+      if (cursor) {
+        const { review_id } = cursor
+
+        if (!review_id) {
+          throw new Error(`Invalid cursor for pagination`)
+        }
+
+        this.whereRaw(`(review_id) < (?)`, [review_id])
       }
     })
     .orderBy('review_id', 'desc')

@@ -45,6 +45,13 @@ message ReviewApplicationIdRequest {
   oneof optional_version {
     string version = 3;
   }
+  oneof optional_limit {
+    int32 limit = 6;
+  }
+
+  oneof optional_cursor {
+    ReviewCursor cursor = 7;
+  }
 }
 
 message ApplicationsCreateRequestRow {
@@ -107,7 +114,8 @@ message ApplicationVersionsResponse {
 }
 
 message ApplicationReviewsResponse {
-  repeated Review rows = 1;
+  ReviewCursor cursor = 1;
+  repeated Review rows = 2;
 }
 
 message ApplicationResponse {
@@ -189,7 +197,7 @@ message Screenshot {
 message ApplicationVersion {
   string application_id = 1;
   string bundle_id = 2;
-  
+
   Screenshot screenshots = 3;
 
   string title = 4;
@@ -200,7 +208,7 @@ message ApplicationVersion {
   string version = 8;
   repeated int32 ratings = 9;
   string released_at = 10;
-  
+
   int32 price = 11;
   string currency = 12;
   string content_rating = 13;
@@ -234,4 +242,8 @@ message SearchResponseRow {
 message ApplicationIntegrations {
   string application_id = 1;
   repeated string country_ids = 2;
+}
+
+message ReviewCursor {
+  string review_id = 1;
 }
