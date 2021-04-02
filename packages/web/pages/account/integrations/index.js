@@ -26,6 +26,7 @@ export async function getServerSideProps({
 }
 
 function Integrations({ initial }) {
+  console.log(initial)
   const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
     initialData: initial.appstoreConnect,
   })
@@ -46,7 +47,7 @@ function Integrations({ initial }) {
           </div>
           <div className="text-sm text-trueGray-500 flex items-center">
             <span className="font-semibold mr-1">
-              {appstoreConnect
+              {!!appstoreConnect?.access_token
                 ? `Active - Fetched at ${dayjs(appstoreConnect.fetched_at).format('DD/MM/YYYY')}`
                 : `Inactive`}
             </span>{' '}
@@ -56,7 +57,7 @@ function Integrations({ initial }) {
         <div className="ml-4 sm:flex-shrink-0">
           <Link href={`/account/integrations/appstore-connect`}>
             <a className="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-              {!!appstoreConnect > 0 ? 'Update' : 'Setup Integration'}
+              {!!appstoreConnect?.access_token ? 'Update' : 'Setup Integration'}
             </a>
           </Link>
         </div>
@@ -89,10 +90,10 @@ function Integrations({ initial }) {
 Integrations.propTypes = {
   initial: PropTypes.shape({
     appstoreConnect: PropTypes.shape({
-      access_token: PropTypes.string.isRequired,
+      access_token: PropTypes.string,
       failed_fetches: PropTypes.number.isRequired,
-      last_fetch: PropTypes.string.isRequired,
-      state: PropTypes.string.isRequired,
+      last_fetch: PropTypes.string,
+      state: PropTypes.string,
     }),
     reviews: PropTypes.arrayOf(
       PropTypes.shape({

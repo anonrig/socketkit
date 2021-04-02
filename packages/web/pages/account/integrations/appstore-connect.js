@@ -75,20 +75,18 @@ function AppStoreConnectIntegration({ initialData }) {
                 .
               </p>
             </div>
-            <div className="mt-6 grid grid-cols-4 gap-6">
-              <div className="col-span-4 text-warmGray-900">
-                <label className="block text-sm font-medium" htmlFor={'access_token'}>
-                  Access Token
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
-                  defaultValue={data?.access_token || ''}
-                  name={'access_token'}
-                  type="text"
-                  required
-                />
-              </div>
+            <div className="text-warmGray-900 mt-6 flex flex-1 flex-col mt-6">
+              <label className="block text-sm font-medium" htmlFor={'access_token'}>
+                Access Token
+              </label>
+              <input
+                {...register('access_token', { required: true })}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
+                defaultValue={data?.access_token || ''}
+                name={'access_token'}
+                type="text"
+                required
+              />
             </div>
           </div>
           <div className="px-4 py-3 sm:px-6 space-x-2 border-t border-gray-200 flex justify-between">
@@ -99,7 +97,7 @@ function AppStoreConnectIntegration({ initialData }) {
                 loading={false}>
                 Delete & Disable Integration
               </Button>
-            ) : null}
+            ) : <div></div>}
 
             <div className="space-x-4">
               <Button
