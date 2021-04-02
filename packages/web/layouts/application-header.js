@@ -10,8 +10,8 @@ import useSWR from 'swr'
 function ApplicationHeader() {
   const router = useRouter()
   const { start_date = dayjs().subtract(1, 'month'), end_date = dayjs(), id } = router.query
-  const { data: application } = useSWR(`applications/${id}`)
-  const { data: applications } = useSWR(`applications`)
+  const { data: application } = useSWR(`applications/${id}`, { refreshInterval: 0 })
+  const { data: applications } = useSWR(`applications`, { refreshInterval: 0})
   const current_page = router.pathname.split(`[id]/`)[1]
 
   return (
@@ -31,7 +31,7 @@ function ApplicationHeader() {
                       />
                       {application?.title}
                       <svg
-                        className="h-6 w-6 ml-2"
+                        className="h-5 w-5 ml-2"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ function ApplicationHeader() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
                     <Menu.Items
-                      className="origin-top-left absolute mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      className="origin-top-left absolute mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-30"
                       static>
                       {applications?.rows.map((application) => (
                         <Menu.Item key={application.application_id}>
