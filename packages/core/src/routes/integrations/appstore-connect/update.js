@@ -1,16 +1,19 @@
-import { verify } from '../../hooks.js'
-import grpc from '../../grpc.js'
+import { verify } from '../../../hooks.js'
+import grpc from '../../../grpc.js'
 
 export default {
   method: 'PUT',
-  path: '/:integration_id',
+  path: '/',
   schema: {
     body: {
       type: 'object',
       properties: {
         requirement_payload: {
           type: 'object',
-          additionalProperties: true,
+          properties: {
+            access_token: { type: 'string' },
+          },
+          required: ['access_token'],
         },
       },
       required: ['requirement_payload'],
@@ -25,14 +28,7 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async (
-    { accounts: [account], body, params: { integration_id } },
-    reply,
-  ) => {
-    if (integration_id !== 'appstore-connect') {
-      return reply.notFound()
-    }
-
+  handler: async ({ accounts: [account], body }) => {
     const { state } = await grpc.integrations.validate({
       access_token: body.requirement_payload.access_token.trim(),
     })

@@ -21,7 +21,7 @@ export default {
                   description: { type: 'string' },
                   slug: { type: 'string' },
                   integration: {
-                    type: 'object',
+                    type: ['object', 'null'],
                     properties: {
                       last_fetch: { type: 'string' },
                       state: { type: 'string' },
@@ -51,6 +51,17 @@ export default {
             title: 'AppStore Connect',
             description: 'Transactions and Sales support for Apple',
             integration: appstore.rows[0],
+          },
+        ],
+      },
+      {
+        category: 'User Feedback',
+        rows: [
+          {
+            slug: 'reviews',
+            title: 'Review Tracking',
+            description: 'Real-time tracking reviews from AppStore',
+            integration: null,
           },
         ],
       },

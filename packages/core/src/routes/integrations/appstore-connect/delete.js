@@ -1,9 +1,9 @@
-import { verify } from '../../hooks.js'
-import grpc from '../../grpc.js'
+import { verify } from '../../../hooks.js'
+import grpc from '../../../grpc.js'
 
 export default {
   method: 'DELETE',
-  path: '/:integration_id',
+  path: '/',
   schema: {
     response: {
       200: {
@@ -15,14 +15,7 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async (
-    { accounts: [account], params: { integration_id } },
-    reply,
-  ) => {
-    if (integration_id !== 'appstore-connect') {
-      return reply.notFound()
-    }
-
+  handler: async ({ accounts: [account] }) => {
     await grpc.integrations.destroy({
       account_id: account.account_id,
       provider_id: 'apple',

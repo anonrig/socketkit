@@ -1,12 +1,8 @@
-import getAll from './all.js'
-import getBySlug from './by-slug.js'
-import updateBySlug from './update-by-slug.js'
-import deleteBySlug from './delete-by-slug.js'
+import appstoreConnect from './appstore-connect/index.js'
+import reviews from './reviews/index.js'
 
 export default (f, _opts, done) => {
-  f.route(getAll)
-  f.route(getBySlug)
-  f.route(updateBySlug)
-  f.route(deleteBySlug)
+  f.register(appstoreConnect, { prefix: 'appstore-connect' })
+  f.register(reviews, { prefix: 'reviews' })
   done()
 }
