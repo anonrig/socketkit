@@ -5,6 +5,7 @@ import getCustomers from './customers.js'
 import getTransactions from './transactions.js'
 import getPackages from './packages.js'
 import getCountries from './countries.js'
+import getVersions from './versions.js'
 
 export default (f, _opts, done) => {
   f.route(getAll)
@@ -14,5 +15,6 @@ export default (f, _opts, done) => {
   f.route(getTransactions)
   f.route(getPackages)
   f.route(getCountries)
+  f.route(getVersions)
   done()
 }
