@@ -3,6 +3,8 @@ import Mali from 'mali'
 import Sentry from '@sentry/node'
 import Logger from './logger.js'
 import * as Applications from './consumers/index.js'
+import * as Integrations from './consumers/integrations.js'
+import * as Reviews from './consumers/reviews.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -17,7 +19,10 @@ const health = path.join(path.resolve(''), 'protofiles/health.proto')
 
 const app = new Mali()
 
+app.addService(file, 'Reviews', options)
 app.addService(file, 'Applications', options)
+app.addService(file, 'Integrations', options)
+
 app.addService(health, 'Health', options)
 
 app.use(async (context, next) => {
@@ -41,7 +46,7 @@ app.use(async (context, next) => {
   return next().then(() => tracer?.finish())
 })
 
-app.use({ Applications })
+app.use({ Applications, Integrations, Reviews })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (error) => {

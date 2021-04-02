@@ -11,12 +11,17 @@ const defaults = {
   defaults: true,
   oneofs: true,
 }
-
-const { Applications } = grpc.loadPackageDefinition(
+const { Applications, Integrations, Reviews } = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
 // @ts-ignore
-const store = new Applications(url, grpc.credentials.createInsecure())
-
-export default store
+export const applications = new Applications(
+  url,
+  grpc.credentials.createInsecure(),
+)
+export const integrations = new Integrations(
+  url,
+  grpc.credentials.createInsecure(),
+)
+export const reviews = new Reviews(url, grpc.credentials.createInsecure())
