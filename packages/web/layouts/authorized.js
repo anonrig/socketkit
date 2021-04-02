@@ -10,7 +10,7 @@ import SettingsHeader from './settings-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
-  const { data } = useSWR('integrations')
+  const { data: integration } = useSWR('integrations/appstore-connect')
   let header = null
 
   // Application header
@@ -32,7 +32,7 @@ function AuthorizedLayout({ children }) {
       <Container>{children}</Container>
       <Footer />
 
-      {data && data[0].rows.filter((d) => !!d.integration).length === 0 && (
+      {integration?.access_token === null && (
         <Banner
           destination="/account/integrations"
           longMessage="Please, add an integration for Socketkit to work."
