@@ -12,7 +12,11 @@ const defaults = {
   oneofs: true,
 }
 
-const { Applications } = grpc.loadPackageDefinition(
+const {
+  Applications,
+  Reviews,
+  Integrations: StoreIntegrations,
+} = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
@@ -50,6 +54,12 @@ export default {
   ),
   applications: promisifyAll(
     new Applications(config.grpc.store, grpc.credentials.createInsecure()),
+  ),
+  reviews: promisifyAll(
+    new Reviews(config.grpc.store, grpc.credentials.createInsecure()),
+  ),
+  storeIntegrations: promisifyAll(
+    new StoreIntegrations(config.grpc.store, grpc.credentials.createInsecure()),
   ),
   reports: promisifyAll(
     new Reports(config.grpc.subscription, grpc.credentials.createInsecure()),

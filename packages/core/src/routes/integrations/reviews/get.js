@@ -17,13 +17,18 @@ export default {
             application_icon: { type: 'string' },
             country_ids: { type: 'array', items: { type: 'string' } },
           },
-          required: ['application_id', 'application_title', 'application_icon', 'country_ids'],
+          required: [
+            'application_id',
+            'application_title',
+            'application_icon',
+            'country_ids',
+          ],
         },
       },
     },
   },
   handler: async ({ accounts: [account] }) => {
-    const { rows } = await grpc.applications.findIntegrations({
+    const { rows } = await grpc.storeIntegrations.findAll({
       account_id: account.account_id,
     })
 

@@ -33,7 +33,7 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [{ account_id }], body }) => {
-    await grpc.applications.upsertIntegrations({
+    await grpc.storeIntegrations.upsertAll({
       account_id,
       applications: body.requirement_payload,
     })
