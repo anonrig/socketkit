@@ -83,7 +83,7 @@ function Table({ initialData, columns, getRowProps, url, options }) {
                           return (
                             <td
                               className={cx([
-                                'px-6 py-4 whitespace-nowrap text-sm text-trueGray-500',
+                                'px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal',
                                 cell.column.className,
                               ])}
                               {...cell.getCellProps()}>
