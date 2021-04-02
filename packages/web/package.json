@@ -20,6 +20,7 @@
     "@ory/kratos-client": "^0.5.5-alpha.4",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/line-clamp": "^0.2.0",
     "@tailwindcss/typography": "^0.4.0",
     "classnames": "^2.3.0",
     "date-fns": "^2.19.0",
