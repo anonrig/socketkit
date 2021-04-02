@@ -16,8 +16,9 @@ function Table({ initialData, columns, getRowProps, url, options }) {
       .join('&')
 
     if (previous && !previous.cursor) return null
-    if (index === 0) return `${url}?${query}`
-
+    if (index === 0) {
+      return query.length > 0 ? `${url}?${query}` : url
+    }
     const cursor = Object.keys(previous.cursor)
       .sort()
       .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
