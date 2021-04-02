@@ -51,7 +51,7 @@ function ReviewsIntegration({ initialData }) {
   }
 
   const updateApplication = (index, application) => {
-    const existing = applications.find((a) => a?.application_id === application.application_id)
+    const existing = applications.find((a) => a?.application_id === application?.application_id)
     let manipulated = applications.slice(0)
     if (application === null || !!existing) { // remove duplicates
       manipulated.splice(index, 1)
