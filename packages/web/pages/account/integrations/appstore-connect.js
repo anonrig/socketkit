@@ -8,40 +8,38 @@ import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
 
 export async function getServerSideProps({
-  query: { slug },
   req: {
     headers: { cookie, referer },
   },
 }) {
-  const integrations = await fetcher(`integrations/${slug}`, {
+  const initialData = await fetcher(`integrations/appstore-connect`, {
     headers: { cookie, referer },
   })
 
   return {
     props: {
-      integrations,
+      initialData,
     },
   }
 }
 
-function IntegrationDetail({ integrations }) {
+function AppStoreConnectIntegration({ initialData }) {
   const router = useRouter()
-  const { slug } = router.query
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
-  const { data } = useSWR(`integrations/${slug}`, fetcher, { initialData: integrations })
+  const { data } = useSWR(`integrations/appstore-connect`, fetcher, { initialData })
 
   async function onSubmit(values, _, isDeleted = false) {
     setLoading(true)
 
     try {
-      await fetcher(`integrations/${slug}`, {
+      await fetcher(`integrations/appstore-connect`, {
         method: isDeleted ? 'DELETE' : 'PUT',
         body: JSON.stringify({
           requirement_payload: values,
         }),
       })
-      mutate(`integrations`)
+      mutate(`integrations/appstore-connect`)
       if (isDeleted) {
         toast.success('Integration deleted successfully.')
       } else {
@@ -61,13 +59,12 @@ function IntegrationDetail({ integrations }) {
         <div className="shadow sm:rounded-md sm:overflow-hidden">
           <div className="bg-white py-6 px-4 sm:p-6">
             <div>
-              <h2
-                className="text-lg leading-6 font-medium text-warmGray-900"
-                id="payment_details_heading">
-                {data?.title ?? 'Integration'}
+              <h2 className="text-lg leading-6 font-medium text-warmGray-900">
+                Subscription Tracking - AppStore Connect
               </h2>
               <p className="mt-1 text-sm text-trueGray-500">
-                Learn how to get your access token from{' '}
+                In order to use AppStore Connect integration, first you need to get your access
+                token from AppStore Connect. Access{' '}
                 <a
                   className="inline underline text-orange-500 text-sm font-semibold"
                   target="_blank"
@@ -79,25 +76,23 @@ function IntegrationDetail({ integrations }) {
               </p>
             </div>
             <div className="mt-6 grid grid-cols-4 gap-6">
-              {Object.keys(data?.requirement_schema.properties ?? {}).map((key) => (
-                <div className="col-span-4 text-warmGray-900" key={key}>
-                  <label className="block text-sm font-medium" htmlFor={key}>
-                    {data?.requirement_schema.properties[key]?.label ?? key}
-                  </label>
-                  <input
-                    ref={register({ required: true })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
-                    defaultValue={(data?.integration ?? {})[key] || ''}
-                    name={key}
-                    type="text"
-                    required
-                  />
-                </div>
-              ))}
+              <div className="col-span-4 text-warmGray-900">
+                <label className="block text-sm font-medium" htmlFor={'access_token'}>
+                  Access Token
+                </label>
+                <input
+                  ref={register({ required: true })}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
+                  defaultValue={data?.access_token || ''}
+                  name={'access_token'}
+                  type="text"
+                  required
+                />
+              </div>
             </div>
           </div>
           <div className="px-4 py-3 sm:px-6 space-x-2 border-t border-gray-200 flex justify-between">
-            {data?.integration ? (
+            {data?.access_token ? (
               <Button
                 onClick={() => onSubmit(null, null, true)}
                 className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400"
@@ -118,7 +113,7 @@ function IntegrationDetail({ integrations }) {
                 className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
                 loading={loading}
                 type="submit">
-                {data?.integration ? 'Update' : 'Create'}
+                {data?.access_token ? 'Update' : 'Create'}
               </Button>
             </div>
           </div>
@@ -128,7 +123,7 @@ function IntegrationDetail({ integrations }) {
   )
 }
 
-IntegrationDetail.propTypes = {
+AppStoreConnectIntegration.propTypes = {
   integrations: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -138,4 +133,4 @@ IntegrationDetail.propTypes = {
   ),
 }
 
-export default IntegrationDetail
+export default AppStoreConnectIntegration

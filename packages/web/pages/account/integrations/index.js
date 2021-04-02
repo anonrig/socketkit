@@ -1,80 +1,107 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import IntegrationRow from 'components/scenes/account/integration-row.js'
+import cx from 'classnames'
+import Link from 'next/link'
 import { fetcher } from 'helpers/fetcher'
-import toast from 'react-hot-toast'
-import { useEffect } from 'react'
+import dayjs from 'dayjs'
 
 export async function getServerSideProps({
   req: {
     headers: { cookie, referer },
   },
 }) {
+  const request = { headers: { cookie, referer } }
   try {
-    const integrations = await fetcher(`integrations`, {
-      headers: { cookie, referer },
-    })
+    const appstoreConnect = await fetcher(`integrations/appstore-connect`, request)
+    const reviews = await fetcher(`integrations/reviews`, request)
+
     return {
-      props: { integrations },
+      props: { initial: { appstoreConnect, reviews } },
     }
   } catch (error) {
     return {
-      props: { integrations: [] },
+      props: { initial: { appstoreConnect: null, reviews: [] } },
     }
   }
 }
 
-function Integrations({ integrations }) {
-  const { data, error } = useSWR('integrations', fetcher, { initialData: integrations })
+function Integrations({ initial }) {
+  const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
+    initialData: initial.appstoreConnect,
+  })
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message)
-    }
-  }, [error])
+  const { data: reviews } = useSWR(`integrations/reviews`, fetcher, {
+    initialData: initial.reviews,
+  })
 
   return (
     <div className="space-y-4">
-      {data?.map(({ category, rows }) => (
-        <div className="bg-white shadow rounded-lg" key={category}>
-          <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">{category}</h3>
-            {rows?.map(({ title, description, slug, integration }) => (
-              <div className="mt-5" key={`${slug}`}>
-                <IntegrationRow
-                  className="mt-2"
-                  title={title}
-                  description={description}
-                  slug={slug}
-                  integration={integration}
-                />
-              </div>
-            ))}
+      <div
+        className={cx(
+          'rounded-md px-6 py-5 flex items-center justify-between border border-gray-200',
+        )}>
+        <div className="flex items-leading justify-center flex-col">
+          <div className="text-md font-medium text-warmGray-900">
+            AppStore Subscription Tracking
+          </div>
+          <div className="text-sm text-trueGray-500 flex items-center">
+            <span className="font-semibold mr-1">
+              {appstoreConnect
+                ? `Active - Fetched at ${dayjs(appstoreConnect.fetched_at).format('DD/MM/YYYY')}`
+                : `Inactive`}
+            </span>{' '}
+            - Real-time subscription and revenue tracking from AppStore
           </div>
         </div>
-      ))}
+        <div className="ml-4 sm:flex-shrink-0">
+          <Link href={`/account/integrations/appstore-connect`}>
+            <a className="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+              {!!appstoreConnect > 0 ? 'Update' : 'Setup Integration'}
+            </a>
+          </Link>
+        </div>
+      </div>
+      <div
+        className={cx(
+          'rounded-md px-6 py-5 flex items-center justify-between border border-gray-200',
+        )}>
+        <div className="flex items-leading justify-center flex-col">
+          <div className="text-md font-medium text-warmGray-900">AppStore Reviews</div>
+          <div className="text-sm text-trueGray-500 flex items-center">
+            <span className="font-semibold mr-1">
+              {reviews.length > 0 ? `Tracking ${reviews.length} applications` : `Inactive`}
+            </span>{' '}
+            - Real-time application review tracking for better customer feedback
+          </div>
+        </div>
+        <div className="ml-4 sm:flex-shrink-0">
+          <Link href={`/account/integrations/reviews`}>
+            <a className="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+              {reviews.length > 0 ? 'Update' : 'Start tracking'}
+            </a>
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
 
 Integrations.propTypes = {
-  integrations: PropTypes.arrayOf(
-    PropTypes.shape({
-      category: PropTypes.string.isRequired,
-      rows: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-          slug: PropTypes.string.isRequired,
-        }),
-      ),
+  initial: PropTypes.shape({
+    appstoreConnect: PropTypes.shape({
+      access_token: PropTypes.string.isRequired,
+      failed_fetches: PropTypes.number.isRequired,
+      last_fetch: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
     }),
-  ),
-  userIntegrations: PropTypes.arrayOf(
-    PropTypes.shape({
-      requirement_set_at: PropTypes.string.isRequired,
-    }),
-  ),
+    reviews: PropTypes.arrayOf(
+      PropTypes.shape({
+        application_id: PropTypes.string.isRequired,
+        country_id: PropTypes.string.isRequired,
+        created_at: PropTypes.string.isRequired,
+      }),
+    ),
+  }),
 }
 
 export default Integrations
