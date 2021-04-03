@@ -19,13 +19,13 @@ CREATE TABLE transactions (
   developer_currency_id text NOT NULL,
   base_currency_id text NOT NULL,
 
+  PRIMARY KEY (account_id, client_id, event_date, transaction_type, subscription_group_id, subscription_package_id),
+
   FOREIGN KEY (account_id, subscription_package_id, client_id)
     REFERENCES subscriptions,
 
   FOREIGN KEY (account_id, client_id)
-    REFERENCES clients,
-
-  UNIQUE (account_id, client_id, event_date, transaction_type, subscription_group_id, subscription_package_id)
+    REFERENCES clients
 );
 
 CREATE INDEX ON transactions (account_id, event_date);
