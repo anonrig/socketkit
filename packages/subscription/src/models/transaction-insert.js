@@ -1,5 +1,5 @@
-import * as CurrencyExchange from '../../models/currency-exchange.js'
-import pg from '../../pg.js'
+import * as CurrencyExchange from './currency-exchange.js'
+import pg from '../pg.js'
 import dayjs from 'dayjs'
 
 export async function parseTransaction(transaction, { account_id }, trx) {

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import pg from '../pg.js'
 import Logger from '../logger.js'
 import AppStoreReporter from 'appstore-reporter'
-import { parseTransaction } from '../consumers/integration/parse-transaction.js'
+import { parseTransaction } from '../models/transaction-insert.js'
 import client from '../grpc-client.js'
 import slug from 'slug'
 
