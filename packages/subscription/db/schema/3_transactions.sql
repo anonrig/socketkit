@@ -15,9 +15,9 @@ CREATE TABLE client_transactions (
   subscription_package_id text NOT NULL,
   client_id text NOT NULL,
   application_id text NOT NULL,
-  client_currency_id text NOT NULL REFERENCES currencies (currency_id),
-  developer_currency_id text NOT NULL REFERENCES currencies (currency_id),
-  base_currency_id text NOT NULL REFERENCES currencies (currency_id),
+  client_currency_id text NOT NULL,
+  developer_currency_id text NOT NULL,
+  base_currency_id text NOT NULL,
 
   FOREIGN KEY (account_id, subscription_package_id, client_id)
     REFERENCES subscriptions,

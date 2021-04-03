@@ -16,8 +16,7 @@ export async function findAll(
       subscription_package_id: 't.subscription_package_id',
       subscription_package_name: 'sp.name',
       application_id: 't.application_id',
-      country_id: 'co.country_id',
-      country_name: 'co.name',
+      country_id: 'c.country_id',
     })
     .from('client_transactions as t')
     .innerJoin('subscription_packages as sp', function () {
@@ -32,7 +31,6 @@ export async function findAll(
         't.account_id',
       )
     })
-    .innerJoin('countries as co', 'co.country_id', 'c.country_id')
     .where('t.account_id', account_id)
     .andWhere(function () {
       if (application_id?.length) {

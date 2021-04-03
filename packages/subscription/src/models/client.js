@@ -16,15 +16,11 @@ export async function findAll(
         'ROUND(c.total_base_developer_proceeds, 2)',
       ),
       country_id: 'c.country_id',
-      country_name: 'co.name',
       device_type_id: 'c.device_type_id',
       device_type_name: 't.name',
       provider_id: 'c.provider_id',
     })
     .from('clients as c')
-    .innerJoin('countries as co', function () {
-      this.using('country_id')
-    })
     .innerJoin('device_types as t', function () {
       this.using(['provider_id', 'device_type_id'])
     })

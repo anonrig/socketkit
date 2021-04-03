@@ -10,8 +10,6 @@ export function groupByCountry({
     .queryBuilder()
     .select([
       pg.raw('c.country_id AS country_id'),
-      pg.raw('c.name AS country_name'),
-      pg.raw('c.coordinates AS country_coordinates'),
       pg.raw('count(*) AS total_count'),
       pg.raw(
         'count(*) FILTER (WHERE lower(s.active_period) + s.free_trial_duration < upper(s.active_period)) AS trial_past_count',
@@ -22,14 +20,13 @@ export function groupByCountry({
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
-    .from('clients AS cl')
+    .from('clients AS c')
     .innerJoin('client_subscriptions AS s', function () {
-      this.on('s.client_id', 'cl.client_id').andOn(
+      this.on('s.client_id', 'c.client_id').andOn(
         's.account_id',
-        'cl.account_id',
+        'c.account_id',
       )
     })
-    .join('countries AS c', 'c.country_id', 'cl.country_id')
     .where(function () {
       this.where('s.account_id', account_id)
 

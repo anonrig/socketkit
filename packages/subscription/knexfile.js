@@ -1,6 +1,3 @@
-import path from 'path'
-import Knex from 'knex'
-
 /**
  * @type {Knex.Config}
  */
@@ -12,13 +9,6 @@ const config = {
     user: 'subscription-worker',
   },
   pool: { min: 2, max: 10 },
-  migrations: {
-    tableName: 'migrations',
-    directory: path.join(path.resolve(), 'db/migrations'),
-  },
-  seeds: {
-    directory: path.join(path.resolve(), 'db/seeds'),
-  },
   searchPath: ['public'],
   useNullAsDefault: false,
   asyncStackTraces: true,

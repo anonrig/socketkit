@@ -10,7 +10,6 @@
     "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js",
-    "seed": "node -r dotenv/config ./node_modules/.bin/knex seed:run --esm",
     "producer": "node -r dotenv/config ./src/helpers/producer.js"
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

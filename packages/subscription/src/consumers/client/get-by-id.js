@@ -10,12 +10,10 @@ export default async function getById({ account_id, client_id }) {
       device_type_name: 't.name',
       provider_id: 'c.provider_id',
       country_id: 'c.country_id',
-      country_name: 'co.name',
     })
     .from('clients as c')
     .where('c.client_id', client_id)
     .andWhere('c.account_id', account_id)
-    .innerJoin('countries as co', 'co.country_id', 'c.country_id')
     .innerJoin('device_types as t', 't.device_type_id', 'c.device_type_id')
     .first()
 

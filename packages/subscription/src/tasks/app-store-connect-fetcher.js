@@ -135,7 +135,7 @@ async function processTransactions(trx, account_id, transactions) {
         provider_id: 'apple',
         client_id: t.subscriberId,
         device_type_id: slug(t.device),
-        country_id: t.country,
+        country_id: t.country.toLowerCase(),
         first_interaction: dayjs(t.eventDate).format('YYYY-MM-DD'),
         total_base_client_purchase: 0,
         total_base_developer_proceeds: 0,
