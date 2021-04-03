@@ -23,7 +23,7 @@ CREATE TABLE integrations (
   CONSTRAINT integrations_last_error_message_check
     CHECK (state != 'error' OR last_error_message IS NOT NULL),
   CONSTRAINT integrations_vendor_ids_check
-  CHECK (
+    CHECK (
       array_length(vendor_ids, 1) > 0 AND
       array_length(vendor_ids, 2) IS NULL
   )
