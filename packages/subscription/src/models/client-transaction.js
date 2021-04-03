@@ -18,7 +18,7 @@ export async function findAll(
       application_id: 't.application_id',
       country_id: 'c.country_id',
     })
-    .from('client_transactions as t')
+    .from('transactions as t')
     .innerJoin('subscription_packages as sp', function () {
       this.on('sp.subscription_package_id', 't.subscription_package_id').andOn(
         'sp.account_id',

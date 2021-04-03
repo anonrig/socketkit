@@ -31,13 +31,13 @@ export default function deleteIntegrations() {
     logger.info(`Deleting ${account_id} with last fetch date ${last_fetch}`)
 
     await pg
-      .from('client_transactions')
+      .from('transactions')
       .where({ account_id })
       .delete()
       .transacting(trx)
 
     await pg
-      .from('client_subscriptions')
+      .from('subscriptions')
       .where({ account_id })
       .delete()
       .transacting(trx)

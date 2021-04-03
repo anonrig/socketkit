@@ -49,7 +49,7 @@ export function sum({
             ),
           ],
     )
-    .from('client_transactions')
+    .from('transactions')
     .where(function () {
       this.where({ account_id })
 

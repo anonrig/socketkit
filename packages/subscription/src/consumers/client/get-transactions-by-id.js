@@ -11,13 +11,13 @@ export default async function getTransactionsById({ client_id, account_id }) {
       base_client_purchase: 't.base_client_purchase',
       base_developer_proceeds: 't.base_developer_proceeds',
     })
-    .from('client_transactions as t')
+    .from('transactions as t')
     .where('t.client_id', client_id)
     .andWhere('t.account_id', account_id)
     .join('subscription_packages as p', function () {
       this.using(['subscription_package_id', 'account_id'])
     })
-    .join('client_subscriptions as s', function () {
+    .join('subscriptions as s', function () {
       this.using(['client_id', 'subscription_package_id', 'account_id'])
     })
 }

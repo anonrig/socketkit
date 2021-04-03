@@ -9,7 +9,7 @@ export default async function getSubscriptionsById({ client_id, account_id }) {
       subscription_package_name: 'p.name',
       application_id: 's.application_id',
     })
-    .from('client_subscriptions as s')
+    .from('subscriptions as s')
     .join('subscription_packages as p', function () {
       this.using(['subscription_package_id', 'account_id', 'application_id'])
     })

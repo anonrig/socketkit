@@ -28,7 +28,7 @@ export async function get({
           WHERE
             c.account_id = ? AND
             EXISTS (SELECT 1
-              FROM client_subscriptions s
+              FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
                 s.client_id = c.client_id AND
@@ -77,14 +77,14 @@ export async function getCustomerLifetimeValue({
           WHERE
             c.account_id = ? AND
             EXISTS (SELECT 1
-              FROM client_subscriptions s
+              FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
                 s.client_id = c.client_id AND
                 s.active_period && daterange(g::date, (g + ?::interval)::date)
             ) AND
             NOT EXISTS (SELECT 1
-              FROM client_subscriptions s
+              FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
                 s.client_id = c.client_id AND

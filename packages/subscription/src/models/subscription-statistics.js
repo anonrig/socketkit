@@ -21,7 +21,7 @@ export function groupByCountry({
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
     .from('clients AS c')
-    .innerJoin('client_subscriptions AS s', function () {
+    .innerJoin('subscriptions AS s', function () {
       this.on('s.client_id', 'c.client_id').andOn(
         's.account_id',
         'c.account_id',
@@ -88,7 +88,7 @@ export function count({ account_id, application_id, start_date, end_date }) {
           : [],
       ),
     )
-    .from('client_subscriptions')
+    .from('subscriptions')
     .where(function () {
       this.where({ account_id })
 

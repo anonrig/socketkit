@@ -24,7 +24,7 @@ export async function getFreeTrials({
       `
         CROSS JOIN LATERAL (
           SELECT count(DISTINCT client_id) AS client_count
-          FROM client_transactions AS t
+          FROM transactions AS t
           WHERE t.account_id = ?
             AND t.transaction_type = ?
             AND t.event_date >= g AND t.event_date < g + ?::interval
@@ -66,7 +66,7 @@ export async function averageDuration({
           SELECT
             AVG(s.free_trial_duration) AS average_trial_duration,
             AVG(s.subscription_duration) AS average_subscription_duration
-          FROM client_subscriptions AS s
+          FROM subscriptions AS s
           WHERE s.account_id = ?
             AND s.free_trial_duration != '00:00:00'
             AND LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval
@@ -112,7 +112,7 @@ export async function getTrialToPaid({
             count(*) FILTER (
               WHERE (lower(s.active_period) + s.free_trial_duration)::date <
                 upper(s.active_period)) AS converted
-          FROM client_subscriptions s
+          FROM subscriptions s
           WHERE
             s.account_id = ? AND
             s.active_period && daterange(g::date, (g + ?::interval)::date) AND

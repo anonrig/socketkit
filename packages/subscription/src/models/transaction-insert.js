@@ -47,7 +47,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       subscription_group_id: transaction.subscriptionGroupId,
       application_id,
     })
-    .into('client_subscriptions')
+    .into('subscriptions')
     .transacting(trx)
     .onConflict(['account_id', 'subscription_package_id', 'client_id'])
     .ignore()
@@ -76,7 +76,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       subscription_package_id: transaction.subscriptionAppleId,
       subscription_group_id: transaction.subscriptionGroupId,
     })
-    .into('client_transactions')
+    .into('transactions')
     .onConflict([
       'account_id',
       'client_id',

@@ -29,7 +29,7 @@ export async function findAll(
       if (application_id) {
         this.whereExists(function () {
           this.select('*')
-            .from('client_subscriptions as s')
+            .from('subscriptions as s')
             .where('s.application_id', application_id)
             .andWhereRaw('s.account_id = c.account_id')
             .andWhereRaw('c.client_id = s.client_id')

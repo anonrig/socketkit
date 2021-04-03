@@ -25,7 +25,7 @@ export async function getMRR({
         CROSS JOIN LATERAL (
           SELECT
             sum(base_developer_proceeds) AS total
-          FROM client_transactions t
+          FROM transactions t
           WHERE t.account_id = ? AND
             t.event_date >= g AND
             t.event_date < g + ?::interval
@@ -70,7 +70,7 @@ export async function getSalesRefunds({
             sum(base_developer_proceeds)
               FILTER (WHERE transaction_type = 'refund') * -1
               AS refund_sum
-          FROM client_transactions t
+          FROM transactions t
           WHERE t.account_id = ? AND
             t.event_date >= g AND
             t.event_date < g + ?::interval
@@ -110,7 +110,7 @@ export async function getAverageSale({
           SELECT avg(t.base_developer_proceeds *
             (30 * 24 * 60 * 60 / date_part('epoch', s.subscription_duration)))
             AS mrr
-          FROM client_transactions t
+          FROM transactions t
             JOIN subscription_packages s USING (account_id, subscription_package_id)
           WHERE t.account_id = ? AND
             t.transaction_type = 'renewal' AND
@@ -118,7 +118,7 @@ export async function getAverageSale({
             t.event_date < g + ?::interval AND
             NOT EXISTS (
               SELECT 1
-              FROM client_transactions t1
+              FROM transactions t1
               WHERE
                 t1.account_id = t.account_id AND
                 t1.client_id = t.client_id AND

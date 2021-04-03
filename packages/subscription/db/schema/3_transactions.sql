@@ -3,7 +3,7 @@ SET ROLE subscription;
 DROP TYPE IF EXISTS transaction_type;
 CREATE TYPE transaction_type AS ENUM ('trial', 'renewal', 'refund');
 
-CREATE TABLE client_transactions (
+CREATE TABLE transactions (
   transaction_type transaction_type NOT NULL,
   event_date date NOT NULL,
   account_id uuid NOT NULL,
@@ -28,11 +28,11 @@ CREATE TABLE client_transactions (
   UNIQUE (account_id, client_id, event_date, transaction_type, subscription_group_id, subscription_package_id)
 );
 
-CREATE INDEX ON client_transactions (account_id, event_date);
+CREATE INDEX ON transactions (account_id, event_date);
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON client_transactions TO "subscription-worker";
+GRANT SELECT, INSERT, UPDATE, DELETE ON transactions TO "subscription-worker";
 
-CREATE OR REPLACE FUNCTION client_transactions_update_subscription()
+CREATE OR REPLACE FUNCTION transactions_update_subscription()
   RETURNS trigger
   LANGUAGE plpgsql
   AS $$
@@ -61,12 +61,12 @@ CREATE OR REPLACE FUNCTION client_transactions_update_subscription()
   END;
 $$;
 
-CREATE TRIGGER client_transactions_after_insert
-  AFTER INSERT ON client_transactions
+CREATE TRIGGER transactions_after_insert
+  AFTER INSERT ON transactions
   FOR EACH ROW
-  EXECUTE FUNCTION client_transactions_update_subscription();
+  EXECUTE FUNCTION transactions_update_subscription();
 
-CREATE OR REPLACE FUNCTION client_transactions_set_client_interaction_date()
+CREATE OR REPLACE FUNCTION transactions_set_client_interaction_date()
   RETURNS trigger
   LANGUAGE plpgsql
   AS $$
@@ -84,7 +84,7 @@ CREATE OR REPLACE FUNCTION client_transactions_set_client_interaction_date()
   END;
 $$;
 
-CREATE TRIGGER client_transactions_after_insert_update_client
-  AFTER INSERT ON client_transactions
+CREATE TRIGGER transactions_after_insert_update_client
+  AFTER INSERT ON transactions
   FOR EACH ROW
-  EXECUTE FUNCTION client_transactions_set_client_interaction_date();
+  EXECUTE FUNCTION transactions_set_client_interaction_date();

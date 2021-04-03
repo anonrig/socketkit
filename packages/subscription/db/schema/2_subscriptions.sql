@@ -14,7 +14,7 @@ CREATE TABLE subscription_packages (
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-worker";
 
-CREATE TABLE client_subscriptions (
+CREATE TABLE subscriptions (
   subscription_duration interval NOT NULL,
   free_trial_duration interval NOT NULL DEFAULT '00:00:00',
   account_id uuid NOT NULL,
@@ -42,4 +42,4 @@ CREATE TABLE client_subscriptions (
   )
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON client_subscriptions TO "subscription-worker";
+GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";

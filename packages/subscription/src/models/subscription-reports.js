@@ -30,7 +30,7 @@ export async function get({
           SELECT
             count(*) AS count,
             avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
-          FROM client_subscriptions s
+          FROM subscriptions s
           WHERE s.account_id = ? AND
             s.active_period && daterange(g::date, (g + ?::interval)::date) AND
             daterange(
