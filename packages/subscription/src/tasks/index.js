@@ -20,8 +20,9 @@ export async function runTasks() {
       await sleep(600000)
     }
   } catch (error) {
+    logger.error(error)
     await sleep(60000)
-  } finally {
-    await runTasks()
   }
+
+  await runTasks()
 }
