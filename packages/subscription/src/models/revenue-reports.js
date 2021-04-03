@@ -50,7 +50,7 @@ export async function getSalesRefunds({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: 'l.renewal_sum',
+      y0: 'l.sale_sum',
       y1: 'l.refund_sum',
     })
     .from(
@@ -65,8 +65,8 @@ export async function getSalesRefunds({
         CROSS JOIN LATERAL (
           SELECT
             sum(base_developer_proceeds)
-              FILTER (WHERE transaction_type = 'renewal')
-              AS renewal_sum,
+              FILTER (WHERE transaction_type IN ('conversion', 'renewal'))
+              AS sale_sum,
             sum(base_developer_proceeds)
               FILTER (WHERE transaction_type = 'refund') * -1
               AS refund_sum
@@ -113,18 +113,9 @@ export async function getAverageSale({
           FROM transactions t
             JOIN subscription_packages s USING (account_id, subscription_package_id)
           WHERE t.account_id = ? AND
-            t.transaction_type = 'renewal' AND
+            t.transaction_type = 'conversion' AND
             t.event_date >= g AND
-            t.event_date < g + ?::interval AND
-            NOT EXISTS (
-              SELECT 1
-              FROM transactions t1
-              WHERE
-                t1.account_id = t.account_id AND
-                t1.client_id = t.client_id AND
-                t1.transaction_type = 'renewal' AND
-                t1.event_date < t.event_date
-            )
+            t.event_date < g + ?::interval
         ) l
       `,
       [account_id, interval],

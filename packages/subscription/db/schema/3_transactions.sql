@@ -1,7 +1,7 @@
 SET ROLE subscription;
 
 DROP TYPE IF EXISTS transaction_type;
-CREATE TYPE transaction_type AS ENUM ('trial', 'renewal', 'refund');
+CREATE TYPE transaction_type AS ENUM ('trial', 'conversion', 'renewal', 'refund');
 
 CREATE TABLE transactions (
   transaction_type transaction_type NOT NULL,
@@ -45,6 +45,7 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
           upper(active_period),
           CASE NEW.transaction_type
             WHEN 'trial' THEN (NEW.event_date + free_trial_duration)::date
+            WHEN 'conversion' THEN (NEW.event_date + subscription_duration)::date
             WHEN 'renewal' THEN (NEW.event_date + subscription_duration)::date
             WHEN 'refund' THEN (NEW.event_date + interval '1 day')::date
           END

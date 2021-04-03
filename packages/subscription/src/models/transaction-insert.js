@@ -29,12 +29,6 @@ export async function parseTransaction(transaction, { account_id }, trx) {
   let developerProceeds = transaction.developerProceeds
     ? parseFloat(transaction.developerProceeds)
     : null
-  const isRefund = transaction.refund == 'Yes'
-  const isPaying = !isRefund && customerPrice > 0
-
-  if (isRefund && developerProceeds && developerProceeds > 0) {
-    developerProceeds = developerProceeds * -1
-  }
 
   await pg
     .queryBuilder()
@@ -52,10 +46,43 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .onConflict(['account_id', 'subscription_package_id', 'client_id'])
     .ignore()
 
+  // This should be .returning() on the previous query, but Knexjs doesn't
+  // support it with .onConflict().  TODO: Fix it in Knexjs
+  const subscription = await pg
+    .queryBuilder()
+    .transacting(trx)
+    .from('subscriptions')
+    .where({
+      account_id,
+      subscription_package_id: transaction.subscriptionAppleId,
+      client_id,
+    })
+    .select(['total_base_developer_proceeds'])
+    .first()
+
+  let transaction_type = null
+  if (transaction.refund !== 'Yes') {
+    if (customerPrice === 0) {
+      transaction_type = 'trial'
+    } else {
+      if (subscription.total_base_developer_proceeds === 0) {
+        transaction_type = 'conversion'
+      } else {
+        transaction_type = 'renewal'
+      }
+    }
+  } else {
+    transaction_type = 'refund'
+  }
+
+  if (transaction_type === 'refund' && developerProceeds > 0) {
+    developerProceeds = developerProceeds * -1
+  }
+
   await pg
     .queryBuilder()
     .insert({
-      transaction_type: isPaying ? 'renewal' : isRefund ? 'refund' : 'trial',
+      transaction_type,
       event_date: event_date.format('YYYY-MM-DD'),
       account_id,
       client_purchase: customerPrice,
