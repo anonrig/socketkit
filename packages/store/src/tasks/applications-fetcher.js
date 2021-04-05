@@ -98,7 +98,7 @@ export default function fetchApplications(
     // We don't throw errors for not found application requests.
     const normalized = results.flat().filter((v) => !!v)
 
-    if (normalized.length !== 0) {
+    if (normalized.length) {
       await Applications.upsert(normalized, trx)
     }
 
@@ -114,7 +114,11 @@ export default function fetchApplications(
       if (different_applications.length > 0) {
         await pg
           .queryBuilder()
-          .update({ last_fetch: dayjs() })
+          .update({
+            last_fetch: dayjs(),
+            last_error_message: null,
+            failed_fetches: 0,
+          })
           .from('applications')
           .whereIn(
             'application_id',

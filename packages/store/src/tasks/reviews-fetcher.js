@@ -36,12 +36,15 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
         enabled_applications.push(app)
       } catch (error) {
         logger.warn(error)
+        const failed_fetches = app.failed_fetches + 1
+
         await pg
           .queryBuilder()
           .update({
-            is_active: false,
+            is_active: failed_fetches !== 3,
             last_fetch: dayjs(),
             last_error_message: error.message,
+            failed_fetches,
           })
           .from('reviews_watchlist')
           .where({

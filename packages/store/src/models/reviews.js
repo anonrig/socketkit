@@ -83,6 +83,7 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
           review_url: review.url,
           title: review.title,
           content: review.text,
+          updated_at: review.updatedAt,
         })),
       )
       .into('reviews')
