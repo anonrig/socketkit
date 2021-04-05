@@ -5,33 +5,47 @@ import dayjs from 'dayjs'
 
 export async function findAll(
   { application_ids, country_ids, version_ids },
-  { cursor, limit = 10 },
+  { cursor, limit = 10, start_date, end_date },
 ) {
+  if (application_ids.length === 0) {
+    throw new Error(`Application id list is empty`)
+  }
+
   return pg
     .queryBuilder()
     .select('*')
     .from('reviews')
     .whereIn('application_id', application_ids)
     .andWhere(function () {
-      if (country_ids?.length) {
+      if (country_ids.length > 0) {
         this.whereIn('country_id', country_ids)
       }
 
-      if (version_ids?.length) {
+      if (version_ids.length > 0) {
         this.whereIn('version_number', version_ids)
       }
 
-      if (cursor) {
-        const { review_id } = cursor
+      if (start_date && end_date) {
+        this.whereBetween('updated_at', [
+          dayjs(start_date).format('YYYY-MM-DD'),
+          dayjs(end_date).format('YYYY-MM-DD'),
+        ])
+      }
 
-        if (!review_id) {
+      if (cursor) {
+        const { review_id, updated_at } = cursor
+
+        if (!review_id || !updated_at) {
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw(`(review_id) < (?)`, [review_id])
+        this.whereRaw(`(updated_at, review_id) < (?, ?)`, [
+          dayjs(updated_at).toDate(),
+          review_id,
+        ])
       }
     })
-    .orderBy('review_id', 'desc')
+    .orderByRaw(`updated_at desc, review_id desc`)
     .limit(limit)
 }
 
