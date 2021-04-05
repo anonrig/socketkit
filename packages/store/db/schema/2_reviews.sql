@@ -36,4 +36,6 @@ CREATE TABLE reviews (
   FOREIGN KEY (application_id, country_id) REFERENCES reviews_watchlist
 );
 
+CREATE INDEX reviews_pagination_idx ON reviews (application_id, updated_at, review_id);
+
 GRANT SELECT, INSERT, UPDATE ON reviews TO "store-worker";
