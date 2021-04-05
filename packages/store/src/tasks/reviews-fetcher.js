@@ -43,7 +43,7 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
             last_fetch: dayjs(),
             last_error_message: error.message,
           })
-          .from('application_reviews_watchlist')
+          .from('reviews_watchlist')
           .where({
             application_id: app.application_id,
             country_id: app.country_id,
