@@ -6,7 +6,6 @@ import getTransactions from './transactions.js'
 import getPackages from './packages.js'
 import getCountries from './countries.js'
 import getVersions from './versions.js'
-import getReviews from './reviews.js'
 
 export default (f, _opts, done) => {
   f.route(getAll)
@@ -17,6 +16,5 @@ export default (f, _opts, done) => {
   f.route(getPackages)
   f.route(getCountries)
   f.route(getVersions)
-  f.route(getReviews)
   done()
 }

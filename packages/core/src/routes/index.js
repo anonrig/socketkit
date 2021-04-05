@@ -5,6 +5,7 @@ import customers from './customers/index.js'
 import transactions from './transactions/index.js'
 import reports from './reports/index.js'
 import search from './search/index.js'
+import reviews from './reviews/index.js'
 
 export default (f, _opts, done) => {
   f.register(applications, { prefix: 'applications' })
@@ -14,5 +15,6 @@ export default (f, _opts, done) => {
   f.register(transactions, { prefix: 'transactions' })
   f.register(reports, { prefix: 'reports' })
   f.register(search, { prefix: 'search' })
+  f.register(reviews, { prefix: 'reviews' })
   done()
 }

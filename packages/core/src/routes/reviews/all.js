@@ -3,16 +3,19 @@ import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
-  path: '/:application_id/reviews',
+  path: '/',
   schema: {
     querystring: {
       type: 'object',
       properties: {
+        application_id: { type: 'string' },
+        version: { type: 'string' },
         cursor: {
           type: 'object',
           properties: {
             review_id: { type: 'string' },
           },
+          required: ['review_id'],
         },
       },
     },
@@ -49,10 +52,44 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ params: { application_id }, query }) => {
+  handler: async ({
+    accounts: [{ account_id }],
+    query: { cursor, application_id, version },
+  }) => {
+    const { rows: integrations } = await grpc.storeIntegrations.findAll({
+      account_id: account_id,
+    })
+
+    if (integrations.length === 0) {
+      return {
+        rows: [],
+        cursor: null,
+      }
+    }
+
+    if (application_id) {
+      // version id is only available if application_id is available.
+      const version_ids = !!version ? [version] : []
+      const existing = integrations.find(
+        (i) => i.application_id === application_id,
+      )
+
+      if (!existing) {
+        return reply.preconditionFailed(
+          `Application integration does not exist`,
+        )
+      }
+
+      return grpc.reviews.findAll({
+        application_ids: [application_id],
+        version_ids,
+        cursor,
+      })
+    }
+
     return grpc.reviews.findAll({
-      application_id,
-      cursor: query.cursor,
+      application_ids: integrations.map((i) => i.application_id),
+      cursor,
     })
   },
 }
