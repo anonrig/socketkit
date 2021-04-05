@@ -19,7 +19,7 @@
     "@sentry/node": "^6.2.5",
     "@sentry/tracing": "^6.2.5",
     "@supercharge/promise-pool": "^1.6.1",
-    "appstore-sensor": "^0.5.1",
+    "appstore-sensor": "^0.5.2",
     "consola": "^2.15.3",
     "country-lang": "^0.3.6",
     "dayjs": "^1.10.4",
