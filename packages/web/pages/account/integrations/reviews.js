@@ -53,7 +53,8 @@ function ReviewsIntegration({ initialData }) {
   const updateApplication = (index, application) => {
     const existing = applications.find((a) => a?.application_id === application?.application_id)
     let manipulated = applications.slice(0)
-    if (application === null || !!existing) { // remove duplicates
+    if (application === null || !!existing) {
+      // remove duplicates
       manipulated.splice(index, 1)
       if (manipulated[manipulated.length - 1] !== null) {
         manipulated.push(null)
@@ -81,25 +82,35 @@ function ReviewsIntegration({ initialData }) {
           <div>
             <h2 className="text-lg leading-6 font-medium text-warmGray-900">
               Review Tracking - AppStore Connect
-              </h2>
+            </h2>
             <p className="mt-1 text-sm text-trueGray-500">
-              Easily track the reviews of your applications on AppStore for better customer
-              feedback and higher ratings.
-              </p>
+              Easily track the reviews of your applications on AppStore for better customer feedback
+              and higher ratings.
+            </p>
           </div>
           <div className="mt-6 grid grid-cols-4 gap-6">
             <div className="sm:col-span-4">
               <label htmlFor="city" className="block text-sm font-medium text-warmGray-700">
                 Application
-                </label>
+              </label>
               <div className="mt-1 space-y-4">
                 {applications.map((application, index) => (
-                  <div className="flex flex-row flex-1 space-x-4" key={application?.application_id ?? 'new-application'}>
+                  <div
+                    className="flex flex-row flex-1 space-x-4"
+                    key={application?.application_id ?? 'new-application'}>
                     <div className="flex-1">
-                      <SearchField placeholder="Type your application name or id" value={application} onValueChange={(a) => updateApplication(index, a)} />
+                      <SearchField
+                        placeholder="Type your application name or id"
+                        value={application}
+                        onValueChange={(a) => updateApplication(index, a)}
+                      />
                     </div>
                     <div className="">
-                      <CountryPicker selected={application?.country_ids ?? []} setSelected={(values) => updateCountry(index, values)} disabled={!application} />
+                      <CountryPicker
+                        selected={application?.country_ids ?? []}
+                        setSelected={(values) => updateCountry(index, values)}
+                        disabled={!!!application}
+                      />
                     </div>
                   </div>
                 ))}
@@ -116,7 +127,7 @@ function ReviewsIntegration({ initialData }) {
               loading={loading}
               onClick={() => router.push('/account/integrations')}>
               Cancel
-              </Button>
+            </Button>
 
             <Button
               className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
@@ -128,7 +139,7 @@ function ReviewsIntegration({ initialData }) {
           </div>
         </div>
       </div>
-    </section >
+    </section>
   )
 }
 

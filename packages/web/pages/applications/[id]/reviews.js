@@ -1,8 +1,9 @@
 import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 
+import Select from 'components/form/select'
 import Table from 'components/table/table'
 import { fetcher } from 'helpers/fetcher'
 import InlineRating from 'components/inline-rating.js'
@@ -16,23 +17,16 @@ export async function getServerSideProps({
     headers: { cookie, referer },
   },
 }) {
-  const format = 'YYYY-MM-DD'
-  const {
-    id,
-    start_date = dayjs().subtract(1, 'month').format(format),
-    end_date = dayjs().format(format),
-  } = query
-  const initialData = await fetcher(
-    `applications/${id}/reviews?from=${start_date}&to=${end_date}`,
-    { headers: { cookie, referer } },
-  )
+  const headers = { headers: { cookie, referer } }
+  const initialData = await fetcher(`reviews?application_id=${query.id}`, headers)
+  const { rows: versions } = await fetcher(`reviews/versions/${query.id}`, headers)
   return {
-    props: { initialData, id },
+    props: { initialData, id: query.id, versions },
   }
 }
 
-function ApplicationReviews({ initialData, id }) {
-  const router = useRouter()
+function ApplicationReviews({ initialData, id, versions }) {
+  const [versionFilter, setVersionFilter] = useState(null)
   const columns = useMemo(
     () => [
       {
@@ -42,7 +36,7 @@ function ApplicationReviews({ initialData, id }) {
           return (
             <div className="flex flex-row space-x-2 flex-1">
               {country_id}
-              <InlineRating rating={fields.score ?? 1} className="ml-1"/>
+              <InlineRating rating={fields.score ?? 1} className="ml-1" />
             </div>
           )
         },
@@ -58,7 +52,12 @@ function ApplicationReviews({ initialData, id }) {
         accessor: function ContentAccessor(field) {
           return (
             <div className="space-y-1 w-full relative overflow-hidden">
-              <div className="text-xs font-semibold">{field.title} - <a className="font-bold hover:text-orange-400" href={field.user_url}>{field.username}</a></div>
+              <div className="text-xs font-semibold">
+                {field.title} -{' '}
+                <a className="font-bold hover:text-orange-400" href={field.user_url}>
+                  {field.username}
+                </a>
+              </div>
               <p className="text-sm line-clamp-2">{field.content}</p>
             </div>
           )
@@ -69,17 +68,56 @@ function ApplicationReviews({ initialData, id }) {
     [],
   )
 
+  if (initialData.can_fetch) {
+    return (
+      <div className="mb-48">
+        <h2 className="text-xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
+          Reviews are not initialized
+        </h2>
+        <p className="text-xl text-warmGray-500 mb-4">
+          You need to add an integration to access your reviews for the application.
+        </p>
+        <Link href={'/account/integrations/reviews'}>
+          <a
+            className={
+              'flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 w-44'
+            }>
+            Start Tracking
+          </a>
+        </Link>
+      </div>
+    )
+  }
+
   return (
-    <Table
-      initialData={initialData}
-      url={`applications/${id}/reviews`}
-      options={{}}
-      columns={columns}
-      getRowProps={({ original }) => ({
-        key: original.review_id,
-        className: 'hover:bg-gray-50 cursor-pointer',
-      })}
-    />
+    <>
+      <div className="flex flex-1 mb-2 items-center space-x-4 justify-between">
+        <Select
+          selected={versionFilter}
+          setSelected={setVersionFilter}
+          values={versions}
+          renderer={({ version }) => `v${version}`}
+          rendererKey="version"
+          subtitleRenderer={({ released_at }) =>
+            released_at ? `Released at ${dayjs(released_at).format('DD/MM/YYYY')}` : null
+          }
+          buttonRenderer={(item) => (!!item ? `Version ${item}` : 'Versions')}
+        />
+      </div>
+      <Table
+        initialData={initialData}
+        url={`reviews`}
+        options={{
+          application_id: id,
+          ...(!!versionFilter ? { version: versionFilter } : {}),
+        }}
+        columns={columns}
+        getRowProps={({ original }) => ({
+          key: original.review_id,
+          className: 'hover:bg-gray-50 cursor-pointer',
+        })}
+      />
+    </>
   )
 }
 ApplicationReviews.propTypes = {
