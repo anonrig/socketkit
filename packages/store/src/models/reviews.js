@@ -18,7 +18,7 @@ export async function findAll(
       }
 
       if (version_ids?.length) {
-        this.andWhereIn('version_number', version_ids)
+        this.whereIn('version_number', version_ids)
       }
 
       if (cursor) {
