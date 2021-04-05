@@ -31,7 +31,7 @@ export default function SubscriptionPackages({ initialData, id }) {
         className: 'w-24',
       },
       { Header: 'Name', accessor: 'subscription_name' },
-      { Header: 'Duration', accessor: 'subscription_duration', className: 'text-right w-32' },
+      { Header: 'Duration', accessor: 'subscription_duration', className: '!text-right w-32' },
     ],
     [],
   )

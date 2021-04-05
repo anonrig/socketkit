@@ -45,7 +45,6 @@ export default function Customers({ initialData, id }) {
       undefined,
       { shallow: true },
     )
-    return null
   }
 
   const columns = useMemo(
@@ -69,19 +68,19 @@ export default function Customers({ initialData, id }) {
       {
         Header: 'Sales',
         accessor: (field) => `$${parseFloat(field.total_base_client_purchase).toFixed(2)}`,
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         Header: 'Proceeds',
         accessor: (field) => `$${parseFloat(field.total_base_developer_proceeds).toFixed(2)}`,
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         Header: 'Start Date',
         accessor: function IntervalAccessor(f) {
           return dayjs(f.first_interaction).format('YYYY-MM-DD')
         },
-        className: 'text-right w-32',
+        className: '!text-right w-36',
       },
     ],
     [],

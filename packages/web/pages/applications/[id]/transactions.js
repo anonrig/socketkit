@@ -56,7 +56,7 @@ export default function Transactions({ initialData, id }) {
         accessor: function SubscriptionAccessor(field) {
           return <div className="text-warmGray-900">{field.subscription_package_name}</div>
         },
-        className: 'truncate w-24',
+        className: 'truncate w-56',
       },
       {
         Header: 'Country',
@@ -67,14 +67,14 @@ export default function Transactions({ initialData, id }) {
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         Header: 'Proceed',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         Header: 'Type',
@@ -92,7 +92,7 @@ export default function Transactions({ initialData, id }) {
       {
         Header: 'Event Date',
         accessor: (field) => `${dayjs(field.event_date).format('DD/MM/YYYY')}`,
-        className: 'text-right w-32',
+        className: '!text-right w-32',
       },
     ],
     [],

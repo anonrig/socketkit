@@ -46,7 +46,6 @@ function Customers({ initialData, id }) {
       undefined,
       { shallow: true },
     )
-    return null
   }
 
   const columns = useMemo(

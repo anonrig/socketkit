@@ -40,12 +40,12 @@ function ApplicationReviews({ initialData, id, versions }) {
             </div>
           )
         },
-        className: 'text-left font-semibold w-24',
+        className: 'font-semibold w-24',
       },
       {
         Header: 'Version',
         accessor: 'version_number',
-        className: 'text-left w-20',
+        className: 'w-20',
       },
       {
         Header: 'Content',
@@ -62,7 +62,6 @@ function ApplicationReviews({ initialData, id, versions }) {
             </div>
           )
         },
-        className: 'text-left',
       },
     ],
     [],

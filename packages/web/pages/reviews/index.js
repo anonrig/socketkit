@@ -45,21 +45,6 @@ function Reviews({ initialData }) {
     }
   }, [applicationFilter])
 
-  if (!start_date || !end_date) {
-    router.push(
-      {
-        path: '/reviews',
-        query: {
-          start_date: dayjs().subtract(3, 'month').format('YYYY-MM-DD'),
-          end_date: dayjs().format('YYYY-MM-DD'),
-        },
-      },
-      undefined,
-      { shallow: true },
-    )
-    return null
-  }
-
   const columns = useMemo(
     () => [
       {
@@ -73,12 +58,12 @@ function Reviews({ initialData }) {
             </div>
           )
         },
-        className: 'text-left font-semibold w-24',
+        className: 'font-semibold w-24',
       },
       {
         Header: 'Version',
         accessor: 'version_number',
-        className: 'text-left w-20',
+        className: 'w-20',
       },
       {
         Header: 'Content',
@@ -95,11 +80,24 @@ function Reviews({ initialData }) {
             </div>
           )
         },
-        className: 'text-left',
       },
     ],
     [],
   )
+
+  if (!start_date || !end_date) {
+    router.push(
+      {
+        path: '/reviews',
+        query: {
+          start_date: dayjs().subtract(3, 'month').format('YYYY-MM-DD'),
+          end_date: dayjs().format('YYYY-MM-DD'),
+        },
+      },
+      undefined,
+      { shallow: true },
+    )
+  }
 
   return (
     <>

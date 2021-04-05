@@ -37,7 +37,6 @@ function Transactions({ initialData }) {
       undefined,
       { shallow: true },
     )
-    return null
   }
 
   const columns = useMemo(
@@ -48,7 +47,7 @@ function Transactions({ initialData }) {
         accessor: function SubscriptionAccessor(field) {
           return <div className="text-warmGray-900">{field.subscription_package_name}</div>
         },
-        className: 'truncate w-24',
+        className: 'truncate w-56',
       },
       {
         id: 'country_name',
@@ -61,7 +60,7 @@ function Transactions({ initialData }) {
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         id: 'base_developer_proceeds',
@@ -69,7 +68,7 @@ function Transactions({ initialData }) {
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
         id: 'transaction_type',
