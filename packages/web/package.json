@@ -11,7 +11,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
-    "@headlessui/react": "^0.3.1",
+    "@headlessui/react": "^0.3.2",
     "@heroicons/react": "^1.0.0",
     "@nivo/bar": "^0.67.0",
     "@nivo/core": "^0.67.0",
@@ -22,7 +22,7 @@
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/line-clamp": "^0.2.0",
     "@tailwindcss/typography": "^0.4.0",
-    "classnames": "^2.3.0",
+    "classnames": "^2.3.1",
     "date-fns": "^2.19.0",
     "dayjs": "^1.10.4",
     "next": "10.1.3",
