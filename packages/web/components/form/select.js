@@ -20,11 +20,16 @@ function Select({
     ) : null
   }
   return (
-    <Listbox value={selected} onChange={setSelected} className="relative">
+    <Listbox value={selected} onChange={setSelected} className="relative z-20">
       {({ open }) => (
         <div className="relative">
           <Listbox.Button className="relative inline-flex items-center bg-orange-500 py-2 pl-3 pr-0 border border-transparent rounded-md shadow-sm text-white">
-            <p className="ml-2.5 text-sm font-medium">{buttonRenderer(selected)}</p>
+            <p className="ml-2.5 text-sm font-medium">
+              {buttonRenderer(
+                selected,
+                values?.find((item) => item[rendererKey] === selected),
+              )}
+            </p>
             <span className="px-2 items-center">
               <ChevronDownIcon className="h-5 w-5 text-white text-sm font-medium" />
             </span>

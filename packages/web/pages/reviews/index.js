@@ -1,6 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
+import useSWR from 'swr'
+
+import Select from 'components/form/select'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table/table'
 import InlineRating from 'components/inline-rating'
@@ -22,8 +25,25 @@ export async function getServerSideProps({ query = {}, req: { headers } }) {
 }
 
 function Reviews({ initialData }) {
+  const { data: applications } = useSWR(`integrations/reviews`, { refreshInterval: 0 })
+  const [applicationFilter, setApplicationFilter] = useState(null)
+  const [versionFilter, setVersionFilter] = useState(null)
+  const [availableVersions, setAvailableVersions] = useState([])
   const router = useRouter()
   const { start_date, end_date } = router.query
+
+  useEffect(() => {
+    async function process() {
+      const { rows } = await fetcher(`reviews/versions/${applicationFilter}`)
+      setAvailableVersions(rows)
+    }
+
+    setVersionFilter(null)
+
+    if (!!applicationFilter) {
+      process()
+    }
+  }, [applicationFilter])
 
   if (!start_date || !end_date) {
     router.push(
@@ -104,17 +124,45 @@ function Reviews({ initialData }) {
           }}
         />
       </div>
+      <div className="flex flex-1 mb-2 items-center space-x-4">
+        <Select
+          selected={applicationFilter}
+          setSelected={setApplicationFilter}
+          values={applications ?? []}
+          renderer={({ application_title }) => application_title}
+          rendererKey="application_id"
+          subtitleRenderer={({ country_ids }) => `Tracking ${country_ids.length} countries`}
+          buttonRenderer={(_, { application_title } = {}) =>
+            !!application_title ? application_title : 'Applications'
+          }
+        />
+        {applicationFilter && availableVersions.length > 0 && (
+          <Select
+            selected={versionFilter}
+            setSelected={setVersionFilter}
+            values={availableVersions ?? []}
+            renderer={({ version }) => `v${version}`}
+            rendererKey="version"
+            subtitleRenderer={({ released_at }) =>
+              released_at ? `Released at ${dayjs(released_at).format('DD/MM/YYYY')}` : null
+            }
+            buttonRenderer={(item) => (!!item ? `Version ${item}` : 'Versions')}
+          />
+        )}
+        <div></div>
+      </div>
       <Table
         initialData={initialData}
         url="reviews"
         options={{
           from: dayjs(start_date).format('YYYY-MM-DD'),
           to: dayjs(end_date).format('YYYY-MM-DD'),
+          ...(applicationFilter ? { application_id: applicationFilter } : null),
+          ...(!!applicationFilter && !!versionFilter ? { version: versionFilter } : null),
         }}
         columns={columns}
         getRowProps={({ original }) => ({
-          id: original.client_id,
-          onClick: () => router.push(`/customers/${original.client_id}`),
+          id: original.review_id,
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
         })}
       />
