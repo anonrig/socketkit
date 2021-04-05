@@ -102,7 +102,7 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       )
       .into('reviews')
       .onConflict(['review_id'])
-      .ignore()
+      .merge()
       .transacting(trx)
 
     await pg
