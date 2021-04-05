@@ -4,24 +4,21 @@ import { scrapeReviews } from '../requests/app-store.js'
 import dayjs from 'dayjs'
 
 export async function findAll(
-  { application_id, country_id, version },
-  {
-    cursor,
-    limit = 10,
-  },
+  { application_ids, country_ids, version_ids },
+  { cursor, limit = 10 },
 ) {
   return pg
     .queryBuilder()
     .select('*')
     .from('reviews')
-    .where({ application_id })
+    .whereIn('application_id', application_ids)
     .andWhere(function () {
-      if (country_id) {
-        this.andWhere({ country_id })
+      if (country_ids?.length) {
+        this.whereIn('country_id', country_ids)
       }
 
-      if (version) {
-        this.andWhere({ version })
+      if (version_ids?.length) {
+        this.andWhereIn('version_number', version_ids)
       }
 
       if (cursor) {

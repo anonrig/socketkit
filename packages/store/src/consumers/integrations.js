@@ -4,7 +4,7 @@ import * as Integrations from '../models/integrations.js'
 export async function upsertAll(ctx) {
   const { account_id, applications } = ctx.req
   await pg.transaction((trx) =>
-    Integrations.upsertAll({ account_id, applications }, trx)
+    Integrations.upsertAll({ account_id, applications }, trx),
   )
   ctx.res = {}
 }

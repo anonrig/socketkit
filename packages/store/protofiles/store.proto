@@ -38,17 +38,13 @@ message AccountIdRequest {
 }
 
 message ReviewApplicationIdRequest {
-  string application_id = 1;
-  oneof optional_country_id {
-    string country_id = 2;
-  }
-  oneof optional_version {
-    string version = 3;
-  }
+  repeated string application_ids = 1;
+  repeated string country_ids = 2;
+  repeated string version_ids = 3;
+
   oneof optional_limit {
     int32 limit = 6;
   }
-
   oneof optional_cursor {
     ReviewCursor cursor = 7;
   }
