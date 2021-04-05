@@ -9,6 +9,7 @@ import config from '../config.js'
 
 export default function fetchReviews(limit = config.reviews_batch_size) {
   const logger = Logger.create().withScope('fetchReviews')
+
   return pg.transaction(async (trx) => {
     const applications = await pg
       .queryBuilder()
@@ -26,8 +27,11 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
       .transacting(trx)
 
     if (applications.length === 0) {
+      logger.debug('Received 0 applications')
       return 0
     }
+
+    logger.debug(`Found ${applications.length} applications`)
 
     const enabled_applications = []
     for (let app of applications) {
