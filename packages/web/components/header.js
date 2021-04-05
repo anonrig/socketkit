@@ -45,6 +45,11 @@ function Header() {
                   Customers
                 </a>
               </Link>
+              <Link href="/reviews">
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reviews')])}>
+                  Reviews
+                </a>
+              </Link>
             </nav>
           </div>
 

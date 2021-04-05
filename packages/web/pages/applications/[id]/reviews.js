@@ -68,14 +68,14 @@ function ApplicationReviews({ initialData, id, versions }) {
     [],
   )
 
-  if (initialData.can_fetch) {
+  if (!initialData.fetching) {
     return (
       <div className="mb-48">
         <h2 className="text-xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-          Reviews are not initialized
+          Start tracking
         </h2>
         <p className="text-xl text-warmGray-500 mb-4">
-          You need to add an integration to access your reviews for the application.
+          You need to add an integration to access the reviews for your application.
         </p>
         <Link href={'/account/integrations/reviews'}>
           <a
@@ -123,6 +123,7 @@ function ApplicationReviews({ initialData, id, versions }) {
 ApplicationReviews.propTypes = {
   id: PropTypes.string.isRequired,
   initialData: PropTypes.shape({
+    fetching: PropTypes.bool.isRequired,
     rows: PropTypes.arrayOf(
       PropTypes.shape({
         review_id: PropTypes.string.isRequired,

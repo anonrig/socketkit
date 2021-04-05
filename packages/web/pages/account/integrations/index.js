@@ -26,7 +26,6 @@ export async function getServerSideProps({
 }
 
 function Integrations({ initial }) {
-  console.log(initial)
   const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
     initialData: initial.appstoreConnect,
   })
