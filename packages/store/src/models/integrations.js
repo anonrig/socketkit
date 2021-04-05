@@ -29,18 +29,18 @@ export async function findAll({ account_id }) {
       'i.account_id': account_id,
     })
     .join('applications AS a', 'a.application_id', 'i.application_id')
-    .join('application_releases AS ar', function() {
+    .join('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
       )
     })
-    .join('application_version_contents AS avc', function() {
+    .join('application_version_contents AS avc', function () {
       this.on('a.application_id', 'avc.application_id')
         .andOn('ar.latest_version_number', 'avc.version_number')
         .andOn('ar.default_language_id', 'avc.language_id')
     })
-    .join('application_versions AS av', function() {
+    .join('application_versions AS av', function () {
       this.on('a.application_id', 'av.application_id').andOn(
         'ar.latest_version_number',
         'av.version_number',
@@ -122,21 +122,23 @@ export async function upsertAll({ account_id, applications }, trx) {
     )
     .flat()
 
-  await pg
-    .queryBuilder()
-    .insert(flat_applications)
-    .into('reviews_watchlist')
-    .onConflict(['application_id', 'country_id'])
-    .ignore()
-    .transacting(trx)
+  if (flat_applications.length) {
+    await pg
+      .queryBuilder()
+      .insert(flat_applications)
+      .into('reviews_watchlist')
+      .onConflict(['application_id', 'country_id'])
+      .ignore()
+      .transacting(trx)
 
-  await pg
-    .queryBuilder()
-    .insert(flat_applications.map((f) => ({ ...f, account_id })))
-    .into('integrations')
-    .onConflict(['application_id', 'account_id', 'country_id'])
-    .ignore()
-    .transacting(trx)
+    await pg
+      .queryBuilder()
+      .insert(flat_applications.map((f) => ({ ...f, account_id })))
+      .into('integrations')
+      .onConflict(['application_id', 'account_id', 'country_id'])
+      .ignore()
+      .transacting(trx)
+  }
 
   return {}
 }

@@ -12,6 +12,7 @@ service Applications {
 
 service Reviews {
   rpc findAll(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
+  rpc findVersions(ApplicationIdRequest) returns (ReviewApplicationVersionsResponse) {}
 }
 
 service Integrations {
@@ -67,6 +68,10 @@ message ApplicationIdRequest {
 
   oneof optional_bundle_id {
     string bundle_id = 2;
+  }
+
+  oneof optional_country_id {
+    string country_id = 3;
   }
 }
 
@@ -132,6 +137,10 @@ message IntegrationResponse {
 
 message SearchResponse {
   repeated SearchResponseRow rows = 1;
+}
+
+message ReviewApplicationVersionsResponse {
+  repeated ApplicationVersionSimplified rows = 1;
 }
 
 // Models
@@ -217,7 +226,10 @@ message ApplicationVersion {
 
 message ApplicationVersionSimplified {
   string version = 1;
-  string released_at = 2;
+  oneof optional_released_at {
+    // optional if it does not exist on application_versions table
+    string released_at = 2;
+  }
 }
 
 message Integration {

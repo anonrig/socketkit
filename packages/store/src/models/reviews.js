@@ -35,6 +35,24 @@ export async function findAll(
     .limit(limit)
 }
 
+export async function findVersions({ application_id }) {
+  return pg
+    .queryBuilder()
+    .select({
+      version: pg.raw(`DISTINCT(r.version_number)`),
+      released_at: 'av.released_at',
+    })
+    .from('reviews AS r')
+    .where('r.application_id', application_id)
+    .leftJoin('application_versions AS av', function () {
+      this.on('av.application_id', 'r.application_id').andOn(
+        'av.version_number',
+        'r.version_number',
+      )
+    })
+    .orderBy('version', 'desc')
+}
+
 export async function create({ application_id, country_id, page = 1 }, trx) {
   const logger = Logger.create()
     .withScope('application-reviews')

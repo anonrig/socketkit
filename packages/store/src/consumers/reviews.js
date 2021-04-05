@@ -15,3 +15,10 @@ export async function findAll(ctx) {
     cursor: latest ? _.pick(latest, ['review_id']) : null,
   }
 }
+
+export async function findVersions(ctx) {
+  const { application_id } = ctx.req
+  ctx.res = {
+    rows: await Reviews.findVersions({ application_id }),
+  }
+}
