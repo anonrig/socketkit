@@ -17,7 +17,7 @@
     "@ory/kratos-client": "^0.5.5-alpha.4",
     "@sentry/node": "^6.2.5",
     "@sentry/tracing": "^6.2.5",
-    "ajv": "^8.0.3",
+    "ajv": "^8.0.5",
     "consola": "^2.15.3",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
