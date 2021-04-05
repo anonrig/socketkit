@@ -71,7 +71,7 @@ function ApplicationReviews({ initialData, id, versions }) {
     return (
       <div className="mb-48">
         <h2 className="text-xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-          Start tracking
+          Start tracking reviews
         </h2>
         <p className="text-xl text-warmGray-500 mb-4">
           You need to add an integration to access the reviews for your application.
