@@ -43,6 +43,13 @@ message ReviewApplicationIdRequest {
   repeated string country_ids = 2;
   repeated string version_ids = 3;
 
+  oneof optional_start_date {
+    string start_date = 4;
+  }
+  oneof optional_end_date {
+    string end_date = 5;
+  }
+
   oneof optional_limit {
     int32 limit = 6;
   }
@@ -156,6 +163,7 @@ message Review {
   string review_url = 8;
   string title = 9;
   string content = 10;
+  string updated_at = 11;
 }
 
 message Application {
@@ -254,4 +262,5 @@ message ApplicationIntegrations {
 
 message ReviewCursor {
   string review_id = 1;
+  string updated_at = 2;
 }

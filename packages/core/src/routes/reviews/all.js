@@ -14,8 +14,9 @@ export default {
           type: 'object',
           properties: {
             review_id: { type: 'string' },
+            updated_at: { type: 'string' },
           },
-          required: ['review_id'],
+          required: ['review_id', 'updated_at'],
         },
       },
     },
@@ -23,10 +24,12 @@ export default {
       200: {
         type: 'object',
         properties: {
+          fetching: { type: 'boolean', default: true },
           cursor: {
             type: ['object', 'null'],
             properties: {
               review_id: { type: 'string' },
+              updated_at: { type: 'string' },
             },
           },
           rows: {
@@ -62,6 +65,7 @@ export default {
 
     if (integrations.length === 0) {
       return {
+        fetching: false,
         rows: [],
         cursor: null,
       }
@@ -75,9 +79,11 @@ export default {
       )
 
       if (!existing) {
-        return reply.preconditionFailed(
-          `Application integration does not exist`,
-        )
+        return {
+          fetching: false,
+          rows: [],
+          cursor: null,
+        }
       }
 
       return grpc.reviews.findAll({
