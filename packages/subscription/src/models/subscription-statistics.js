@@ -12,10 +12,10 @@ export function groupByCountry({
       pg.raw('c.country_id AS country_id'),
       pg.raw('count(*) AS total_count'),
       pg.raw(
-        'count(*) FILTER (WHERE lower(s.active_period) + s.free_trial_duration < upper(s.active_period)) AS trial_past_count',
+        'count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration < s.subscription_expired_at) AS trial_past_count',
       ),
       pg.raw(
-        'count(*) FILTER (WHERE upper(s.active_period) < ?) AS churn_count',
+        'count(*) FILTER (WHERE s.subscription_expired_at < ?) AS churn_count',
         [end_date || 'today'],
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
@@ -58,14 +58,14 @@ export function count({ account_id, application_id, start_date, end_date }) {
         ]),
         pg.raw(
           'count(*) FILTER (' +
-            ' WHERE lower(active_period) + free_trial_duration >= upper(active_period)' +
+            ' WHERE subscription_started_at + free_trial_duration = subscription_expired_at' +
             ') AS total_trial',
         ),
         pg.raw(
           'count(*) FILTER (' +
             ' WHERE daterange(' +
-            '   lower(active_period),' +
-            '   (lower(active_period) + free_trial_duration)::date' +
+            '   subscription_started_at,' +
+            '   (subscription_started_at + free_trial_duration)::date' +
             ') @> ?::date) AS current_trial',
           [end_date || 'today'],
         ),
@@ -79,8 +79,8 @@ export function count({ account_id, application_id, start_date, end_date }) {
               pg.raw(
                 'count(*) FILTER (' +
                   ' WHERE daterange(' +
-                  '   lower(active_period),' +
-                  '   (lower(active_period) + free_trial_duration)::date' +
+                  '   subscription_started_at,' +
+                  '   (subscription_started_at + free_trial_duration)::date' +
                   ') @> ?::date) AS at_start_trial',
                 [start_date],
               ),

@@ -111,7 +111,7 @@ export async function getAverageSale({
             (30 * 24 * 60 * 60 / date_part('epoch', s.subscription_duration)))
             AS mrr
           FROM transactions t
-            JOIN subscription_packages s USING (account_id, subscription_package_id)
+            JOIN subscriptions s USING (account_id, subscription_group_id, client_id, subscription_started_at)
           WHERE t.account_id = ? AND
             t.transaction_type = 'conversion' AND
             t.event_date >= g AND

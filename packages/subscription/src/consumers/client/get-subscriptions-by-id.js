@@ -15,7 +15,7 @@ export default async function getSubscriptionsById({ client_id, account_id }) {
     })
     .where('s.client_id', client_id)
     .andWhere('s.account_id', account_id)
-    .orderByRaw('lower(s.active_period) desc')
+    .orderBy('s.subscription_started_at', 'DESC')
 
   return subscriptions.map((s) => ({
     ...s,

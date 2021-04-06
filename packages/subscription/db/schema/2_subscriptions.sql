@@ -15,10 +15,15 @@ CREATE TABLE subscription_packages (
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-worker";
 
 CREATE TABLE subscriptions (
-  subscription_duration interval NOT NULL,
+  subscription_started_at date NOT NULL,
+  subscription_expired_at date NOT NULL,
   free_trial_duration interval NOT NULL DEFAULT '00:00:00',
+  subscription_duration interval NOT NULL,
   account_id uuid NOT NULL,
-  active_period daterange NOT NULL DEFAULT 'empty',
+  active_period daterange NOT NULL
+    GENERATED ALWAYS AS (daterange(
+      subscription_started_at, subscription_expired_at, '[]'
+    )) STORED,
   total_base_client_purchase numeric NOT NULL DEFAULT '0.00',
   total_base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
   client_id text NOT NULL,
@@ -26,7 +31,7 @@ CREATE TABLE subscriptions (
   subscription_package_id text NOT NULL,
   subscription_group_id text NOT NULL,
 
-  PRIMARY KEY (account_id, subscription_package_id, client_id),
+  PRIMARY KEY (account_id, subscription_group_id, client_id, subscription_started_at),
 
   FOREIGN KEY (account_id, subscription_group_id, subscription_duration, subscription_package_id)
     REFERENCES subscription_packages (account_id, subscription_group_id, subscription_duration, subscription_package_id),
@@ -39,7 +44,9 @@ CREATE TABLE subscriptions (
     active_period WITH &&,
     subscription_group_id WITH =,
     client_id WITH =
-  )
+  ),
+
+  CHECK (subscription_started_at <= subscription_expired_at)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";

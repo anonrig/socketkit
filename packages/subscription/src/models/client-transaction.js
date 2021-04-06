@@ -13,12 +13,20 @@ export async function findAll(
       event_date: pg.raw(`TO_CHAR(t.event_date, 'YYYY-MM-DD')`),
       base_client_purchase: 't.base_client_purchase',
       base_developer_proceeds: 't.base_developer_proceeds',
-      subscription_package_id: 't.subscription_package_id',
+      subscription_package_id: 's.subscription_package_id',
       subscription_package_name: 'sp.name',
       application_id: 't.application_id',
       country_id: 'c.country_id',
     })
     .from('transactions as t')
+    .innerJoin('subscriptions as s', function () {
+      this.using([
+        'account_id',
+        'subscription_group_id',
+        'client_id',
+        'subscription_started_at',
+      ])
+    })
     .innerJoin('subscription_packages as sp', function () {
       this.using([
         'account_id',

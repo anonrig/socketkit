@@ -6,24 +6,26 @@ CREATE TYPE transaction_type AS ENUM ('trial', 'conversion', 'renewal', 'refund'
 CREATE TABLE transactions (
   transaction_type transaction_type NOT NULL,
   event_date date NOT NULL,
+  subscription_started_at date NOT NULL,
   account_id uuid NOT NULL,
   client_purchase numeric NOT NULL DEFAULT '0.00',
   developer_proceeds numeric NOT NULL DEFAULT '0.00',
   base_client_purchase numeric NOT NULL DEFAULT '0.00',
   base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
   subscription_group_id text NOT NULL,
-  subscription_package_id text NOT NULL,
   client_id text NOT NULL,
   application_id text NOT NULL,
   client_currency_id text NOT NULL,
   developer_currency_id text NOT NULL,
   base_currency_id text NOT NULL,
 
-  FOREIGN KEY (account_id, subscription_package_id, client_id)
+  FOREIGN KEY (account_id, subscription_group_id, client_id, subscription_started_at)
     REFERENCES subscriptions,
 
   FOREIGN KEY (account_id, client_id)
-    REFERENCES clients
+    REFERENCES clients,
+
+  CHECK (subscription_started_at <= event_date)
 );
 
 CREATE INDEX ON transactions (account_id, event_date);
@@ -37,24 +39,19 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
   BEGIN
     UPDATE subscriptions
     SET
-      active_period = daterange(
-        LEAST(lower(active_period), NEW.event_date),
-        GREATEST(
-          upper(active_period),
-          CASE NEW.transaction_type
-            WHEN 'trial' THEN (NEW.event_date + free_trial_duration)::date
-            WHEN 'conversion' THEN (NEW.event_date + subscription_duration)::date
-            WHEN 'renewal' THEN (NEW.event_date + subscription_duration)::date
-            WHEN 'refund' THEN (NEW.event_date + interval '1 day')::date
-          END
-        )
-      ),
+      subscription_expired_at = CASE NEW.transaction_type
+        WHEN 'trial' THEN (NEW.event_date + free_trial_duration)::date
+        WHEN 'conversion' THEN (NEW.event_date + subscription_duration)::date
+        WHEN 'renewal' THEN (NEW.event_date + subscription_duration)::date
+        WHEN 'refund' THEN NEW.event_date
+      END,
       total_base_client_purchase = total_base_client_purchase + NEW.base_client_purchase,
       total_base_developer_proceeds = total_base_developer_proceeds + NEW.base_developer_proceeds
     WHERE
       account_id = NEW.account_id AND
+      subscription_group_id = NEW.subscription_group_id AND
       client_id = NEW.client_id AND
-      subscription_package_id = NEW.subscription_package_id;
+      subscription_started_at = NEW.subscription_started_at;
 
     RETURN NEW;
   END;

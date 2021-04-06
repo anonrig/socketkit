@@ -110,14 +110,14 @@ export async function getTrialToPaid({
           SELECT
             count(*) AS total,
             count(*) FILTER (
-              WHERE (lower(s.active_period) + s.free_trial_duration)::date <
-                upper(s.active_period)) AS converted
+              WHERE (subscription_started_at + s.free_trial_duration)::date <
+                subscription_expired_at) AS converted
           FROM subscriptions s
           WHERE
             s.account_id = ? AND
             s.active_period && daterange(g::date, (g + ?::interval)::date) AND
             s.free_trial_duration > '00:00'::interval AND
-            (lower(s.active_period) + s.free_trial_duration)::date <@
+            (s.subscription_started_at + s.free_trial_duration)::date <@
               daterange(g.date,  (g.date + ?::interval)::date)
         ) l
       `,
