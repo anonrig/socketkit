@@ -43,7 +43,7 @@ export default function fetchIntegrations() {
     )
 
     const vendor_id = integration.vendor_ids[0]
-    let state = integration.state
+    let state = 'active'
     let failed_fetches = 0
     let next_day = dayjs(integration.last_fetch).add(1, 'day')
     let transactions = null
@@ -61,8 +61,6 @@ export default function fetchIntegrations() {
         date: next_day.format('YYYYMMDD'),
         reportVersion: '1_2',
       })
-
-      state = 'active'
     } catch (error) {
       if (!error.message.includes('404')) {
         state = 'error'
