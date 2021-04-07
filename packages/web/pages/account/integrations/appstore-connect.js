@@ -69,7 +69,7 @@ function AppStoreConnectIntegration({ initialData }) {
                   className="inline underline text-orange-500 text-sm font-semibold"
                   target="_blank"
                   rel="noreferrer"
-                  href="https://www.socketkit.com/blog/guides/how-to-integrate-appstore-connect">
+                  href="https://socketkit.com/blog/guides/how-to-integrate-appstore-connect">
                   our guide
                 </a>
                 .
@@ -97,7 +97,9 @@ function AppStoreConnectIntegration({ initialData }) {
                 loading={false}>
                 Delete & Disable Integration
               </Button>
-            ) : <div></div>}
+            ) : (
+              <div></div>
+            )}
 
             <div className="space-x-4">
               <Button
