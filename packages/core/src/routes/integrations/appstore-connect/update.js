@@ -28,7 +28,7 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], body }) => {
+  handler: async ({ accounts: [account], body }, reply) => {
     const { state } = await grpc.integrations.validate({
       access_token: body.requirement_payload.access_token.trim(),
     })
