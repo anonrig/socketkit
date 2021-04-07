@@ -1,38 +1,15 @@
+import dayjs from 'dayjs'
 import AppStoreReporter from 'appstore-reporter'
+import grpc from '@grpc/grpc-js'
+
 import onValidate from './on-validate.js'
 import * as Integrations from '../../models/integration.js'
-import * as Providers from '../../models/provider.js'
+import pg from '../../pg.js'
 
 export const validate = async (ctx) => {
   const { access_token } = ctx.req
   ctx.res = {
     state: await onValidate(access_token),
-  }
-}
-
-export const create = async (ctx) => {
-  const { account_id, provider_id, access_token } = ctx.req
-
-  if (await Integrations.findOne({ account_id, provider_id })) {
-    return (ctx.res = { state: true })
-  }
-
-  if (!(await Providers.findOne({ provider_id }))) {
-    throw new Error(`Provider ${provider_id} not found`)
-  }
-
-  const reporter = new AppStoreReporter.default({ accessToken: access_token })
-  const vendor_ids = await reporter.sales.getVendors()
-
-  await Integrations.create({
-    account_id,
-    provider_id,
-    access_token,
-    vendor_ids,
-  })
-
-  ctx.res = {
-    state: true,
   }
 }
 
@@ -52,15 +29,64 @@ export const findOne = async (ctx) => {
   }
 }
 
-export const update = async (ctx) => {
+export const upsert = async (ctx) => {
   const { account_id, provider_id, access_token } = ctx.req
-  const integration = await Integrations.findOne({ account_id, provider_id })
 
-  if (!integration) {
-    throw new Error(`Integration not found`)
-  }
+  await pg.transaction(async (trx) => {
+    const provider = await pg
+      .queryBuilder()
+      .select('*')
+      .from('providers')
+      .where({ provider_id })
+      .first()
+      .transacting(trx)
 
-  await Integrations.update({ account_id, provider_id, access_token })
+    if (!provider) {
+      const error = new Error(`Provider not found`)
+      error.code = grpc.status.NOT_FOUND
+      throw error
+    }
+
+    const integration = await pg
+      .queryBuilder()
+      .select('*')
+      .from('integrations')
+      .where({ account_id, provider_id })
+      .first()
+      .transacting(trx)
+      .forUpdate()
+
+    if (!integration) {
+      const reporter = new AppStoreReporter.default({
+        accessToken: access_token,
+      })
+      const vendor_ids = await reporter.sales.getVendors()
+
+      await pg
+        .queryBuilder()
+        .insert({
+          account_id,
+          provider_id,
+          access_token,
+          vendor_ids,
+          last_fetch: dayjs().subtract(9, 'months'),
+        })
+        .into('integrations')
+        .transacting(trx)
+        .onConflict(['account_id', 'provider_id'])
+        .merge()
+    } else {
+      await pg
+        .queryBuilder()
+        .update({ access_token })
+        .where({ account_id, provider_id })
+        .from('integrations')
+        .transacting(trx)
+    }
+
+    return {}
+  })
+
   ctx.res = { state: true }
 }
 
