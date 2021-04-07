@@ -3,6 +3,12 @@ import dayjs from 'dayjs'
 import { countryCodeEmoji, getRatingEmojis } from '../helpers.js'
 
 // https://github.com/matthew1232/discord-webhook-node
+export async function send(type = 'review', { url, review }) {
+  if (type === 'review') {
+    sendReview(url, review)
+  }
+}
+
 export async function sendReview(url, review) {
   const {
     username,

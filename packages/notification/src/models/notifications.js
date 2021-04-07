@@ -16,8 +16,7 @@ export async function send({ account_id, provider_id, review }, trx) {
     .queryBuilder()
     .select('*')
     .from('integrations')
-    // .where({ account_id, provider_id, is_active: true })
-    .where({ account_id, provider_id })
+    .where({ account_id, provider_id, is_active: true })
     .first()
     .transacting(trx)
     .forUpdate()
@@ -29,14 +28,15 @@ export async function send({ account_id, provider_id, review }, trx) {
   }
 
   const { url } = integration.requirement
+  const type = !!review ? 'review' : 'unknown'
 
   try {
     switch (provider_id) {
       case 'slack':
-        await Slack.sendReview(url, review)
+        await Slack.send(type, { url, review })
         break
       case 'discord':
-        await Discord.sendReview(url, review)
+        await Discord.send(type, { url, review })
         break
     }
 
