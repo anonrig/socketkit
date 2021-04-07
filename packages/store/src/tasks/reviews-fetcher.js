@@ -40,7 +40,7 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
         enabled_applications.push(app)
       } catch (error) {
         logger.warn(error)
-        const failed_fetches = app.failed_fetches + 1
+        const failed_fetches = (app.failed_fetches ?? 0) + 1
 
         await pg
           .queryBuilder()
