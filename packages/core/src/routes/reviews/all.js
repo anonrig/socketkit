@@ -9,6 +9,7 @@ export default {
       type: 'object',
       properties: {
         application_id: { type: 'string' },
+        country_id: { type: 'string' },
         version: { type: 'string' },
         cursor: {
           type: 'object',
@@ -57,8 +58,9 @@ export default {
   preHandler: verify,
   handler: async ({
     accounts: [{ account_id }],
-    query: { cursor, application_id, version },
+    query: { cursor, application_id, country_id, version },
   }) => {
+    const country_ids = !!country_id ? [country_id] : []
     const { rows: integrations } = await grpc.storeIntegrations.findAll({
       account_id: account_id,
     })
@@ -88,6 +90,7 @@ export default {
 
       return grpc.reviews.findAll({
         application_ids: [application_id],
+        country_ids,
         version_ids,
         cursor,
       })
@@ -95,6 +98,7 @@ export default {
 
     return grpc.reviews.findAll({
       application_ids: integrations.map((i) => i.application_id),
+      country_ids,
       cursor,
     })
   },

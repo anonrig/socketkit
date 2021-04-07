@@ -13,6 +13,7 @@ service Applications {
 service Reviews {
   rpc findAll(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
   rpc findVersions(ApplicationIdRequest) returns (ReviewApplicationVersionsResponse) {}
+  rpc findCountries(AccountIdRequest) returns (IntegrationCountriesResponse) {}
 }
 
 service Integrations {
@@ -36,6 +37,10 @@ message SearchRequest {
 
 message AccountIdRequest {
   string account_id = 1;
+
+  oneof optional_application_id {
+    string application_id = 2;
+  }
 }
 
 message ReviewApplicationIdRequest {
@@ -148,6 +153,10 @@ message SearchResponse {
 
 message ReviewApplicationVersionsResponse {
   repeated ApplicationVersionSimplified rows = 1;
+}
+
+message IntegrationCountriesResponse {
+  repeated CountrySimplified rows = 1;
 }
 
 // Models
@@ -263,4 +272,8 @@ message ApplicationIntegrations {
 message ReviewCursor {
   string review_id = 1;
   string updated_at = 2;
+}
+
+message CountrySimplified {
+  string country_id = 1;
 }
