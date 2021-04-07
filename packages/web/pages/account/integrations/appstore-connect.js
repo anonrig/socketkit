@@ -63,21 +63,24 @@ function AppStoreConnectIntegration({ initialData }) {
                 Subscription Tracking - AppStore Connect
               </h2>
               <p className="mt-1 text-sm text-trueGray-500">
-                In order to use AppStore Connect integration, first you need to get your access
-                token from AppStore Connect. Access{' '}
+                In order to use AppStore Connect integration, you need to copy your reporter token
+                from{' '}
                 <a
                   className="inline underline text-orange-500 text-sm font-semibold"
                   target="_blank"
                   rel="noreferrer"
                   href="https://socketkit.com/blog/guides/how-to-integrate-appstore-connect">
-                  our guide
+                  AppStore Connect
                 </a>
                 .
+              </p>
+              <p className="mt-1 text-sm text-trueGray-500">
+                Make sure it is an active developer account with sales and subscriptions.
               </p>
             </div>
             <div className="text-warmGray-900 mt-6 flex flex-1 flex-col mt-6">
               <label className="block text-sm font-medium" htmlFor={'access_token'}>
-                Access Token
+                Reporter Token
               </label>
               <input
                 {...register('access_token', { required: true })}
@@ -93,8 +96,7 @@ function AppStoreConnectIntegration({ initialData }) {
             {data?.access_token ? (
               <Button
                 onClick={() => onSubmit(null, null, true)}
-                className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400"
-                loading={false}>
+                className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400">
                 Delete & Disable Integration
               </Button>
             ) : (
@@ -104,14 +106,14 @@ function AppStoreConnectIntegration({ initialData }) {
             <div className="space-x-4">
               <Button
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                loading={loading}
+                disabled={loading}
                 onClick={() => router.push('/account/integrations')}>
                 Cancel
               </Button>
 
               <Button
                 className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
-                loading={loading}
+                disabled={loading}
                 type="submit">
                 {data?.access_token ? 'Update' : 'Create'}
               </Button>
