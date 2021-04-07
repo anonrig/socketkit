@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import dayjs from 'dayjs'
 import * as Reviews from '../models/reviews.js'
 
 export async function findAll(ctx) {
@@ -19,7 +20,12 @@ export async function findAll(ctx) {
 
   ctx.res = {
     rows,
-    cursor: latest ? _.pick(latest, ['review_id', 'updated_at']) : null,
+    cursor: latest
+      ? {
+          review_id: latest.review_id,
+          updated_at: dayjs(latest.updated_at).format('YYYY-MM-DD'),
+        }
+      : null,
   }
 }
 
@@ -27,5 +33,12 @@ export async function findVersions(ctx) {
   const { application_id } = ctx.req
   ctx.res = {
     rows: await Reviews.findVersions({ application_id }),
+  }
+}
+
+export async function findCountries(ctx) {
+  const { account_id, application_id } = ctx.req
+  ctx.res = {
+    rows: await Reviews.findCountries({ account_id, application_id }),
   }
 }

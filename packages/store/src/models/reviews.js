@@ -67,6 +67,19 @@ export async function findVersions({ application_id }) {
     .orderBy('version', 'desc')
 }
 
+export async function findCountries({ account_id, application_id }) {
+  return pg
+    .queryBuilder()
+    .select({ country_id: pg.raw('DISTINCT(country_id)') })
+    .from('integrations')
+    .where({ account_id })
+    .andWhere(function () {
+      if (application_id) {
+        this.andWhere({ application_id })
+      }
+    })
+}
+
 export async function create({ application_id, country_id, page = 1 }, trx) {
   const logger = Logger.create()
     .withScope('application-reviews')
