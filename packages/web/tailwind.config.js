@@ -2,6 +2,7 @@ const colors = require('tailwindcss/colors')
 const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  mode: 'jit',
   purge: {
     mode: 'all',
     enabled: process.env.NODE_ENV === 'production',
