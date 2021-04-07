@@ -35,25 +35,15 @@ export default {
 
     if (!state) {
       return reply.preconditionFailed(
-        `Token validation failed. Please, make sure you've entered the correct token.`,
+        `Token validation failed. Please, make sure you've entered a correct token and have valid sales on your AppStore account.`,
       )
     }
 
-    try {
-      await grpc.integrations.update({
-        account_id: account.account_id,
-        provider_id: 'apple',
-        access_token: body.requirement_payload.access_token,
-      })
-    } catch (error) {
-      if (error.message?.includes('not found')) {
-        await grpc.integrations.create({
-          account_id: account.account_id,
-          provider_id: 'apple',
-          access_token: body.requirement_payload.access_token,
-        })
-      }
-    }
+    await grpc.integrations.upsert({
+      account_id: account.account_id,
+      provider_id: 'apple',
+      access_token: body.requirement_payload.access_token,
+    })
 
     return { state: true }
   },

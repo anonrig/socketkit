@@ -20,8 +20,7 @@ service Transactions {
 }
 
 service Integrations {
-  rpc create (AccountCreateRequest) returns (ActionStateResponse) {}
-  rpc update(AccountCreateRequest) returns (ActionStateResponse) {}
+  rpc upsert(AccountCreateRequest) returns (ActionStateResponse) {}
   rpc findAll (AccountIdRequest) returns (IntegrationsResponse) {}
   rpc findOne (AccountIdProviderRequest) returns (IntegrationResponse) {}
   rpc destroy (AccountIdProviderRequest) returns (ActionStateResponse) {}
