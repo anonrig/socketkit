@@ -34,7 +34,7 @@ export default {
     })
 
     if (!state) {
-      throw f.httpErrors.preconditionFailed(
+      return reply.preconditionFailed(
         `Token validation failed. Please, make sure you've entered the correct token.`,
       )
     }
