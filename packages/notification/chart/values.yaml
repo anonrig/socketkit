@@ -1,0 +1,61 @@
+replicaCount: 1
+
+image:
+  repository: "registry.gitlab.com/socketkit/store"
+  pullPolicy: Always
+  tag: "latest"
+
+imagePullSecrets:
+  - name: "notification-registry"
+nameOverride: "notification"
+fullnameOverride: "notification"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "notification-account"
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 3004
+
+ingress:
+  enabled: false
+  tls: []
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 70m
+    memory: 100Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+application:
+  secretName: "notification-environment"

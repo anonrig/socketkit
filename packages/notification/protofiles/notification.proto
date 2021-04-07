@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+service Notifications {
+  rpc send(Notification) returns (Empty) {}
+}
+
+service Integrations {
+  rpc findAll(AccountIdRequest) returns (IntegrationsResponse) {}
+  rpc upsert(IntegrationCreateRequest) returns (Empty) {}
+  rpc destroy(AccountIdRequest) returns (Empty) {}
+}
+
+// Generics
+
+message Empty {}
+
+// Requests
+
+message AccountIdRequest {
+  string account_id = 1;
+
+  oneof optional_provider_id {
+    string provider_id = 2;
+  }
+}
+
+message IntegrationCreateRequest {
+  string account_id = 1;
+  string provider_id = 2;
+  IntegrationRequirement requirement = 3;
+}
+
+// Responses
+
+message IntegrationsResponse {
+  repeated Integration rows = 1;
+}
+
+// Models
+
+message IntegrationRequirement {
+  oneof optional_url {
+    string url = 1;
+  }
+}
+
+message Integration {
+  string account_id = 1;
+  string provider_id = 2;
+  string requirement = 3;
+  string created_at = 4;
+}
+
+message Notification {
+  string account_id = 1;
+  string provider_id = 2;
+
+  oneof notification_types {
+    ReviewNotification review = 3;
+  }
+}
+
+message ReviewNotification {
+  string username = 1;
+  string title = 2;
+  string content = 3;
+  string country_id = 4;
+  int32 score = 5;
+  string sent_at = 6;
+  string application_id = 7;
+  string application_title = 8;
+  string application_icon = 9;
+  string review_url = 10;
+}
