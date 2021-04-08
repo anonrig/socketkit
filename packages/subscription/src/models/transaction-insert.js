@@ -104,14 +104,5 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       subscription_group_id: transaction.subscriptionGroupId,
     })
     .into('transactions')
-    .onConflict([
-      'account_id',
-      'client_id',
-      'event_date',
-      'transaction_type',
-      'subscription_group_id',
-      'subscription_package_id',
-    ])
-    .ignore()
     .transacting(trx)
 }
