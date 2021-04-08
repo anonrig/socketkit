@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import dayjs from 'dayjs'
 import pg from '../pg.js'
 import Logger from '../logger.js'
@@ -74,9 +75,13 @@ export default function fetchIntegrations() {
     }
 
     if (transactions) {
-      // somehow, some transactions doesn't have any eventDate or subscriberId.
-      // eliminate those faulty transactions. TODO: investigate this.
-      const valid_transactions = transactions.filter((t) => !!t.eventDate)
+      const valid_transactions = _.orderBy(
+        // somehow, some transactions doesn't have any eventDate or subscriberId.
+        // eliminate those faulty transactions. TODO: investigate this.
+        transactions.filter((t) => !!t.eventDate),
+        ['eventDate'],
+        ['asc'],
+      )
 
       const applications = transactions.reduce((i, t) => {
         i[t.appAppleId] = {
