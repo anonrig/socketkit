@@ -20,16 +20,14 @@ export async function findAll(
     })
     .from('transactions as t')
     .innerJoin('subscription_packages as sp', function () {
-      this.on('sp.subscription_package_id', 't.subscription_package_id').andOn(
-        'sp.account_id',
-        't.account_id',
-      )
+      this.using([
+        'account_id',
+        'subscription_group_id',
+        'subscription_package_id',
+      ])
     })
     .innerJoin('clients as c', function () {
-      this.on('c.client_id', 't.client_id').andOn(
-        'c.account_id',
-        't.account_id',
-      )
+      this.using(['account_id', 'client_id'])
     })
     .where('t.account_id', account_id)
     .andWhere(function () {

@@ -14,10 +14,14 @@ export default async function getTransactionsById({ client_id, account_id }) {
     .from('transactions as t')
     .where('t.client_id', client_id)
     .andWhere('t.account_id', account_id)
-    .join('subscription_packages as p', function () {
-      this.using(['subscription_package_id', 'account_id'])
-    })
     .join('subscriptions as s', function () {
       this.using(['client_id', 'subscription_package_id', 'account_id'])
+    })
+    .join('subscription_packages as p', function () {
+      this.using([
+        'account_id',
+        'subscription_group_id',
+        'subscription_package_id',
+      ])
     })
 }
