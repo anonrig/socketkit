@@ -34,7 +34,7 @@ export default function Subscriptions() {
           <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-48">
             <div className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden">
               <Image
-                src="/assets/solutions-subscriptions-hero.jpg"
+                src="/assets/landing-dashboard.png"
                 alt="Subscription Management for AppStore & Playstore"
                 width={800}
                 height={488}

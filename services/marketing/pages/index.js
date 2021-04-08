@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <Layout>
       <main>
-        {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -59,7 +58,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="mt-12 sm:mt-16 lg:mt-0 lg:overflow-visible overflow-hidden pb-8 lg:pb-0">
-                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full overflow-visible">
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                     src="/assets/landing-dashboard.png"

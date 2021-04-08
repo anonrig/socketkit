@@ -1,6 +1,4 @@
-const withPreact = require('next-plugin-preact')
-
-module.exports = withPreact({
+module.exports = {
   poweredByHeader: false,
   reactStrictMode: true,
   i18n: {
@@ -11,4 +9,4 @@ module.exports = withPreact({
     webpack5: true,
     strictPostcssConfiguration: true,
   },
-})
+}
