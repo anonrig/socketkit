@@ -49,11 +49,21 @@ export default function Guides({ entries = [] }) {
                 <div className="flex-shrink-0">
                   <Link href={`/blog/${entry.fields.category.fields.slug}/${entry.fields.slug}`}>
                     <a>
-                      <img
-                        className="h-48 w-full object-cover"
-                        src={entry.fields.asset.fields.file.url}
-                        alt={entry.fields.asset.fields.title}
-                      />
+                      <picture>
+                        <source
+                          srcSet={`${entry.fields.asset.fields.file.url}?h=250&q=80&fm=webp`}
+                          type="image/webp"
+                        />
+                        <source
+                          srcSet={`${entry.fields.asset.fields.file.url}?h=250&q=80&fm=jpeg`}
+                          type="image/jpeg"
+                        />
+                        <img
+                          className="h-48 w-full object-cover"
+                          src={`${entry.fields.asset.fields.file.url}?h=250&q=80&fm=jpeg`}
+                          alt={entry.fields.asset.fields.title}
+                        />
+                      </picture>
                     </a>
                   </Link>
                 </div>
@@ -76,7 +86,7 @@ export default function Guides({ entries = [] }) {
                       <span className="sr-only">{entry.fields.author.fields.name}</span>
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={entry.fields.author.fields.profile_picture.fields.file.url}
+                        src={`${entry.fields.author.fields.profile_picture.fields.file.url}?q=100&h=40&w=40`}
                         alt={entry.fields.author.fields.profile_picture.fields.description}
                       />
                     </div>
