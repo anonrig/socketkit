@@ -56,30 +56,50 @@ function Customers({ initialData, id }) {
         accessor: 'country_name',
       },
       {
+        id: 'total_count',
+        Header: 'Unique Customers',
+        accessor: 'total_count',
+        className: 'w-24',
+      },
+      {
+        id: 'trial_past_count',
+        Header: 'Lost Trials',
+        accessor: 'trial_past_count',
+        className: 'w-32',
+      },
+      {
+        id: 'churn_count',
+        Header: 'Lost Customers',
+        accessor: 'churn_count',
+        className: 'w-24',
+      },
+      {
         id: 'churn',
-        Header: 'Churn',
+        Header: 'Churn Rate',
         accessor: (field) => {
           return `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
       {
-        id: 'conversion',
-        Header: 'Conversion',
+        id: 'lead_conversion',
+        Header: 'Lead Conversion',
         accessor: (field) => {
           return `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`
         },
-        className: 'text-right w-24',
+        className: '!text-right w-32',
       },
       {
         id: 'revenue',
-        Header: 'Revenue',
+        Header: 'Total Revenue',
         accessor: (field) => `$${field.revenue ?? 0}`,
-        className: 'text-right w-24',
+        className: '!text-right w-24',
       },
     ],
     [],
   )
+
+  console.log('initialData', initialData?.rows[0])
 
   return (
     <Table
