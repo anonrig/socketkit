@@ -26,7 +26,6 @@ export async function getServerSideProps({
 }
 
 function ApplicationReviews({ initialData, id, versions }) {
-  const [versionFilter, setVersionFilter] = useState(null)
   const columns = useMemo(
     () => [
       {
@@ -91,34 +90,18 @@ function ApplicationReviews({ initialData, id, versions }) {
   }
 
   return (
-    <>
-      <div className="flex flex-1 mb-2 items-center space-x-4 justify-between">
-        <Select
-          selected={versionFilter}
-          setSelected={setVersionFilter}
-          values={versions}
-          renderer={({ version }) => `v${version}`}
-          rendererKey="version"
-          subtitleRenderer={({ released_at }) =>
-            released_at ? `Released at ${dayjs(released_at).format('DD/MM/YYYY')}` : null
-          }
-          buttonRenderer={(item) => (!!item ? `Version ${item}` : 'Versions')}
-        />
-      </div>
-      <Table
-        initialData={initialData}
-        url={`reviews`}
-        options={{
-          application_id: id,
-          ...(!!versionFilter ? { version: versionFilter } : {}),
-        }}
-        columns={columns}
-        getRowProps={({ original }) => ({
-          key: original.review_id,
-          className: 'hover:bg-gray-50 cursor-pointer',
-        })}
-      />
-    </>
+    <Table
+      initialData={initialData}
+      url={`reviews`}
+      options={{
+        application_id: id,
+      }}
+      columns={columns}
+      getRowProps={({ original }) => ({
+        key: original.review_id,
+        className: 'hover:bg-gray-50 cursor-pointer',
+      })}
+    />
   )
 }
 ApplicationReviews.propTypes = {
