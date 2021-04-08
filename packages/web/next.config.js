@@ -1,10 +1,11 @@
 const withPlugins = require('next-compose-plugins')
+const withPreact = require('next-plugin-preact')
 const withImages = require('next-images')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-module.exports = withPlugins([withBundleAnalyzer, withImages], {
+module.exports = withPlugins([withPreact, withBundleAnalyzer, withImages], {
   poweredByHeader: false,
   reactStrictMode: true,
   env: {
