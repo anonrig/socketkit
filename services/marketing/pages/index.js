@@ -49,7 +49,7 @@ export default function Home() {
                 <div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-warmGray-900">
-                      Subscription Management
+                      Manage your subscriptions
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
                       Connect your App Store Connect or Google PlayStore account to easily track
@@ -63,7 +63,7 @@ export default function Home() {
                   <img
                     className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                     src="/assets/landing-dashboard.png"
-                    alt="Inbox user interface"
+                    alt="Subscription management for Appstore and Playstore"
                   />
                 </div>
               </div>
@@ -75,7 +75,7 @@ export default function Home() {
                 <div>
                   <div className="mt-6">
                     <h2 className="text-3xl font-extrabold tracking-tight text-warmGray-900">
-                      Actionable Insights
+                      Access Actionable Reports
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
                       Better understand your audience and your income flow from application stores
@@ -97,7 +97,33 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Stats section */}
+        <div className="relative mb-24">
+          <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
+            <div className="my-28 px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
+              <div>
+                <div className="mt-6">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-warmGray-900">
+                    Manage User Feedbacks
+                  </h2>
+                  <p className="mt-4 text-lg text-trueGray-500">
+                    Follow new reviews from AppStore and Playstore from more than 155 countries.
+                    Track your competitors and receive notifications from Slack, Discord and
+                    Microsoft Teams.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-12 sm:mt-16 lg:mt-0 lg:overflow-visible overflow-hidden pb-8 lg:pb-0">
+              <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                <img
+                  className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                  src="/assets/landing-reviews.png"
+                  alt="AppStore and PlayStore review management"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="relative bg-warmGray-50">
           <div className="h-80 absolute bottom-0 xl:inset-0 xl:h-auto xl:grid xl:grid-cols-2 hidden lg:visible">
             <div className="h-full absolute inset-0 col-start-2">
