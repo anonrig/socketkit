@@ -102,7 +102,9 @@ function ApplicationInformation({ initialData, id }) {
       </div>
 
       <div className="h-full pl-0 lg:pl-6 lg:w-80">
-        <Button onClick={() => router.push(application?.store_url)}>Show on AppStore</Button>
+        <Button onClick={() => router.push(application?.store_url)} className="w-full">
+          Show on AppStore
+        </Button>
         <div className="flex items-center flex-1 mb-8 mt-4 font-semibold">
           <a
             referrerPolicy="no-referrer"
