@@ -114,7 +114,7 @@ export default function Transactions({ initialData, id }) {
       }}
       columns={columns}
       getRowProps={({ original }) => ({
-        key: `${original.client_id}-${original.application_id}-${original.subscription_package_id}`,
+        key: `${original.client_id}-${original.application_id}-${original.transaction_type}-${original.subscription_package_id}-${original.event_date}`,
         onClick: () => router.push(`/customers/${original.client_id}`),
         className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
       })}
