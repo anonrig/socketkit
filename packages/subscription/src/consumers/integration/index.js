@@ -37,20 +37,6 @@ export const upsert = async (ctx) => {
   const { account_id, provider_id, access_token } = ctx.req
 
   await pg.transaction(async (trx) => {
-    const provider = await pg
-      .queryBuilder()
-      .select('*')
-      .from('providers')
-      .where({ provider_id })
-      .first()
-      .transacting(trx)
-
-    if (!provider) {
-      const error = new Error(`Provider not found`)
-      error.code = grpc.status.NOT_FOUND
-      throw error
-    }
-
     const integration = await pg
       .queryBuilder()
       .select('*')

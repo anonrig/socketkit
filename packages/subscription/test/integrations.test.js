@@ -86,23 +86,4 @@ describe('Integrations', () => {
       },
     )
   })
-
-  test('upsert', (done) => {
-    grpc.integrations.upsert(
-      {
-        account_id: v4(),
-        provider_id: 'laba lupa dub dub',
-        access_token: v4(),
-      },
-      (error) => {
-        try {
-          expect(error).toBeTruthy()
-          expect(error.message).toContain('Provider not found')
-          done()
-        } catch (error) {
-          done(error)
-        }
-      },
-    )
-  })
 })
