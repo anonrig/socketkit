@@ -33,10 +33,7 @@ export async function get({
           FROM subscriptions s
           WHERE s.account_id = ? AND
             s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-            daterange(
-              (lower(s.active_period) + s.free_trial_duration)::date,
-              upper(s.active_period)
-            ) && daterange(g::date, (g + ?::interval)::date)
+            s.paid_period && daterange(g::date, (g + ?::interval)::date)
         ) l
       `,
       [account_id, interval, interval],

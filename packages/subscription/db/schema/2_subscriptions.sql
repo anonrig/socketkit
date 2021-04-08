@@ -20,6 +20,15 @@ CREATE TABLE subscriptions (
   free_trial_duration interval NOT NULL DEFAULT '00:00:00',
   subscription_duration interval NOT NULL,
   account_id uuid NOT NULL,
+  paid_period daterange NOT NULL
+    GENERATED ALWAYS AS (daterange(
+      LEAST(
+        (subscription_started_at + free_trial_duration)::date,
+        subscription_expired_at
+      ),
+      subscription_expired_at,
+      '[]'
+    )) STORED,
   active_period daterange NOT NULL
     GENERATED ALWAYS AS (daterange(
       subscription_started_at, subscription_expired_at, '[]'
