@@ -12,11 +12,6 @@ module.exports = withPlugins([withBundleAnalyzer, withImages], {
     NEXT_PUBLIC_API_URL: 'https://core.socketkit.com/v1',
   },
   webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.node = {
-        fs: 'empty',
-      }
-    }
     config.module.rules.push({
       test: /react-spring/,
       sideEffects: true,
@@ -32,4 +27,5 @@ module.exports = withPlugins([withBundleAnalyzer, withImages], {
       },
     ]
   },
+  future: { webpack5: true, strictPostcssConfiguration: true },
 })
