@@ -9,30 +9,26 @@ function Select({
   values,
   renderer,
   rendererKey,
-  subtitleRenderer,
   buttonRenderer,
+  buttonIconRenderer,
   position = 'left',
+  disabled = false,
 }) {
-  const renderSubtitle = (forRow, selected) => {
-    const el = subtitleRenderer(forRow)
-    return el ? (
-      <p className={cx(selected ? 'text-trueGray-500' : 'text-trueGray-500', 'mt-2')}>{el}</p>
-    ) : null
-  }
   return (
-    <Listbox value={selected} onChange={setSelected} className="relative z-20">
+    <Listbox value={selected} onChange={setSelected} disabled={disabled}>
       {({ open }) => (
         <div className="relative">
-          <Listbox.Button className="relative inline-flex items-center bg-orange-500 py-2 pl-3 pr-0 border border-transparent rounded-md shadow-sm text-white">
-            <p className="ml-2.5 text-sm font-medium">
+          <Listbox.Button
+            className="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500"
+            disabled={disabled}>
+            {buttonIconRenderer ? buttonIconRenderer() : null}
+            <p className="ml-2.5 text-sm font-medium flex-1 md:flex-0 text-left">
               {buttonRenderer(
                 selected,
                 values?.find((item) => item[rendererKey] === selected),
               )}
             </p>
-            <span className="px-2 items-center">
-              <ChevronDownIcon className="h-5 w-5 text-white text-sm font-medium" />
-            </span>
+            <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" />
           </Listbox.Button>
           <Transition
             show={open}
@@ -42,7 +38,7 @@ function Select({
             <Listbox.Options
               static
               className={cx(
-                'absolute mt-2 w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-trueGray-200 ring-1 ring-orange-400 ring-opacity-5 focus:outline-none',
+                'z-20 absolute mt-2 w-full md:w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-trueGray-200 focus:outline-none',
                 position === 'left' ? 'origin-top-left' : 'origin-top-right',
                 position === 'left' ? 'left-0' : 'right-0',
               )}>
@@ -54,7 +50,7 @@ function Select({
                   {({ active, selected, disabled }) => (
                     <div
                       className={cx(
-                        'flex flex-col cursor-default select-none relative p-4 text-sm',
+                        'flex flex-col cursor-default select-none px-4 py-2.5 text-sm',
                         active ? 'bg-warmGray-50' : 'bg-white',
                         disabled ? 'text-trueGray-200' : 'text-trueGray-900',
                       )}>
@@ -62,11 +58,10 @@ function Select({
                         <p className={cx(selected ? 'font-bold' : 'font-semibold')}>
                           {renderer(value)}
                         </p>
-                        <span className={cx(selected ? 'text-orange-500' : 'text-white')}>
-                          <CheckIcon className="h-5 w-5" />
-                        </span>
+                        <CheckIcon
+                          className={cx(selected ? 'text-orange-500' : 'text-white', 'h-5 w-5')}
+                        />
                       </div>
-                      {!!subtitleRenderer && renderSubtitle(value, selected)}
                     </div>
                   )}
                 </Listbox.Option>
@@ -85,9 +80,11 @@ Select.propTypes = {
   values: PropTypes.arrayOf(PropTypes.any.isRequired),
   renderer: PropTypes.func.isRequired,
   rendererKey: PropTypes.string,
-  subtitleRenderer: PropTypes.func,
+  buttonIconRenderer: PropTypes.func,
   buttonRenderer: PropTypes.func.isRequired,
   position: PropTypes.oneOf(['left', 'right']),
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 export default Select

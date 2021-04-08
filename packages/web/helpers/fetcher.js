@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+import qs from 'qs'
 
 export async function fetcher(resource, options = {}) {
   if (options?.qs) {
@@ -25,8 +25,6 @@ export async function fetcher(resource, options = {}) {
   })
 }
 
-export function getQueryString(params) {
-  return Object.keys(params)
-    .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    .join('&')
+export function getQueryString(params = {}) {
+  return qs.stringify(params)
 }

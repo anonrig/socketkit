@@ -52,6 +52,7 @@ export default function Transactions({ initialData, id }) {
   const columns = useMemo(
     () => [
       {
+        id: 'subscription_package_name',
         Header: 'Subscription',
         accessor: function SubscriptionAccessor(field) {
           return <div className="text-warmGray-900">{field.subscription_package_name}</div>
@@ -59,10 +60,12 @@ export default function Transactions({ initialData, id }) {
         className: 'truncate w-56',
       },
       {
+        id: 'country_name',
         Header: 'Country',
         accessor: 'country_name',
       },
       {
+        id: 'base_client_purchase',
         Header: 'Sale',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
@@ -70,6 +73,7 @@ export default function Transactions({ initialData, id }) {
         className: '!text-right w-24',
       },
       {
+        id: 'base_developer_proceeds',
         Header: 'Proceed',
         accessor: function ProceedAccessor(field) {
           return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
@@ -77,6 +81,7 @@ export default function Transactions({ initialData, id }) {
         className: '!text-right w-24',
       },
       {
+        id: 'transaction_type',
         Header: 'Type',
         accessor: function TransactionStateAccessor(field) {
           const state =
@@ -90,6 +95,7 @@ export default function Transactions({ initialData, id }) {
         className: 'w-20',
       },
       {
+        id: 'event_date',
         Header: 'Event Date',
         accessor: (field) => `${dayjs(field.event_date).format('DD/MM/YYYY')}`,
         className: '!text-right w-32',

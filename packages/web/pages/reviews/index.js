@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import useSWR from 'swr'
 
+import { GlobeIcon, ChartSquareBarIcon, DeviceMobileIcon } from '@heroicons/react/outline'
+
 import Select from 'components/form/select'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table/table'
@@ -20,31 +22,29 @@ export async function getServerSideProps({ query = {}, req: { headers } }) {
   const initialData = await fetcher(`reviews?from=${start_date}&to=${end_date}`, {
     headers: { cookie, referer },
   })
+
   return {
     props: { initialData },
   }
 }
 
 function Reviews({ initialData }) {
-  const { data: applications } = useSWR(`integrations/reviews`, { refreshInterval: 0 })
-  const [applicationFilter, setApplicationFilter] = useState(null)
-  const [versionFilter, setVersionFilter] = useState(null)
-  const [availableVersions, setAvailableVersions] = useState([])
   const router = useRouter()
   const { start_date, end_date } = router.query
+  const [filters, setFilters] = useState({ country: null, application: null, version: null })
 
-  useEffect(() => {
-    async function process() {
-      const { rows } = await fetcher(`reviews/versions/${applicationFilter}`)
-      setAvailableVersions(rows)
-    }
-
-    setVersionFilter(null)
-
-    if (!!applicationFilter) {
-      process()
-    }
-  }, [applicationFilter])
+  const { data: countries } = useSWR(`reviews/countries`, fetcher, {
+    refreshInterval: 0,
+    revalidateOnFocus: false,
+  })
+  const { data: applications } = useSWR(`integrations/reviews`, fetcher, {
+    refreshInterval: 0,
+    revalidateOnFocus: false,
+  })
+  const { data: versions } = useSWR(
+    () => (filters.application ? `reviews/versions/${filters.application}` : null),
+    { refreshInterval: 0, revalidateOnFocus: false },
+  )
 
   const columns = useMemo(
     () => [
@@ -62,11 +62,13 @@ function Reviews({ initialData }) {
         className: 'font-semibold w-24',
       },
       {
+        id: 'version_number',
         Header: 'Version',
         accessor: 'version_number',
         className: 'w-20',
       },
       {
+        id: 'content',
         Header: 'Content',
         accessor: function ContentAccessor(field) {
           return (
@@ -144,31 +146,44 @@ function Reviews({ initialData }) {
           }}
         />
       </div>
-      <div className="flex flex-1 mb-2 items-center space-x-4">
+      <div className="flex mb-2 items-stretch md:items-center md:space-x-2 space-y-2 md:space-y-0 flex-col md:flex-row">
         <Select
-          selected={applicationFilter}
-          setSelected={setApplicationFilter}
+          selected={filters.country}
+          setSelected={(country_id) =>
+            setFilters({ country: country_id, application: null, version: null })
+          }
+          values={countries?.rows ?? []}
+          renderer={({ name }) => name}
+          rendererKey="country_id"
+          buttonIconRenderer={() => <GlobeIcon className="h-4 w-4 text-orange-500" />}
+          buttonRenderer={(_, { name } = {}) => (!!filters.country ? name : 'All Countries')}
+        />
+        <Select
+          selected={filters.application}
+          setSelected={(application_id) =>
+            setFilters({ country: filters.country, application: application_id, version: null })
+          }
           values={applications ?? []}
           renderer={({ application_title }) => application_title}
           rendererKey="application_id"
-          subtitleRenderer={({ country_ids }) => `Tracking ${country_ids.length} countries`}
+          buttonIconRenderer={() => <DeviceMobileIcon className="h-4 w-4 text-orange-500" />}
           buttonRenderer={(_, { application_title } = {}) =>
-            !!application_title ? application_title : 'Applications'
+            !!application_title ? application_title : 'All Applications'
           }
         />
-        {applicationFilter && availableVersions.length > 0 && (
-          <Select
-            selected={versionFilter}
-            setSelected={setVersionFilter}
-            values={availableVersions ?? []}
-            renderer={({ version }) => `v${version}`}
-            rendererKey="version"
-            subtitleRenderer={({ released_at }) =>
-              released_at ? `Released at ${dayjs(released_at).format('DD/MM/YYYY')}` : null
-            }
-            buttonRenderer={(item) => (!!item ? `Version ${item}` : 'Versions')}
-          />
-        )}
+        <Select
+          selected={filters.version}
+          setSelected={(version) => setFilters(Object.assign({}, filters, { version }))}
+          values={versions?.rows ?? []}
+          renderer={({ version }) => `v${version}`}
+          rendererKey="version"
+          subtitleRenderer={({ released_at }) =>
+            released_at ? `Released at ${dayjs(released_at).format('DD/MM/YYYY')}` : null
+          }
+          buttonIconRenderer={() => <ChartSquareBarIcon className="h-4 w-4 text-orange-500" />}
+          buttonRenderer={(item) => (!!item ? `Version ${item}` : 'All Versions')}
+          disabled={!(!!filters.application && versions?.rows.length > 0)}
+        />
         <div></div>
       </div>
       <Table
@@ -177,8 +192,9 @@ function Reviews({ initialData }) {
         options={{
           from: dayjs(start_date).format('YYYY-MM-DD'),
           to: dayjs(end_date).format('YYYY-MM-DD'),
-          ...(applicationFilter ? { application_id: applicationFilter } : null),
-          ...(!!applicationFilter && !!versionFilter ? { version: versionFilter } : null),
+          country_id: filters.country,
+          application_id: filters.application,
+          version: filters.version,
         }}
         columns={columns}
         getRowProps={({ original }) => ({

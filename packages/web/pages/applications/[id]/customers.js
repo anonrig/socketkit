@@ -50,6 +50,7 @@ export default function Customers({ initialData, id }) {
   const columns = useMemo(
     () => [
       {
+        id: 'client_id',
         Header: 'Client Id',
         accessor: function ClientAccessor(field) {
           return <div className="text-warmGray-900">{field.client_id}</div>
@@ -57,25 +58,30 @@ export default function Customers({ initialData, id }) {
         className: 'w-32',
       },
       {
+        id: 'device',
         Header: 'Device',
         accessor: 'device_type_name',
         className: 'w-24',
       },
       {
+        id: 'country_name',
         Header: 'Country',
         accessor: 'country_name',
       },
       {
+        id: 'sales',
         Header: 'Sales',
         accessor: (field) => `$${parseFloat(field.total_base_client_purchase).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
+        id: 'proceeds',
         Header: 'Proceeds',
         accessor: (field) => `$${parseFloat(field.total_base_developer_proceeds).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
+        id: 'first_interaction',
         Header: 'Start Date',
         accessor: function IntervalAccessor(f) {
           return dayjs(f.first_interaction).format('YYYY-MM-DD')

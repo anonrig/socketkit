@@ -52,11 +52,9 @@ export default function Dashboard({ countries }) {
   return (
     <>
       <div className="flex flex-1 space-between mb-10 items-center justify-center flex-col md:flex-row space-y-6 md:space-y-0">
-        <div className="flex-1">
-          <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl">
-            {getLabel()}, {session?.identity.traits.name?.split(' ')[0]}!
-          </h3>
-        </div>
+        <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl flex-1">
+          {getLabel()}, {session?.identity.traits.name?.split(' ')[0]}!
+        </h3>
 
         <DatePicker
           interval={{ start_date: interval.from, end_date: interval.to }}

@@ -4,36 +4,42 @@ import PropTypes from 'prop-types'
 import { useMemo, useRef, useEffect } from 'react'
 import { useTable } from 'react-table'
 import { useSWRInfinite } from 'swr'
-import { fetcher } from 'helpers/fetcher.js'
+import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import useOnScreen from '../../helpers/use-onscreen.js'
 
 function Table({ initialData, columns, getRowProps, url, options }) {
   const loader = useRef()
-  const getKey = (index, previous) => {
-    const query = Object.keys(options)
-      .sort()
-      .map((k) => `${k}=${options[k]}`)
-      .join('&')
-
-    if (previous && !previous.cursor) return null
-    if (index === 0) {
-      return query.length > 0 ? `${url}?${query}` : url
-    }
-    const cursor = Object.keys(previous.cursor)
-      .sort()
-      .map((k) => `cursor[${k}]=${previous.cursor[k]}`)
-      .join('&')
-
-    return `${url}?${query}&${cursor}`
-  }
-
   const isVisible = useOnScreen(loader)
-  const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher, {
-    refreshInterval: false,
-    refreshWhenHidden: false,
-    refreshWhenOffline: false,
-    initialData: initialData ? [initialData] : undefined,
-  })
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    (_, previous) => {
+      if (previous && !previous.cursor) return null
+      const query = getQueryString(
+        Object.assign({}, options, !!previous?.cursor ? { cursor: previous.cursor } : {}),
+      )
+
+      return query.length > 0 ? `${url}?${query}` : url
+    },
+    fetcher,
+    {
+      refreshInterval: 0,
+      refreshWhenHidden: false,
+      refreshWhenOffline: false,
+      revalidateOnFocus: false,
+      initialData: initialData ? [initialData] : undefined,
+    },
+  )
+
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore =
+    isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isEmpty = data?.[0]?.length === 0
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < (options.limit ?? 10))
+
+  useEffect(() => {
+    if (isVisible && !isValidating) {
+      setSize(size + 1)
+    }
+  }, [isVisible, isValidating])
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
@@ -41,12 +47,6 @@ function Table({ initialData, columns, getRowProps, url, options }) {
     columns,
     data: memoized,
   })
-
-  useEffect(() => {
-    if (isVisible && !isValidating) {
-      setSize(size + 1)
-    }
-  }, [isVisible, isValidating])
 
   return (
     <>

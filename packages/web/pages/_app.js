@@ -51,7 +51,10 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname])
 
   useEffect(() => {
-    fetchUser()
+    // don't fetch user on each page change
+    if (!session) {
+      fetchUser()
+    }
   }, [fetchUser])
 
   if (session === undefined) {
@@ -83,8 +86,11 @@ function MyApp({ Component, pageProps }) {
 
       <SWRConfig
         value={{
-          refreshInterval: 30000,
+          refreshInterval: 1 * 60000,
           refreshWhenHidden: true,
+          registerOnReconnect: true,
+          revalidateOnReconnect: true,
+          // revalidateOnMount: false,
           fetcher,
         }}>
         <AuthContext.Provider value={{ session }}>

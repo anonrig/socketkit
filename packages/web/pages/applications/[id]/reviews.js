@@ -43,11 +43,13 @@ function ApplicationReviews({ initialData, id, versions }) {
         className: 'font-semibold w-24',
       },
       {
+        id: 'version_number',
         Header: 'Version',
         accessor: 'version_number',
         className: 'w-20',
       },
       {
+        id: 'content',
         Header: 'Content',
         accessor: function ContentAccessor(field) {
           return (

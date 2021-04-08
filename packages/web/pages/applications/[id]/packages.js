@@ -23,15 +23,20 @@ export default function SubscriptionPackages({ initialData, id }) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Identifier',
         id: 'subscription_package_id',
+        Header: 'Identifier',
         accessor: function SubscriptionPackageAccessor(field) {
           return <div className="font-semibold">{field.subscription_package_id}</div>
         },
         className: 'w-24',
       },
-      { Header: 'Name', accessor: 'subscription_name' },
-      { Header: 'Duration', accessor: 'subscription_duration', className: '!text-right w-32' },
+      { id: 'subscription_name', Header: 'Name', accessor: 'subscription_name' },
+      {
+        id: 'subscription_duration',
+        Header: 'Duration',
+        accessor: 'subscription_duration',
+        className: '!text-right w-32',
+      },
     ],
     [],
   )

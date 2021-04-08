@@ -51,10 +51,12 @@ function Customers({ initialData, id }) {
   const columns = useMemo(
     () => [
       {
+        id: 'country_name',
         Header: 'Country',
         accessor: 'country_name',
       },
       {
+        id: 'churn',
         Header: 'Churn',
         accessor: (field) => {
           return `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`
@@ -62,6 +64,7 @@ function Customers({ initialData, id }) {
         className: 'text-right w-24',
       },
       {
+        id: 'conversion',
         Header: 'Conversion',
         accessor: (field) => {
           return `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`
@@ -69,6 +72,7 @@ function Customers({ initialData, id }) {
         className: 'text-right w-24',
       },
       {
+        id: 'revenue',
         Header: 'Revenue',
         accessor: (field) => `$${field.revenue ?? 0}`,
         className: 'text-right w-24',
