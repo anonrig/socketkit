@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import TableBadge from 'components/table/badge'
 import Table from 'components/table/table'
+import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 
 /**
@@ -60,7 +61,7 @@ export default function Transactions({ initialData, id }) {
       {
         id: 'country_name',
         Header: 'Country',
-        accessor: 'country_name',
+        accessor: (field) => countries[field.country_id]?.name,
       },
       {
         id: 'base_client_purchase',

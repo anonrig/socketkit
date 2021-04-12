@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import Table from 'components/table/table'
 import DatePicker from 'components/date-picker'
+import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 
 export async function getServerSideProps({ query = {}, req: { headers } }) {
@@ -55,7 +56,7 @@ export default function Customers({ initialData }) {
       {
         id: 'country_name',
         Header: 'Country',
-        accessor: 'country_name',
+        accessor: (field) => countries[field.country_id]?.name,
       },
       {
         id: 'total_base_client_purchase',

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Table from 'components/table/table'
+import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher'
 
 /**
@@ -53,7 +54,7 @@ function Customers({ initialData, id }) {
       {
         id: 'country_name',
         Header: 'Country',
-        accessor: 'country_name',
+        accessor: (field) => countries[field.country_id]?.name,
       },
       {
         id: 'total_count',
@@ -120,7 +121,6 @@ Customers.propTypes = {
     rows: PropTypes.arrayOf(
       PropTypes.shape({
         country_id: PropTypes.string.isRequired,
-        country_name: PropTypes.string.isRequired,
         churn_count: PropTypes.number.isRequired,
         total_count: PropTypes.number.isRequired,
         revenue: PropTypes.number.isRequired,

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import dynamic from 'next/dynamic'
+import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 import countries from 'country-region-data'
 
@@ -74,19 +75,19 @@ function CountriesWidget({ range, initialData }) {
                       </tr>
                     </thead>
                     <tbody className="bg-white">
-                      {data?.slice(0, 5).map((country) => (
-                        <tr key={country.country_id}>
+                      {data?.slice(0, 5).map((c) => (
+                        <tr key={c.country_id}>
                           <td className="pr-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
                             {findCountry(country.country_id)?.countryName}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            {((country.churn_count / country.total_count) * 100).toFixed(2)}%
+                            {((c.churn_count / c.total_count) * 100).toFixed(2)}%
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            {((country.trial_past_count / country.total_count) * 100).toFixed(2)}%
+                            {((c.trial_past_count / c.total_count) * 100).toFixed(2)}%
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            ${country.revenue ?? 0}
+                            ${c.revenue ?? 0}
                           </td>
                         </tr>
                       ))}
