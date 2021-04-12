@@ -7,6 +7,8 @@ module.exports = withPlugins([withImages], {
   env: {
     NEXT_PUBLIC_KRATOS_URL: 'https://login.socketkit.com',
     NEXT_PUBLIC_API_URL: 'https://core.socketkit.com/v1',
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      'pk_test_51I1bf6EArFRUZZMzlWlSMAufFf0Fi4rdZEMqcYzdtcBAdZEMbZplUjq6tvA2jFC92boylKm1xPE4v3BXMCdB7Io7003UraELJK',
   },
   webpack: (config) => {
     config.module.rules.push({

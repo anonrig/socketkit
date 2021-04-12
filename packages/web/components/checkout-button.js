@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { fetcher } from 'helpers/fetcher.js'
 import getStripe from 'helpers/stripe.js'
 import cx from 'classnames'
 import toast from 'react-hot-toast'
+import { AuthContext } from 'helpers/is-authorized.js'
 
 function CheckoutButton() {
+  const { session } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
   const onClick = async () => {
@@ -12,7 +14,13 @@ function CheckoutButton() {
     try {
       const { session_id } = await fetcher(`payments/checkout`)
       const stripe = await getStripe()
-      await stripe.redirectToCheckout({ sessionId: session_id })
+      await stripe.redirectToCheckout({
+        sessionId: session_id,
+        customerEmail: session.identity.traits.email,
+        clientReferenceId: session.identity.id,
+        successUrl: `https://web.socketkit.com/payment-successful`,
+        cancelUrl: `https://web.socketkit.com`,
+      })
     } catch (error) {
       toast.error(error.message)
     } finally {
