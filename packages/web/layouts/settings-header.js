@@ -1,6 +1,7 @@
 import cx from 'classnames'
 import Tabs from 'components/tabs.js'
 import { useRouter } from 'next/router'
+import { getUrl } from 'helpers/fetcher.js'
 
 function SettingsHeader() {
   const router = useRouter()
@@ -31,7 +32,7 @@ function SettingsHeader() {
             {
               key: 'billing',
               title: 'Billing & Plan',
-              href: `/account/billing`,
+              href: getUrl(`payments/session`),
             },
             {
               key: 'integrations',
