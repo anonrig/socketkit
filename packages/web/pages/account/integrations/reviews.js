@@ -6,7 +6,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { mutate } from 'swr'
 
-import SearchField from 'components/form/search-field.js'
+import ApplicationPicker from 'components/form/application-picker.js'
 import CountryPicker from 'components/form/country-picker.js'
 
 export async function getServerSideProps({
@@ -90,28 +90,27 @@ function ReviewsIntegration({ initialData }) {
           </div>
           <div className="mt-6 grid grid-cols-4 gap-6">
             <div className="sm:col-span-4">
-              <label htmlFor="city" className="block text-sm font-medium text-warmGray-700">
+              <label htmlFor="application" className="block text-sm font-medium text-warmGray-700">
                 Application
               </label>
-              <div className="mt-1 space-y-4">
+              <div className="mt-1 space-y-8">
                 {applications.map((application, index) => (
                   <div
-                    className="flex flex-row flex-1 space-x-4"
+                    className="flex flex-col flex-1"
                     key={application?.application_id ?? 'new-application'}>
                     <div className="flex-1">
-                      <SearchField
-                        placeholder="Type your application name or id"
+                      <ApplicationPicker
                         value={application}
                         onValueChange={(a) => updateApplication(index, a)}
                       />
                     </div>
-                    <div className="">
-                      <CountryPicker
-                        selected={application?.country_ids ?? []}
-                        setSelected={(values) => updateCountry(index, values)}
-                        disabled={!!!application}
-                      />
-                    </div>
+                    <CountryPicker
+                      value={application?.country_ids}
+                      onChange={(values) => updateCountry(index, values)}
+                      disabled={!!!application}
+                      className="ml-4"
+                      isMulti
+                    />
                   </div>
                 ))}
               </div>
