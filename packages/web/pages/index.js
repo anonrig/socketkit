@@ -1,12 +1,18 @@
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
+import dynamic from 'next/dynamic'
+
+import { AuthContext } from 'helpers/is-authorized.js'
+import { fetcher, getUrl } from 'helpers/fetcher.js'
 
 import DatePicker from 'components/date-picker.js'
-import { AuthContext } from 'helpers/is-authorized.js'
-import { fetcher } from 'helpers/fetcher.js'
-import CountriesWidget from 'components/scenes/dashboard/countries-widget.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
-import CustomersWidget from '../components/scenes/dashboard/subscribers-widget.js'
+import CustomersWidget from 'components/scenes/dashboard/subscribers-widget.js'
+import CheckoutButton from 'components/checkout-button.js'
+
+// countries require country list dependency. therefore it should be dynamically loaded
+// to reduce page loading time
+const CountriesWidget = dynamic(() => import('components/scenes/dashboard/countries-widget'))
 
 export async function getServerSideProps({
   req: {
@@ -67,6 +73,9 @@ export default function Dashboard({ countries }) {
         <StatisticsWidget
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
         />
+
+        <CheckoutButton />
+
         <CustomersWidget
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
         />
