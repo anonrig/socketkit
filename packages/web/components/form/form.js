@@ -24,9 +24,7 @@ function Form({ actions, kratos, preAction }) {
         ))}
       {preAction}
       <div>
-        <Button loading={false} type="submit">
-          {actions.primary}
-        </Button>
+        <Button type="submit">{actions.primary}</Button>
 
         {actions.secondary && (
           <Link href={actions.secondary.href}>

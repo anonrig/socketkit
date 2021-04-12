@@ -124,14 +124,14 @@ function ReviewsIntegration({ initialData }) {
           <div className="space-x-4">
             <Button
               className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-warmGray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-              loading={loading}
+              disabled={loading}
               onClick={() => router.push('/account/integrations')}>
               Cancel
             </Button>
 
             <Button
               className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
-              loading={loading}
+              disabled={loading}
               type="button"
               onClick={() => onSubmit()}>
               {initialData?.length > 0 ? 'Update' : 'Add Applications'}
