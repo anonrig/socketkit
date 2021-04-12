@@ -17,6 +17,7 @@
     "@nivo/line": "^0.67.0",
     "@nivo/treemap": "^0.67.0",
     "@ory/kratos-client": "^0.5.5-alpha.4",
+    "@stripe/stripe-js": "^1.13.2",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/line-clamp": "^0.2.0",
