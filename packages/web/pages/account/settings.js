@@ -6,7 +6,7 @@ import redirect from 'helpers/redirect'
 import Settings from 'components/scenes/account/account-settings.js'
 import Password from 'components/scenes/account/account-password.js'
 import { AuthContext } from 'helpers/is-authorized.js'
-import CTA from '../../components/cta.js'
+import CTA from 'components/cta.js'
 
 /**
  * @param {import("next").NextPageContext} ctx
