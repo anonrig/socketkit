@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { fetcher } from 'helpers/fetcher.js'
+import countries from 'country-region-data'
 
 const TreeMapChart = dynamic(() =>
   import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
@@ -11,12 +12,14 @@ function CountriesWidget({ range, initialData }) {
   const { data } = useSWR(
     `accounts/countries?from=${range.from}&to=${range.to}&limit=10`,
     fetcher,
-    { initialData },
+    { initialData, refreshInterval: 0 },
   )
 
+  const letters = '0123456789ABCDEF'
+  const findCountry = (id) => countries.find((c) => c.countryShortCode === id.toUpperCase())
+
   function getRandomColor() {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
+    let color = '#'
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)]
     }
@@ -34,7 +37,7 @@ function CountriesWidget({ range, initialData }) {
           <TreeMapChart
             id="Countries Summary"
             rows={(data ?? []).map((c) => ({
-              id: c.country_name,
+              id: findCountry(c.country_id)?.countryName,
               value: c.revenue,
               color: getRandomColor(),
             }))}
@@ -74,7 +77,7 @@ function CountriesWidget({ range, initialData }) {
                       {data?.slice(0, 5).map((country) => (
                         <tr key={country.country_id}>
                           <td className="pr-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
-                            {country.country_name}
+                            {findCountry(country.country_id)?.countryName}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                             {((country.churn_count / country.total_count) * 100).toFixed(2)}%
