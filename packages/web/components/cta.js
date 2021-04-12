@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 function CTA({ title, subtitle, primaryButton, secondaryButton }) {
   return (
-    <div className="flex justify-between items-start lg:items-center lg:justify-between shadow px-6 py-5 rounded-md">
+    <div className="flex justify-between items-start lg:items-center lg:justify-between shadow-lgs px-6 py-5 rounded-md">
       <h2 className="text-xl font-extrabold tracking-tight text-warmGray-900">
         <span className="block">{title}</span>
         {subtitle && (
