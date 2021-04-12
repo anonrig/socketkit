@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types'
-import Button from 'components/form/button.js'
-import { fetcher } from 'helpers/fetcher.js'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { mutate } from 'swr'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
-import ApplicationPicker from 'components/form/application-picker.js'
-import CountryPicker from 'components/form/country-picker.js'
+import PropTypes from 'prop-types'
+import Button from 'components/form/button.js'
+import { fetcher } from 'helpers/fetcher.js'
+
+const ApplicationPicker = dynamic(() => import('components/form/application-picker'))
+const CountryPicker = dynamic(() => import('components/form/country-picker'))
 
 export async function getServerSideProps({
   req: {
