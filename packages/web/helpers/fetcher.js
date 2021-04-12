@@ -28,3 +28,7 @@ export async function fetcher(resource, options = {}) {
 export function getQueryString(params = {}) {
   return qs.stringify(params)
 }
+
+export function getUrl(resource = '') {
+  return `${process.env.NEXT_PUBLIC_API_URL}/${resource}`
+}
