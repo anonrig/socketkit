@@ -1,4 +1,5 @@
 import qs from 'qs'
+import { apiUrl } from 'helpers/config.js'
 
 export async function fetcher(resource, options = {}) {
   if (options?.qs) {
@@ -8,7 +9,7 @@ export async function fetcher(resource, options = {}) {
     delete options.qs
   }
 
-  return fetch(options.isRoot ? resource : `${process.env.NEXT_PUBLIC_API_URL}/${resource}`, {
+  return fetch(options.isRoot ? resource : `${apiUrl}/${resource}`, {
     credentials: 'include',
     headers: {
       'content-type': 'application/json',
@@ -30,5 +31,5 @@ export function getQueryString(params = {}) {
 }
 
 export function getUrl(resource = '') {
-  return `${process.env.NEXT_PUBLIC_API_URL}/${resource}`
+  return `${apiUrl}/${resource}`
 }

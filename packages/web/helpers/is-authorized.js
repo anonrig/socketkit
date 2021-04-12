@@ -1,9 +1,10 @@
 import { Configuration, PublicApi } from '@ory/kratos-client'
 import { createContext } from 'react'
+import { kratosUrl } from 'helpers/config.js'
 
 export const client = new PublicApi(
   new Configuration({
-    basePath: process.env.NEXT_PUBLIC_KRATOS_URL,
+    basePath: kratosUrl,
     baseOptions: {
       withCredentials: true,
     },

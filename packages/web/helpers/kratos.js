@@ -1,11 +1,11 @@
-export const currentPath = process.env.NEXT_PUBLIC_CURRENT_URL
-export const basePath = process.env.NEXT_PUBLIC_KRATOS_URL
+import { kratosUrl } from 'helpers/config.js'
+
 export const endpoints = {
-  login: `${basePath}/self-service/login/browser`,
-  register: `${basePath}/self-service/registration/browser`,
-  recover: `${basePath}/self-service/recovery/browser`,
-  profile: `${basePath}/self-service/settings/browser`,
-  logout: `${basePath}/self-service/browser/flows/logout`,
-  verification: `${basePath}/self-service/verification/browser`,
-  errors: `${basePath}/self-service/errors`,
+  login: `${kratosUrl}/self-service/login/browser`,
+  register: `${kratosUrl}/self-service/registration/browser`,
+  recover: `${kratosUrl}/self-service/recovery/browser`,
+  profile: `${kratosUrl}/self-service/settings/browser`,
+  logout: `${kratosUrl}/self-service/browser/flows/logout`,
+  verification: `${kratosUrl}/self-service/verification/browser`,
+  errors: `${kratosUrl}/self-service/errors`,
 }
