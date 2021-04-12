@@ -25,9 +25,7 @@ export default function SubscriptionPackages({ initialData, id }) {
       {
         id: 'subscription_package_id',
         Header: 'Identifier',
-        accessor: function SubscriptionPackageAccessor(field) {
-          return <div className="font-semibold">{field.subscription_package_id}</div>
-        },
+        accessor: (field) => <div className="font-semibold">{field.subscription_package_id}</div>,
         className: 'w-24',
       },
       { id: 'subscription_name', Header: 'Name', accessor: 'subscription_name' },

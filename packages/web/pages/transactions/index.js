@@ -44,9 +44,7 @@ function Transactions({ initialData }) {
       {
         id: 'subscription_package_name',
         Header: 'Subscription',
-        accessor: function SubscriptionAccessor(field) {
-          return <div className="text-warmGray-900">{field.subscription_package_name}</div>
-        },
+        accessor: (field) => <div className="text-warmGray-900">{field.subscription_package_name}</div>,
         className: 'truncate w-56',
       },
       {
@@ -57,23 +55,19 @@ function Transactions({ initialData }) {
       {
         id: 'base_client_purchase',
         Header: 'Sale',
-        accessor: function ProceedAccessor(field) {
-          return `$${parseFloat(field.base_client_purchase).toFixed(2)}`
-        },
+        accessor: (field) => `$${parseFloat(field.base_client_purchase).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
         id: 'base_developer_proceeds',
         Header: 'Proceed',
-        accessor: function ProceedAccessor(field) {
-          return `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`
-        },
+        accessor: (field) => `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
         id: 'transaction_type',
         Header: 'Type',
-        accessor: function TransactionStateAccessor(field) {
+        accessor: (field) => {
           const state =
             field.transaction_type == 'renewal'
               ? 'success'

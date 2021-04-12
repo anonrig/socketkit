@@ -52,9 +52,7 @@ export default function Customers({ initialData, id }) {
       {
         id: 'client_id',
         Header: 'Client Id',
-        accessor: function ClientAccessor(field) {
-          return <div className="text-warmGray-900">{field.client_id}</div>
-        },
+        accessor: (field) => <div className="text-warmGray-900">{field.client_id}</div>,
         className: 'w-32',
       },
       {
@@ -83,9 +81,7 @@ export default function Customers({ initialData, id }) {
       {
         id: 'first_interaction',
         Header: 'Start Date',
-        accessor: function IntervalAccessor(f) {
-          return dayjs(f.first_interaction).format('YYYY-MM-DD')
-        },
+        accessor: (field) => dayjs(field.first_interaction).format('YYYY-MM-DD'),
         className: '!text-right w-36',
       },
     ],

@@ -76,17 +76,13 @@ function Customers({ initialData, id }) {
       {
         id: 'churn',
         Header: 'Churn Rate',
-        accessor: (field) => {
-          return `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`
-        },
+        accessor: (field) => `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`,
         className: '!text-right w-24',
       },
       {
         id: 'lead_conversion',
         Header: 'Lead Conversion',
-        accessor: (field) => {
-          return `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`
-        },
+        accessor: (field) => `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`,
         className: '!text-right w-32',
       },
       {
