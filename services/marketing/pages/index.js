@@ -96,7 +96,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative mb-24">
+        <div className="relative mb-24 overflow-hidden">
           <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
             <div className="my-28 px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
               <div>
