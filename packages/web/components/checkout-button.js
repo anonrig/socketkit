@@ -29,19 +29,19 @@ function CheckoutButton() {
   }
 
   return (
-    <div className="flex justify-between items-start lg:items-center lg:justify-between shadow-lgs px-6 py-5 rounded-md">
-      <h2 className="text-xl font-extrabold tracking-tight text-warmGray-900">
+    <div className="flex justify-between lg:items-center lg:justify-between shadow-lgs px-6 py-5 rounded-md flex-col md:flex-row">
+      <h2 className="text-xl font-extrabold tracking-tight text-warmGray-900 sm:flex-1">
         <span className="block">Ready to dive in?</span>
         <span className="block text-trueGray-500 text-lg font-semibold">
           Start your free trial today.
         </span>
       </h2>
-      <div className="sm:mt-0 mt-8 flex lg:mt-0 lg:flex-shrink-0">
-        <div className="ml-4 inline-flex rounded-md shadow">
+      <div className="mt-6 md:mt-0">
+        <div className="rounded-md shadow">
           <button
             disabled={loading}
             onClick={() => onClick()}
-            className="relative inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400">
+            className="flex-1 flex w-full items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400">
             <span className={cx([loading ? 'opacity-0' : null])}>Start Free Trial</span>
             {loading && (
               <div className="absolute inset-0 flex flex-1 items-center justify-center">
