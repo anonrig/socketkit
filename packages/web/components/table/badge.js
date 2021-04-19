@@ -27,7 +27,7 @@ Badge.defaultProps = {
 
 Badge.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  state: PropTypes.oneOf(['success', 'info', 'danger']),
+  state: PropTypes.oneOf(['success', 'info', 'danger']).isRequired,
 }
 
 export default Badge

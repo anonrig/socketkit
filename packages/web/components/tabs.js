@@ -29,6 +29,7 @@ function Tabs({ selected, items }) {
             {items.map((item) => (
               <Link href={item.href} key={item.key}>
                 <a
+                  aria-current={selected?.includes(item.key) ? 'page' : undefined}
                   className={cx([
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     selected?.includes(item.key)
