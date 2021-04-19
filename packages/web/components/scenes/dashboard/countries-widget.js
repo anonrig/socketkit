@@ -3,7 +3,6 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
-import countries from 'country-region-data'
 
 const TreeMapChart = dynamic(() =>
   import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
@@ -17,7 +16,6 @@ function CountriesWidget({ range, initialData }) {
   )
 
   const letters = '0123456789ABCDEF'
-  const findCountry = (id) => countries.find((c) => c.countryShortCode === id.toUpperCase())
 
   function getRandomColor() {
     let color = '#'
@@ -38,7 +36,7 @@ function CountriesWidget({ range, initialData }) {
           <TreeMapChart
             id="Countries Summary"
             rows={(data ?? []).map((c) => ({
-              id: findCountry(c.country_id)?.countryName,
+              id: countries[c.country_id.toLowerCase()]?.name,
               value: c.revenue,
               color: getRandomColor(),
             }))}
@@ -78,7 +76,7 @@ function CountriesWidget({ range, initialData }) {
                       {data?.slice(0, 5).map((c) => (
                         <tr key={c.country_id}>
                           <td className="pr-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
-                            {findCountry(country.country_id)?.countryName}
+                            {countries[c.country_id.toLowerCase()]?.name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                             {((c.churn_count / c.total_count) * 100).toFixed(2)}%

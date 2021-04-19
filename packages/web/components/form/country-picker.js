@@ -1,22 +1,21 @@
 import { forwardRef } from 'react'
 import Select from 'react-select'
-import countries from 'country-region-data'
+import countries from 'helpers/countries.json'
 import cx from 'classnames'
 
 function CountryPicker({ className, onChange, value, ...props }, ref) {
   if (typeof value === 'string') {
-    value = countries.find((c) => c.countryShortCode.toLowerCase() === value.toLowerCase())
+    value = countries[value.toLowerCase()]
   }
 
   return (
     <Select
-      options={countries}
+      options={Object.keys(countries).map((k) => ({ ...countries[k], value: k }))}
       getOptionLabel={(option) => {
-        if (typeof option === 'object') return option.countryName
-        return countries.find((c) => c.countryShortCode.toLowerCase() === option.toLowerCase())
-          ?.countryName
+        if (typeof option === 'object') return option.name
+        return countries[option.toLowerCase()]?.name
       }}
-      getOptionValue={(option) => option}
+      getOptionValue={(option) => option.value}
       className={cx('mt-1 sm:text-sm text-md', className)}
       ref={ref}
       onChange={(v) => onChange(v.countryShortCode?.toUpperCase())}
