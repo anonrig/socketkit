@@ -8,7 +8,8 @@ CREATE TABLE account_identities (
     account_id uuid NOT NULL,
     identity_id text NOT NULL,
 
-    PRIMARY KEY (account_id, identity_id)
+    PRIMARY KEY (account_id, identity_id),
+    FOREIGN KEY (account_id) REFERENCES accounts
 );
 
 GRANT SELECT, INSERT, DELETE ON account_identities TO "core-worker";
