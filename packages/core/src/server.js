@@ -9,6 +9,7 @@ import helmet from 'fastify-helmet'
 import auth from 'fastify-auth'
 import sensible from 'fastify-sensible'
 import metrics from 'fastify-metrics'
+import rawBody from 'fastify-raw-body'
 import qs from 'qs'
 
 import grpc from './plugins/custom.js'
@@ -59,6 +60,11 @@ export default async function build() {
     },
     healthCheckInterval: 1000,
     exposeStatusRoute: '/health',
+  })
+  server.register(rawBody, {
+    field: 'rawBody',
+    global: false,
+    encoding: 'utf8',
   })
   server.register(grpc)
   server.register(sensible, {
