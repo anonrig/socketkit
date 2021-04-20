@@ -2,6 +2,11 @@ SET ROLE core;
 
 CREATE TYPE account_role AS ENUM ('owner');
 
+CREATE TABLE accounts {
+    account_id uuid NOT NULL,
+    PRIMARY KEY (account_id)
+};
+
 CREATE TABLE account_identities (
     account_role account_role NOT NULL DEFAULT 'owner',
     created_at timestamptz NOT NULL DEFAULT now(),
