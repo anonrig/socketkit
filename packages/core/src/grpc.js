@@ -30,6 +30,13 @@ const {
   loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
 )
 
+const {
+  Integrations: PaymentIntegrations,
+  Payments,
+} = grpc.loadPackageDefinition(
+  loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
+)
+
 export default {
   clients: promisifyAll(
     new Clients(config.grpc.subscription, grpc.credentials.createInsecure()),
@@ -63,5 +70,14 @@ export default {
   ),
   reports: promisifyAll(
     new Reports(config.grpc.subscription, grpc.credentials.createInsecure()),
+  ),
+  paymentIntegrations: promisifyAll(
+    new PaymentIntegrations(
+      config.grpc.payment,
+      grpc.credentials.createInsecure(),
+    ),
+  ),
+  payments: promisifyAll(
+    new Payments(config.grpc.payment, grpc.credentials.createInsecure()),
   ),
 }

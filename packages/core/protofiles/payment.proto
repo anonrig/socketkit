@@ -1,0 +1,71 @@
+
+syntax = "proto3";
+
+service Payments {
+  rpc createSession(AccountIdSessionRequest) returns (Session) {}
+  rpc validateWebhook(WebhookRequest) returns (Empty) {}
+}
+
+service Integrations {
+  rpc findOrCreate(Integration) returns (Empty) {}
+}
+
+// Generics
+
+message Empty {}
+
+message AckResponse {
+  bool state = 1;
+}
+
+// Requests
+
+message AccountIdSessionRequest {
+  string account_id = 1;
+  string session_type = 2;
+}
+
+message WebhookRequest {
+  string payload = 1;
+  string signature = 2;
+}
+
+// Models
+
+message Integration {
+  string account_id = 1;
+  string name = 2;
+  string email = 3;
+
+  oneof optional_address {
+    PaymentAddress address = 4;
+  }
+
+  oneof optional_phone {
+    string phone = 5;
+  }
+
+  oneof optional_tax_exempt {
+    TaxExempt tax_exempt = 6;
+  }
+}
+
+enum TaxExempt {
+  NONE = 0;
+  EXEMPT = 1;
+  REVERSE = 2;
+}
+
+message PaymentAddress {
+  string city = 1;
+  string country = 2;
+  string line1 = 3;
+  string line2 = 4;
+  string postal_code = 5;
+  string state = 6;
+}
+
+message Session {
+  string id = 1;
+  string url = 2;
+}

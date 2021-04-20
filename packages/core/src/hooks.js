@@ -1,5 +1,7 @@
 import { Configuration, PublicApi, AdminApi } from '@ory/kratos-client'
 import { RequiredError } from '@ory/kratos-client/dist/base.js'
+
+import grpc from './grpc.js'
 import config from './config.js'
 import { createAccount, getAccounts } from './models/accounts.js'
 import logger from './logger.js'
@@ -26,6 +28,12 @@ export const verify = async (request, reply) => {
       })
       request.accounts = [account]
     }
+
+    request.payment_integration = await grpc.paymentIntegrations.findOrCreate({
+      account_id: request.accounts[0].account_id,
+      name: request.user.identity.traits.name,
+      email: request.user.identity.traits.email,
+    })
   } catch (error) {
     if (error instanceof RequiredError) {
       reply.forbidden()
