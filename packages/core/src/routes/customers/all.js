@@ -8,7 +8,7 @@ export default {
     querystring: {
       type: 'object',
       properties: {
-        limit: { type: ['number', 'null'], default: 10, minimum: 10 },
+        limit: { type: 'number', default: 10, minimum: 10 },
         cursor: {
           type: 'object',
           properties: {
@@ -38,6 +38,7 @@ export default {
               client_id: { type: 'string' },
               first_interaction: { type: 'string' },
             },
+            required: ['client_id', 'first_interaction'],
           },
           rows: {
             type: 'array',
@@ -53,9 +54,20 @@ export default {
                 device_type_name: { type: 'string' },
                 provider_id: { type: 'string' },
               },
+              required: [
+                'client_id',
+                'first_interaction',
+                'total_base_client_purchase',
+                'total_base_developer_proceeds',
+                'country_id',
+                'device_type_id',
+                'device_type_name',
+                'provider_id',
+              ],
             },
           },
         },
+        required: ['cursor', 'rows'],
       },
     },
   },

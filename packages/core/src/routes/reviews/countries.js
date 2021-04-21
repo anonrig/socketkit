@@ -22,6 +22,7 @@ export default {
             },
           },
         },
+        required: ['rows'],
       },
     },
   },

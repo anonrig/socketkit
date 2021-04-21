@@ -8,7 +8,7 @@ export default {
     querystring: {
       type: 'object',
       properties: {
-        limit: { type: ['number', 'null'], default: 10, minimum: 10 },
+        limit: { type: 'number', default: 10, minimum: 10 },
         cursor: {
           type: 'object',
           properties: {
@@ -56,6 +56,7 @@ export default {
             },
           },
         },
+        required: ['cursor', 'rows'],
       },
     },
   },

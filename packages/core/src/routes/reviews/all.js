@@ -20,6 +20,7 @@ export default {
           required: ['review_id', 'updated_at'],
         },
       },
+      required: [],
     },
     response: {
       200: {
@@ -32,6 +33,7 @@ export default {
               review_id: { type: 'string' },
               updated_at: { type: 'string' },
             },
+            required: ['review_id', 'updated_at'],
           },
           rows: {
             type: 'array',
@@ -49,9 +51,22 @@ export default {
                 title: { type: 'string' },
                 content: { type: 'string' },
               },
+              required: [
+                'review_id',
+                'application_id',
+                'version_number',
+                'country_id',
+                'score',
+                'username',
+                'user_url',
+                'review_url',
+                'title',
+                'content',
+              ],
             },
           },
         },
+        required: ['fetching', 'cursor', 'rows'],
       },
     },
   },

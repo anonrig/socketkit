@@ -20,6 +20,13 @@ export default {
             application_id: { type: 'string' },
             application_name: { type: 'string' },
           },
+          required: [
+            'subscription_active_period',
+            'subscription_package_id',
+            'subscription_package_name',
+            'application_id',
+            'application_name',
+          ],
         },
       },
     },

@@ -19,6 +19,14 @@ export default {
               current: { type: 'number' },
               current_trial: { type: 'number' },
             },
+            required: [
+              'total',
+              'total_trial',
+              'at_start',
+              'at_start_trial',
+              'current',
+              'current_trial',
+            ],
           },
           transaction_sums: {
             type: 'object',

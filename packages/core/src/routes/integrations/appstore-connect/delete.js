@@ -11,6 +11,7 @@ export default {
         properties: {
           state: { type: 'boolean' },
         },
+        required: ['state'],
       },
     },
   },

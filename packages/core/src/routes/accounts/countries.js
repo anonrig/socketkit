@@ -31,6 +31,13 @@ export default {
             churn_count: { type: 'number' },
             revenue: { type: 'number' },
           },
+          required: [
+            'country_id',
+            'total_count',
+            'trial_past_count',
+            'churn_count',
+            'revenue',
+          ],
         },
       },
     },

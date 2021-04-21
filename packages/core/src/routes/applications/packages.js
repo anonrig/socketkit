@@ -8,7 +8,7 @@ export default {
     query: {
       type: 'object',
       properties: {
-        limit: { type: ['number', 'null'], default: 10, minimum: 10 },
+        limit: { type: 'number', default: 10, minimum: 10 },
       },
     },
   },
@@ -20,13 +20,23 @@ export default {
           rows: {
             type: 'array',
             items: {
-              subscription_name: { type: 'string' },
-              subscription_package_id: { type: 'string' },
-              subscription_duration: { type: 'string' },
-              subscription_group_id: { type: 'string' },
+              type: 'object',
+              properties: {
+                subscription_name: { type: 'string' },
+                subscription_package_id: { type: 'string' },
+                subscription_duration: { type: 'string' },
+                subscription_group_id: { type: 'string' },
+              },
+              required: [
+                'subscription_name',
+                'subscription_package_id',
+                'subscription_duration',
+                'subscription_group_id',
+              ],
             },
           },
         },
+        required: ['rows'],
       },
     },
   },

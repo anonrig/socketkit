@@ -49,6 +49,7 @@ export default {
             },
           },
         },
+        required: ['rows'],
       },
     },
   },
