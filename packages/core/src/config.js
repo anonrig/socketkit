@@ -10,4 +10,13 @@ export default {
     private: process.env.KRATOS_ADMIN_URL,
     public: process.env.KRATOS_PUBLIC_URL ?? 'https://login.socketkit.com',
   },
+  knex: {
+    client: 'pg',
+    version: '13',
+    connection: {
+      database: 'core',
+      user: 'core-worker',
+    },
+    pool: { min: 0, max: 5 },
+  },
 }
