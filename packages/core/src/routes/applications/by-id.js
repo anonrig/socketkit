@@ -37,7 +37,6 @@ export default {
           version: { type: 'string' },
           ratings: { type: 'array', items: { type: 'number' } },
           released_at: { type: 'string' },
-          updated_at: { type: 'string' },
           reviews: { type: 'number' },
           score: { type: 'number' },
           developer_url: { type: 'string' },
