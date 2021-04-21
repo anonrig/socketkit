@@ -16,10 +16,6 @@ function CheckoutButton() {
       const stripe = await getStripe()
       await stripe.redirectToCheckout({
         sessionId: session_id,
-        customerEmail: session.identity.traits.email,
-        clientReferenceId: session.identity.id,
-        successUrl: `https://web.socketkit.com/payment-successful`,
-        cancelUrl: `https://web.socketkit.com`,
       })
     } catch (error) {
       toast.error(error.message)
