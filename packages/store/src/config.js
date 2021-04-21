@@ -17,4 +17,14 @@ export default {
   reviews_batch_size: 10,
   applications_fetch_interval: 1, // hour
   applications_batch_size: 1,
+  knex: {
+    client: 'pg',
+    version: '13',
+    connection: {
+      database: 'store',
+      user: 'store-worker',
+      port: 5432,
+    },
+    pool: { min: 0, max: 5 },
+  },
 }
