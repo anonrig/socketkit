@@ -14,10 +14,6 @@ service Integrations {
 
 message Empty {}
 
-message AckResponse {
-  bool state = 1;
-}
-
 // Requests
 
 message AccountIdSessionRequest {
