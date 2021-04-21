@@ -32,7 +32,7 @@ function SettingsHeader() {
             {
               key: 'billing',
               title: 'Billing & Plan',
-              href: getUrl(`payments/session`),
+              href: getUrl(`payments/portal`),
             },
             {
               key: 'integrations',
