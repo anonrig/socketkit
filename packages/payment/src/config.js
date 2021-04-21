@@ -19,4 +19,13 @@ export default {
     flat_fee_based:
       process.env.flat_fee_based ?? 'price_1IhvnDEArFRUZZMzFFoIepCx',
   },
+  knex: {
+    client: 'pg',
+    version: '13',
+    connection: {
+      database: 'payment',
+      user: 'payment-worker',
+    },
+    pool: { min: 0, max: 5 },
+  },
 }
