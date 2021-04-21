@@ -1,0 +1,85 @@
+
+syntax = "proto3";
+
+service Payments {
+  rpc createSession(AccountIdSessionRequest) returns (Session) {}
+  rpc validateWebhook(WebhookRequest) returns (Empty) {}
+}
+
+service Integrations {
+  rpc findOrCreate(CreateIntegration) returns (AccountIntegration) {}
+}
+
+// Generics
+
+message Empty {}
+
+// Requests
+
+message AccountIdSessionRequest {
+  string account_id = 1;
+  string session_type = 2;
+}
+
+message WebhookRequest {
+  string payload = 1;
+  string signature = 2;
+}
+
+// Models
+
+message CreateIntegration {
+  string account_id = 1;
+  string name = 2;
+  string email = 3;
+
+  oneof optional_address {
+    PaymentAddress address = 4;
+  }
+
+  oneof optional_phone {
+    string phone = 5;
+  }
+
+  oneof optional_tax_exempt {
+    TaxExempt tax_exempt = 6;
+  }
+}
+
+enum TaxExempt {
+  NONE = 0;
+  EXEMPT = 1;
+  REVERSE = 2;
+}
+
+message PaymentAddress {
+  string city = 1;
+  string country = 2;
+  string line1 = 3;
+  string line2 = 4;
+  string postal_code = 5;
+  string state = 6;
+}
+
+message Session {
+  string id = 1;
+  string url = 2;
+}
+
+message AccountIntegration {
+  string account_id = 1;
+  string stripe_id = 2;
+  oneof optional_subscription_id {
+    string subscription_id = 3;
+  }
+  oneof optional_payment_intent_status {
+    string payment_intent_status = 4;
+  }
+  oneof optional_payment_status {
+    string payment_status = 5;
+  }
+  string subscription_state = 6;
+  oneof optional_current_period_end {
+    string current_period_end = 7;
+  }
+}

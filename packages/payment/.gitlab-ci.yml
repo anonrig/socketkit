@@ -1,0 +1,47 @@
+image: docker:stable
+
+services:
+  - docker:stable-dind
+
+stages:
+  - build
+  - push
+
+variables:
+  CONTAINER_BUILD_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+Build:
+  stage: build
+  script:
+    - docker pull $CONTAINER_RELEASE_IMAGE || true
+    - >
+      docker build
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CONTAINER_RELEASE_IMAGE
+      --tag $CONTAINER_BUILD_IMAGE
+      .
+    - docker push $CONTAINER_BUILD_IMAGE
+
+Push latest:
+  stage: push
+  only:
+    - master
+  script:
+    - docker pull $CONTAINER_BUILD_IMAGE
+    - docker tag $CONTAINER_BUILD_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+
+Push tag:
+  stage: push
+  only:
+    - tags
+  script:
+    - docker pull $CONTAINER_BUILD_IMAGE
+    - docker tag $CONTAINER_BUILD_IMAGE $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
