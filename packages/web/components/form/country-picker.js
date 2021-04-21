@@ -6,6 +6,13 @@ import cx from 'classnames'
 function CountryPicker({ className, onChange, value, ...props }, ref) {
   if (typeof value === 'string') {
     value = countries[value.toLowerCase()]
+  } else if (Array.isArray(value)) {
+    value = value.map((v) => {
+      if (typeof v === 'string') {
+        return Object.assign({}, countries[v.toLowerCase()], { value: v })
+      }
+      return v
+    })
   }
 
   return (
@@ -18,7 +25,7 @@ function CountryPicker({ className, onChange, value, ...props }, ref) {
       getOptionValue={(option) => option.value}
       className={cx('mt-1 sm:text-sm text-md', className)}
       ref={ref}
-      onChange={(v) => onChange(v.countryShortCode?.toUpperCase())}
+      onChange={(values) => onChange(values)}
       value={value}
       theme={(theme) => ({
         ...theme,

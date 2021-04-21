@@ -39,7 +39,9 @@ function ReviewsIntegration({ initialData }) {
       await fetcher(`integrations/reviews`, {
         method: 'PUT',
         body: JSON.stringify({
-          requirement_payload: applications.filter((a) => !!a),
+          requirement_payload: applications
+            .filter((a) => !!a)
+            .map((a) => ({ ...a, country_ids: a.country_ids.map((c) => c.value) })),
         }),
       })
       setLoading(false)
@@ -74,6 +76,7 @@ function ReviewsIntegration({ initialData }) {
   const updateCountry = (index, countries) => {
     let manipulated = applications.slice(0)
     manipulated[index].country_ids = countries
+    console.log('countries', countries)
     setApplications(manipulated)
   }
 
@@ -99,11 +102,11 @@ function ReviewsIntegration({ initialData }) {
                 {applications.map((application, index) => (
                   <div
                     className="flex flex-col flex-1"
-                    key={application?.application_id ?? 'new-application'}>
+                    key={application?.application_id ?? Math.random()}>
                     <div className="flex-1">
                       <ApplicationPicker
                         value={application}
-                        onValueChange={(a) => updateApplication(index, a)}
+                        onChange={(a) => updateApplication(index, a)}
                       />
                     </div>
                     <CountryPicker
