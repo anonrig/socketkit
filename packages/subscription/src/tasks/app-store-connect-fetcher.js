@@ -23,7 +23,7 @@ export default function fetchIntegrations() {
       .from('integrations')
       .where('provider_id', 'apple')
       .andWhere('state', '<', 'suspended')
-      .andWhere('last_fetch', '<', dayjs().subtract(1, 'hours'))
+      .andWhere('last_fetch', '<', dayjs().subtract(1, 'day'))
       .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
       .forUpdate()
