@@ -8,6 +8,7 @@ service Payments {
 
 service Integrations {
   rpc findOrCreate(CreateIntegration) returns (AccountIntegration) {}
+  rpc updateUsage(AccountUsage) returns (Empty) {}
 }
 
 // Generics
@@ -15,6 +16,11 @@ service Integrations {
 message Empty {}
 
 // Requests
+
+message AccountUsage {
+  string account_id = 1;
+  int32 usage = 2;
+}
 
 message AccountIdSessionRequest {
   string account_id = 1;

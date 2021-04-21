@@ -1,6 +1,5 @@
 import * as Session from '../models/session.js'
 import * as Webhook from '../models/webhook.js'
-import * as Subscription from '../models/subscriptions.js'
 
 import grpc from '@grpc/grpc-js'
 
@@ -20,11 +19,5 @@ export async function createSession(ctx) {
 
 export async function validateWebhook(ctx) {
   await Webhook.validate(ctx.req)
-  ctx.res = {}
-}
-
-export async function updateUsage(ctx) {
-  const { account_id, usage } = ctx.req
-  await Subscription.update({ account_id, usage })
   ctx.res = {}
 }
