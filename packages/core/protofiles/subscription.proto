@@ -35,11 +35,6 @@ service Reports {
 
 message Empty {}
 
-message Coordinate {
-  float x = 1;
-  float y = 2;
-}
-
 message ClientIdRequest {
   string account_id = 1;
   string client_id = 2;
@@ -112,7 +107,6 @@ message Client {
   string total_base_client_purchase = 3;
   string total_base_developer_proceeds = 4;
   string country_id = 5;
-  string country_name = 6;
   string device_type_id = 7;
   string device_type_name = 8;
   string provider_id = 9;
@@ -166,8 +160,6 @@ message SubscriptionsGroupByApplication {
 
 message SubscriptionsGroupByCountryRow {
   string country_id = 1;
-  string country_name = 2;
-  Coordinate country_coordinates = 3;
   int32 total_count = 4;
   int32 trial_past_count = 5;
   int32 churn_count = 6;
@@ -226,7 +218,6 @@ message Transaction {
   string subscription_package_name = 7;
   string application_id = 8;
   string country_id = 10;
-  string country_name = 11;
 }
 
 message TransactionsResponse {

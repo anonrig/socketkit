@@ -23,7 +23,12 @@ export default {
             application_icon: { type: 'string' },
             bundle_id: { type: 'string' },
           },
-          required: ['application_id', 'bundle_id', 'application_title', 'application_icon'],
+          required: [
+            'application_id',
+            'bundle_id',
+            'application_title',
+            'application_icon',
+          ],
         },
       },
     },

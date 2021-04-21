@@ -14,13 +14,13 @@ export default {
             type: 'object',
             properties: {
               application_id: { type: 'string' },
-              country_ids: { type: 'array', items: { type: 'string' } }
+              country_ids: { type: 'array', items: { type: 'string' } },
             },
-            required: ['application_id', 'country_ids']
-          }
-        }
+            required: ['application_id', 'country_ids'],
+          },
+        },
       },
-      required: ['requirement_payload']
+      required: ['requirement_payload'],
     },
     response: {
       200: {

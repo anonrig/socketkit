@@ -53,7 +53,6 @@ export default {
                 subscription_package_name: { type: 'string' },
                 application_id: { type: 'string' },
                 country_id: { type: 'string' },
-                country_name: { type: 'string' },
               },
             },
           },

@@ -21,7 +21,6 @@ export default {
             application_id: { type: 'string' },
             application_name: { type: 'string' },
             country_id: { type: 'string' },
-            country_name: { type: 'string' },
           },
         },
       },

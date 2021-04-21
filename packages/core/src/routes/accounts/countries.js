@@ -26,12 +26,6 @@ export default {
           type: 'object',
           properties: {
             country_id: { type: 'string' },
-            country_name: { type: 'string' },
-            country_coordinates: {
-              type: 'object',
-              properties: { x: { type: 'number' }, y: { type: 'number' } },
-              required: ['x', 'y'],
-            },
             total_count: { type: 'number' },
             trial_past_count: { type: 'number' },
             churn_count: { type: 'number' },
