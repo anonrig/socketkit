@@ -115,7 +115,7 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       )
       .into('reviews')
       .onConflict(['review_id'])
-      .merge()
+      .ignore()
       .transacting(trx)
 
     await pg
@@ -124,6 +124,8 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       .from('reviews_watchlist')
       .where({ application_id, country_id })
       .transacting(trx)
+      .onConflict(['application_id', 'country_id'])
+      .ignore()
   } catch (error) {
     logger.fatal(
       `Uncaught exception on reviews fetch for application_id=${application_id} country_id=${country_id}`,
