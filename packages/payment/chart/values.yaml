@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: "registry.gitlab.com/socketkit/payment"
+  repository: "registry.gitlab.com/socketkit/payments"
   pullPolicy: Always
   tag: "latest"
 
