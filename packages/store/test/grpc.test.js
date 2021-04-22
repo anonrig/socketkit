@@ -175,7 +175,7 @@ describe('Applications', () => {
 describe('Reviews', () => {
   describe('findAll', () => {
     test('should return reviews', (done) => {
-      reviews.findAll({ application_id: '284882215' }, (error, response) => {
+      reviews.findAll({ application_ids: ['284882215'] }, (error, response) => {
         try {
           expect(error).toBeNull()
           expect(response.rows).toBeDefined()
