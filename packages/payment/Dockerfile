@@ -1,7 +1,7 @@
 FROM mhart/alpine-node:15.12
 
 ENV NODE_ENV=production
-ENV PORT=3004
+ENV PORT=3005
 ENV TZ=UTC
 
 RUN GRPC_HEALTH_PROBE_VERSION=v0.3.6 && \
@@ -11,6 +11,6 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.6 && \
 COPY package*.json ./
 RUN npm ci --prefer-offline --no-audit --progress=false
 COPY . .
-EXPOSE 3004
+EXPOSE 3005
 
 CMD ["npm", "start"]
