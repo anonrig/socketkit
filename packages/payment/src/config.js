@@ -17,7 +17,7 @@ export default {
     usage_based:
       process.env.USAGE_BASED_PRODUCT ?? 'price_1IhvnDEArFRUZZMzAfo3P7Lr',
     flat_fee_based:
-      process.env.flat_fee_based ?? 'price_1IhvnDEArFRUZZMzFFoIepCx',
+      process.env.FLAT_BASED_PRODUCT ?? 'price_1IhvnDEArFRUZZMzFFoIepCx',
   },
   knex: {
     client: 'pg',
@@ -26,6 +26,5 @@ export default {
       database: 'payment',
       user: 'payment-worker',
     },
-    pool: { min: 0, max: 5 },
   },
 }
