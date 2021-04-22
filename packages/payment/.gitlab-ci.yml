@@ -6,11 +6,15 @@ services:
 stages:
   - build
   - push
+  - deploy
 
 variables:
   CONTAINER_BUILD_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
-  
+  ARGOCD_VERSION: 'v2.0.1'
+  ARGOCD_PROJECT_NAME: 'payment'
+  ARGOCD_BASE_URL: 'cd.socketkit.com'
+
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
@@ -45,3 +49,12 @@ Push tag:
     - docker pull $CONTAINER_BUILD_IMAGE
     - docker tag $CONTAINER_BUILD_IMAGE $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+Update Helm:
+  stage: deploy
+  only:
+    - master
+  script:
+    - curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_VERSION/argocd-linux-amd64
+    - argocd login $ARGOCD_BASE_URL --grpc-web --auth-token $ARGOCD_TOKEN
+    - argocd app set $ARGOCD_PROJECT_NAME -p image.tag=$CI_COMMIT_SHA
