@@ -47,8 +47,7 @@ Set ArgoCD:
   script:
     - apk add --update curl && rm -rf /var/cache/apk/*
     - curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_VERSION/argocd-linux-amd64
-    - argocd login $ARGOCD_BASE_URL --grpc-web --auth-token $ARGOCD_TOKEN
-    - argocd app set $ARGOCD_PROJECT_NAME -p image.tag=$CI_COMMIT_SHA
+    - argocd app set $ARGOCD_PROJECT_NAME -p image.tag=$CI_COMMIT_SHA --server $ARGOCD_BASE_URL --auth-token $ARGOCD_TOKEN --grpc-web
 
 Push tag:
   stage: deploy
