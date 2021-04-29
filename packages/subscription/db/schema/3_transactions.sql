@@ -19,13 +19,12 @@ CREATE TABLE transactions (
   developer_currency_id text NOT NULL,
   base_currency_id text NOT NULL,
 
-  FOREIGN KEY (account_id, subscription_package_id, client_id, subscription_started_at)
-    REFERENCES subscriptions,
+  CONSTRAINT transactions_to_subscriptions_fkey
+    FOREIGN KEY (account_id, subscription_package_id, client_id, subscription_started_at)
+      REFERENCES subscriptions,
 
-  FOREIGN KEY (account_id, client_id)
-    REFERENCES clients,
-
-  CHECK (subscription_started_at <= event_date)
+  CONSTRAINT transactions_subscription_started_at_check
+    CHECK (subscription_started_at <= event_date)
 );
 
 CREATE INDEX ON transactions (account_id, event_date);

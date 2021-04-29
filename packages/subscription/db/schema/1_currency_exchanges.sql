@@ -6,7 +6,9 @@ CREATE TABLE currency_exchanges (
   amount numeric NOT NULL,
 
   PRIMARY KEY (currency_id, exchange_date),
-  CHECK (currency_id ~ '\A[A-Z]{3}\Z')
+
+  CONSTRAINT currency_exchanges_currency_id_check
+    CHECK (currency_id ~ '\A[A-Z]{3}\Z')
 );
 
 CREATE INDEX ON currency_exchanges (exchange_date);

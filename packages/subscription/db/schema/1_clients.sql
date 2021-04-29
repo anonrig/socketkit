@@ -22,9 +22,11 @@ CREATE TABLE clients (
 
   PRIMARY KEY (account_id, client_id),
 
-  FOREIGN KEY (provider_id, device_type_id) REFERENCES device_types,
+  CONSTRAINT clients_to_device_types_fkey
+    FOREIGN KEY (provider_id, device_type_id) REFERENCES device_types,
 
-  CHECK (country_id ~ '\A[a-z]{2}\Z')
+  CONSTRAINT clients_country_id_check
+    CHECK (country_id ~ '\A[a-z]{2}\Z')
 );
 
 CREATE INDEX ON clients (account_id, first_interaction);

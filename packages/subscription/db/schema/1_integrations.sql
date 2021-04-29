@@ -14,6 +14,7 @@ CREATE TABLE integrations (
   last_error_message text,
 
   PRIMARY KEY (account_id, provider_id),
+
   CONSTRAINT integrations_failed_fetches_check
     CHECK (CASE state
       WHEN 'active' THEN failed_fetches = 0

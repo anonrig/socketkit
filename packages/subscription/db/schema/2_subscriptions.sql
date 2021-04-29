@@ -42,20 +42,23 @@ CREATE TABLE subscriptions (
 
   PRIMARY KEY (account_id, subscription_package_id, client_id, subscription_started_at),
 
-  FOREIGN KEY (account_id, subscription_group_id, subscription_duration, subscription_package_id)
-    REFERENCES subscription_packages (account_id, subscription_group_id, subscription_duration, subscription_package_id),
+  CONSTRAINT subscriptions_to_subscription_packages_fkey
+    FOREIGN KEY (account_id, subscription_group_id, subscription_duration, subscription_package_id)
+      REFERENCES subscription_packages (account_id, subscription_group_id, subscription_duration, subscription_package_id),
+  CONSTRAINT subscriptions_to_clients_fkey
+    FOREIGN KEY (account_id, client_id)
+      REFERENCES clients,
 
-  FOREIGN KEY (account_id, client_id)
-    REFERENCES clients,
+  CONSTRAINT subscriptions_active_period_excl
+    EXCLUDE USING gist (
+      account_id WITH =,
+      active_period WITH &&,
+      subscription_group_id WITH =,
+      client_id WITH =
+    ),
 
-  EXCLUDE USING gist (
-    account_id WITH =,
-    active_period WITH &&,
-    subscription_group_id WITH =,
-    client_id WITH =
-  ),
-
-  CHECK (subscription_started_at <= subscription_expired_at)
+  CONSTRAINT subscriptions_subscription_started_at_check
+    CHECK (subscription_started_at <= subscription_expired_at)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";
