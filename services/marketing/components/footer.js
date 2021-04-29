@@ -21,16 +21,14 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/solutions/analytics">
-                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">
-                        Analytics
-                      </a>
+                    <Link href="/solutions/reviews">
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">Reviews</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/solutions/analytics">
                       <a className="text-base text-warmGray-500 hover:text-warmGray-400">
-                        Analytics
+                        Mobile Analytics
                       </a>
                     </Link>
                   </li>
