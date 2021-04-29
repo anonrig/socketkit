@@ -109,7 +109,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       client_currency_id,
       developer_currency_id,
       base_currency_id,
-      subscription_group_id: transaction.subscriptionGroupId,
+      subscription_package_id: transaction.subscriptionAppleId,
       subscription_started_at: subscription.subscription_started_at,
     })
     .into('transactions')

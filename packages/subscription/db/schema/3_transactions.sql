@@ -12,14 +12,14 @@ CREATE TABLE transactions (
   developer_proceeds numeric NOT NULL DEFAULT '0.00',
   base_client_purchase numeric NOT NULL DEFAULT '0.00',
   base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
-  subscription_group_id text NOT NULL,
+  subscription_package_id text NOT NULL,
   client_id text NOT NULL,
   application_id text NOT NULL,
   client_currency_id text NOT NULL,
   developer_currency_id text NOT NULL,
   base_currency_id text NOT NULL,
 
-  FOREIGN KEY (account_id, subscription_group_id, client_id, subscription_started_at)
+  FOREIGN KEY (account_id, subscription_package_id, client_id, subscription_started_at)
     REFERENCES subscriptions,
 
   FOREIGN KEY (account_id, client_id)
@@ -49,7 +49,7 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
       total_base_developer_proceeds = total_base_developer_proceeds + NEW.base_developer_proceeds
     WHERE
       account_id = NEW.account_id AND
-      subscription_group_id = NEW.subscription_group_id AND
+      subscription_package_id = NEW.subscription_package_id AND
       client_id = NEW.client_id AND
       subscription_started_at = NEW.subscription_started_at;
 

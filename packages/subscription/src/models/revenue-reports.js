@@ -108,10 +108,10 @@ export async function getAverageSale({
       `
         CROSS JOIN LATERAL (
           SELECT avg(t.base_developer_proceeds *
-            (30 * 24 * 60 * 60 / date_part('epoch', s.subscription_duration)))
+            (30 * 24 * 60 * 60 / date_part('epoch', p.subscription_duration)))
             AS mrr
           FROM transactions t
-            JOIN subscriptions s USING (account_id, subscription_group_id, client_id, subscription_started_at)
+            JOIN subscription_packages p USING (account_id, subscription_package_id)
           WHERE t.account_id = ? AND
             t.transaction_type = 'conversion' AND
             t.event_date >= g AND

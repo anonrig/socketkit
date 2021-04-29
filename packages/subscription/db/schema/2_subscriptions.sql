@@ -40,7 +40,7 @@ CREATE TABLE subscriptions (
   subscription_package_id text NOT NULL,
   subscription_group_id text NOT NULL,
 
-  PRIMARY KEY (account_id, subscription_group_id, client_id, subscription_started_at),
+  PRIMARY KEY (account_id, subscription_package_id, client_id, subscription_started_at),
 
   FOREIGN KEY (account_id, subscription_group_id, subscription_duration, subscription_package_id)
     REFERENCES subscription_packages (account_id, subscription_group_id, subscription_duration, subscription_package_id),
