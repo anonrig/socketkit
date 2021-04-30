@@ -58,12 +58,12 @@ function CountriesWidget({ range, initialData }) {
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
                           scope="col">
-                          Churn Rate
+                          Churn
                         </th>
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
                           scope="col">
-                          Conversion Rate
+                          Conversion
                         </th>
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
@@ -79,10 +79,16 @@ function CountriesWidget({ range, initialData }) {
                             {countries[c.country_id.toLowerCase()]?.name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            {((c.churn_count / c.total_count) * 100).toFixed(2)}%
+                            {(
+                              ((c.churned_from_trial + c.churned_from_direct_sale) /
+                                c.total_count) *
+                              100
+                            ).toFixed(2)}
+                            %
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            {((c.trial_past_count / c.total_count) * 100).toFixed(2)}%
+                            {((c.paid_converted_from_trial / c.total_trial_count) * 100).toFixed(2)}
+                            %
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                             ${c.revenue ?? 0}
@@ -109,10 +115,13 @@ CountriesWidget.propTypes = {
   initialData: PropTypes.arrayOf(
     PropTypes.shape({
       country_id: PropTypes.string.isRequired,
-      churn_count: PropTypes.number.isRequired,
       total_count: PropTypes.number.isRequired,
-      trial_past_count: PropTypes.number.isRequired,
+      total_direct_sale_count: PropTypes.number.isRequired,
+      total_trial_count: PropTypes.number.isRequired,
+      paid_converted_from_trial: PropTypes.number.isRequired,
       revenue: PropTypes.number.isRequired,
+      churned_from_direct_sale: PropTypes.number.isRequired,
+      churned_from_trial: PropTypes.number.isRequired,
     }),
   ),
 }

@@ -58,45 +58,48 @@ function Customers({ initialData, id }) {
       },
       {
         id: 'total_count',
-        Header: 'Unique Customers',
+        Header: 'Customers',
         accessor: 'total_count',
         className: 'w-24',
       },
       {
-        id: 'trial_past_count',
-        Header: 'Lost Trials',
-        accessor: 'trial_past_count',
-        className: 'w-32',
+        id: 'total_direct_sale_count',
+        Header: 'Direct Sale',
+        accessor: 'total_direct_sale_count',
+        className: 'w-36',
       },
       {
-        id: 'churn_count',
-        Header: 'Lost Customers',
-        accessor: 'churn_count',
+        id: 'total_trial_count',
+        Header: 'Trials',
+        accessor: 'total_trial_count',
         className: 'w-24',
       },
       {
         id: 'churn',
-        Header: 'Churn Rate',
-        accessor: (field) => `${((field.churn_count / field.total_count) * 100).toFixed(2)}%`,
+        Header: 'Churn',
+        accessor: (field) =>
+          `${(
+            ((field.churned_from_trial + field.churned_from_direct_sale) / field.total_count) *
+            100
+          ).toFixed(2)}%`,
         className: '!text-right w-24',
       },
       {
         id: 'lead_conversion',
-        Header: 'Lead Conversion',
-        accessor: (field) => `${((field.trial_past_count / field.total_count) * 100).toFixed(2)}%`,
+        Header: 'Conversion',
+        accessor: (field) =>
+          `${((field.paid_converted_from_trial / field.total_trial_count) * 100).toFixed(2)}%`,
         className: '!text-right w-32',
       },
       {
         id: 'revenue',
-        Header: 'Total Revenue',
+        Header: 'Revenue',
         accessor: (field) => `$${field.revenue ?? 0}`,
         className: '!text-right w-24',
       },
     ],
     [],
   )
-
-  console.log('initialData', initialData?.rows[0])
 
   return (
     <Table
@@ -121,9 +124,13 @@ Customers.propTypes = {
     rows: PropTypes.arrayOf(
       PropTypes.shape({
         country_id: PropTypes.string.isRequired,
-        churn_count: PropTypes.number.isRequired,
         total_count: PropTypes.number.isRequired,
+        total_direct_sale_count: PropTypes.number.isRequired,
+        total_trial_count: PropTypes.number.isRequired,
+        paid_converted_from_trial: PropTypes.number.isRequired,
         revenue: PropTypes.number.isRequired,
+        churned_from_direct_sale: PropTypes.number.isRequired,
+        churned_from_trial: PropTypes.number.isRequired,
       }),
     ),
   }),
