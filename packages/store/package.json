@@ -21,7 +21,6 @@
     "@supercharge/promise-pool": "^1.7.0",
     "appstore-sensor": "^0.5.3",
     "consola": "^2.15.3",
-    "country-lang": "^0.3.6",
     "dayjs": "^1.10.4",
     "knex": "^0.95.4",
     "lodash": "^4.17.21",
