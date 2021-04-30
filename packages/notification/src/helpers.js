@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 // country code regex
 const CC_REGEX = /^[a-z]{2}$/i
 
@@ -58,4 +60,20 @@ export function getRatingEmojis(score) {
   })
 
   return ratings.join('')
+}
+
+/**
+ * Converts array of (key, value_string, value_int) to object.
+ * @params {{key: String, value_string: String, value_int: Int}[]} properties
+ * @returns {Object} object
+ */
+export function convertPropertiesObject(properties) {
+  return _.reduce(
+    properties,
+    (acc, { key, value_string, value_int }) => ({
+      ...acc,
+      [key]: value_string ?? value_int,
+    }),
+    {},
+  )
 }

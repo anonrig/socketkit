@@ -1,15 +1,19 @@
 import { Webhook, MessageBuilder } from 'discord-webhook-node'
 import dayjs from 'dayjs'
-import { countryCodeEmoji, getRatingEmojis } from '../helpers.js'
+import {
+  countryCodeEmoji,
+  getRatingEmojis,
+  convertPropertiesObject,
+} from '../helpers.js'
 
 // https://github.com/matthew1232/discord-webhook-node
-export async function send(type = 'review', { url, review }) {
+export async function send(type = 'review', url, properties) {
   if (type === 'review') {
-    sendReview(url, review)
+    sendReview(url, properties)
   }
 }
 
-export async function sendReview(url, review) {
+export async function sendReview(url, properties) {
   const {
     username,
     title,
@@ -20,8 +24,7 @@ export async function sendReview(url, review) {
     application_id,
     application_title,
     application_icon,
-    review_url,
-  } = review
+  } = convertPropertiesObject(properties)
   const hook = new Webhook(url)
   const embed = new MessageBuilder()
     .setTitle(title)

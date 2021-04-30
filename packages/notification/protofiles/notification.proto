@@ -53,22 +53,14 @@ message Integration {
 
 message Notification {
   string account_id = 1;
-  string provider_id = 2;
-
-  oneof notification_types {
-    ReviewNotification review = 3;
-  }
+  string type = 2;
+  repeated NotificationProperty properties = 3;
 }
 
-message ReviewNotification {
-  string username = 1;
-  string title = 2;
-  string content = 3;
-  string country_id = 4;
-  int32 score = 5;
-  string sent_at = 6;
-  string application_id = 7;
-  string application_title = 8;
-  string application_icon = 9;
-  string review_url = 10;
+message NotificationProperty {
+  string key = 1;
+  oneof notification_value_types {
+    string value_string = 2;
+    int32 value_int = 3;
+  }
 }

@@ -1,15 +1,19 @@
 import { IncomingWebhook } from '@slack/webhook'
 import dayjs from 'dayjs'
-import { countryCodeEmoji, getRatingEmojis } from '../helpers.js'
+import {
+  countryCodeEmoji,
+  getRatingEmojis,
+  convertPropertiesObject,
+} from '../helpers.js'
 
 // https://api.slack.com/messaging/webhooks
-export async function send(type = 'review', { url, review }) {
+export async function send(type = 'review', url, properties) {
   if (type === 'review') {
-    sendReview(url, review)
+    sendReview(url, properties)
   }
 }
 
-export async function sendReview(url, review) {
+export async function sendReview(url, properties) {
   const {
     username,
     title,
@@ -20,7 +24,7 @@ export async function sendReview(url, review) {
     application_title,
     application_icon,
     review_url,
-  } = review
+  } = convertPropertiesObject(properties)
   const hook = new IncomingWebhook(url, {
     username,
     icon_url: 'https://cdn.socketkit.com/assets/icon.png',
