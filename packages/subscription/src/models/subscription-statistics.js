@@ -12,11 +12,25 @@ export function groupByCountry({
       pg.raw('c.country_id AS country_id'),
       pg.raw('count(*) AS total_count'),
       pg.raw(
-        'count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration < s.subscription_expired_at) AS trial_past_count',
+        `count(*) FILTER (WHERE s.free_trial_duration = '00:00:00') AS total_direct_sale_count`,
       ),
       pg.raw(
-        'count(*) FILTER (WHERE s.subscription_expired_at < ?) AS churn_count',
-        [end_date || 'today'],
+        `count(*) FILTER (WHERE s.free_trial_duration != '00:00:00') AS total_trial_count`,
+      ),
+      pg.raw(
+        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration >= s.subscription_expired_at
+          AND s.free_trial_duration = '00:00:00')
+          AS churned_from_direct_sale`,
+      ),
+      pg.raw(
+        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration >= s.subscription_expired_at
+          AND s.free_trial_duration != '00:00:00')
+          AS churned_from_trial`,
+      ),
+      pg.raw(
+        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration < s.subscription_expired_at
+          AND s.free_trial_duration != '00:00:00')
+          AS paid_converted_from_trial`,
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
@@ -35,12 +49,9 @@ export function groupByCountry({
       }
 
       if (start_date) {
-        this.andWhereRaw(`active_period && daterange(?, ?, '[]')`, [
-          start_date,
-          end_date || 'today',
-        ])
+        this.andWhere('subscription_started_at', '>=', start_date)
       } else if (end_date) {
-        this.andWhereRaw('active_period @> ?', [end_date])
+        this.andWhere('subscription_expired_at', '<', end_date)
       }
     })
     .orderBy('revenue', 'DESC')
