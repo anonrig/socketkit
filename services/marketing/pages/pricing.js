@@ -30,7 +30,7 @@ export default function Pricing() {
                 Take control of your mobile app
               </p>
               <p className="max-w-xl mx-auto mt-5 text-xl text-trueGray-500">
-                Start using for free, then pay as you scale your income.
+                Start using for free, then pay as you scale.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function Pricing() {
                           %0.5
                         </span>
                         <span className="mt-2 text-base font-medium text-cyan-100">
-                          of Your MRR
+                          of your revenue
                         </span>
                       </span>
                     </span>
