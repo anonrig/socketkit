@@ -30,16 +30,22 @@ export default {
               properties: {
                 country_id: { type: 'string' },
                 total_count: { type: 'number' },
-                trial_past_count: { type: 'number' },
-                churn_count: { type: 'number' },
+                total_direct_sale_count: { type: 'number' },
+                total_trial_count: { type: 'number' },
+                paid_converted_from_trial: { type: 'number' },
                 revenue: { type: 'number' },
+                churned_from_trial: { type: 'number' },
+                churned_from_direct_sale: { type: 'number' },
               },
               required: [
                 'country_id',
                 'total_count',
-                'trial_past_count',
-                'churn_count',
+                'total_direct_sale_count',
+                'total_trial_count',
+                'paid_converted_from_trial',
                 'revenue',
+                'churned_from_trial',
+                'churned_from_direct_sale',
               ],
             },
           },
@@ -49,16 +55,11 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({
-    accounts: [account],
-    params: { application_id },
-    query,
-  }) => {
-    return grpc.subscriptions.groupByCountry({
+  handler: async ({ accounts: [account], params: { application_id }, query }) =>
+    grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       application_id,
       start_date: query.from,
       end_date: query.to,
-    })
-  },
+    }),
 }

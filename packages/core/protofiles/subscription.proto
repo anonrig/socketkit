@@ -160,10 +160,13 @@ message SubscriptionsGroupByApplication {
 
 message SubscriptionsGroupByCountryRow {
   string country_id = 1;
-  int32 total_count = 4;
-  int32 trial_past_count = 5;
-  int32 churn_count = 6;
-  int32 revenue = 7;
+  int32 total_count = 2;
+  int32 total_direct_sale_count = 3;
+  int32 total_trial_count = 4;
+  int32 paid_converted_from_trial = 5;
+  int32 revenue = 6;
+  int32 churned_from_direct_sale = 7;
+  int32 churned_from_trial = 8;
 }
 
 message SubscriptionsGroupByCountry {
