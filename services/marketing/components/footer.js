@@ -74,6 +74,27 @@ export default function Footer() {
                   </li>
                 </ul>
               </div>
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-trueGray-500 tracking-wider uppercase">
+                  Legal
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <Link href="/legal/privacy-policy">
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">
+                        Privacy Policy
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/legal/terms-of-service">
+                      <a className="text-base text-warmGray-500 hover:text-warmGray-400">
+                        Terms of Service
+                      </a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

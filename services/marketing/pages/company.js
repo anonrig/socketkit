@@ -1,4 +1,4 @@
-import Layout from '../components/layout.js'
+import Layout from 'components/layout.js'
 import Link from 'next/link'
 import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Image from 'next/image'
