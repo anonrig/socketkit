@@ -42,7 +42,11 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       client_id,
     })
     .andWhereRaw('active_period @> ?::date', [event_date])
-    .select(['subscription_started_at', 'total_base_developer_proceeds'])
+    .select([
+      'subscription_started_at',
+      'total_base_developer_proceeds',
+      'subscription_package_id',
+    ])
     .forUpdate()
     .first()
 
@@ -66,10 +70,11 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     subscription = {
       subscription_started_at: event_date,
       total_base_developer_proceeds: 0,
+      subscription_package_id: transaction.subscriptionAppleId,
     }
   }
 
-  let transaction_type;
+  let transaction_type
   if (transaction.refund !== 'Yes') {
     if (customerPrice === 0) {
       transaction_type = 'trial'
@@ -86,6 +91,46 @@ export async function parseTransaction(transaction, { account_id }, trx) {
 
   if (transaction_type === 'refund' && developerProceeds > 0) {
     developerProceeds = developerProceeds * -1
+  }
+
+  // sometimes apple sends 2 transactions within the same subscription_group_id
+  // with one trial and one conversion. in order to compansate this edge case,
+  // we'll neglect the trial state and count conversions, since we don't know
+  // when the trial ends.
+  if (
+    transaction.subscriptionAppleId !== subscription.subscription_package_id
+  ) {
+    if (transaction_type === 'trial') {
+      return // do nothing
+    } else if (transaction_type === 'conversion') {
+      await pg
+        .queryBuilder()
+        .delete()
+        .from('transactions')
+        .where({
+          account_id: subscription.account_id,
+          client_id: subscription.client_id,
+          subscription_package_id: subscription.subscription_package_id,
+          subscription_started_at: subscription.subscription_started_at,
+        })
+        .transacting(trx)
+
+      await pg
+        .queryBuilder()
+        .update({
+          subscription_package_id: transaction.subscriptionAppleId,
+          subscription_duration,
+          free_trial_duration: free_trial_duration ?? '00:00:00',
+        })
+        .from('subscriptions')
+        .where({
+          account_id: subscription.account_id,
+          client_id: subscription.client_id,
+          subscription_package_id: subscription.x,
+          subscription_started_at: subscription.subscription_started_at,
+        })
+        .transacting(trx)
+    }
   }
 
   await pg
