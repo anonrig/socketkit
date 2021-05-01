@@ -26,12 +26,11 @@ CREATE TABLE subscriptions (
         (subscription_started_at + free_trial_duration)::date,
         subscription_expired_at
       ),
-      subscription_expired_at,
-      '[]'
+      subscription_expired_at
     )) STORED,
   active_period daterange NOT NULL
     GENERATED ALWAYS AS (daterange(
-      subscription_started_at, subscription_expired_at, '[]'
+      subscription_started_at, subscription_expired_at
     )) STORED,
   total_base_client_purchase numeric NOT NULL DEFAULT '0.00',
   total_base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
@@ -58,7 +57,7 @@ CREATE TABLE subscriptions (
     ),
 
   CONSTRAINT subscriptions_subscription_started_at_check
-    CHECK (subscription_started_at <= subscription_expired_at)
+    CHECK (subscription_started_at < subscription_expired_at)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";

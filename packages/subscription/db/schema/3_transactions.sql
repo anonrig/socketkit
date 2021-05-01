@@ -38,11 +38,13 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
   BEGIN
     UPDATE subscriptions
     SET
+      -- The subscription_expired_at is exclusive.  We are adding one day
+      -- when refund to make that day count.
       subscription_expired_at = CASE NEW.transaction_type
         WHEN 'trial' THEN (NEW.event_date + free_trial_duration)::date
         WHEN 'conversion' THEN (NEW.event_date + subscription_duration)::date
         WHEN 'renewal' THEN (NEW.event_date + subscription_duration)::date
-        WHEN 'refund' THEN NEW.event_date
+        WHEN 'refund' THEN NEW.event_date + interval '1 day'
       END,
       total_base_client_purchase = total_base_client_purchase + NEW.base_client_purchase,
       total_base_developer_proceeds = total_base_developer_proceeds + NEW.base_developer_proceeds
