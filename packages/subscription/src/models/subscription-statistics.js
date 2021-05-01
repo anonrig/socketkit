@@ -15,22 +15,25 @@ export function groupByCountry({
         `count(*) FILTER (WHERE s.free_trial_duration = '00:00:00') AS total_direct_sale_count`,
       ),
       pg.raw(
-        `count(*) FILTER (WHERE s.free_trial_duration != '00:00:00') AS total_trial_count`,
+        `count(*) FILTER (WHERE s.free_trial_duration > '00:00:00') AS total_trial_count`,
       ),
       pg.raw(
-        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration >= s.subscription_expired_at
-          AND s.free_trial_duration = '00:00:00')
+        `count(*) FILTER (WHERE s.free_trial_duration = '00:00:00' AND s.subscription_expired_at < ?)
           AS churned_from_direct_sale`,
+        [end_date],
       ),
       pg.raw(
-        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration >= s.subscription_expired_at
-          AND s.free_trial_duration != '00:00:00')
+        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration >= s.subscription_expired_at
+          AND s.free_trial_duration > '00:00:00' AND s.subscription_expired_at < ?)
           AS churned_from_trial`,
+        [end_date],
       ),
       pg.raw(
-        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration + s.subscription_duration < s.subscription_expired_at
-          AND s.free_trial_duration != '00:00:00')
+        `count(*) FILTER (WHERE s.subscription_started_at + s.free_trial_duration < s.subscription_expired_at
+          AND s.free_trial_duration > '00:00:00'
+          AND (s.subscription_started_at + s.free_trial_duration)::date <@ daterange(?, ?))
           AS paid_converted_from_trial`,
+        [start_date, end_date],
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
@@ -41,17 +44,11 @@ export function groupByCountry({
         'c.account_id',
       )
     })
-    .where(function () {
-      this.where('s.account_id', account_id)
-
+    .where('s.account_id', account_id)
+    .andWhereRaw(`active_period && daterange(?, ?)`, [start_date, end_date])
+    .andWhere(function () {
       if (application_id) {
         this.andWhere('s.application_id', application_id)
-      }
-
-      if (start_date) {
-        this.andWhere('subscription_started_at', '>=', start_date)
-      } else if (end_date) {
-        this.andWhere('subscription_expired_at', '<', end_date)
       }
     })
     .orderBy('revenue', 'DESC')
