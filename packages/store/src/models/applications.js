@@ -46,19 +46,19 @@ export function findAllSimplified({
       developer_name: 'd.name',
     })
     .from('applications AS a')
-    .join('application_releases AS ar', function() {
+    .join('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
       )
     })
-    .join('application_version_contents AS avc', function() {
+    .join('application_version_contents AS avc', function () {
       this.on('a.application_id', 'avc.application_id')
         .andOn('ar.latest_version_number', 'avc.version_number')
         .andOn('ar.default_language_id', 'avc.language_id')
     })
     .join('developers as d', 'd.developer_id', 'a.developer_id')
-    .where(function() {
+    .where(function () {
       if (application_ids?.length > 0) {
         this.whereIn('a.application_id', application_ids)
       }
@@ -103,25 +103,25 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       size: 'av.size',
     })
     .from('applications AS a')
-    .join('application_releases AS ar', function() {
+    .join('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
       )
     })
-    .join('application_versions AS av', function() {
+    .join('application_versions AS av', function () {
       this.on('a.application_id', 'av.application_id').andOn(
         'ar.latest_version_number',
         'av.version_number',
       )
     })
-    .join('application_version_contents AS avc', function() {
+    .join('application_version_contents AS avc', function () {
       this.on('a.application_id', 'avc.application_id')
         .andOn('ar.latest_version_number', 'avc.version_number')
         .andOn('ar.default_language_id', 'avc.language_id')
     })
     .join('developers as d', 'd.developer_id', 'a.developer_id')
-    .where(function() {
+    .where(function () {
       if (application_ids?.length > 0) {
         this.whereIn('a.application_id', application_ids)
       }
@@ -145,16 +145,16 @@ export function findVersions({ application_id, bundle_id }) {
       released_at: 'av.released_at',
     })
     .from('applications AS a')
-    .innerJoin('application_releases AS ar', function() {
+    .innerJoin('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
       )
     })
-    .innerJoin('application_versions AS av', function() {
+    .innerJoin('application_versions AS av', function () {
       this.on('a.application_id', 'av.application_id')
     })
-    .where(function() {
+    .where(function () {
       if (application_id) {
         this.where('a.application_id', application_id)
       }
@@ -190,21 +190,21 @@ export function findVersion({ application_id, bundle_id, version }) {
     })
     .from('applications AS a')
     .join('developers as d', 'd.developer_id', 'a.developer_id')
-    .innerJoin('application_versions AS av', function() {
+    .innerJoin('application_versions AS av', function () {
       this.on('av.application_id', 'a.application_id')
     })
-    .innerJoin('application_releases AS ar', function() {
+    .innerJoin('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
       )
     })
-    .join('application_version_contents AS avc', function() {
+    .join('application_version_contents AS avc', function () {
       this.on('a.application_id', 'avc.application_id')
         .andOn('av.version_number', 'avc.version_number')
         .andOn('ar.default_language_id', 'avc.language_id')
     })
-    .where(function() {
+    .where(function () {
       if (application_id) {
         this.where('a.application_id', application_id)
       }
