@@ -5,6 +5,8 @@ import config from '../src/config.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 
+import grpc from '@grpc/grpc-js'
+
 beforeAll((done) => {
   logger.pauseLogs()
   app.start(`0.0.0.0:${config.port}`)
@@ -34,6 +36,37 @@ describe('Integrations', () => {
           }
         },
       )
+    })
+
+    test('should validate account_id', (done) => {
+      integration.findAll({ account_id: 'ahmet' }, (error) => {
+        expect(error).toBeTruthy()
+        expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
+        expect(error.message).toContain('Account id is invalid')
+        done()
+      })
+    })
+  })
+
+  describe('upsert', () => {
+    test('should validate account_id', (done) => {
+      integration.upsert({ account_id: 'ahmet' }, (error, response) => {
+        expect(error).toBeTruthy()
+        expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
+        expect(error.message).toContain('Account id is invalid')
+        done()
+      })
+    })
+  })
+
+  describe('destroy', () => {
+    test('should validate account_id', (done) => {
+      integration.destroy({ account_id: 'ahmet' }, (error, response) => {
+        expect(error).toBeTruthy()
+        expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
+        expect(error.message).toContain('Account id is invalid')
+        done()
+      })
     })
   })
 })
