@@ -20,10 +20,7 @@ export async function findAll(
     })
     .from('transactions as t')
     .innerJoin('subscription_packages as p', function () {
-      this.using([
-        'account_id',
-        'subscription_package_id',
-      ])
+      this.using(['account_id', 'subscription_package_id'])
     })
     .innerJoin('clients as c', function () {
       this.using(['account_id', 'client_id'])

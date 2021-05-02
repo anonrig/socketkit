@@ -15,9 +15,6 @@ export default async function getTransactionsById({ client_id, account_id }) {
     .where('t.client_id', client_id)
     .andWhere('t.account_id', account_id)
     .join('subscription_packages as p', function () {
-      this.using([
-        'account_id',
-        'subscription_package_id',
-      ])
+      this.using(['account_id', 'subscription_package_id'])
     })
 }
