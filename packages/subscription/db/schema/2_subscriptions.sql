@@ -52,7 +52,7 @@ CREATE TABLE subscriptions (
     EXCLUDE USING gist (
       account_id WITH =,
       active_period WITH &&,
-      subscription_group_id WITH =,
+      subscription_package_id WITH =,
       client_id WITH =
     ),
 

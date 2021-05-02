@@ -38,7 +38,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .from('subscriptions')
     .where({
       account_id,
-      subscription_group_id: transaction.subscriptionGroupId,
+      subscription_package_id: transaction.subscriptionAppleId,
       client_id,
     })
     .andWhereRaw('active_period @> ?::date', [event_date])
