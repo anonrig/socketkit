@@ -57,7 +57,7 @@ CREATE TABLE subscriptions (
     ),
 
   CONSTRAINT subscriptions_subscription_started_at_check
-    CHECK (subscription_started_at < subscription_expired_at)
+    CHECK (subscription_started_at <= subscription_expired_at)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";
