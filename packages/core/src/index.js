@@ -9,7 +9,8 @@ import build from './server.js'
 const logger = Logger.create().withScope('application')
 
 Sentry.init({
-  environment: config.isProduction ? 'production' : 'development',
+  dsn: config.sentry_dsn,
+  tracesSampleRate: 1.0,
   integrations: [
     new Sentry.Integrations.OnUncaughtException({
       onFatalError(firstError) {
@@ -23,7 +24,6 @@ Sentry.init({
     }),
     new Tracing.Integrations.Postgres(),
   ],
-  tracesSampleRate: 1.0,
 })
 
 const start = async () => {
