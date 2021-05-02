@@ -92,7 +92,7 @@ export default function Transactions({ initialData, id }) {
       {
         id: 'event_date',
         Header: 'Event Date',
-        accessor: (field) => `${dayjs(field.event_date).format('DD/MM/YYYY')}`,
+        accessor: (field) => `${dayjs(field.event_date).format('YYYY-MM-DD')}`,
         className: '!text-right w-32',
       },
     ],
