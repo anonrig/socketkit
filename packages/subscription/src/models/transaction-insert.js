@@ -42,8 +42,14 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .andWhere(function () {
       this.whereRaw('active_period @> ?::date', [event_date])
       this.orWhere('subscription_expired_at', event_date)
+      if (!!transaction.purchaseDate)
+        this.orWhereRaw(`active_period && daterange(?, ?)`, [
+          transaction.purchaseDate,
+          event_date,
+        ])
     })
     .select(['subscription_started_at', 'total_base_developer_proceeds'])
+    .orderBy('subscription_expired_at', 'DESC')
     .forUpdate()
     .first()
 
