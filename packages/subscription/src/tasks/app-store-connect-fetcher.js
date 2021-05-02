@@ -83,8 +83,8 @@ export default function fetchIntegrations() {
         // somehow, some transactions doesn't have any eventDate or subscriberId.
         // eliminate those faulty transactions. TODO: investigate this.
         transactions.filter((t) => !!t.eventDate),
-        ['eventDate'],
-        ['asc'],
+        ['eventDate', 'refund'],
+        ['asc', 'desc'],
       )
 
       const applications = transactions.reduce((i, t) => {
