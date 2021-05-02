@@ -30,8 +30,6 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     ? parseFloat(transaction.developerProceeds)
     : null
 
-  // This should be .returning() on the next query, but Knexjs doesn't
-  // support it with .onConflict().  TODO: Fix it in Knexjs
   let subscription = await pg
     .queryBuilder()
     .transacting(trx)
@@ -41,7 +39,10 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       subscription_package_id: transaction.subscriptionAppleId,
       client_id,
     })
-    .andWhereRaw('active_period @> ?::date', [event_date])
+    .andWhere(function () {
+      this.whereRaw('active_period @> ?::date', [event_date])
+      this.orWhere('subscription_expired_at', event_date)
+    })
     .select(['subscription_started_at', 'total_base_developer_proceeds'])
     .forUpdate()
     .first()
