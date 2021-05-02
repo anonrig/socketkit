@@ -7,7 +7,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
   const client_id = transaction.subscriberId
   const client_currency_id = transaction.customerCurrency
   const developer_currency_id = transaction.proceedsCurrency
-  const event_date = dayjs(transaction.eventDate).format('YYYY-MM-DD')
+  const event_date = transaction.eventDate
   const subscription_duration = transaction.standardSubscriptionDuration
   const free_trial_duration = transaction.subscriptionOfferDuration
   const base_currency_id = 'USD'

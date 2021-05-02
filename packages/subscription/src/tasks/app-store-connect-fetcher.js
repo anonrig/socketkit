@@ -23,7 +23,11 @@ export default function fetchIntegrations() {
       .from('integrations')
       .where('provider_id', 'apple')
       .andWhere('state', '<', 'suspended')
-      .andWhere('last_fetch', '<', dayjs().subtract(1, 'day'))
+      .andWhere(
+        'last_fetch',
+        '<',
+        dayjs().subtract(1, 'day').subtract(12, 'hour').format('YYYY-MM-DD'),
+      )
       .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
       .forUpdate()
@@ -68,7 +72,7 @@ export default function fetchIntegrations() {
         failed_fetches = integration.failed_fetches + 1
         error_message = error.message
         // We must try to fetch the same date again.
-        next_day = integration.last_fetch
+        next_day = dayjs(integration.last_fetch)
 
         logger.error(error)
       }
@@ -108,7 +112,7 @@ export default function fetchIntegrations() {
       .update({
         state: state,
         failed_fetches: failed_fetches,
-        last_fetch: next_day,
+        last_fetch: next_day.format('YYYY-MM-DD'),
         last_error_message: error_message,
       })
       .transacting(trx)
