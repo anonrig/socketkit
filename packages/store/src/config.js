@@ -33,6 +33,5 @@ export default {
       user: 'store-worker',
       port: 5432,
     },
-    pool: { min: 0, max: 5 },
   },
 }
