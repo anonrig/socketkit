@@ -3,7 +3,7 @@
 Initialize the database:
 
     psql < db/globals.sql
-    psql -1 store < db/schema/*
+    psql -1 notification < db/schema/*
 
 Use "npm" to develop::
 
