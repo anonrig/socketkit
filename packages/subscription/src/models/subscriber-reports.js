@@ -24,14 +24,14 @@ export async function get({
       `
         CROSS JOIN LATERAL (
           SELECT count(*) AS count
-          FROM clients c
+          FROM subscribers c
           WHERE
             c.account_id = ? AND
             EXISTS (SELECT 1
               FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
-                s.client_id = c.client_id AND
+                s.subscriber_id = c.subscriber_id AND
                 s.active_period && daterange(g::date, (g + ?::interval)::date) AND
                 s.paid_period && daterange(g::date, (g + ?::interval)::date)
             )
@@ -70,21 +70,21 @@ export async function getCustomerLifetimeValue({
       `
         CROSS JOIN LATERAL (
           SELECT avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
-          FROM clients c
+          FROM subscribers c
           WHERE
             c.account_id = ? AND
             EXISTS (SELECT 1
               FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
-                s.client_id = c.client_id AND
+                s.subscriber_id = c.subscriber_id AND
                 s.active_period && daterange(g::date, (g + ?::interval)::date)
             ) AND
             NOT EXISTS (SELECT 1
               FROM subscriptions s
               WHERE
                 s.account_id = c.account_id AND
-                s.client_id = c.client_id AND
+                s.subscriber_id = c.subscriber_id AND
                 s.active_period && daterange(g::date, (g + ?::interval)::date) AND
                 s.active_period @> 'today'::date
             )

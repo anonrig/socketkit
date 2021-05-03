@@ -1,4 +1,4 @@
-import * as Transaction from '../../models/client-transaction.js'
+import * as Transaction from '../../models/transaction-find.js'
 
 export default async function (
   { account_id, application_id, start_date, end_date },
@@ -13,7 +13,7 @@ export default async function (
     rows.length && rows.length === limit
       ? {
           event_date: rows[rows.length - 1].event_date,
-          client_id: rows[rows.length - 1].client_id,
+          subscriber_id: rows[rows.length - 1].subscriber_id,
         }
       : null
 

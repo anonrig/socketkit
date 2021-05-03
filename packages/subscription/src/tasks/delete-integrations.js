@@ -42,7 +42,7 @@ export default function deleteIntegrations() {
       .delete()
       .transacting(trx)
 
-    await pg.from('clients').where({ account_id }).delete().transacting(trx)
+    await pg.from('subscribers').where({ account_id }).delete().transacting(trx)
 
     await pg
       .from('subscription_packages')

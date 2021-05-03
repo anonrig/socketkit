@@ -1,7 +1,7 @@
 import Sentry from '@sentry/node'
 import Mali from 'mali'
 import path from 'path'
-import * as Clients from './consumers/client/index.js'
+import * as Subscribers from './consumers/subscriber/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
 import * as Subscriptions from './consumers/subscription/index.js'
@@ -23,7 +23,7 @@ const app = new Mali()
 
 app.addService(
   file,
-  ['Clients', 'Subscriptions', 'Transactions', 'Integrations', 'Reports'],
+  ['Subscribers', 'Subscriptions', 'Transactions', 'Integrations', 'Reports'],
   options,
 )
 app.addService(health, 'Health', options)
@@ -50,7 +50,7 @@ app.use(async (context, next) => {
 })
 
 app.use({
-  Clients,
+  Subscribers,
   Subscriptions,
   Transactions,
   Integrations,

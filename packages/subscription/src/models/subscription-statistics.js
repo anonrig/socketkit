@@ -37,9 +37,9 @@ export function groupByCountry({
       ),
       pg.raw(`sum(s.total_base_developer_proceeds) AS revenue`),
     ])
-    .from('clients AS c')
+    .from('subscribers AS c')
     .innerJoin('subscriptions AS s', function () {
-      this.on('s.client_id', 'c.client_id').andOn(
+      this.on('s.subscriber_id', 'c.subscriber_id').andOn(
         's.account_id',
         'c.account_id',
       )

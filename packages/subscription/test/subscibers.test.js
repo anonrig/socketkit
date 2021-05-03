@@ -5,7 +5,7 @@ import app from '../src/grpc.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
 const TEST_APPLICATION_ID = `1494736719`
-const TEST_CLIENT_ID = `784408463844217`
+const TEST_SUBSCRIBER_ID = `784408463844217`
 
 beforeAll(async (done) => {
   logger.pauseLogs()
@@ -18,9 +18,9 @@ afterAll(async (done) => {
   done()
 })
 
-describe('Clients', () => {
+describe('Subscribers', () => {
   test('findAll', (done) => {
-    grpc.clients.findAll(
+    grpc.subscribers.findAll(
       {
         account_id: TEST_ACCOUNT_ID,
         application_id: TEST_APPLICATION_ID,
@@ -39,15 +39,15 @@ describe('Clients', () => {
   })
 
   test('findOne', (done) => {
-    grpc.clients.findOne(
+    grpc.subscribers.findOne(
       {
         account_id: TEST_ACCOUNT_ID,
-        client_id: TEST_CLIENT_ID,
+        subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
         try {
           expect(error).toBeDefined()
-          expect(error.message).toContain('Client not found')
+          expect(error.message).toContain('Subscriber not found')
           expect(response).toBeUndefined()
           done()
         } catch (error) {
@@ -58,10 +58,10 @@ describe('Clients', () => {
   })
 
   test('findTransactions', (done) => {
-    grpc.clients.findTransactions(
+    grpc.subscribers.findTransactions(
       {
         account_id: TEST_ACCOUNT_ID,
-        client_id: TEST_CLIENT_ID,
+        subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
         try {
@@ -77,10 +77,10 @@ describe('Clients', () => {
   })
 
   test('findSubscriptions', (done) => {
-    grpc.clients.findSubscriptions(
+    grpc.subscribers.findSubscriptions(
       {
         account_id: TEST_ACCOUNT_ID,
-        client_id: TEST_CLIENT_ID,
+        subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
         try {

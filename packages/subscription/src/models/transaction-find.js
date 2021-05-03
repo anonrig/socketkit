@@ -2,16 +2,16 @@ import dayjs from 'dayjs'
 import pg from '../pg.js'
 
 export async function findAll(
-  { account_id, application_id, client_id, start_date, end_date },
+  { account_id, application_id, subscriber_id, start_date, end_date },
   { limit = 10, cursor } = {},
 ) {
   return pg
     .queryBuilder()
     .select({
-      client_id: 't.client_id',
+      subscriber_id: 't.subscriber_id',
       transaction_type: 't.transaction_type',
       event_date: pg.raw(`TO_CHAR(t.event_date, 'YYYY-MM-DD')`),
-      base_client_purchase: 't.base_client_purchase',
+      base_subscriber_purchase: 't.base_subscriber_purchase',
       base_developer_proceeds: 't.base_developer_proceeds',
       subscription_package_id: 't.subscription_package_id',
       subscription_package_name: 'p.name',
@@ -22,8 +22,8 @@ export async function findAll(
     .innerJoin('subscription_packages as p', function () {
       this.using(['account_id', 'subscription_package_id'])
     })
-    .innerJoin('clients as c', function () {
-      this.using(['account_id', 'client_id'])
+    .innerJoin('subscribers as c', function () {
+      this.using(['account_id', 'subscriber_id'])
     })
     .where('t.account_id', account_id)
     .andWhere(function () {
@@ -31,20 +31,20 @@ export async function findAll(
         this.andWhere('t.application_id', application_id)
       }
 
-      if (client_id?.length) {
-        this.andWhere('t.client_id', client_id)
+      if (subscriber_id?.length) {
+        this.andWhere('t.subscriber_id', subscriber_id)
       }
 
       if (cursor) {
-        const { event_date, client_id } = cursor
+        const { event_date, subscriber_id } = cursor
 
-        if (!event_date || !client_id) {
+        if (!event_date || !subscriber_id) {
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw(`(t.event_date, t.client_id) < (?, ?)`, [
+        this.whereRaw(`(t.event_date, t.subscriber_id) < (?, ?)`, [
           dayjs(event_date).format('YYYY-MM-DD'),
-          client_id,
+          subscriber_id,
         ])
       }
 
@@ -55,6 +55,6 @@ export async function findAll(
         ])
       }
     })
-    .orderByRaw(`t.event_date desc, t.client_id desc`)
+    .orderByRaw(`t.event_date desc, t.subscriber_id desc`)
     .limit(limit)
 }

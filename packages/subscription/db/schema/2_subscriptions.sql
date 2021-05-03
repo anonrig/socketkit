@@ -30,27 +30,27 @@ CREATE TABLE subscriptions (
     GENERATED ALWAYS AS (daterange(
       subscription_started_at, subscription_expired_at
     )) STORED,
-  total_base_client_purchase numeric NOT NULL DEFAULT '0.00',
+  total_base_subscriber_purchase numeric NOT NULL DEFAULT '0.00',
   total_base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
-  client_id text NOT NULL,
+  subscriber_id text NOT NULL,
   application_id text NOT NULL,
   subscription_package_id text NOT NULL,
 
-  PRIMARY KEY (account_id, subscription_package_id, client_id, subscription_started_at),
+  PRIMARY KEY (account_id, subscription_package_id, subscriber_id, subscription_started_at),
 
   CONSTRAINT subscriptions_to_subscription_packages_fkey
     FOREIGN KEY (account_id, subscription_package_id)
       REFERENCES subscription_packages (account_id, subscription_package_id),
-  CONSTRAINT subscriptions_to_clients_fkey
-    FOREIGN KEY (account_id, client_id)
-      REFERENCES clients,
+  CONSTRAINT subscriptions_to_subscribers_fkey
+    FOREIGN KEY (account_id, subscriber_id)
+      REFERENCES subscribers,
 
   CONSTRAINT subscriptions_active_period_excl
     EXCLUDE USING gist (
       account_id WITH =,
       active_period WITH &&,
       subscription_package_id WITH =,
-      client_id WITH =
+      subscriber_id WITH =
     ),
 
   CONSTRAINT subscriptions_subscription_started_at_check

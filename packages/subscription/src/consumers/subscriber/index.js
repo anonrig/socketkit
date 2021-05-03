@@ -1,6 +1,6 @@
 import getByPagination from './get-by-pagination.js'
 import getById from './get-by-id.js'
-import * as Transaction from '../../models/client-transaction.js'
+import * as Transaction from '../../models/transaction-find.js'
 import getSubscriptionsById from './get-subscriptions-by-id.js'
 
 export const findAll = async (ctx) => {
@@ -19,22 +19,22 @@ export const findAll = async (ctx) => {
 }
 
 export const findOne = async (ctx) => {
-  const { account_id, client_id } = ctx.req
+  const { account_id, subscriber_id } = ctx.req
   ctx.res = {
-    row: await getById({ account_id, client_id }),
+    row: await getById({ account_id, subscriber_id }),
   }
 }
 
 export const findTransactions = async (ctx) => {
-  const { account_id, client_id } = ctx.req
+  const { account_id, subscriber_id } = ctx.req
   ctx.res = {
-    rows: await Transaction.findAll({ account_id, client_id }),
+    rows: await Transaction.findAll({ account_id, subscriber_id }),
   }
 }
 
 export const findSubscriptions = async (ctx) => {
-  const { account_id, client_id } = ctx.req
+  const { account_id, subscriber_id } = ctx.req
   ctx.res = {
-    rows: await getSubscriptionsById({ account_id, client_id }),
+    rows: await getSubscriptionsById({ account_id, subscriber_id }),
   }
 }

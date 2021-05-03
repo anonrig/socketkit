@@ -1,7 +1,10 @@
 import pg from '../../pg.js'
 import dayjs from 'dayjs'
 
-export default async function getSubscriptionsById({ client_id, account_id }) {
+export default async function getSubscriptionsById({
+  subscriber_id,
+  account_id,
+}) {
   const subscriptions = await pg
     .select({
       subscription_active_period: 's.active_period',
@@ -13,7 +16,7 @@ export default async function getSubscriptionsById({ client_id, account_id }) {
     .join('subscription_packages as p', function () {
       this.using(['subscription_package_id', 'account_id', 'application_id'])
     })
-    .where('s.client_id', client_id)
+    .where('s.subscriber_id', subscriber_id)
     .andWhere('s.account_id', account_id)
     .orderBy('s.subscription_started_at', 'DESC')
 

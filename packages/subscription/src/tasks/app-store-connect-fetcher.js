@@ -4,7 +4,7 @@ import pg from '../pg.js'
 import Logger from '../logger.js'
 import AppStoreReporter from 'appstore-reporter'
 import { parseTransaction } from '../models/transaction-insert.js'
-import client from '../grpc-client.js'
+import subscriber from '../grpc-client.js'
 import slug from 'slug'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')
@@ -99,7 +99,7 @@ export default function fetchIntegrations() {
 
       await Promise.all([
         processTransactions(trx, integration.account_id, valid_transactions),
-        client.store.applications.create(Object.values(applications)),
+        subscriber.store.applications.create(Object.values(applications)),
       ])
     }
 
@@ -136,22 +136,22 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
 
-  // create client
+  // create subscriber
   await pg
     .insert(
       transactions.map((t) => ({
         account_id: account_id,
         provider_id: 'apple',
-        client_id: t.subscriberId,
+        subscriber_id: t.subscriberId,
         device_type_id: slug(t.device),
         country_id: t.country.toLowerCase(),
         first_interaction: dayjs(t.eventDate).format('YYYY-MM-DD'),
-        total_base_client_purchase: 0,
+        total_base_subscriber_purchase: 0,
         total_base_developer_proceeds: 0,
       })),
     )
-    .into('clients')
-    .onConflict(['account_id', 'client_id'])
+    .into('subscribers')
+    .onConflict(['account_id', 'subscriber_id'])
     .ignore()
     .transacting(trx)
 

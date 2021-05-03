@@ -11,7 +11,7 @@ export async function getFreeTrials({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: 'l.client_count',
+      y0: 'l.subscriber_count',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -23,7 +23,7 @@ export async function getFreeTrials({
     .joinRaw(
       `
         CROSS JOIN LATERAL (
-          SELECT count(DISTINCT client_id) AS client_count
+          SELECT count(DISTINCT subscriber_id) AS subscriber_count
           FROM transactions AS t
           WHERE t.account_id = ?
             AND t.transaction_type = ?

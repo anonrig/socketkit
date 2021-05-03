@@ -1,11 +1,11 @@
 /* eslint-disable security/detect-object-injection */
 import { promisify } from 'util'
 
-export function promisifyAll(client) {
+export function promisifyAll(subscriber) {
   const to = {}
-  for (var k in client) {
-    if (typeof client[k] != 'function') continue
-    to[k] = promisify(client[k].bind(client))
+  for (var k in subscriber) {
+    if (typeof subscriber[k] != 'function') continue
+    to[k] = promisify(subscriber[k].bind(subscriber))
   }
   return to
 }

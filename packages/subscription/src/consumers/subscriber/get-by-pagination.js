@@ -1,10 +1,10 @@
-import * as Client from '../../models/client.js'
+import * as Subscriber from '../../models/subscriber-find.js'
 
 export default async function getByPagination(
   { account_id, application_id, start_date, end_date },
   { limit, cursor } = {},
 ) {
-  const rows = await Client.findAll(
+  const rows = await Subscriber.findAll(
     { account_id, application_id, start_date, end_date },
     { limit, cursor },
   )
@@ -12,7 +12,7 @@ export default async function getByPagination(
   const pagination_cursor =
     rows.length && rows.length === limit
       ? {
-          client_id: rows[rows.length - 1].client_id,
+          subscriber_id: rows[rows.length - 1].subscriber_id,
           first_interaction: rows[rows.length - 1].first_interaction,
         }
       : null

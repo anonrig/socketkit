@@ -7,10 +7,10 @@ export async function findAll(
 ) {
   return pg
     .select({
-      client_id: 'c.client_id',
+      subscriber_id: 'c.subscriber_id',
       first_interaction: pg.raw(`TO_CHAR(c.first_interaction, 'YYYY-MM-DD')`),
-      total_base_client_purchase: pg.raw(
-        'ROUND(c.total_base_client_purchase, 2)',
+      total_base_subscriber_purchase: pg.raw(
+        'ROUND(c.total_base_subscriber_purchase, 2)',
       ),
       total_base_developer_proceeds: pg.raw(
         'ROUND(c.total_base_developer_proceeds, 2)',
@@ -20,7 +20,7 @@ export async function findAll(
       device_type_name: 't.name',
       provider_id: 'c.provider_id',
     })
-    .from('clients as c')
+    .from('subscribers as c')
     .innerJoin('device_types as t', function () {
       this.using(['provider_id', 'device_type_id'])
     })
@@ -32,20 +32,20 @@ export async function findAll(
             .from('subscriptions as s')
             .where('s.application_id', application_id)
             .andWhereRaw('s.account_id = c.account_id')
-            .andWhereRaw('c.client_id = s.client_id')
+            .andWhereRaw('c.subscriber_id = s.subscriber_id')
         })
       }
 
       if (cursor) {
-        const { first_interaction, client_id } = cursor
+        const { first_interaction, subscriber_id } = cursor
 
-        if (!first_interaction || !client_id) {
+        if (!first_interaction || !subscriber_id) {
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw(`(c.first_interaction, c.client_id) < (?, ?)`, [
+        this.whereRaw(`(c.first_interaction, c.subscriber_id) < (?, ?)`, [
           dayjs(first_interaction).format('YYYY-MM-DD'),
-          client_id,
+          subscriber_id,
         ])
       }
 
@@ -58,7 +58,7 @@ export async function findAll(
     })
     .orderBy([
       { column: 'c.first_interaction', order: 'desc' },
-      { column: 'c.client_id', order: 'desc' },
+      { column: 'c.subscriber_id', order: 'desc' },
     ])
     .limit(limit ?? 10)
 }

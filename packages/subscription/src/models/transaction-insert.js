@@ -4,15 +4,15 @@ import dayjs from 'dayjs'
 
 export async function parseTransaction(transaction, { account_id }, trx) {
   const application_id = transaction.appAppleId
-  const client_id = transaction.subscriberId
-  const client_currency_id = transaction.customerCurrency
+  const subscriber_id = transaction.subscriberId
+  const subscriber_currency_id = transaction.customerCurrency
   const developer_currency_id = transaction.proceedsCurrency
   const event_date = transaction.eventDate
   const base_currency_id = 'USD'
 
-  const [clientCurrencyRate, developerCurrencyRate] = await Promise.all([
+  const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all([
     CurrencyExchange.findByPk({
-      currency_id: client_currency_id,
+      currency_id: subscriber_currency_id,
       exchange_date: event_date,
     }),
     CurrencyExchange.findByPk({
@@ -35,7 +35,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     .where({
       account_id,
       subscription_package_id: transaction.subscriptionAppleId,
-      client_id,
+      subscriber_id,
     })
     .andWhere(function () {
       this.whereRaw('active_period @> ?::date', [event_date])
@@ -57,7 +57,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       .insert({
         account_id,
         subscription_package_id: transaction.subscriptionAppleId,
-        client_id,
+        subscriber_id,
         subscription_started_at: event_date,
         subscription_expired_at: event_date,
         free_trial_duration:
@@ -98,19 +98,19 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       transaction_type,
       event_date: event_date,
       account_id,
-      client_purchase: customerPrice,
+      subscriber_purchase: customerPrice,
       developer_proceeds: developerProceeds,
-      base_client_purchase:
+      base_subscriber_purchase:
         customerPrice !== null
-          ? customerPrice / clientCurrencyRate.amount
+          ? customerPrice / subscriberCurrencyRate.amount
           : null,
       base_developer_proceeds:
         developerProceeds !== null
           ? developerProceeds / developerCurrencyRate.amount
           : null,
-      client_id,
+      subscriber_id,
       application_id,
-      client_currency_id,
+      subscriber_currency_id,
       developer_currency_id,
       base_currency_id,
       subscription_package_id: transaction.subscriptionAppleId,
