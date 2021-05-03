@@ -8,8 +8,7 @@ CREATE TABLE subscription_packages (
   application_id text NOT NULL,
   name text NOT NULL,
 
-  PRIMARY KEY (account_id, subscription_package_id),
-  UNIQUE (account_id, subscription_group_id, subscription_duration, subscription_package_id)
+  PRIMARY KEY (account_id, subscription_package_id)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-worker";
@@ -18,7 +17,6 @@ CREATE TABLE subscriptions (
   subscription_started_at date NOT NULL,
   subscription_expired_at date NOT NULL,
   free_trial_duration interval NOT NULL DEFAULT '00:00:00',
-  subscription_duration interval NOT NULL,
   account_id uuid NOT NULL,
   paid_period daterange NOT NULL
     GENERATED ALWAYS AS (daterange(
@@ -37,13 +35,12 @@ CREATE TABLE subscriptions (
   client_id text NOT NULL,
   application_id text NOT NULL,
   subscription_package_id text NOT NULL,
-  subscription_group_id text NOT NULL,
 
   PRIMARY KEY (account_id, subscription_package_id, client_id, subscription_started_at),
 
   CONSTRAINT subscriptions_to_subscription_packages_fkey
-    FOREIGN KEY (account_id, subscription_group_id, subscription_duration, subscription_package_id)
-      REFERENCES subscription_packages (account_id, subscription_group_id, subscription_duration, subscription_package_id),
+    FOREIGN KEY (account_id, subscription_package_id)
+      REFERENCES subscription_packages (account_id, subscription_package_id),
   CONSTRAINT subscriptions_to_clients_fkey
     FOREIGN KEY (account_id, client_id)
       REFERENCES clients,

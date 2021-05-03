@@ -64,8 +64,7 @@ export async function averageDuration({
       `
         CROSS JOIN LATERAL (
           SELECT
-            AVG(s.free_trial_duration) AS average_trial_duration,
-            AVG(s.subscription_duration) AS average_subscription_duration
+            AVG(s.free_trial_duration) AS average_trial_duration
           FROM subscriptions AS s
           WHERE s.account_id = ?
             AND s.free_trial_duration != '00:00:00'

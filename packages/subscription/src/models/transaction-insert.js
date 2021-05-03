@@ -8,8 +8,6 @@ export async function parseTransaction(transaction, { account_id }, trx) {
   const client_currency_id = transaction.customerCurrency
   const developer_currency_id = transaction.proceedsCurrency
   const event_date = transaction.eventDate
-  const subscription_duration = transaction.standardSubscriptionDuration
-  const free_trial_duration = transaction.subscriptionOfferDuration
   const base_currency_id = 'USD'
 
   const [clientCurrencyRate, developerCurrencyRate] = await Promise.all([
@@ -62,9 +60,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
         client_id,
         subscription_started_at: event_date,
         subscription_expired_at: event_date,
-        subscription_duration,
-        free_trial_duration: free_trial_duration ?? '00:00:00',
-        subscription_group_id: transaction.subscriptionGroupId,
+        free_trial_duration:
+          transaction.subscriptionOfferDuration ?? '00:00:00',
         application_id,
       })
       .into('subscriptions')

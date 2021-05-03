@@ -36,21 +36,24 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
   LANGUAGE plpgsql
   AS $$
   BEGIN
-    UPDATE subscriptions
+    UPDATE subscriptions s
     SET
       subscription_expired_at = CASE NEW.transaction_type
-        WHEN 'trial' THEN (NEW.event_date + free_trial_duration)::date
-        WHEN 'conversion' THEN (NEW.event_date + subscription_duration)::date
-        WHEN 'renewal' THEN (NEW.event_date + subscription_duration)::date
+        WHEN 'trial' THEN (NEW.event_date + p.free_trial_duration)::date
+        WHEN 'conversion' THEN (NEW.event_date + p.subscription_duration)::date
+        WHEN 'renewal' THEN (NEW.event_date + p.subscription_duration)::date
         WHEN 'refund' THEN NEW.event_date
       END,
-      total_base_client_purchase = total_base_client_purchase + NEW.base_client_purchase,
-      total_base_developer_proceeds = total_base_developer_proceeds + NEW.base_developer_proceeds
+      total_base_client_purchase = s.total_base_client_purchase + NEW.base_client_purchase,
+      total_base_developer_proceeds = s.total_base_developer_proceeds + NEW.base_developer_proceeds
+    FROM subscription_packages p
     WHERE
-      account_id = NEW.account_id AND
-      subscription_package_id = NEW.subscription_package_id AND
-      client_id = NEW.client_id AND
-      subscription_started_at = NEW.subscription_started_at;
+      s.account_id = NEW.account_id AND
+      s.subscription_package_id = NEW.subscription_package_id AND
+      s.client_id = NEW.client_id AND
+      s.subscription_started_at = NEW.subscription_started_at AND
+      p.account_id = NEW.account_id AND
+      p.subscription_package_id = NEW.subscription_package_id;
 
     RETURN NEW;
   END;
