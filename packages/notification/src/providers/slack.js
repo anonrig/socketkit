@@ -1,5 +1,9 @@
 import { IncomingWebhook } from '@slack/webhook'
 import dayjs from 'dayjs'
+import grpc from '@grpc/grpc-js'
+
+import validator from '../validator.js'
+import * as Schemas from './slack.schema.js'
 import {
   countryCodeEmoji,
   getRatingEmojis,
@@ -8,25 +12,34 @@ import {
 
 // https://api.slack.com/messaging/webhooks
 export async function send(type = 'review', url, properties) {
+  const schema = Schemas[type]
+
+  if (!schema) {
+    const error = new Error(
+      `Type of ${type} is not available for Slack integration`,
+    )
+    error.code = grpc.status.NOT_FOUND
+    throw error
+  }
+  const validated_properties = validator.validate(
+    Schemas[type],
+    convertPropertiesObject(properties),
+  )
+
+  if (!validated_properties) {
+    const error = new Error(validator.errors[0].message)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   if (type === 'review') {
-    sendReview(url, properties)
+    sendReview(url, validated_properties)
   }
 }
 
 export async function sendReview(url, properties) {
-  const {
-    username,
-    title,
-    content,
-    country_id,
-    score,
-    sent_at,
-    application_title,
-    application_icon,
-    review_url,
-  } = convertPropertiesObject(properties)
   const hook = new IncomingWebhook(url, {
-    username,
+    username: properties.username,
     icon_url: 'https://cdn.socketkit.com/assets/icon.png',
     link_names: false,
   })
@@ -37,7 +50,7 @@ export async function sendReview(url, properties) {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `You have a new review: *<${review_url}|${score} stars on ${application_title}>*`,
+          text: `You have a new review: *<${properties.review_url}|${properties.score} stars on ${properties.application_title}>*`,
         },
       },
       { type: 'divider' },
@@ -45,14 +58,20 @@ export async function sendReview(url, properties) {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*${title}*\n${content}\n\n*Rating*: ${getRatingEmojis()}\n*Country:* ${country_id.toUpperCase()} ${countryCodeEmoji(
-            country_id.toUpperCase(),
-          )}\n*Reviewed at:* ${dayjs(sent_at).format('DD.MM.YYYY HH:MM')}`,
+          text: `*${properties.title}*\n${
+            properties.content
+          }\n\n*Rating*: ${getRatingEmojis(
+            properties.score,
+          )}\n*Country:* ${properties.country_id.toUpperCase()} ${countryCodeEmoji(
+            properties.country_id.toUpperCase(),
+          )}\n*Reviewed at:* ${dayjs(properties.sent_at).format(
+            'DD.MM.YYYY HH:MM',
+          )}`,
         },
         accessory: {
           type: 'image',
-          image_url: application_icon,
-          alt_text: application_title,
+          image_url: properties.application_icon,
+          alt_text: properties.application_title,
         },
       },
     ],
