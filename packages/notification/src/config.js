@@ -9,6 +9,5 @@ export default {
       database: 'notification',
       user: 'notification-worker',
     },
-    pool: { min: 0, max: 5 },
   },
 }
