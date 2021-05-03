@@ -1,4 +1,4 @@
-import { Configuration, PublicApi } from '@ory/kratos-client'
+import { Configuration, PublicApi } from '@oryd/kratos-client'
 import { createContext } from 'react'
 import { kratosUrl } from 'helpers/config.js'
 
