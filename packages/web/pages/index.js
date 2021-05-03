@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
+import useSWR from 'swr'
 
 import { AuthContext } from 'helpers/is-authorized.js'
 import { fetcher, getUrl } from 'helpers/fetcher.js'
@@ -22,22 +23,27 @@ export async function getServerSideProps({
   try {
     const from = dayjs().subtract(1, 'month').format('YYYY-MM-DD')
     const to = dayjs().format('YYYY-MM-DD')
-    const countries = await fetcher(`accounts/countries`, {
-      headers: { cookie, referer },
-      qs: { from, to, limit: 10 },
-    })
-
+    const headers = { cookie, referer }
+    const [countries, payment] = await Promise.all([
+      fetcher(`accounts/countries`, {
+        headers,
+        qs: { from, to },
+      }),
+      fetcher(`payments/state`, { fetcher }),
+    ])
     return {
       props: {
         countries,
+        payment,
       },
     }
   } catch (error) {
-    return { props: { countries: [] } }
+    return { props: { countries: [], payment: { subscription_state: 'inactive' } } }
   }
 }
 
-export default function Dashboard({ countries }) {
+export default function Dashboard({ countries, payment }) {
+  const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
     from: dayjs().subtract(1, 'month'),
@@ -74,7 +80,7 @@ export default function Dashboard({ countries }) {
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
         />
 
-        <CheckoutButton />
+        {paymentsData.subscription_state === 'inactive' && <CheckoutButton />}
 
         <CustomersWidget
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
