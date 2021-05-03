@@ -1,9 +1,10 @@
 import grpc from '@grpc/grpc-js'
-
 import pg from '../pg.js'
+import Logger from '../logger.js'
+
+import * as Email from '../providers/email.js'
 import * as Slack from '../providers/slack.js'
 import * as Discord from '../providers/discord.js'
-import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('notifications')
 
@@ -29,6 +30,8 @@ export async function send({ account_id, type, properties }, trx) {
   for (let integration of integrations) {
     try {
       switch (provider_id) {
+        case 'email':
+          await Email.send(integration.requirement.to, properties)
         case 'slack':
           await Slack.send(type, integration.requirement.url, properties)
           break
