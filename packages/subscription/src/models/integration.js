@@ -57,7 +57,16 @@ export async function findOne({ account_id, provider_id }) {
 export async function findAll({ account_id }) {
   return pg
     .queryBuilder()
-    .select('*')
+    .select({
+      state: 'state',
+      failed_fetches: 'failed_fetches',
+      last_fetch: pg.raw('last_fetch::text'),
+      account_id: 'account_id',
+      provider_id: 'provider_id',
+      access_token: 'access_token',
+      vendor_ids: 'vendor_ids',
+      last_error_message: 'last_error_message',
+    })
     .from('integrations')
     .where({ account_id })
 }
