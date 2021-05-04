@@ -38,7 +38,7 @@
     "react-medium-image-zoom": "^4.3.3",
     "react-select": "^4.3.0",
     "react-table": "^7.7.0",
-    "swr": "^0.5.5"
+    "swr": "^0.5.6"
   },
   "devDependencies": {
     "@types/react-select": "^4.0.15",
