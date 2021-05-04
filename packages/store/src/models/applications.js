@@ -35,6 +35,14 @@ export function findAllSimplified({
   bundle_ids,
   developer_ids,
 }) {
+  if (
+    !application_ids?.length &&
+    !bundle_ids?.length &&
+    !developer_ids?.length
+  ) {
+    return []
+  }
+
   return pg
     .queryBuilder()
     .select({

@@ -100,6 +100,23 @@ describe('Applications', () => {
         },
       )
     })
+
+    test('should return empty if input is invalid', (done) => {
+      applications.findAll(
+        { application_ids: [], bundle_ids: [], developer_ids: [] },
+        (error, response) => {
+          try {
+            expect(error).toBeNull()
+            expect(response).toBeInstanceOf(Object)
+            expect(response.rows).toBeInstanceOf(Array)
+            expect(response.rows.length).toEqual(0)
+            done()
+          } catch (error) {
+            done(error)
+          }
+        },
+      )
+    })
   })
 
   describe('findOne', () => {
