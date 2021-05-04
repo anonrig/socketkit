@@ -12,17 +12,21 @@ import Table from 'components/table/table'
 import InlineRating from 'components/inline-rating'
 import { fetcher } from 'helpers/fetcher.js'
 
-export async function getServerSideProps({ query = {}, req: { headers } }) {
-  const format = 'YYYY-MM-DD'
-  const {
-    start_date = dayjs().subtract(3, 'month').format(format),
-    end_date = dayjs().format(format),
-  } = query
-  const { cookie, referer } = headers ?? {}
-  const initialData = await fetcher(`reviews?from=${start_date}&to=${end_date}`, {
+export async function getServerSideProps({
+  query,
+  req: {
     headers: { cookie, referer },
+  },
+}) {
+  const format = 'YYYY-MM-DD'
+  const start_date = query.start_date
+    ? dayjs(query.start_date).format(format)
+    : dayjs().subtract(1, 'month').format(format)
+  const end_date = dayjs(query.end_date).format(format)
+  const initialData = await fetcher(`reviews`, {
+    headers: { cookie, referer },
+    qs: { from: start_date, to: end_date },
   })
-
   return {
     props: { initialData },
   }

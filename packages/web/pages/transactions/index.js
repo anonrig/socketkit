@@ -1,21 +1,27 @@
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
+
 import DatePicker from 'components/date-picker'
 import TableBadge from 'components/table/badge'
 import Table from 'components/table/table'
 import countries from 'helpers/countries.json'
-import { fetcher } from 'helpers/fetcher.js'
+import { fetcher } from 'helpers/fetcher'
 
-export async function getServerSideProps({ query = {}, req: { headers } }) {
-  const format = 'YYYY-MM-DD'
-  const {
-    start_date = dayjs().subtract(1, 'month').format(format),
-    end_date = dayjs().format(format),
-  } = query
-  const { cookie, referer } = headers ?? {}
-  const initialData = await fetcher(`transactions?from=${start_date}&to=${end_date}`, {
+export async function getServerSideProps({
+  query,
+  req: {
     headers: { cookie, referer },
+  },
+}) {
+  const format = 'YYYY-MM-DD'
+  const start_date = query.start_date
+    ? dayjs(query.start_date).format(format)
+    : dayjs().subtract(1, 'month').format(format)
+  const end_date = dayjs(query.end_date).format(format)
+  const initialData = await fetcher(`transactions`, {
+    headers: { cookie, referer },
+    qs: { from: start_date, to: end_date },
   })
   return {
     props: { initialData },
@@ -45,7 +51,9 @@ function Transactions({ initialData }) {
       {
         id: 'subscription_package_name',
         Header: 'Subscription',
-        accessor: (field) => <div className="text-warmGray-900">{field.subscription_package_name}</div>,
+        accessor: (field) => (
+          <div className="text-warmGray-900">{field.subscription_package_name}</div>
+        ),
         className: 'truncate w-56',
       },
       {

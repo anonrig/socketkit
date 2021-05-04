@@ -6,9 +6,6 @@ import Table from 'components/table/table'
 import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
 export async function getServerSideProps({
   query,
   req: {
@@ -16,17 +13,16 @@ export async function getServerSideProps({
   },
 }) {
   const format = 'YYYY-MM-DD'
-  const {
-    id,
-    start_date = dayjs().subtract(1, 'month').format(format),
-    end_date = dayjs().format(format),
-  } = query
-  const initialData = await fetcher(
-    `applications/${id}/transactions?from=${start_date}&to=${end_date}`,
-    { headers: { cookie, referer } },
-  )
+  const start_date = query.start_date
+    ? dayjs(query.start_date).format(format)
+    : dayjs().subtract(1, 'month').format(format)
+  const end_date = dayjs(query.end_date).format(format)
+  const initialData = await fetcher(`applications/${query.id}/transactions`, {
+    headers: { cookie, referer },
+    qs: { from: start_date, to: end_date },
+  })
   return {
-    props: { initialData, id },
+    props: { initialData, id: query.id },
   }
 }
 
@@ -47,7 +43,6 @@ export default function Transactions({ initialData, id }) {
       undefined,
       { shallow: true },
     )
-    return null
   }
 
   const columns = useMemo(
@@ -55,7 +50,9 @@ export default function Transactions({ initialData, id }) {
       {
         id: 'subscription_package_name',
         Header: 'Subscription',
-        accessor: (field) => <div className="text-warmGray-900">{field.subscription_package_name}</div>,
+        accessor: (field) => (
+          <div className="text-warmGray-900">{field.subscription_package_name}</div>
+        ),
         className: 'truncate w-56',
       },
       {

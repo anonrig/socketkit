@@ -1,22 +1,20 @@
+import { useEffect, useState } from 'react'
 import cx from 'classnames'
+import dynamic from 'next/dynamic'
+import PropTypes from 'prop-types'
+import dayjs from 'dayjs'
+import useSWR from 'swr'
+
+import SocketkitConfig from 'socketkit.config.js'
+
 import DatePicker from 'components/date-picker.js'
 import Dropdown from 'components/dropdown.js'
 import Sidebar from 'components/sidebar-reports.js'
-import dayjs from 'dayjs'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import SidebarLayout from 'layouts/sidebar.js'
-import dynamic from 'next/dynamic'
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import SocketkitConfig from 'socketkit.config.js'
-import useSWR from 'swr'
 
-const BarChart = dynamic(() =>
-  import('components/charts/bar.js' /* webpackChunkName: "BarChart" */),
-)
-const LineChart = dynamic(() =>
-  import('components/charts/line.js' /* webpackChunkName: "LineChart" */),
-)
+const BarChart = dynamic(() => import('components/charts/bar.js'))
+const LineChart = dynamic(() => import('components/charts/line.js'))
 
 export async function getServerSideProps({ query: { slug } }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)

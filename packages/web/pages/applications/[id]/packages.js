@@ -6,16 +6,16 @@ import { fetcher } from 'helpers/fetcher'
  * @param {import("next").NextPageContext} ctx
  */
 export async function getServerSideProps({
-  query: { id },
+  query,
   req: {
     headers: { cookie, referer },
   },
 }) {
-  const initialData = await fetcher(`applications/${id}/packages?limit=10`, {
+  const initialData = await fetcher(`applications/${query.id}/packages?limit=10`, {
     headers: { cookie, referer },
   })
   return {
-    props: { initialData, id },
+    props: { initialData, id: query.id },
   }
 }
 

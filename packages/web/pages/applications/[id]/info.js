@@ -1,13 +1,13 @@
 import useSWR from 'swr'
 import { fetcher } from 'helpers/fetcher.js'
 import dynamic from 'next/dynamic'
-
-const Zoom = dynamic(() => import('react-medium-image-zoom'))
-
-import 'react-medium-image-zoom/dist/styles.css'
-import Button from '../../../components/form/button.js'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+
+import 'react-medium-image-zoom/dist/styles.css'
+import Button from 'components/form/button.js'
+
+const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
 export async function getServerSideProps({
   query: { id },
