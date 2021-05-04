@@ -1,5 +1,5 @@
-import pg from '../pg.js'
 import dayjs from 'dayjs'
+import pg from '../../pg.js'
 
 export async function getFreeTrials({
   account_id,

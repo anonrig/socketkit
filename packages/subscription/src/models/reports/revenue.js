@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import pg from '../pg.js'
+import pg from '../../pg.js'
 
 export async function getMRR({
   account_id,

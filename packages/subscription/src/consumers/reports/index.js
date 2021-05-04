@@ -1,7 +1,7 @@
-import * as SubscriberReports from '../../models/subscriber-reports.js'
-import * as TrialReports from '../../models/trial-reports.js'
-import * as SubscriptionReports from '../../models/subscription-reports.js'
-import * as RevenueReports from '../../models/revenue-reports.js'
+import * as SubscriberReports from '../../models/reports/subscriber.js'
+import * as TrialReports from '../../models/reports/trial.js'
+import * as SubscriptionReports from '../../models/reports/subscription.js'
+import * as RevenueReports from '../../models/reports/revenue.js'
 
 import grpc from '@grpc/grpc-js'
 

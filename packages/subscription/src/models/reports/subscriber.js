@@ -1,4 +1,4 @@
-import pg from '../pg.js'
+import pg from '../../pg.js'
 import dayjs from 'dayjs'
 
 export async function get({
