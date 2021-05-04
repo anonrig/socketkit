@@ -51,9 +51,9 @@ export default function Customers({ initialData, id }) {
   const columns = useMemo(
     () => [
       {
-        id: 'client_id',
-        Header: 'Client Id',
-        accessor: (field) => <div className="text-warmGray-900">{field.client_id}</div>,
+        id: 'subscriber_id',
+        Header: 'Subscriber Id',
+        accessor: (field) => <div className="text-warmGray-900">{field.subscriber_id}</div>,
         className: 'w-32',
       },
       {
@@ -70,7 +70,7 @@ export default function Customers({ initialData, id }) {
       {
         id: 'sales',
         Header: 'Sales',
-        accessor: (field) => `$${parseFloat(field.total_base_client_purchase).toFixed(2)}`,
+        accessor: (field) => `$${parseFloat(field.total_base_subscriber_purchase).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
@@ -99,8 +99,8 @@ export default function Customers({ initialData, id }) {
       }}
       columns={columns}
       getRowProps={({ original }) => ({
-        key: original.client_id,
-        onClick: () => router.push(`/customers/${original.client_id}`),
+        key: original.subscriber_id,
+        onClick: () => router.push(`/customers/${original.subscriber_id}`),
       })}
     />
   )

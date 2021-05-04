@@ -56,7 +56,7 @@ export default function CustomerDetail() {
                   <div className="sm:col-span-1">
                     <dt className="text-sm font-medium text-warmGray-900">Total Sales</dt>
                     <dd className="mt-1 text-sm text-warmGray-900">
-                      {parseFloat(customer?.total_base_client_purchase ?? '0.00').toFixed(2)}$
+                      {parseFloat(customer?.total_base_subscriber_purchase ?? '0.00').toFixed(2)}$
                     </dd>
                   </div>
                   <div className="sm:col-span-1">

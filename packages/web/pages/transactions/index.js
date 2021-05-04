@@ -54,9 +54,9 @@ function Transactions({ initialData }) {
         accessor: (field) => countries[field.country_id]?.name,
       },
       {
-        id: 'base_client_purchase',
+        id: 'base_subscriber_purchase',
         Header: 'Sale',
-        accessor: (field) => `$${parseFloat(field.base_client_purchase).toFixed(2)}`,
+        accessor: (field) => `$${parseFloat(field.base_subscriber_purchase).toFixed(2)}`,
         className: '!text-right w-24',
       },
       {
@@ -142,8 +142,8 @@ function Transactions({ initialData }) {
         }}
         columns={columns}
         getRowProps={({ original }) => ({
-          key: `${original.client_id}-${original.application_id}-${original.transaction_type}-${original.subscription_package_id}-${original.event_date}`,
-          onClick: () => router.push(`/customers/${original.client_id}`),
+          key: `${original.subscriber_id}-${original.application_id}-${original.transaction_type}-${original.subscription_package_id}-${original.event_date}`,
+          onClick: () => router.push(`/customers/${original.subscriber_id}`),
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
         })}
       />

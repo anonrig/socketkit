@@ -60,7 +60,7 @@ function Users({ users }) {
         options={{}}
         columns={columns}
         getRowProps={({ original }) => ({
-          id: original.client_id,
+          id: original.subscriber_id,
           className: 'h-14 hover:bg-warmGray-50',
         })}
       />

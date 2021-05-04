@@ -12,13 +12,13 @@ function TimelineRow({
   entry: {
     event_date,
     transaction_type,
-    base_client_purchase,
+    base_subscriber_purchase,
     base_developer_proceeds,
     subscription_package_id,
     subscription_package_name,
   },
 }) {
-  const price = parseFloat(base_client_purchase).toFixed(2)
+  const price = parseFloat(base_subscriber_purchase).toFixed(2)
   const proceed = parseFloat(base_developer_proceeds).toFixed(2)
 
   const getLabel = () => {
@@ -84,7 +84,7 @@ TimelineRow.propTypes = {
   entry: PropTypes.shape({
     application_id: PropTypes.string.isRequired,
     application_name: PropTypes.string.isRequired,
-    base_client_purchase: PropTypes.string.isRequired,
+    base_subscriber_purchase: PropTypes.string.isRequired,
     base_developer_proceeds: PropTypes.string.isRequired,
     transaction_type: PropTypes.string.isRequired,
     subscription_package_id: PropTypes.string.isRequired,
