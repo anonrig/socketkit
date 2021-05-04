@@ -29,7 +29,7 @@ export async function getServerSideProps({
         headers,
         qs: { from, to },
       }),
-      fetcher(`payments/state`, { fetcher }),
+      fetcher(`payments/state`, { headers }),
     ])
     return {
       props: {
@@ -38,6 +38,7 @@ export async function getServerSideProps({
       },
     }
   } catch (error) {
+    console.error(error)
     return { props: { countries: [], payment: { subscription_state: 'inactive' } } }
   }
 }
