@@ -3,7 +3,7 @@ import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
-  path: '/:client_id/subscriptions',
+  path: '/:subscriber_id/subscriptions',
   schema: {
     response: {
       200: {
@@ -32,10 +32,10 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { client_id } }) => {
-    const { rows } = await grpc.clients.findSubscriptions({
+  handler: async ({ accounts: [account], params: { subscriber_id } }) => {
+    const { rows } = await grpc.subscribers.findSubscriptions({
       account_id: account.account_id,
-      client_id,
+      subscriber_id,
     })
 
     const application_ids = rows.map(({ application_id }) => application_id)

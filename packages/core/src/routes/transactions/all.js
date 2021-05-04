@@ -12,10 +12,10 @@ export default {
         cursor: {
           type: 'object',
           properties: {
-            client_id: { type: 'string' },
+            subscriber_id: { type: 'string' },
             event_date: { type: 'string' },
           },
-          required: ['client_id', 'event_date'],
+          required: ['subscriber_id', 'event_date'],
         },
         from: {
           type: 'string',
@@ -35,20 +35,20 @@ export default {
           cursor: {
             type: ['object', 'null'],
             properties: {
-              client_id: { type: 'string' },
+              subscriber_id: { type: 'string' },
               event_date: { type: 'string' },
             },
-            required: ['client_id', 'event_date'],
+            required: ['subscriber_id', 'event_date'],
           },
           rows: {
             type: 'array',
             items: {
               type: 'object',
               properties: {
-                client_id: { type: 'string' },
+                subscriber_id: { type: 'string' },
                 transaction_type: { type: 'string' },
                 event_date: { type: 'string' },
-                base_client_purchase: { type: 'string' },
+                base_subscriber_purchase: { type: 'string' },
                 base_developer_proceeds: { type: 'string' },
                 subscription_package_id: { type: 'string' },
                 subscription_package_name: { type: 'string' },
@@ -56,10 +56,10 @@ export default {
                 country_id: { type: 'string' },
               },
               required: [
-                'client_id',
+                'subscriber_id',
                 'transaction_type',
                 'event_date',
-                'base_client_purchase',
+                'base_subscriber_purchase',
                 'base_developer_proceeds',
                 'subscription_package_id',
                 'subscription_package_name',

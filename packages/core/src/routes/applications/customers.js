@@ -11,10 +11,10 @@ export default {
         cursor: {
           type: 'object',
           properties: {
-            client_id: { type: 'string' },
+            subscriber_id: { type: 'string' },
             first_interaction: { type: 'string' },
           },
-          required: ['client_id', 'first_interaction'],
+          required: ['subscriber_id', 'first_interaction'],
         },
         from: {
           type: 'string',
@@ -34,19 +34,19 @@ export default {
           cursor: {
             type: ['object', 'null'],
             properties: {
-              client_id: { type: 'string' },
+              subscriber_id: { type: 'string' },
               first_interaction: { type: 'string' },
             },
-            required: ['client_id', 'first_interaction'],
+            required: ['subscriber_id', 'first_interaction'],
           },
           rows: {
             type: 'array',
             items: {
               type: 'object',
               properties: {
-                client_id: { type: 'string' },
+                subscriber_id: { type: 'string' },
                 first_interaction: { type: 'string' },
-                total_base_client_purchase: { type: 'string' },
+                total_base_subscriber_purchase: { type: 'string' },
                 total_base_developer_proceeds: { type: 'string' },
                 country_id: { type: 'string' },
                 device_type_id: { type: 'string' },
@@ -54,9 +54,9 @@ export default {
                 provider_id: { type: 'string' },
               },
               required: [
-                'client_id',
+                'subscriber_id',
                 'first_interaction',
-                'total_base_client_purchase',
+                'total_base_subscriber_purchase',
                 'total_base_developer_proceeds',
                 'country_id',
                 'device_type_id',
@@ -76,7 +76,7 @@ export default {
     query,
     params: { application_id },
   }) => {
-    return grpc.clients.findAll({
+    return grpc.subscribers.findAll({
       account_id: account.account_id,
       application_id,
       start_date: query.from,

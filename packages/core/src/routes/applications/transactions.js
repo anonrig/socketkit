@@ -12,7 +12,7 @@ export default {
         cursor: {
           type: 'object',
           properties: {
-            client_id: { type: 'string' },
+            subscriber_id: { type: 'string' },
             event_date: { type: 'string' },
           },
         },
@@ -34,7 +34,7 @@ export default {
           cursor: {
             type: ['object', 'null'],
             properties: {
-              client_id: { type: 'string' },
+              subscriber_id: { type: 'string' },
               event_date: { type: 'string' },
             },
           },
@@ -43,10 +43,10 @@ export default {
             items: {
               type: 'object',
               properties: {
-                client_id: { type: 'string' },
+                subscriber_id: { type: 'string' },
                 transaction_type: { type: 'string' },
                 event_date: { type: 'string' },
-                base_client_purchase: { type: 'string' },
+                base_subscriber_purchase: { type: 'string' },
                 base_developer_proceeds: { type: 'string' },
                 subscription_package_id: { type: 'string' },
                 subscription_package_name: { type: 'string' },

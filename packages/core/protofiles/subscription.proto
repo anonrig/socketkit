@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-service Clients {
-  rpc findAll (ClientPaginationRequest) returns (ClientPaginationResponse) {}
-  rpc findOne (ClientIdRequest) returns (ClientResponse) {}
-  rpc findTransactions (ClientIdRequest) returns (TransactionsResponse) {}
-  rpc findSubscriptions (ClientIdRequest) returns (SubscriptionsResponse) {}
+service Subscribers {
+  rpc findAll (SubscriberPaginationRequest) returns (SubscriberPaginationResponse) {}
+  rpc findOne (SubscriberIdRequest) returns (SubscriberResponse) {}
+  rpc findTransactions (SubscriberIdRequest) returns (TransactionsResponse) {}
+  rpc findSubscriptions (SubscriberIdRequest) returns (SubscriptionsResponse) {}
 }
 
 service Subscriptions {
@@ -35,9 +35,9 @@ service Reports {
 
 message Empty {}
 
-message ClientIdRequest {
+message SubscriberIdRequest {
   string account_id = 1;
-  string client_id = 2;
+  string subscriber_id = 2;
 }
 
 message AccountIdRequest {
@@ -68,9 +68,9 @@ message DateFilter {
   }
 }
 
-// Clients
+// Subscribers
 
-message ClientPaginationRequest {
+message SubscriberPaginationRequest {
   string account_id = 1;
   oneof optional_application_id {
     string application_id = 2;
@@ -84,27 +84,27 @@ message ClientPaginationRequest {
   oneof optional_limit {
     int32 limit = 5;
   }
-  optional ClientCursor cursor = 6;
+  optional SubscriberCursor cursor = 6;
 }
 
-message ClientResponse {
-  Client row = 1;
+message SubscriberResponse {
+  Subscriber row = 1;
 }
 
-message ClientPaginationResponse {
-  repeated Client rows = 1;
-  ClientCursor cursor = 3;
+message SubscriberPaginationResponse {
+  repeated Subscriber rows = 1;
+  SubscriberCursor cursor = 3;
 }
 
-message ClientCursor {
+message SubscriberCursor {
   string first_interaction = 1;
-  string client_id = 2;
+  string subscriber_id = 2;
 }
 
-message Client {
-  string client_id = 1;
+message Subscriber {
+  string subscriber_id = 1;
   string first_interaction = 2;
-  string total_base_client_purchase = 3;
+  string total_base_subscriber_purchase = 3;
   string total_base_developer_proceeds = 4;
   string country_id = 5;
   string device_type_id = 7;
@@ -207,15 +207,15 @@ message TransactionPaginationResponse {
 }
 
 message TransactionCursor {
-  string client_id = 1;
+  string subscriber_id = 1;
   string event_date = 2;
 }
 
 message Transaction {
-  string client_id = 1;
+  string subscriber_id = 1;
   string transaction_type = 2;
   string event_date = 3;
-  string base_client_purchase = 4;
+  string base_subscriber_purchase = 4;
   string base_developer_proceeds = 5;
   string subscription_package_id = 6;
   string subscription_package_name = 7;

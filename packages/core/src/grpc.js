@@ -21,7 +21,7 @@ const {
 )
 
 const {
-  Clients,
+  Subscribers,
   Subscriptions,
   Transactions,
   Integrations,
@@ -38,8 +38,8 @@ const {
 )
 
 export default {
-  clients: promisifyAll(
-    new Clients(config.grpc.subscription, grpc.credentials.createInsecure()),
+  subscribers: promisifyAll(
+    new Subscribers(config.grpc.subscription, grpc.credentials.createInsecure()),
   ),
   subscriptions: promisifyAll(
     new Subscriptions(
