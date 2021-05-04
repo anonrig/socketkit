@@ -1,24 +1,22 @@
+import { useCallback, useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+import router, { useRouter } from 'next/router'
+import { SWRConfig } from 'swr'
+import { DefaultSeo } from 'next-seo'
+import Progress from 'nprogress'
+import { Toaster } from 'react-hot-toast'
+
 import { fetcher } from 'helpers/fetcher.js'
 import { AuthContext, client } from 'helpers/is-authorized.js'
 import { endpoints } from 'helpers/kratos.js'
-import { DefaultSeo } from 'next-seo'
-import dynamic from 'next/dynamic'
-import router, { useRouter } from 'next/router'
-import Progress from 'nprogress'
+
 import 'nprogress/nprogress.css'
-import { useCallback, useEffect, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
 import 'styles/date-range.css'
 import 'styles/index.css'
-import { SWRConfig } from 'swr'
 import 'tailwindcss/tailwind.css'
 
-const UnauthorizedLayout = dynamic(() =>
-  import('layouts/unauthorized.js' /* webpackChunkName: "UnauthorizedLayout" */),
-)
-const AuthorizedLayout = dynamic(() =>
-  import('layouts/authorized.js' /* webpackChunkName: "AuthorizedLayout" */),
-)
+const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized.js'))
+const AuthorizedLayout = dynamic(() => import('layouts/authorized.js'))
 
 Progress.configure({ easing: 'ease', speed: 800 })
 router.events.on('routeChangeStart', () => Progress.start())
