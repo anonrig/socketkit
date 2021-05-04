@@ -20,7 +20,9 @@ export async function getServerSideProps({
     }
   } catch (error) {
     return {
-      props: { initial: { appstoreConnect: null, reviews: [] } },
+      props: {
+        initial: { appstoreConnect: { access_token: null, last_fetch: null }, reviews: [] },
+      },
     }
   }
 }
@@ -46,9 +48,9 @@ function Integrations({ initial }) {
           </div>
           <div className="text-sm text-trueGray-500 flex items-center">
             <span className="font-semibold mr-1">
-              {!!appstoreConnect?.access_token
-                ? `Active - Fetched at ${dayjs(appstoreConnect.fetched_at).format('DD/MM/YYYY')}`
-                : `Inactive`}
+              {appstoreConnect?.state === 'active'
+                ? `Active - Fetched at ${dayjs(appstoreConnect.last_fetch).format('DD/MM/YYYY')}`
+                : appstoreConnect?.state}
             </span>{' '}
             - Real-time subscription and revenue tracking from AppStore
           </div>
@@ -92,13 +94,12 @@ Integrations.propTypes = {
       access_token: PropTypes.string,
       failed_fetches: PropTypes.number.isRequired,
       last_fetch: PropTypes.string,
-      state: PropTypes.string,
+      state: PropTypes.string.isRequired,
     }),
     reviews: PropTypes.arrayOf(
       PropTypes.shape({
         application_id: PropTypes.string.isRequired,
-        country_id: PropTypes.string.isRequired,
-        created_at: PropTypes.string.isRequired,
+        country_ids: PropTypes.arrayOf(PropTypes.string.isRequired),
       }),
     ),
   }),
