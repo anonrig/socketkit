@@ -15,7 +15,7 @@ function redirectTo(destination, { res } = { res: null }) {
   }
 }
 
-export default const redirect = (destination) =>
+export default (destination) =>
   class RedirectRoute extends React.Component {
     static getInitialProps({ res }) {
       if (typeof window === 'undefined' && !res.writeHead) {
