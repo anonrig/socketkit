@@ -1,8 +1,21 @@
 import React from 'react'
 import Head from 'next/head'
-import redirectTo from './redirect-to'
+import router from 'next/router'
 
-const redirect = (destination) =>
+function redirectTo(destination, { res } = { res: null }) {
+  if (res) {
+    res.writeHead(302, { Location: destination })
+    res.end()
+  } else {
+    if (destination[0] === '/' && destination[1] !== '/') {
+      router.push(destination)
+    } else {
+      window.location = destination
+    }
+  }
+}
+
+export default const redirect = (destination) =>
   class RedirectRoute extends React.Component {
     static getInitialProps({ res }) {
       if (typeof window === 'undefined' && !res.writeHead) {
@@ -26,5 +39,3 @@ const redirect = (destination) =>
       return null
     }
   }
-
-export default redirect
