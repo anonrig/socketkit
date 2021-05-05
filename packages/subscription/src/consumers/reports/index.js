@@ -8,9 +8,10 @@ import grpc from '@grpc/grpc-js'
 const reports = new Map([
   ['subscribers', SubscriberReports.get],
   ['customer-lifetime-value', SubscriberReports.getCustomerLifetimeValue],
-  ['trials', TrialReports.getFreeTrials],
+  ['active-trials', TrialReports.getActive],
+  ['trials', TrialReports.get],
   ['trial-to-paid', TrialReports.getTrialToPaid],
-  ['average-sales-cycle', TrialReports.averageDuration],
+  ['average-sales-cycle', TrialReports.getAverageDuration],
   ['subscriptions', SubscriberReports.get],
   ['average-revenue-per-subscription', SubscriptionReports.get],
   ['mrr', RevenueReports.getMRR],

@@ -47,7 +47,6 @@ export async function get({
 }
 
 export async function getCustomerLifetimeValue({
-  report_id,
   account_id,
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
