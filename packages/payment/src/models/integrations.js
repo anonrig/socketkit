@@ -1,5 +1,6 @@
 import pg from '../pg.js'
 import stripe from '../stripe.js'
+import config from '../config.js'
 
 export async function findOrCreate({ account_id, name, email }) {
   return pg.transaction(async (trx) => {
@@ -19,7 +20,11 @@ export async function findOrCreate({ account_id, name, email }) {
 
     return pg
       .queryBuilder()
-      .insert({ account_id, stripe_id: id })
+      .insert({
+        account_id,
+        stripe_id: id,
+        environment: config.isProduction ? 'production' : 'staging',
+      })
       .into('integrations')
       .transacting(trx)
   })
