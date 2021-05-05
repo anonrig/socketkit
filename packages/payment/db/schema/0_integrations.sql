@@ -7,7 +7,7 @@ CREATE TYPE constant_environment AS ENUM ('production', 'staging');
 
 CREATE TABLE integrations (
   account_id uuid NOT NULL,
-  stripe_id text NOT NULL,
+  stripe_id text,
   subscription_id text,
 
   payment_intent_status constant_payment_intent_status,
