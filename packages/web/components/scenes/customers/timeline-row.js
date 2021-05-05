@@ -3,9 +3,12 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 import cx from 'classnames'
 
-import PaidIcon from './paid-icon.js'
-import RefundIcon from './refund-icon.js'
-import TrialIcon from './trial-icon.js'
+import {
+  UserAddIcon,
+  ReceiptRefundIcon,
+  InformationCircleIcon,
+  CurrencyDollarIcon,
+} from '@heroicons/react/solid'
 
 function TimelineRow({
   indicatorEnabled,
@@ -34,6 +37,13 @@ function TimelineRow({
           Subscription renewed for <span className="font-medium text-warmGray-900">{proceed}$</span>
         </p>
       )
+    } else if (transaction_type === 'conversion') {
+      return (
+        <p className="text-sm text-warmGray-500 flex-1">
+          Converted to paid user for{' '}
+          <span className="font-medium text-warmGray-900">{proceed}$</span>
+        </p>
+      )
     } else {
       return (
         <p className="text-sm text-warmGray-500 flex-1">
@@ -59,11 +69,21 @@ function TimelineRow({
         <div className="relative flex space-x-3">
           <div className="">
             {transaction_type === 'renewal' ? (
-              <PaidIcon />
+              <span className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                <CurrencyDollarIcon className="h-5 w-5 text-white" />
+              </span>
             ) : transaction_type === 'refund' ? (
-              <RefundIcon />
+              <span className="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                <ReceiptRefundIcon className="h-5 w-5 text-white" />
+              </span>
+            ) : transaction_type === 'conversion' ? (
+              <span className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                <UserAddIcon className="h-5 w-5 text-white" />
+              </span>
             ) : (
-              <TrialIcon />
+              <span className="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center ring-8 ring-white">
+                <InformationCircleIcon className="h-5 w-5 text-white" />
+              </span>
             )}
           </div>
           <div className="flex-1 flex items-center space-x-4">
