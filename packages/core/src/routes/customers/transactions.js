@@ -19,7 +19,6 @@ export default {
             subscription_package_id: { type: 'string' },
             subscription_package_name: { type: 'string' },
             application_id: { type: 'string' },
-            application_name: { type: 'string' },
             country_id: { type: 'string' },
           },
           required: [
@@ -31,7 +30,6 @@ export default {
             'subscription_package_id',
             'subscription_package_name',
             'application_id',
-            'application_name',
             'country_id',
           ],
         },
