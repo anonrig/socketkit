@@ -19,7 +19,7 @@ CREATE TABLE integrations (
 
   environment constant_environment NOT NULL DEFAULT 'staging',
 
-  PRIMARY KEY (account_id),
+  PRIMARY KEY (account_id, environment),
 
   CONSTRAINT integrations_subscription_state_check CHECK (
     CASE subscription_state
