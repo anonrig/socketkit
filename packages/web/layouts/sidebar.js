@@ -5,7 +5,7 @@ function SidebarLayout({ leading, children }) {
     <div className="flex-grow w-full max-w-7xl mx-auto flex">
       <div className="flex-1 min-w-0 lg:flex">
         <div className="xl:flex-shrink-0 xl:w-64">
-          <div className="h-full py-6 sm:pl-6 lg:pl-8 xl:pl-0">
+          <div className="h-full sm:px-6 lg:px-8 xl:px-0">
             <div className="h-full relative">{leading}</div>
           </div>
         </div>
