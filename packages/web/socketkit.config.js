@@ -71,6 +71,7 @@ const report_groups = [
           interval: 'day',
           range: 2,
           graph: 'bar',
+          y_format: '>-.2f',
         },
       },
     ],
@@ -105,6 +106,7 @@ const report_groups = [
           interval: 'week',
           range: 2,
           graph: 'line',
+          y_format: '>-.2f',
         },
       },
       {
@@ -119,6 +121,7 @@ const report_groups = [
           interval: 'week',
           range: 2,
           graph: 'bar',
+          y_format: '>-.2f',
         },
       },
       {
@@ -147,6 +150,7 @@ const report_groups = [
           interval: 'day',
           range: 2,
           graph: 'bar',
+          y_format: '>-.2f',
         },
       },
     ],
@@ -164,6 +168,7 @@ const report_groups = [
           interval: 'month',
           range: 3,
           graph: 'line',
+          y_format: '>-.2f',
         },
       },
       {
@@ -177,6 +182,7 @@ const report_groups = [
           interval: 'month',
           range: 3,
           graph: 'line',
+          y_format: '>-.2f',
         },
       },
       {
@@ -189,6 +195,7 @@ const report_groups = [
           interval: 'month',
           range: 3,
           graph: 'line',
+          y_format: '>-.2f',
         },
       },
     ],

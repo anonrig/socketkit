@@ -3,9 +3,7 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { fetcher } from 'helpers/fetcher.js'
 
-const LineChart = dynamic(() =>
-  import('components/charts/line.js' /* webpackChunkName: "LineChart" */),
-)
+const LineChart = dynamic(() => import('components/charts/line.js'))
 
 function SubscribersWidget({ range, initialData }) {
   const {
@@ -16,10 +14,19 @@ function SubscribersWidget({ range, initialData }) {
     { initialData },
   )
 
+  const { data: activeTrialsData } = useSWR(
+    `reports/subscription/active-trials?start_date=${range.from}&end_date=${range.to}&interval=day`,
+  )
+
+  const { data: trialsData } = useSWR(
+    `reports/subscription/trials?start_date=${range.from}&end_date=${range.to}&interval=day`,
+  )
+
   const { data: salesData } = useSWR(
     `reports/subscription/sales-refunds?start_date=${range.from}&end_date=${range.to}&interval=day`,
-    fetcher,
   )
+
+  console.log(trialsData)
 
   return (
     <section className="lg:col-span-4">
@@ -34,10 +41,16 @@ function SubscribersWidget({ range, initialData }) {
 
             <div className="absolute inset-0 rounded-md">
               <LineChart
-                formats={{
-                  y0: '% subscribers',
-                }}
-                rows={data?.rows ?? []}
+                values={[
+                  { id: 'subscribers', rows: data?.rows ?? [], fields: { y0: '% subscribers' } },
+                  {
+                    id: 'active-trials',
+                    rows: activeTrialsData?.rows ?? [],
+                    fields: { y0: '% active trials' },
+                  },
+                  { id: 'trials', rows: trialsData?.rows ?? [], fields: { y0: '% new trials' } },
+                ]}
+                colors={['#3b82f6', '#16A34A']}
                 margin={{ top: 75, left: 0, right: 0, bottom: 0 }}
                 axisLeft={null}
                 axisBottom={null}
@@ -58,11 +71,16 @@ function SubscribersWidget({ range, initialData }) {
 
             <div className="absolute inset-0 rounded-md">
               <LineChart
-                rows={salesData?.rows ?? []}
-                formats={{
-                  y0: '$% renewal',
-                  y1: '$% refund',
-                }}
+                values={[
+                  {
+                    id: 'sales-refunds',
+                    rows: salesData?.rows ?? [],
+                    fields: {
+                      y0: '$% sale',
+                      y1: '$% refund',
+                    },
+                  },
+                ]}
                 yFormat={'>-.2f'}
                 margin={{ top: 75, left: 0, right: 0, bottom: 2 }}
                 colors={['#16A34A', '#DC2626']}

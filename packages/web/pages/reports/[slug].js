@@ -16,7 +16,7 @@ import SidebarLayout from 'layouts/sidebar.js'
 const BarChart = dynamic(() => import('components/charts/bar.js'))
 const LineChart = dynamic(() => import('components/charts/line.js'))
 
-export async function getServerSideProps({ query: { slug } }) {
+export async function getServerSideProps({ query: { slug, start_date, end_date } }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)
 
   if (!report) {
@@ -28,10 +28,12 @@ export async function getServerSideProps({ query: { slug } }) {
   return {
     props: {
       initialQuery: {
-        start_date: dayjs()
-          .subtract(report.defaults?.range ?? 1, 'month')
-          .format('YYYY-MM-DD'),
-        end_date: dayjs().format('YYYY-MM-DD'),
+        start_date: start_date
+          ? dayjs(start_date).format('YYYY-MM-DD')
+          : dayjs()
+              .subtract(report.defaults?.range ?? 1, 'month')
+              .format('YYYY-MM-DD'),
+        end_date: dayjs(end_date).format('YYYY-MM-DD'),
       },
       slug: report.slug,
     },
@@ -140,12 +142,13 @@ function Reports({ initialQuery, slug }) {
         <div className="bg-white py-5 px-4 sm:px-6 h-96 w-full" key={report.slug}>
           {filters.type === 'line' ? (
             <LineChart
-              rows={data?.rows ?? []}
-              formats={report.formats ?? {}}
-              yFormat={report.defaults?.y_format}
+              values={[{ id: report.slug, rows: data?.rows ?? [], fields: report.formats ?? {} }]}
+              yFormat={report.defaults.y_format}
             />
           ) : (
-            <BarChart rows={data?.rows ?? []} formats={report.formats ?? {}} />
+            <BarChart
+              values={{ id: report.slug, rows: data?.rows ?? [], fields: report.formats ?? {} }}
+            />
           )}
         </div>
       </div>

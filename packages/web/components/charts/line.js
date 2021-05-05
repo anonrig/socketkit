@@ -3,29 +3,20 @@ import { ResponsiveLine } from '@nivo/line'
 import dayjs from 'dayjs'
 import theme from './theme.js'
 
-function LineChart({ rows, formats, ...props }) {
-  const fields = Object.keys(formats ?? {})
-  const tickValues =
-    rows.length > 10 ? rows.filter((r, i) => i % 4 == 0).map((r) => r.x) : rows.map((r) => r.x)
-
-  const xValues = []
-  const maximum = Math.max(...rows.map((r) => r[fields[0]]))
-  const o = Math.floor(maximum / 5)
-  for (let i = 0; i < maximum; i++) {
-    if (i % o === 0) {
-      xValues.push(i)
-    }
-  }
-
+function LineChart({ values, ...props }) {
   return (
     <ResponsiveLine
-      data={fields.map((field) => ({
-        id: field,
-        data: rows.map((r) => ({
-          x: r.x,
-          y: r[field],
-        })),
-      }))}
+      data={values
+        .map(({ id, rows, fields }) =>
+          Object.keys(fields).map((field) => ({
+            id: `${id}#${field}`,
+            data: rows.map((row) => ({
+              x: row.x,
+              y: row[field],
+            })),
+          })),
+        )
+        .flat()}
       curve="catmullRom"
       margin={{ top: 10, left: 40, right: 28, bottom: 35 }}
       padding={0.2}
@@ -39,13 +30,12 @@ function LineChart({ rows, formats, ...props }) {
       axisLeft={{
         tickSize: 0,
         tickPadding: 10,
-        tickValues: xValues,
       }}
       axisBottom={{
         tickSize: 0,
         tickPadding: 20,
         tickRotation: 0,
-        tickValues,
+        tickValues: 'every week',
         format: (s) => dayjs(s).format('MMM DD, YY'),
       }}
       isInteractive={true}
@@ -53,26 +43,54 @@ function LineChart({ rows, formats, ...props }) {
       enableSlices={'x'}
       crosshairType={'y'}
       theme={theme}
-      sliceTooltip={({ slice }) => (
-        <div className="bg-white opacity-100 px-4 py-2 rounded-md text-left font-sans shadow-md text-warmGray-900">
-          {slice.points.map((point) => (
-            <div key={point.id} className="text-md font-bold">
-              {(formats[point.serieId] ?? '').replace('%', point.data.yFormatted)}
+      xScale={{
+        type: 'time',
+        format: '%Y-%m-%d',
+      }}
+      xFormat="time:%Y-%m-%d"
+      sliceTooltip={({ slice: { points } }) => {
+        console.log(points)
+        return (
+          <div className="space-y-1">
+            <div className="text-sm font-medium flex">
+              <p className="bg-white py-1 px-2 ml-auto rounded-md font-sans text-warmGray-900 shadow-md">
+                {dayjs(points[0].data.x).format('MMMM DD')}
+              </p>
             </div>
-          ))}
-          <div className="text-sm font-medium">
-            {dayjs(slice.points[0].data.x).format('MMMM DD')}
+
+            <div className="bg-white px-4 py-2 rounded-md text-left font-sans shadow-md text-warmGray-900">
+              {points
+                .sort((a, b) => a.y - b.y)
+                .map((point) => {
+                  const [serie_id, field_name] = point.serieId.split('#')
+                  return (
+                    <div key={point.id} className="text-md font-semibold">
+                      {(values.find((v) => v.id === serie_id)?.fields[field_name] ?? '%').replace(
+                        '%',
+                        point.data.yFormatted,
+                      )}
+                    </div>
+                  )
+                })}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }}
       {...props}
     />
   )
 }
 
 LineChart.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.any).isRequired,
-  formats: PropTypes.object.isRequired,
+  values: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    rows: PropTypes.arrayOf(
+      PropTypes.shape({
+        x: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    fields: PropTypes.shape(PropTypes.any).isRequired,
+  }).isRequired,
 }
 
 export default LineChart
