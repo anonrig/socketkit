@@ -26,8 +26,6 @@ function SubscribersWidget({ range, initialData }) {
     `reports/subscription/sales-refunds?start_date=${range.from}&end_date=${range.to}&interval=day`,
   )
 
-  console.log(trialsData)
-
   return (
     <section className="lg:col-span-4">
       <dl className="grid grid-cols-1 md:grid-cols-4 md:space-x-6 space-y-6 md:space-y-0">
