@@ -48,7 +48,8 @@ export default function AccountSettings({ flow }) {
     }
   }, [flow])
 
-  const { profile, password } = kratos?.methods ?? {}
+  const profile = kratos?.ui.nodes.filter((n) => ['profile', 'default'].includes(n.group))
+  const password = kratos?.ui.nodes.filter((n) => ['password', 'default'].includes(n.group))
 
   return (
     <div className="space-y-8">
@@ -63,15 +64,15 @@ export default function AccountSettings({ flow }) {
         />
       )}
 
-      {profile?.config.fields?.length > 0 && (
-        <form action={profile?.config.action} method={profile?.config.method}>
-          <Settings fields={profile?.config.fields ?? []} />
+      {profile?.length > 0 && (
+        <form action={kratos?.ui.action} method={kratos?.ui.method}>
+          <Settings fields={profile} />
         </form>
       )}
 
-      {password?.config.fields?.length > 0 && (
-        <form action={password?.config.action} method={password?.config.method}>
-          <Password fields={password?.config.fields ?? []} />
+      {password?.length > 0 && (
+        <form action={kratos?.ui.action} method={kratos?.ui.method}>
+          <Password fields={password} />
         </form>
       )}
     </div>
