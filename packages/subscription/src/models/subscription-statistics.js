@@ -45,7 +45,7 @@ export function groupByCountry({
       )
     })
     .where('s.account_id', account_id)
-    .andWhereRaw(`active_period && daterange(?, ?)`, [start_date, end_date])
+    .andWhereRaw(`s.active_period && daterange(?, ?)`, [start_date, end_date])
     .andWhere(function () {
       if (application_id) {
         this.andWhere('s.application_id', application_id)
