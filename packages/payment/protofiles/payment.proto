@@ -74,18 +74,17 @@ message Session {
 
 message AccountIntegration {
   string account_id = 1;
-  string stripe_id = 2;
+  oneof optional_stripe_id {
+    string stripe_id = 2;
+  }
   oneof optional_subscription_id {
     string subscription_id = 3;
   }
-  oneof optional_payment_intent_status {
-    string payment_intent_status = 4;
+  string state = 4;
+  oneof optional_started_at {
+    string started_at = 5;
   }
-  oneof optional_payment_status {
-    string payment_status = 5;
-  }
-  string subscription_state = 6;
-  oneof optional_current_period_end {
-    string current_period_end = 7;
+  oneof optional_expired_at {
+    string expired_at = 6;
   }
 }

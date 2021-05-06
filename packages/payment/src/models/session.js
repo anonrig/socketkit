@@ -13,8 +13,11 @@ export async function createPortal({ account_id }) {
 }
 
 export async function createCheckout({ account_id }) {
-  const { stripe_id } = await Integrations.findOrCreate({ account_id })
+  const { stripe_id, subscription_id } = await Integrations.findOrCreate({
+    account_id,
+  })
   const session = await stripe.checkout.sessions.create({
+    client_reference_id: account_id,
     customer: stripe_id,
     payment_method_types: ['card'],
     line_items: [
@@ -26,7 +29,9 @@ export async function createCheckout({ account_id }) {
     success_url: config.stripe.checkout_success_url,
     cancel_url: config.stripe.checkout_cancel_url,
     subscription_data: {
-      trial_period_days: 14,
+      // don't enable trial if there is an existing subscription
+      // to prevent abusing trials
+      trial_period_days: !subscription_id ? 14 : undefined,
     },
   })
 

@@ -1,21 +1,23 @@
+import dayjs from 'dayjs'
 import stripe from '../stripe.js'
 import pg from '../pg.js'
 
-export async function updateInvoice(event) {
-  const invoice = event.data.object
+export async function updateSubscription({ subscription, customer }) {
   const {
-    status: subscription_state,
+    status,
+    cancel_at,
+    current_period_start,
     current_period_end,
-    latest_invoice: { payment_intent },
-  } = await stripe.subscriptions.retrieve(invoice.subscription)
+  } = await stripe.subscriptions.retrieve(subscription)
+
   await pg
     .queryBuilder()
     .update({
-      current_period_end,
-      payment_intent_status: payment_intent.status,
-      payment_status: invoice.status,
-      subscription_state,
+      state: status,
+      subscription_id: subscription,
+      started_at: dayjs(current_period_start * 1000),
+      expired_at: dayjs((cancel_at ?? current_period_end) * 1000),
     })
     .from('integrations')
-    .where({ stripe_id: invoice.customer })
+    .where({ stripe_id: customer })
 }

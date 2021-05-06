@@ -4,6 +4,9 @@ export default {
   sentry_dsn: process.env.SENTRY_DSN,
   stripe: {
     key: process.env.STRIPE_KEY,
+    signing_key:
+      process.env.STRIPE_SIGNING_KEY ??
+      'whsec_FJ74x22xcIJkEcBEWN01URUCc9wY5wd0',
     portal_return_url:
       process.env.STRIPE_PORTAL_RETURN_URL ??
       'https://web.socketkit.com/account/settings',

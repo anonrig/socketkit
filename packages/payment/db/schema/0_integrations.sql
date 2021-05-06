@@ -1,8 +1,15 @@
 SET ROLE payment;
 
-CREATE TYPE constant_payment_intent_status AS ENUM ('succeeded', 'requires_payment_method', 'requires_action');
-CREATE TYPE constant_payment_status AS ENUM ('paid', 'open');
-CREATE TYPE constant_subscription_state AS ENUM ('active', 'incomplete', 'inactive');
+CREATE TYPE subscription_state AS ENUM (
+  'new',
+  'incomplete',
+  'incomplete_expired',
+  'past_due',
+  'unpaid',
+  'trialing',
+  'canceled',
+  'active'
+);
 CREATE TYPE constant_environment AS ENUM ('production', 'staging');
 
 CREATE TABLE integrations (
@@ -10,9 +17,7 @@ CREATE TABLE integrations (
   stripe_id text,
   subscription_id text,
 
-  payment_intent_status constant_payment_intent_status,
-  payment_status constant_payment_status,
-  subscription_state constant_subscription_state NOT NULL DEFAULT 'inactive',
+  state subscription_state NOT NULL DEFAULT 'new',
 
   started_at timestamptz,
   expired_at timestamptz,
@@ -21,26 +26,19 @@ CREATE TABLE integrations (
 
   PRIMARY KEY (account_id, environment),
 
-  CONSTRAINT integrations_subscription_state_check CHECK (
-    CASE subscription_state
-      WHEN 'active' THEN
-        payment_status = 'paid'
-          AND payment_intent_status = 'succeeded'
-          AND subscription_id IS NOT NULL
-          AND started_at is NOT NULL
-          AND expired_at is NOT NULL
-      WHEN 'incomplete' THEN
-        payment_status = 'open'
-          AND payment_intent_status IN ('requires_payment_method', 'requires_action')
-          AND subscription_id IS NOT NULL
-          AND started_at is NULL
-          AND expired_at is NULL
-      WHEN 'inactive' THEN
-        payment_status IS NULL
-          AND payment_intent_status IS NULL
-          AND subscription_id IS NULL
-          AND started_at is NULL
-          AND expired_at is NULL
+  CONSTRAINT integrations_duration_validity_check CHECK (started_at <= expired_at),
+  CONSTRAINT integrations_state_check CHECK (
+    CASE state
+      WHEN 'new' THEN
+        stripe_id IS NULL AND
+        subscription_id IS NULL AND
+        started_at IS NULL AND
+        expired_at IS NULL
+      ELSE
+        stripe_id IS NOT NULL AND
+        subscription_id IS NOT NULL AND
+        started_at IS NOT NULL AND
+        expired_at IS NOT NULL
     END
   )
 );

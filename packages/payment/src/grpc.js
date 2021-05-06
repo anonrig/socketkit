@@ -24,11 +24,11 @@ app.addService(file, 'Integrations', options)
 app.addService(health, 'Health', options)
 
 app.use(async (context, next) => {
-  logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
-
   let tracer = null
 
   if (!context.fullName.includes('health')) {
+    logger.withScope('grpc').debug(`Request -> ${context.fullName}`)
+
     tracer = Sentry.startTransaction({
       name: context.fullName,
       op: 'GET',
@@ -41,7 +41,13 @@ app.use(async (context, next) => {
     })
   }
 
-  return next().then(() => tracer?.finish())
+  return next()
+    .then(() => tracer?.finish())
+    .catch((error) => {
+      Sentry.captureException(error)
+      logger.fatal(error)
+      throw error
+    })
 })
 
 app.use({ Payments, Integrations })
