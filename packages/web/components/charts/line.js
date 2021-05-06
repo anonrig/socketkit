@@ -46,10 +46,10 @@ function LineChart({ values, ...props }) {
       xScale={{
         type: 'time',
         format: '%Y-%m-%d',
+        useUTC: false,
       }}
       xFormat="time:%Y-%m-%d"
       sliceTooltip={({ slice: { points } }) => {
-        console.log(points)
         return (
           <div className="space-y-1">
             <div className="text-sm font-medium flex">
