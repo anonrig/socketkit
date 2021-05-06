@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import Form from 'components/form/form.js'
-import LoginProviderForm from 'components/form/login-provider'
 import { client } from 'helpers/is-authorized.js'
 import { endpoints } from 'helpers/kratos.js'
 
@@ -34,8 +33,6 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function SignIn({ kratos }) {
-  // const oidc = kratos?.ui.nodes.filter ?? {}
-
   return (
     <>
       <h2 className="text-3xl font-extrabold text-warmGray-900">Sign in</h2>
@@ -47,20 +44,10 @@ export default function SignIn({ kratos }) {
           start your 14-day free trial
         </a>
       </p>
-      {/*<LoginProviderForm {...oidc} />*/}
-
-      <div className="mt-6 relative mb-6">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-warmGray-300"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
-        </div>
-      </div>
 
       <Form
         preAction={
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <div></div>
             <a
               href={endpoints.recover}

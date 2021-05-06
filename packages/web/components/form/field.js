@@ -5,19 +5,14 @@ import fields from './kratos-fields'
 function FormField({ name, type, value, required, className, messages }) {
   const hasError =
     messages && messages.length > 0 && (messages ?? []).filter((m) => m.type === 'error').length > 0
-  const isProvider = name === 'provider'
   const isPicture = name === 'traits.picture'
-  const isButton = type === 'submit'
 
-  if (isProvider || isPicture || isButton) {
+  if (isPicture) {
     return null
   }
 
   return (
-    <fieldset
-      className={cx({
-        [className]: type !== 'hidden',
-      })}>
+    <fieldset className={className}>
       {type !== 'hidden' && (
         <label className={'block text-sm font-medium text-gray-700'} htmlFor={name}>
           {fields[name]?.label ?? name}
@@ -34,9 +29,8 @@ function FormField({ name, type, value, required, className, messages }) {
             },
           )}
           defaultValue={value}
-          required={required}
           name={name}
-          type={fields[name]?.type ?? type}
+          type={type}
           hidden={type === 'hidden'}
         />
         {hasError && (
