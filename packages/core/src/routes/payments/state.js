@@ -9,15 +9,24 @@ export default {
       200: {
         type: 'object',
         properties: {
-          subscription_state: {
+          state: {
             type: 'string',
-            values: ['inactive', 'active', 'incomplete'],
+            values: [
+              'incomplete',
+              'incomplete_expired',
+              'trialing',
+              'active',
+              'past_due',
+              'canceled',
+              'unpaid',
+              'new',
+            ],
           },
         },
-        required: ['subscription_state'],
+        required: ['state'],
       },
     },
   },
   preHandler: verify,
-  handler: async ({ payment_integration }) => payment_integration,
+  handler: async ({ payments }) => payments,
 }

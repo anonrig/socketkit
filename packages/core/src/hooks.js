@@ -30,13 +30,11 @@ export const verify = async (request, reply) => {
     }
 
     try {
-      request.payment_integration = await grpc.paymentIntegrations.findOrCreate(
-        {
-          account_id: request.accounts[0].account_id,
-          name: request.user.identity.traits.name,
-          email: request.user.identity.traits.email,
-        },
-      )
+      request.payments = await grpc.paymentIntegrations.findOrCreate({
+        account_id: request.accounts[0].account_id,
+        name: request.user.identity.traits.name,
+        email: request.user.identity.traits.email,
+      })
     } catch (error) {
       logger.warn(error.message)
     }

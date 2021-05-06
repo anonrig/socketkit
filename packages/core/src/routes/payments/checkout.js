@@ -17,11 +17,11 @@ export default {
   },
   preHandler: verify,
   handler: async ({ accounts: [{ account_id }] }) => {
-    const session = await grpc.payments.createSession({
+    const { id } = await grpc.payments.createSession({
       account_id,
       session_type: 'checkout',
     })
 
-    return { session_id: session.id }
+    return { session_id: id }
   },
 }
