@@ -44,7 +44,7 @@ export async function getServerSideProps({
 }
 
 export default function Dashboard({ countries, payment, integration }) {
-  const maxDate = dayjs(integration?.last_fetch)
+  const maxDate = dayjs(integration?.last_fetch ?? undefined)
   const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
