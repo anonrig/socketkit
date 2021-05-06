@@ -72,7 +72,7 @@ export default function Dashboard({ countries, payment, integration }) {
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
         />
 
-        {['web', 'canceled'].includes(paymentsData.state) && <CheckoutButton />}
+        {['new', 'canceled'].includes(paymentsData.state) && <CheckoutButton />}
 
         <CustomersWidget
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
