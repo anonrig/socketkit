@@ -5,6 +5,7 @@ import useSWR from 'swr'
 
 import { AuthContext } from 'helpers/is-authorized.js'
 import { fetcher, getUrl } from 'helpers/fetcher.js'
+import getGreeting from 'helpers/greeting.js'
 
 import DatePicker from 'components/date-picker.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
@@ -20,53 +21,42 @@ export async function getServerSideProps({
     headers: { cookie, referer },
   },
 }) {
+  const headers = { cookie, referer }
+
   try {
-    const from = dayjs().subtract(1, 'month').format('YYYY-MM-DD')
-    const to = dayjs().format('YYYY-MM-DD')
-    const headers = { cookie, referer }
-    const [countries, payment] = await Promise.all([
-      fetcher(`accounts/countries`, {
-        headers,
-        qs: { from, to },
-      }),
+    const [integration, payment] = await Promise.all([
+      fetcher(`integrations/appstore-connect`, { headers }),
       fetcher(`payments/state`, { headers }),
     ])
+
     return {
       props: {
-        countries,
         payment,
+        integration,
       },
     }
   } catch (error) {
     console.error(error)
-    return { props: { countries: [], payment: { subscription_state: 'inactive' } } }
+    return {
+      props: { payment: { subscription_state: 'inactive' }, integration: { last_fetch: null } },
+    }
   }
 }
 
-export default function Dashboard({ countries, payment }) {
+export default function Dashboard({ countries, payment, integration }) {
+  const maxDate = dayjs(integration?.last_fetch)
   const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
     from: dayjs().subtract(1, 'month'),
-    to: dayjs(),
+    to: maxDate,
   })
-
-  const getLabel = () => {
-    const hr = dayjs().hour()
-    if (hr >= 0 && hr < 12) {
-      return 'Good morning'
-    } else if (hr >= 12 && hr <= 17) {
-      return 'Good afternoon'
-    } else {
-      return 'Good evening'
-    }
-  }
 
   return (
     <>
       <div className="flex flex-1 space-between mb-10 items-center justify-center flex-col md:flex-row space-y-6 md:space-y-0">
         <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl flex-1">
-          {getLabel()}, {session?.identity.traits.name?.split(' ')[0]}!
+          {getGreeting()}, {session?.identity.traits.name?.split(' ')[0]}!
         </h3>
 
         <DatePicker
@@ -74,6 +64,7 @@ export default function Dashboard({ countries, payment }) {
           setInterval={({ start_date, end_date }) =>
             setInterval({ from: start_date, to: end_date })
           }
+          maxDate={maxDate.toDate()}
         />
       </div>
       <section className="space-y-10">
@@ -88,7 +79,6 @@ export default function Dashboard({ countries, payment }) {
         />
         <CountriesWidget
           range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
-          initialData={countries}
         />
       </section>
     </>

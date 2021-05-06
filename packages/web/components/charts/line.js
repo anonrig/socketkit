@@ -82,15 +82,17 @@ function LineChart({ values, ...props }) {
 }
 
 LineChart.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    rows: PropTypes.arrayOf(
-      PropTypes.shape({
-        x: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    fields: PropTypes.shape(PropTypes.any).isRequired,
-  }).isRequired,
+  values: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      rows: PropTypes.arrayOf(
+        PropTypes.shape({
+          x: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      fields: PropTypes.shape(PropTypes.any).isRequired,
+    }),
+  ).isRequired,
 }
 
 export default LineChart

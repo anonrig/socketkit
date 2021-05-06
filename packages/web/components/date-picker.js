@@ -7,7 +7,11 @@ import { CalendarIcon } from '@heroicons/react/outline'
 
 import useVisible from 'helpers/use-visible'
 
-function DatePicker({ interval: { start_date, end_date }, setInterval }) {
+function DatePicker({
+  interval: { start_date, end_date },
+  setInterval,
+  maxDate = dayjs().toDate(),
+}) {
   const { ref, isVisible, setVisible } = useVisible(false)
 
   return (
@@ -35,7 +39,7 @@ function DatePicker({ interval: { start_date, end_date }, setInterval }) {
           showDateDisplay={false}
           showMonthArrow={false}
           rangeColors={['#f97316']}
-          maxDate={new Date()}
+          maxDate={maxDate}
           ranges={[
             {
               startDate: start_date.toDate(),
