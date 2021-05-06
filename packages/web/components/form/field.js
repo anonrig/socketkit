@@ -28,6 +28,7 @@ function FormField({ name, type, value, required, className, messages }) {
               'placeholder-red-500': hasError,
             },
           )}
+          required={required}
           defaultValue={value}
           name={name}
           type={type}

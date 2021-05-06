@@ -11,8 +11,9 @@ function Form({ actions, kratos, preAction }) {
   const nodes =
     kratos?.ui.nodes.filter((m) => m.group !== 'oidc' && m.attributes.type !== 'submit') ?? []
   const oidcProviders = kratos?.ui.nodes.filter((m) => m.group === 'oidc') ?? []
-  const submitButton = kratos?.ui.nodes.filter((m) => m.attributes.type === 'submit')[0]
-
+  const submitButton = kratos?.ui.nodes.find(
+    (m) => m.attributes.type === 'submit' && m.group === 'password',
+  )
   const providers = () => (
     <>
       <p className="text-sm font-medium text-gray-700">Sign in with</p>
@@ -32,6 +33,14 @@ function Form({ actions, kratos, preAction }) {
           </button>
         ))}
       </div>
+      <div className="mt-6 relative mb-6">
+        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+          <div className="w-full border-t border-warmGray-300"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
+        </div>
+      </div>
     </>
   )
 
@@ -39,55 +48,40 @@ function Form({ actions, kratos, preAction }) {
     <form action={kratos.ui.action} method={kratos.ui.method}>
       {oidcProviders.length > 0 && providers()}
 
-      {oidcProviders.length > 0 && (
-        <div className="mt-6 relative mb-6">
-          <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-warmGray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
-          </div>
-        </div>
+      {nodes
+        .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
+        .sort((a, b) => a.order - b.order)
+        .map((field) => (
+          <FormField
+            key={field.attributes.name}
+            {...field.attributes}
+            className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
+          />
+        ))}
+      {preAction}
+
+      <Button
+        className="w-full"
+        type={submitButton.attributes.type}
+        name={submitButton?.attributes.name}
+        value={submitButton?.attributes.value}
+        disabled={submitButton?.attributes.disabled}>
+        {actions.primary}
+      </Button>
+
+      {actions.secondary && (
+        <Link href={actions.secondary.href}>
+          <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
+            {actions.secondary.label}
+          </a>
+        </Link>
       )}
-      <div>
-        {nodes
-          .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
-          .sort((a, b) => a.order - b.order)
-          .map((field) => (
-            <FormField
-              key={field.attributes.name}
-              {...field.attributes}
-              className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
-            />
-          ))}
-        {preAction}
-        <div>
-          <Button
-            className="w-full"
-            type={submitButton.attributes.type}
-            name={submitButton?.attributes.name}
-            value={submitButton?.attributes.value}
-            disabled={submitButton?.attributes.disabled}>
-            {actions.primary}
-          </Button>
 
-          {actions.secondary && (
-            <Link href={actions.secondary.href}>
-              <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
-                {actions.secondary.label}
-              </a>
-            </Link>
-          )}
-        </div>
-
-        <div>
-          {kratos?.ui.messages?.map((message) => (
-            <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
-              {message.text}
-            </p>
-          ))}
-        </div>
-      </div>
+      {kratos?.ui.messages?.map((message) => (
+        <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
+          {message.text}
+        </p>
+      ))}
     </form>
   )
 }
