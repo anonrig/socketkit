@@ -34,7 +34,7 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function SignIn({ kratos }) {
-  const oidc = kratos?.methods.oidc.config ?? {}
+  // const oidc = kratos?.ui.nodes.filter ?? {}
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function SignIn({ kratos }) {
           start your 14-day free trial
         </a>
       </p>
-      <LoginProviderForm {...oidc} />
+      {/*<LoginProviderForm {...oidc} />*/}
 
       <div className="mt-6 relative mb-6">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
