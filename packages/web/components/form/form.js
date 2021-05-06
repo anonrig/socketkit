@@ -4,27 +4,20 @@ import Button from './button'
 import Link from 'next/link'
 
 function Form({ actions, kratos, preAction }) {
-  const methodKeys = Object.keys(kratos.methods).filter((m) => m !== 'oidc')
-  const { config } = kratos.methods[methodKeys[0]]
-
+  const nodes = kratos?.ui.nodes.filter((m) => m.group !== 'oidc') ?? []
   return (
-    <form className={'space-y-6'} action={config.action} method={config.method}>
-      <div>
-        {config.messages?.map((message) => (
-          <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
-            {message.text}
-          </p>
-        ))}
-      </div>
-      {(config.fields ?? [])
-        .map((f) => ({ ...f, ...(KratosFields[f.name] ?? {}) }))
+    <form className={'space-y-6'} action={kratos.ui.action} method={kratos.ui.method}>
+      {nodes
+        .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
         .sort((a, b) => a.order - b.order)
         .map((field) => (
-          <FormField key={field.name} {...field} />
+          <FormField key={field.attributes.name} {...field.attributes} />
         ))}
       {preAction}
       <div>
-        <Button type="submit">{actions.primary}</Button>
+        <Button type="submit" className="w-full">
+          {actions.primary}
+        </Button>
 
         {actions.secondary && (
           <Link href={actions.secondary.href}>

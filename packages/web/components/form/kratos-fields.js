@@ -20,7 +20,7 @@ export default {
     type: 'email',
     order: 3,
   },
-  identifier: {
+  password_identifier: {
     label: 'Email Address',
     type: 'email',
     order: 3,

@@ -7,8 +7,9 @@ function FormField({ name, type, value, required, className, messages }) {
     messages && messages.length > 0 && (messages ?? []).filter((m) => m.type === 'error').length > 0
   const isProvider = name === 'provider'
   const isPicture = name === 'traits.picture'
+  const isButton = type === 'submit'
 
-  if (isProvider || isPicture) {
+  if (isProvider || isPicture || isButton) {
     return null
   }
 
