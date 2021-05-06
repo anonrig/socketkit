@@ -22,7 +22,7 @@ export async function getServerSideProps(ctx) {
 
   try {
     const { data } = await client.getSelfServiceLoginFlow(flow)
-    const isBefore = dayjs(data?.expires_at).isBefore(dayjs())
+    const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {
       return redirect()

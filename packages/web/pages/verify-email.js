@@ -21,7 +21,7 @@ export async function getServerSideProps(ctx) {
   try {
     const { data } = await client.getSelfServiceVerificationFlow(flow)
 
-    if (dayjs().isAfter(dayjs(data.expires_at))) {
+    if (dayjs().isAfter(dayjs(data.expires_at ?? undefined))) {
       return redirect()
     }
 

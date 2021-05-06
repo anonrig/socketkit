@@ -7,6 +7,14 @@ function Form({ actions, kratos, preAction }) {
   const nodes = kratos?.ui.nodes.filter((m) => m.group !== 'oidc') ?? []
   return (
     <form className={'space-y-6'} action={kratos.ui.action} method={kratos.ui.method}>
+      <div>
+        {kratos?.ui.messages?.map((message) => (
+          <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
+            {message.text}
+          </p>
+        ))}
+      </div>
+
       {nodes
         .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
         .sort((a, b) => a.order - b.order)
@@ -15,7 +23,7 @@ function Form({ actions, kratos, preAction }) {
         ))}
       {preAction}
       <div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" name="method" value="password">
           {actions.primary}
         </Button>
 

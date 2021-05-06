@@ -14,7 +14,7 @@ function FormField({ name, type, value, required, className, messages }) {
   }
 
   return (
-    <div
+    <fieldset
       className={cx({
         [className]: type !== 'hidden',
       })}>
@@ -66,7 +66,7 @@ function FormField({ name, type, value, required, className, messages }) {
           {message.text}
         </p>
       ))}
-    </div>
+    </fieldset>
   )
 }
 
