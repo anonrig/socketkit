@@ -48,7 +48,7 @@ export default function Dashboard({ countries, payment, integration }) {
   const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
-    from: dayjs().subtract(1, 'month'),
+    from: maxDate.subtract(1, 'month'),
     to: maxDate,
   })
 
