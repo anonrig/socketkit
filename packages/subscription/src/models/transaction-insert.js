@@ -75,7 +75,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     total_base_developer_proceeds = subscription.total_base_developer_proceeds
 
     // JavaScript driver doesn't detect negative numbers as numbers.
-    if (typeof(total_base_developer_proceeds) !== 'number')
+    if (typeof total_base_developer_proceeds !== 'number')
       total_base_developer_proceeds = parseFloat(total_base_developer_proceeds)
   }
 
@@ -147,6 +147,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
           ),
         )
         .format('YYYY-MM-DD'),
+      subscription_refunded_at:
+        transaction_type === 'refund' ? transaction.purchaseDate : null,
     })
 }
 

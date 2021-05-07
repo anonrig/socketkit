@@ -16,15 +16,20 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON subscription_packages TO "subscription-w
 CREATE TABLE subscriptions (
   subscription_started_at date NOT NULL,
   subscription_expired_at date NOT NULL,
+  subscription_refunded_at date,
   free_trial_duration interval NOT NULL DEFAULT '00:00:00',
   account_id uuid NOT NULL,
   paid_period daterange NOT NULL
     GENERATED ALWAYS AS (daterange(
       LEAST(
         (subscription_started_at + free_trial_duration)::date,
-        subscription_expired_at
+        subscription_expired_at,
+        subscription_refunded_at
       ),
-      subscription_expired_at
+      LEAST(
+        subscription_expired_at,
+        subscription_refunded_at
+      )
     )) STORED,
   active_period daterange NOT NULL
     GENERATED ALWAYS AS (daterange(
@@ -53,7 +58,9 @@ CREATE TABLE subscriptions (
     ),
 
   CONSTRAINT subscriptions_subscription_started_at_check
-    CHECK (subscription_started_at <= subscription_expired_at)
+    CHECK (subscription_started_at <= subscription_expired_at),
+  CONSTRAINT subscriptions_subscription_refunded_at_check
+    CHECK (subscription_refunded_at <= subscription_expired_at)
 );
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON subscriptions TO "subscription-worker";
