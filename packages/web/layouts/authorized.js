@@ -1,12 +1,13 @@
-import Banner from 'components/banner.js'
-import Container from 'components/container.js'
-import Footer from 'components/footer.js'
-import Header from 'components/header.js'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import ApplicationHeader from './application-header.js'
-import SettingsHeader from './settings-header.js'
+
+import Banner from 'components/banner.js'
+import Container from 'components/container.js'
+import Footer from 'components/menu/footer.js'
+import Header from 'components/menu/header.js'
+import ApplicationHeader from 'components/menu/application-header.js'
+import SettingsHeader from 'components/menu/settings-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()

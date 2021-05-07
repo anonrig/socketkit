@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
+
 import Table from 'components/table/table'
 import { fetcher } from 'helpers/fetcher.js'
 
@@ -48,23 +49,16 @@ function Users({ users }) {
   )
 
   return (
-    <>
-      <div className="flex flex-1 justify-between mb-8 items-center">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">Users</h3>
-        </div>
-      </div>
-      <Table
-        initialData={users}
-        url="accounts/users"
-        options={{}}
-        columns={columns}
-        getRowProps={({ original }) => ({
-          id: original.subscriber_id,
-          className: 'h-14 hover:bg-warmGray-50',
-        })}
-      />
-    </>
+    <Table
+      initialData={users}
+      url="accounts/users"
+      options={{}}
+      columns={columns}
+      getRowProps={({ original }) => ({
+        id: original.subscriber_id,
+        className: 'h-14 hover:bg-warmGray-50',
+      })}
+    />
   )
 }
 

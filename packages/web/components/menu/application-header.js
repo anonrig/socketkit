@@ -1,4 +1,4 @@
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, Transition, Fragment } from '@headlessui/react'
 import cx from 'classnames'
 import DatePicker from 'components/date-picker.js'
 import Tabs from 'components/tabs.js'
@@ -7,11 +7,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
+import { ChevronDownIcon } from '@heroicons/react/solid'
+
 function ApplicationHeader() {
   const router = useRouter()
   const { start_date = dayjs().subtract(1, 'month'), end_date = dayjs(), id } = router.query
   const { data: application } = useSWR(`applications/${id}`, { refreshInterval: 0 })
-  const { data: applications } = useSWR(`applications`, { refreshInterval: 0})
+  const { data: applications } = useSWR(`applications`, { refreshInterval: 0 })
   const current_page = router.pathname.split(`[id]/`)[1]
 
   return (
@@ -22,30 +24,21 @@ function ApplicationHeader() {
             <Menu>
               {({ open }) => (
                 <>
-                  <Menu.Button>
-                    <h2 className="text-2xl font-extrabold leading-7 text-gray-900 sm:truncate flex flex-row items-center align-middle">
+                  <Menu.Button className="leading-7 sm:truncate flex flex-row items-center rounded-md shadow-sm px-2 py-1 space-x-2">
+                    <>
                       <img
-                        src={(application?.icon ?? '').replaceAll('512', '28')}
-                        className="h-7 w-7 rounded-md mr-4"
+                        src={(application?.icon ?? '').replaceAll('512', '36')}
+                        className="h-7 w-7 rounded-md mr-2"
                         alt={application?.title}
                       />
-                      {application?.title}
-                      <svg
-                        className="h-5 w-5 ml-2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </h2>
+                      <p className="line-clamp-1 text-left text-gray-900 text-2xl font-extrabold">
+                        {application?.title}
+                      </p>
+                      <ChevronDownIcon className="h-5 w-5" />
+                    </>
                   </Menu.Button>
                   <Transition
+                    as={Fragment}
                     show={open}
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"

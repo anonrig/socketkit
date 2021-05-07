@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 
 import 'react-medium-image-zoom/dist/styles.css'
 import Button from 'components/form/button.js'
+import Card from 'components/card.js'
 
 const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
@@ -42,63 +43,28 @@ function ApplicationInformation({ initialData, id }) {
   return (
     <div className="flex-grow lg:flex space-y-8 lg:space-y-0">
       <div className="flex-1 min-w-0 space-y-6">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-            <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-              <div className="ml-4 mt-2">
-                <h3 className="text-lg leading-6 font-bold text-gray-900">
-                  Release notes for {application?.version}
-                </h3>
-              </div>
-              <div className="ml-4 mt-2 flex-shrink-0"></div>
-            </div>
+        <Card title={`Release notes for ${application?.version}`}>
+          {application?.release_notes}
+        </Card>
 
-            <div className="mt-4 text-sm whitespace-pre-wrap">{application?.release_notes}</div>
-          </div>
-        </div>
+        <Card
+          title={`Screenshots`}
+          className="overflow-y-scroll flex flex-row items-center space-x-4">
+          {application?.screenshots?.default.map((link) => (
+            <Zoom key={link}>
+              <img src={link} className="w-48 rounded-lg object-contain" alt={application?.title} />
+            </Zoom>
+          ))}
+        </Card>
 
-        <div className="min-w-0 flex-1">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-              <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-                <div className="ml-4 mt-2">
-                  <h3 className="text-lg leading-6 font-bold text-gray-900">Screenshots</h3>
-                </div>
-              </div>
-
-              <div className="overflow-y-scroll flex flex-row items-center space-x-4 mt-4">
-                {application?.screenshots?.default.map((link) => (
-                  <Zoom key={link}>
-                    <img
-                      src={link}
-                      className="w-48 rounded-lg object-contain"
-                      alt={application?.title}
-                    />
-                  </Zoom>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-            <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-              <div className="ml-4 mt-2">
-                <h3 className="text-lg leading-6 font-bold text-gray-900">Description</h3>
-              </div>
-              <div className="ml-4 mt-2 flex-shrink-0"></div>
-            </div>
-            <div className="mt-4 text-sm whitespace-pre-wrap">
-              {application?.description.split('\n').map((item, key) => (
-                <span key={key}>
-                  {item}
-                  <br />
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
+        <Card title="Description">
+          {application?.description.split('\n').map((item, key) => (
+            <span key={key}>
+              {item}
+              <br />
+            </span>
+          ))}
+        </Card>
       </div>
 
       <div className="h-full pl-0 lg:pl-6 lg:w-80">

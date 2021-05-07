@@ -6,6 +6,7 @@ import useSWR from 'swr'
 
 import { GlobeIcon, ChartSquareBarIcon, DeviceMobileIcon } from '@heroicons/react/outline'
 
+import Heading from 'components/heading.js'
 import Select from 'components/form/select'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table/table'
@@ -128,9 +129,7 @@ function Reviews({ initialData }) {
   return (
     <>
       <div className="flex flex-1 justify-between mb-8 items-center">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">Reviews</h3>
-        </div>
+        <Heading>Reviews</Heading>
         <DatePicker
           interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }}
           setInterval={({ start_date, end_date }) => {

@@ -1,6 +1,6 @@
-import Container from './container'
+import Container from 'components/container'
 
-function Footer() {
+export default function Footer() {
   return (
     <footer>
       <Container>
@@ -11,5 +11,3 @@ function Footer() {
     </footer>
   )
 }
-
-export default Footer

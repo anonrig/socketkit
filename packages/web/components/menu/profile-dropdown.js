@@ -1,76 +1,76 @@
-import React, { useContext } from 'react'
-import { Transition } from '@headlessui/react'
-import { UserCircleIcon } from '@heroicons/react/outline'
-
+import { Fragment, useEffect, useRef, useState, useContext } from 'react'
 import Link from 'next/link'
-import { AuthContext } from '../../helpers/is-authorized'
-import { endpoints } from '../../helpers/kratos'
-import useVisible from '../../helpers/use-visible'
+import { Menu, Transition } from '@headlessui/react'
+import { UserCircleIcon } from '@heroicons/react/outline'
+import cx from 'classnames'
 
-function ProfileDropdown() {
+import { AuthContext } from 'helpers/is-authorized'
+import { endpoints } from 'helpers/kratos'
+
+function ProfileDropdown({ className }) {
   const { session } = useContext(AuthContext)
-  const { ref, isVisible, setVisible } = useVisible(false)
+
   return (
-    <div
-      // @ts-ignore
-      ref={ref}
-      className="ml-4 relative flex-shrink-0 z-30">
-      <button
-        aria-haspopup="true"
-        className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-        id="user-menu"
-        type="button"
-        onClick={() => setVisible(!isVisible)}>
-        <span className="sr-only">Open user menu</span>
-        {session?.identity.traits.picture != null ? (
-          <img
-            alt="Current User"
-            src={session?.identity.traits.picture}
-            className="h-8 w-8 rounded-full"
-          />
-        ) : (
-          <UserCircleIcon className="h-8 w-8 rounded-full" />
+    <div className={cx(className)}>
+      <Menu as="div" className={'relative inline-block text-left'}>
+        {({ open }) => (
+          <>
+            <div>
+              <Menu.Button className="rounded-full">
+                {session?.identity.traits.picture != null ? (
+                  <img
+                    alt="Current User"
+                    src={session?.identity.traits.picture}
+                    className="h-8 w-8 rounded-full"
+                  />
+                ) : (
+                  <UserCircleIcon className="h-8 w-8 rounded-full" />
+                )}
+              </Menu.Button>
+            </div>
+            <Transition
+              show={open}
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95">
+              <Menu.Items
+                static
+                className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-orange-500 ring-opacity-5 focus:outline-none z-30">
+                <div className="px-1 py-1">
+                  <Menu.Item>
+                    <Link href="/account/settings">
+                      <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Account
+                      </a>
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Link href="/account/integrations">
+                      <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Integrations
+                      </a>
+                    </Link>
+                  </Menu.Item>
+                </div>
+                <div className="px-1 py-1">
+                  <Menu.Item>
+                    <a
+                      href={endpoints.logout}
+                      className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem">
+                      Log out
+                    </a>
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </>
         )}
-      </button>
-      <Transition
-        aria-labelledby="user-menu"
-        aria-orientation="vertical"
-        role="menu"
-        enter="transition ease-oute duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-        className="z-10 origin-top-right absolute right-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
-        show={isVisible}>
-        <div className="py-1" role="none">
-          <Link href="/account/settings">
-            <button
-              className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              role="menuitem"
-              onClick={() => setVisible(false)}>
-              Account
-          </button>
-          </Link>
-          <Link href="/account/integrations">
-            <button
-              className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              role="menuitem"
-              onClick={() => setVisible(false)}>
-              Integrations
-          </button>
-          </Link>
-        </div>
-        <div className="py-1" role="none">
-          <a
-            href={endpoints.logout}
-            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            role="menuitem">
-            Log out
-        </a>
-        </div>
-      </Transition>
+      </Menu>
     </div>
   )
 }

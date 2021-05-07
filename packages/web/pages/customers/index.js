@@ -3,6 +3,10 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import Table from 'components/table/table'
 import DatePicker from 'components/date-picker'
+
+import Heading from 'components/heading'
+import { SwitchHorizontalIcon } from '@heroicons/react/solid'
+
 import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 
@@ -88,27 +92,13 @@ export default function Customers({ initialData }) {
   return (
     <>
       <div className="flex flex-1 justify-between mb-8 items-center">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">Customers</h3>
-        </div>
+        <Heading>Customers</Heading>
         <span className="hidden sm:block mr-4">
           <button
             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             type="button"
             onClick={() => router.push('/transactions')}>
-            <svg
-              className="-ml-1 mr-2 h-4 w-4 text-orange-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-              />
-            </svg>
+            <SwitchHorizontalIcon className="-ml-1 mr-2 h-4 w-4 text-orange-500" />
             Switch to Transactions
           </button>
         </span>

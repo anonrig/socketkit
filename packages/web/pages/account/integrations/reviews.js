@@ -3,8 +3,8 @@ import toast from 'react-hot-toast'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-
 import PropTypes from 'prop-types'
+
 import Button from 'components/form/button.js'
 import { fetcher } from 'helpers/fetcher.js'
 

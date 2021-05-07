@@ -17,7 +17,7 @@ export async function getServerSideProps({
   const start_date = query.start_date
     ? dayjs(query.start_date).format(format)
     : dayjs().subtract(1, 'month').format(format)
-  const end_date = dayjs(query.end_date).format(format)
+  const end_date = dayjs(query.end_date ?? undefined).format(format)
   const initialData = await fetcher(`applications/${query.id}/countries`, {
     headers: { cookie, referer },
     qs: { from: start_date, to: end_date },
