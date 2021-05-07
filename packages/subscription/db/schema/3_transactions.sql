@@ -44,7 +44,6 @@ CREATE OR REPLACE FUNCTION transactions_update_subscription()
         WHEN 'renewal' THEN (NEW.event_date + p.subscription_duration)::date
         WHEN 'refund' THEN NEW.event_date
       END,
-      total_base_subscriber_purchase = s.total_base_subscriber_purchase + NEW.base_subscriber_purchase,
       total_base_developer_proceeds = s.total_base_developer_proceeds + NEW.base_developer_proceeds
     FROM subscription_packages p
     WHERE

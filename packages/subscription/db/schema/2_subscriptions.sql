@@ -30,7 +30,6 @@ CREATE TABLE subscriptions (
     GENERATED ALWAYS AS (daterange(
       subscription_started_at, subscription_expired_at
     )) STORED,
-  total_base_subscriber_purchase numeric NOT NULL DEFAULT '0.00',
   total_base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
   subscriber_id text NOT NULL,
   application_id text NOT NULL,
