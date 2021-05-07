@@ -87,7 +87,7 @@ function Header() {
                       </Disclosure.Button>
                     </div>
                   </div>
-                  <Disclosure.Button as="div" className="mt-3 px-2 space-y-1">
+                  <div className="mt-3 px-2 space-y-1">
                     <Link href="/applications">
                       <a className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                         Applications
@@ -103,7 +103,7 @@ function Header() {
                         Customers
                       </a>
                     </Link>
-                  </Disclosure.Button>
+                  </div>
                 </div>
                 <div className="pt-4 pb-2">
                   <div className="flex items-center px-5">
@@ -119,7 +119,7 @@ function Header() {
                       </div>
                     </div>
                   </div>
-                  <Disclosure.Button as="div" className="mt-3 px-2 space-y-1">
+                  <div className="mt-3 px-2 space-y-1">
                     <Link href="/account/settings">
                       <a className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                         Account
@@ -135,12 +135,11 @@ function Header() {
                       className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                       Log out
                     </a>
-                  </Disclosure.Button>
+                  </div>
                 </div>
               </div>
             </div>
-            <Disclosure.Button
-              as="div"
+            <div
               aria-hidden="true"
               className="z-20 fixed inset-0 bg-black bg-opacity-25 lg:hidden"
             />

@@ -93,31 +93,33 @@ export default function Customers({ initialData }) {
     <>
       <div className="flex flex-1 justify-between mb-8 items-center">
         <Heading>Customers</Heading>
-        <span className="hidden sm:block mr-4">
-          <button
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            type="button"
-            onClick={() => router.push('/transactions')}>
-            <SwitchHorizontalIcon className="-ml-1 mr-2 h-4 w-4 text-orange-500" />
-            Switch to Transactions
-          </button>
-        </span>
-        <DatePicker
-          interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }}
-          setInterval={({ start_date, end_date }) => {
-            router.push(
-              {
-                path: '/customers',
-                query: {
-                  start_date: start_date.format('YYYY-MM-DD'),
-                  end_date: end_date.format('YYYY-MM-DD'),
+        <div className="inline-flex items-center">
+          <span className="hidden sm:block mr-4">
+            <button
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              type="button"
+              onClick={() => router.push('/transactions')}>
+              <SwitchHorizontalIcon className="-ml-1 mr-2 h-4 w-4 text-orange-500" />
+              Switch to Transactions
+            </button>
+          </span>
+          <DatePicker
+            interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }}
+            setInterval={({ start_date, end_date }) => {
+              router.push(
+                {
+                  path: '/customers',
+                  query: {
+                    start_date: start_date.format('YYYY-MM-DD'),
+                    end_date: end_date.format('YYYY-MM-DD'),
+                  },
                 },
-              },
-              undefined,
-              { shallow: true },
-            )
-          }}
-        />
+                undefined,
+                { shallow: true },
+              )
+            }}
+          />
+        </div>
       </div>
       <Table
         initialData={initialData}
