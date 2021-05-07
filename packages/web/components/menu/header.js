@@ -39,7 +39,7 @@ function Header() {
                     </a>
                   </Link>
                 </div>
-                <div className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4 text-sm font-medium text-warmGray-900">
+                <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4 text-sm font-medium text-warmGray-900">
                   <Link href="/applications">
                     <a
                       className={cx(['px-3 py-2 rounded-md', getActiveClassName('/applications')])}>
@@ -64,13 +64,13 @@ function Header() {
                 </div>
               </div>
 
-              <div className="flex items-center lg:hidden">
+              <div className="flex items-center md:hidden">
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                   <span className="sr-only">Open main menu</span>
                   <MenuIcon className="h-6 w-6" />
                 </Disclosure.Button>
               </div>
-              <ProfileDropdown className="hidden lg:ml-4 lg:flex lg:items-center" />
+              <ProfileDropdown className="hidden md:ml-4 md:flex md:items-center" />
             </div>
           </div>
 
