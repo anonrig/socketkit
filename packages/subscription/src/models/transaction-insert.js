@@ -1,14 +1,22 @@
 import * as CurrencyExchange from './currency-exchange.js'
 import pg from '../pg.js'
 import dayjs from 'dayjs'
+import dayjs_duration from 'dayjs/plugin/duration.js'
+
+dayjs.extend(dayjs_duration)
 
 export async function parseTransaction(transaction, { account_id }, trx) {
   const application_id = transaction.appAppleId
+  const subscription_package_id = transaction.subscriptionAppleId
   const subscriber_id = transaction.subscriberId
   const subscriber_currency_id = transaction.customerCurrency
   const developer_currency_id = transaction.proceedsCurrency
   const event_date = transaction.eventDate
   const base_currency_id = 'USD'
+  const subscriber_purchase = parseFloat(transaction.subscriber_purchase)
+  let developer_proceeds = parseFloat(transaction.developerProceeds)
+  let subscription_started_at
+  let total_base_developer_proceeds
 
   const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all([
     CurrencyExchange.findByPk({
@@ -21,20 +29,13 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     }),
   ])
 
-  const customerPrice = transaction.customerPrice
-    ? parseFloat(transaction.customerPrice)
-    : null
-  let developerProceeds = transaction.developerProceeds
-    ? parseFloat(transaction.developerProceeds)
-    : null
-
   let subscription = await pg
     .queryBuilder()
     .transacting(trx)
     .from('subscriptions')
     .where({
       account_id,
-      subscription_package_id: transaction.subscriptionAppleId,
+      subscription_package_id,
       subscriber_id,
     })
     .andWhere(function () {
@@ -56,7 +57,7 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       .queryBuilder()
       .insert({
         account_id,
-        subscription_package_id: transaction.subscriptionAppleId,
+        subscription_package_id,
         subscriber_id,
         subscription_started_at: event_date,
         subscription_expired_at: event_date,
@@ -67,18 +68,23 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       .into('subscriptions')
       .transacting(trx)
 
-    subscription = {
-      subscription_started_at: event_date,
-      total_base_developer_proceeds: 0,
-    }
+    subscription_started_at = event_date
+    total_base_developer_proceeds = 0
+  } else {
+    subscription_started_at = subscription.subscription_started_at
+    total_base_developer_proceeds = subscription.total_base_developer_proceeds
+
+    // JavaScript driver doesn't detect negative numbers as numbers.
+    if (typeof(total_base_developer_proceeds) !== 'number')
+      total_base_developer_proceeds = parseFloat(total_base_developer_proceeds)
   }
 
   let transaction_type
   if (transaction.refund !== 'Yes') {
-    if (customerPrice === 0) {
+    if (subscriber_purchase === 0) {
       transaction_type = 'trial'
     } else {
-      if (subscription.total_base_developer_proceeds === 0) {
+      if (total_base_developer_proceeds === 0) {
         transaction_type = 'conversion'
       } else {
         transaction_type = 'renewal'
@@ -88,9 +94,13 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     transaction_type = 'refund'
   }
 
-  if (transaction_type === 'refund' && developerProceeds > 0) {
-    developerProceeds = developerProceeds * -1
+  if (transaction_type === 'refund' && developer_proceeds > 0) {
+    developer_proceeds = developer_proceeds * -1
   }
+
+  const base_subscriber_purchase = subscriber_purchase / subscriberCurrencyRate.amount
+  const base_developer_proceeds =
+    developer_proceeds / developerCurrencyRate.amount
 
   await pg
     .queryBuilder()
@@ -98,24 +108,59 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       transaction_type,
       event_date: event_date,
       account_id,
-      subscriber_purchase: customerPrice,
-      developer_proceeds: developerProceeds,
-      base_subscriber_purchase:
-        customerPrice !== null
-          ? customerPrice / subscriberCurrencyRate.amount
-          : null,
-      base_developer_proceeds:
-        developerProceeds !== null
-          ? developerProceeds / developerCurrencyRate.amount
-          : null,
+      subscriber_purchase,
+      developer_proceeds,
+      base_subscriber_purchase,
+      base_developer_proceeds,
       subscriber_id,
       application_id,
       subscriber_currency_id,
       developer_currency_id,
       base_currency_id,
-      subscription_package_id: transaction.subscriptionAppleId,
-      subscription_started_at: subscription.subscription_started_at,
+      subscription_package_id,
+      subscription_started_at,
     })
     .into('transactions')
     .transacting(trx)
+
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .from('subscriptions')
+    .where({
+      account_id,
+      subscription_package_id,
+      subscriber_id,
+      subscription_started_at,
+    })
+    .update({
+      total_base_developer_proceeds:
+        total_base_developer_proceeds + base_developer_proceeds,
+      subscription_expired_at: dayjs(event_date)
+        .add(
+          dayjs.duration(
+            transaction_type === 'refund'
+              ? {}
+              : transaction_type === 'trial'
+              ? parseDuration(transaction.subscriptionOfferDuration)
+              : parseDuration(transaction.standardSubscriptionDuration),
+          ),
+        )
+        .format('YYYY-MM-DD'),
+    })
+}
+
+function parseDuration(input) {
+  let output = {}
+  let value = null
+  for (const elem of input.split(' ')) {
+    if (value === null) {
+      value = parseInt(elem)
+    } else {
+      output[elem] = value
+      value = null
+    }
+  }
+
+  return output
 }

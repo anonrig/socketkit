@@ -31,38 +31,6 @@ CREATE INDEX ON transactions (account_id, event_date);
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON transactions TO "subscription-worker";
 
-CREATE OR REPLACE FUNCTION transactions_update_subscription()
-  RETURNS trigger
-  LANGUAGE plpgsql
-  AS $$
-  BEGIN
-    UPDATE subscriptions s
-    SET
-      subscription_expired_at = CASE NEW.transaction_type
-        WHEN 'trial' THEN (NEW.event_date + s.free_trial_duration)::date
-        WHEN 'conversion' THEN (NEW.event_date + p.subscription_duration)::date
-        WHEN 'renewal' THEN (NEW.event_date + p.subscription_duration)::date
-        WHEN 'refund' THEN NEW.event_date
-      END,
-      total_base_developer_proceeds = s.total_base_developer_proceeds + NEW.base_developer_proceeds
-    FROM subscription_packages p
-    WHERE
-      s.account_id = NEW.account_id AND
-      s.subscription_package_id = NEW.subscription_package_id AND
-      s.subscriber_id = NEW.subscriber_id AND
-      s.subscription_started_at = NEW.subscription_started_at AND
-      p.account_id = NEW.account_id AND
-      p.subscription_package_id = NEW.subscription_package_id;
-
-    RETURN NEW;
-  END;
-$$;
-
-CREATE TRIGGER transactions_after_insert
-  AFTER INSERT ON transactions
-  FOR EACH ROW
-  EXECUTE FUNCTION transactions_update_subscription();
-
 CREATE OR REPLACE FUNCTION transactions_set_subscriber_interaction_date()
   RETURNS trigger
   LANGUAGE plpgsql
