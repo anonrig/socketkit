@@ -1,4 +1,5 @@
 import * as CurrencyExchange from './currency-exchange.js'
+import { parseDuration } from '../helpers.js'
 import pg from '../pg.js'
 import dayjs from 'dayjs'
 import dayjs_duration from 'dayjs/plugin/duration.js'
@@ -152,19 +153,4 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       subscription_refunded_at:
         transaction_type === 'refund' ? transaction.purchaseDate : null,
     })
-}
-
-function parseDuration(input) {
-  let output = {}
-  let value = null
-  for (const elem of input.split(' ')) {
-    if (value === null) {
-      value = parseInt(elem)
-    } else {
-      output[elem] = value
-      value = null
-    }
-  }
-
-  return output
 }
