@@ -13,11 +13,12 @@ export async function parseTransaction(transaction, { account_id }, trx) {
   const developer_currency_id = transaction.proceedsCurrency
   const event_date = transaction.eventDate
   const base_currency_id = 'USD'
-  const subscriber_purchase = parseFloat(transaction.subscriber_purchase)
+  const subscriber_purchase = parseFloat(transaction.customerPrice)
   let developer_proceeds = parseFloat(transaction.developerProceeds)
   let subscription_started_at
   let total_base_developer_proceeds
 
+  // TODO: Not call this when the amounts are 0
   const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all([
     CurrencyExchange.findByPk({
       currency_id: subscriber_currency_id,
@@ -98,7 +99,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     developer_proceeds = developer_proceeds * -1
   }
 
-  const base_subscriber_purchase = subscriber_purchase / subscriberCurrencyRate.amount
+  const base_subscriber_purchase =
+    subscriber_purchase / subscriberCurrencyRate.amount
   const base_developer_proceeds =
     developer_proceeds / developerCurrencyRate.amount
 
