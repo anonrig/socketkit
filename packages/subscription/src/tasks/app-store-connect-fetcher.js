@@ -26,7 +26,7 @@ export default function fetchIntegrations() {
       .andWhere(
         'last_fetch',
         '<',
-        dayjs().subtract(1, 'day').subtract(12, 'hour').format('YYYY-MM-DD'),
+        dayjs().subtract(1, 'day').subtract(16, 'hour').format('YYYY-MM-DD'),
       )
       .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
