@@ -1,13 +1,23 @@
 import _ from 'lodash'
 import dayjs from 'dayjs'
+import { PerformanceObserver, performance } from 'perf_hooks'
+import slug from 'slug'
+import AppStoreReporter from 'appstore-reporter'
+
 import pg from '../pg.js'
 import Logger from '../logger.js'
-import AppStoreReporter from 'appstore-reporter'
 import { parseTransaction } from '../models/transaction-insert.js'
 import subscriber from '../grpc-client.js'
-import slug from 'slug'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')
+const performanceObserver = new PerformanceObserver((list) => {
+  list.getEntries().forEach((entry) => {
+    logger
+      .withTag('performance')
+      .info(`Time for ${entry.name} is ${entry.duration.toFixed(2)}`)
+  })
+})
+performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
 
 export default function fetchIntegrations() {
   return pg.transaction(async (trx) => {
@@ -41,6 +51,8 @@ export default function fetchIntegrations() {
       return false
     }
 
+    const traceId = `${integration.account_id}-${dayjs(integration.last_fetch).format('DD/MM/YYYY')}`
+
     logger.info(
       `Processing ${integration.account_id} with last fetch date ${dayjs(
         integration.last_fetch,
@@ -55,6 +67,7 @@ export default function fetchIntegrations() {
     let error_message = null
 
     try {
+      performance.mark(`${traceId}-network-started`)
       const reporter = new AppStoreReporter.default({
         accessToken: integration.access_token,
       })
@@ -66,6 +79,8 @@ export default function fetchIntegrations() {
         date: next_day.format('YYYYMMDD'),
         reportVersion: '1_2',
       })
+      performance.mark(`${traceId}-network-ended`)
+      performance.measure(`network-request`, `${traceId}-network-started`, `${traceId}-network-ended`)
     } catch (error) {
       if (!error.message.includes('404')) {
         state = 'error'
@@ -97,10 +112,13 @@ export default function fetchIntegrations() {
         return i
       }, {})
 
+      performance.mark('processing-transactions')
       await Promise.all([
         processTransactions(trx, integration.account_id, valid_transactions),
         subscriber.store.applications.create(Object.values(applications)),
       ])
+      performance.mark('processing-transactions-ended')
+      performance.measure('processing-transactions', 'processing-transactions', 'processing-transactions-ended')
     }
 
     await pg
@@ -122,7 +140,8 @@ export default function fetchIntegrations() {
 }
 
 async function processTransactions(trx, account_id, transactions) {
-  // create device types
+  const traceId = `${account_id}-transactions`
+  performance.mark(`${traceId}-transactions-insert`)
   await pg
     .insert(
       transactions.map((t) => ({
@@ -135,8 +154,10 @@ async function processTransactions(trx, account_id, transactions) {
     .onConflict(['provider_id', 'device_type_id'])
     .ignore()
     .transacting(trx)
+  performance.mark(`${traceId}-transactions-insert-ended`)
+  performance.measure('transactions.insert', `${traceId}-transactions-insert`, `${traceId}-transactions-insert-ended`)
 
-  // create subscriber
+  performance.mark(`${traceId}-subscribers-insert`)
   await pg
     .insert(
       transactions.map((t) => ({
@@ -154,8 +175,10 @@ async function processTransactions(trx, account_id, transactions) {
     .onConflict(['account_id', 'subscriber_id'])
     .ignore()
     .transacting(trx)
+  performance.mark(`${traceId}-subscribers-insert-ended`)
+  performance.measure('subscribers.insert', `${traceId}-subscribers-insert`, `${traceId}-subscribers-insert-ended`)
 
-  // create subscription package
+  performance.mark(`${traceId}-subscription-packages-insert`)
   await pg
     .insert(
       transactions.map((t) => ({
@@ -171,6 +194,8 @@ async function processTransactions(trx, account_id, transactions) {
     .onConflict(['account_id', 'subscription_package_id'])
     .ignore()
     .transacting(trx)
+  performance.mark(`${traceId}-subscription-packages-insert-ended`)
+  performance.measure('subscription_packages.insert', `${traceId}-subscription-packages-insert`, `${traceId}-subscription-packages-insert-ended`)
 
   for (const transaction of transactions) {
     await parseTransaction(transaction, { account_id: account_id }, trx)

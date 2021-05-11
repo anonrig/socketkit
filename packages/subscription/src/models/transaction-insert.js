@@ -15,12 +15,27 @@ export async function parseTransaction(transaction, { account_id }, trx) {
   const event_date = transaction.eventDate
   const base_currency_id = 'USD'
   const subscriber_purchase = parseFloat(transaction.customerPrice)
+
   let developer_proceeds = parseFloat(transaction.developerProceeds)
   let subscription_started_at
   let total_base_developer_proceeds
+  let transaction_type
 
-  // TODO: Not call this when the amounts are 0
-  const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all([
+  if (transaction.refund !== 'Yes') {
+    if (subscriber_purchase === 0) {
+      transaction_type = 'trial'
+    } else {
+      if (total_base_developer_proceeds === 0) {
+        transaction_type = 'conversion'
+      } else {
+        transaction_type = 'renewal'
+      }
+    }
+  } else {
+    transaction_type = 'refund'
+  }
+
+  const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all(transaction_type !== 'trial' ? [] : [
     CurrencyExchange.findByPk({
       currency_id: subscriber_currency_id,
       exchange_date: event_date,
@@ -30,6 +45,11 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       exchange_date: event_date,
     }),
   ])
+
+  const base_subscriber_purchase = transaction_type === 'trial' ? 0 :
+    subscriber_purchase / subscriberCurrencyRate?.amount
+  const base_developer_proceeds = transaction_type === 'trial' ? 0 :
+    developer_proceeds / developerCurrencyRate?.amount
 
   let subscription = await pg
     .queryBuilder()
@@ -81,29 +101,9 @@ export async function parseTransaction(transaction, { account_id }, trx) {
       total_base_developer_proceeds = parseFloat(total_base_developer_proceeds)
   }
 
-  let transaction_type
-  if (transaction.refund !== 'Yes') {
-    if (subscriber_purchase === 0) {
-      transaction_type = 'trial'
-    } else {
-      if (total_base_developer_proceeds === 0) {
-        transaction_type = 'conversion'
-      } else {
-        transaction_type = 'renewal'
-      }
-    }
-  } else {
-    transaction_type = 'refund'
-  }
-
   if (transaction_type === 'refund' && developer_proceeds > 0) {
     developer_proceeds = developer_proceeds * -1
   }
-
-  const base_subscriber_purchase =
-    subscriber_purchase / subscriberCurrencyRate.amount
-  const base_developer_proceeds =
-    developer_proceeds / developerCurrencyRate.amount
 
   await pg
     .queryBuilder()
@@ -145,8 +145,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
             transaction_type === 'refund'
               ? {}
               : transaction_type === 'trial'
-              ? parseDuration(transaction.subscriptionOfferDuration)
-              : parseDuration(transaction.standardSubscriptionDuration),
+                ? parseDuration(transaction.subscriptionOfferDuration)
+                : parseDuration(transaction.standardSubscriptionDuration),
           ),
         )
         .format('YYYY-MM-DD'),

@@ -18,8 +18,6 @@ export async function runTasks() {
     if (processed.every((s) => !s)) {
       logger.withTag('runTasks').info('Sleeping for 10 minutes')
       await setTimeout(600000)
-    } else {
-      await setTimeout(60000)
     }
   } catch (error) {
     logger.error(error)

@@ -22,7 +22,6 @@ export default function deleteIntegrations() {
       .transacting(trx)
 
     if (!integration) {
-      logger.info('No integrations to delete')
       return false
     }
 
