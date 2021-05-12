@@ -1,8 +1,9 @@
 import path from 'path'
 import Mali from 'mali'
 import Sentry from '@sentry/node'
-import Logger from './logger.js'
+import { PerformanceObserver, performance } from 'perf_hooks'
 
+import Logger from './logger.js'
 import * as Integrations from './consumers/integrations.js'
 import * as Payments from './consumers/payments.js'
 
@@ -16,6 +17,14 @@ const options = {
 }
 const file = path.join(path.resolve(''), 'protofiles/payment.proto')
 const health = path.join(path.resolve(''), 'protofiles/health.proto')
+const performanceObserver = new PerformanceObserver((list) => {
+  list.getEntries().forEach((entry) => {
+    logger
+      .withTag('performance')
+      .info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
+  })
+})
+performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
 
 const app = new Mali()
 
@@ -27,8 +36,6 @@ app.use(async (context, next) => {
   let tracer = null
 
   if (!context.fullName.includes('health')) {
-    logger.withScope('grpc').debug(`Request -> ${context.fullName}`)
-
     tracer = Sentry.startTransaction({
       name: context.fullName,
       op: 'GET',
@@ -40,12 +47,27 @@ app.use(async (context, next) => {
       account_id: context.request.req.account_id,
     })
   }
-
+  performance.mark(context.fullName)
   return next()
-    .then(() => tracer?.finish())
+    .then(() => {
+      tracer?.finish()
+      performance.mark(context.fullName + '-ended')
+      performance.measure(
+        context.fullName,
+        context.fullName,
+        context.fullName + '-ended',
+      )
+    })
     .catch((error) => {
       Sentry.captureException(error)
       logger.fatal(error)
+      tracer?.finish()
+      performance.mark(context.fullName + '-ended')
+      performance.measure(
+        context.fullName,
+        context.fullName,
+        context.fullName + '-ended',
+      )
       throw error
     })
 })
