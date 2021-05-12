@@ -1,7 +1,7 @@
+import { setTimeout } from 'timers/promises'
 import appStoreConnectFetcher from './app-store-connect-fetcher.js'
 import deleteIntegrations from './delete-integrations.js'
 import Logger from '../logger.js'
-import { setTimeout } from 'timers/promises'
 
 const logger = Logger.create().withScope('tasks')
 
@@ -16,11 +16,10 @@ export async function runTasks() {
     ])
 
     if (processed.every((s) => !s)) {
-      logger.withTag('runTasks').info('Sleeping for 10 minutes')
       await setTimeout(600000)
     }
   } catch (error) {
-    logger.error(error)
+    logger.fatal(error)
     await setTimeout(60000)
   }
 
