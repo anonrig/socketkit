@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import dayjs from 'dayjs'
-import { PerformanceObserver, performance } from 'perf_hooks'
+import { performance } from 'perf_hooks'
 import slug from 'slug'
 import AppStoreReporter from 'appstore-reporter'
 import { v4 } from 'uuid'
@@ -11,14 +11,6 @@ import insertTransaction from '../models/transaction-insert.js'
 import subscriber from '../grpc-client.js'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')
-const performanceObserver = new PerformanceObserver((list) => {
-  list.getEntries().forEach((entry) => {
-    logger
-      .withTag('performance')
-      .info(`Time for ${entry.name} is ${entry.duration.toFixed(2)}`)
-  })
-})
-performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
 
 export default function fetchIntegrations() {
   return pg.transaction(async (trx) => {
