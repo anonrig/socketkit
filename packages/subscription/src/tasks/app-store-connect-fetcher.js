@@ -145,7 +145,10 @@ export default function fetchIntegrations() {
       })
       .transacting(trx)
 
-    return integration.state !== state || integration.last_fetch !== next_day
+    return (
+      integration.state !== state ||
+      !dayjs(integration.last_fetch).isSame(next_day, 'day')
+    )
   })
 }
 
