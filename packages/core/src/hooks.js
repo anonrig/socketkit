@@ -36,7 +36,9 @@ export const verify = async (request, reply) => {
         email: request.user.identity.traits.email,
       })
     } catch (error) {
-      logger.warn(error.message)
+      if (!error.message.includes('UNAVAILABLE')) {
+        logger.warn(error.message)
+      }
     }
   } catch (error) {
     if (error instanceof RequiredError) {
