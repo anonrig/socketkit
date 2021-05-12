@@ -51,7 +51,9 @@ export default function fetchIntegrations() {
       return false
     }
 
-    const traceId = `${integration.account_id}-${dayjs(integration.last_fetch).format('DD/MM/YYYY')}`
+    const traceId = `${integration.account_id}-${dayjs(
+      integration.last_fetch,
+    ).format('DD/MM/YYYY')}`
 
     logger.info(
       `Processing ${integration.account_id} with last fetch date ${dayjs(
@@ -80,7 +82,11 @@ export default function fetchIntegrations() {
         reportVersion: '1_2',
       })
       performance.mark(`${traceId}-network-ended`)
-      performance.measure(`network-request`, `${traceId}-network-started`, `${traceId}-network-ended`)
+      performance.measure(
+        `network-request`,
+        `${traceId}-network-started`,
+        `${traceId}-network-ended`,
+      )
     } catch (error) {
       if (!error.message.includes('404')) {
         state = 'error'
@@ -118,7 +124,11 @@ export default function fetchIntegrations() {
         subscriber.store.applications.create(Object.values(applications)),
       ])
       performance.mark('processing-transactions-ended')
-      performance.measure('processing-transactions', 'processing-transactions', 'processing-transactions-ended')
+      performance.measure(
+        'processing-transactions',
+        'processing-transactions',
+        'processing-transactions-ended',
+      )
     }
 
     await pg
@@ -155,7 +165,11 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
   performance.mark(`${traceId}-transactions-insert-ended`)
-  performance.measure('transactions.insert', `${traceId}-transactions-insert`, `${traceId}-transactions-insert-ended`)
+  performance.measure(
+    'transactions.insert',
+    `${traceId}-transactions-insert`,
+    `${traceId}-transactions-insert-ended`,
+  )
 
   performance.mark(`${traceId}-subscribers-insert`)
   await pg
@@ -176,7 +190,11 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
   performance.mark(`${traceId}-subscribers-insert-ended`)
-  performance.measure('subscribers.insert', `${traceId}-subscribers-insert`, `${traceId}-subscribers-insert-ended`)
+  performance.measure(
+    'subscribers.insert',
+    `${traceId}-subscribers-insert`,
+    `${traceId}-subscribers-insert-ended`,
+  )
 
   performance.mark(`${traceId}-subscription-packages-insert`)
   await pg
@@ -195,7 +213,11 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
   performance.mark(`${traceId}-subscription-packages-insert-ended`)
-  performance.measure('subscription_packages.insert', `${traceId}-subscription-packages-insert`, `${traceId}-subscription-packages-insert-ended`)
+  performance.measure(
+    'subscription_packages.insert',
+    `${traceId}-subscription-packages-insert`,
+    `${traceId}-subscription-packages-insert-ended`,
+  )
 
   for (const transaction of transactions) {
     await parseTransaction(transaction, { account_id: account_id }, trx)

@@ -35,21 +35,22 @@ export async function parseTransaction(transaction, { account_id }, trx) {
     transaction_type = 'refund'
   }
 
-  const [subscriberCurrencyRate, developerCurrencyRate] = await Promise.all(transaction_type !== 'trial' ? [] : [
-    CurrencyExchange.findByPk({
+  let base_subscriber_purchase = 0
+  let base_developer_proceeds = 0
+  if (transaction_type !== 'trial') {
+    // TODO: Don't query them for every transaction
+    const subscriberCurrencyRate = await CurrencyExchange.findByPk({
       currency_id: subscriber_currency_id,
       exchange_date: event_date,
-    }),
-    CurrencyExchange.findByPk({
+    })
+    const developerCurrencyRate = await CurrencyExchange.findByPk({
       currency_id: developer_currency_id,
       exchange_date: event_date,
-    }),
-  ])
+    })
 
-  const base_subscriber_purchase = transaction_type === 'trial' ? 0 :
-    subscriber_purchase / subscriberCurrencyRate?.amount
-  const base_developer_proceeds = transaction_type === 'trial' ? 0 :
-    developer_proceeds / developerCurrencyRate?.amount
+    base_subscriber_purchase = subscriber_purchase / subscriberCurrencyRate.amount
+    base_developer_proceeds = developer_proceeds / developerCurrencyRate.amount
+  }
 
   let subscription = await pg
     .queryBuilder()
@@ -145,8 +146,8 @@ export async function parseTransaction(transaction, { account_id }, trx) {
             transaction_type === 'refund'
               ? {}
               : transaction_type === 'trial'
-                ? parseDuration(transaction.subscriptionOfferDuration)
-                : parseDuration(transaction.standardSubscriptionDuration),
+              ? parseDuration(transaction.subscriptionOfferDuration)
+              : parseDuration(transaction.standardSubscriptionDuration),
           ),
         )
         .format('YYYY-MM-DD'),
