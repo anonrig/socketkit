@@ -68,7 +68,7 @@ export async function getSalesRefunds({
               FILTER (WHERE transaction_type IN ('conversion', 'renewal'))
               AS sale_sum,
             sum(base_developer_proceeds)
-              FILTER (WHERE transaction_type = 'refund') * -1
+              FILTER (WHERE transaction_type = 'refund')
               AS refund_sum
           FROM transactions t
           WHERE t.account_id = ? AND
