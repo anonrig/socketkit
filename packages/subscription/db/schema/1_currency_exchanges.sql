@@ -3,7 +3,7 @@ SET ROLE subscription;
 CREATE TABLE currency_exchanges (
   currency_id text NOT NULL,
   exchange_date date NOT NULL,
-  amount numeric NOT NULL,
+  amount money_value NOT NULL,
 
   PRIMARY KEY (currency_id, exchange_date),
 

@@ -17,8 +17,8 @@ CREATE TABLE subscribers (
   device_type_id text NOT NULL,
   country_id text NOT NULL,
   first_interaction date NOT NULL,
-  total_base_subscriber_purchase numeric NOT NULL DEFAULT '0.00',
-  total_base_developer_proceeds numeric NOT NULL DEFAULT '0.00',
+  total_base_subscriber_purchase money_value NOT NULL DEFAULT '0.00',
+  total_base_developer_proceeds money_value NOT NULL DEFAULT '0.00',
 
   PRIMARY KEY (account_id, subscriber_id),
 
