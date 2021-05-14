@@ -109,7 +109,14 @@ export default function fetchIntegrations() {
 
       performance.mark(`${traceId}-processing`)
       await Promise.all([
-        processTransactions(trx, integration.account_id, valid_transactions),
+        processTransactions(
+          {
+            account_id: integration.account_id,
+            transactions: valid_transactions,
+            next_day,
+          },
+          trx,
+        ),
         subscriber.store.applications.create(Object.values(applications)),
       ])
       performance.mark(`${traceId}-processing-ended`)
@@ -141,7 +148,10 @@ export default function fetchIntegrations() {
   })
 }
 
-async function processTransactions(trx, account_id, transactions) {
+async function processTransactions(
+  { account_id, transactions, next_day },
+  trx,
+) {
   await pg
     .insert(
       transactions.map((t) => ({
@@ -189,37 +199,48 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
 
-  const keys = new Set()
+  const country_ids = new Map()
 
   for (const raw of transactions) {
     const transaction = new Transaction(raw)
     await transaction.getExchangeRates()
-    await insertTransaction(transaction, { account_id: account_id }, trx)
-    keys.add(`${transaction.event_date}#${transaction.country_id}`)
+    await insertTransaction(transaction, { account_id }, trx)
+
+    if (
+      !country_ids.has(transaction.country_id) ||
+      dayjs(country_ids.get(transaction.country_id)).isAfter(
+        dayjs(transaction.event_date),
+      )
+    ) {
+      country_ids.set(transaction.country_id, transaction.event_date)
+    }
   }
 
   await processDailyTransactions(
     {
-      account_id: integration.account_id,
-      keys,
+      account_id,
+      country_ids,
+      next_day,
     },
     trx,
   )
 }
 
-async function processDailyTransactions({ account_id, keys }, trx) {
+async function processDailyTransactions(
+  { account_id, country_ids, next_day },
+  trx,
+) {
+  if (country_ids.size === 0) return
+
   await pg
     .queryBuilder()
     .insert(
-      keys
-        .values()
-        .map((k) => k.split('#'))
-        .map(([for_date, country_id]) => ({
-          account_id,
-          for_date,
-          country_id,
-          refetch_needed: true,
-        })),
+      Object.keys(country_ids).map((country_id) => ({
+        account_id,
+        for_date: country_ids.get(country_id),
+        country_id,
+        refetch_needed: true,
+      })),
     )
     .into('revenues')
     .onConflict(['account_id', 'for_date', 'country_id'])
