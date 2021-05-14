@@ -1,6 +1,9 @@
 import { setTimeout } from 'timers/promises'
+
 import appStoreConnectFetcher from './app-store-connect-fetcher.js'
 import deleteIntegrations from './delete-integrations.js'
+import recalculateRevenues from './recalculate-revenues.js'
+
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('tasks')
@@ -13,6 +16,7 @@ export async function runTasks() {
     const processed = await Promise.all([
       appStoreConnectFetcher(),
       deleteIntegrations(),
+      recalculateRevenues(),
     ])
 
     if (processed.every((s) => !s)) {

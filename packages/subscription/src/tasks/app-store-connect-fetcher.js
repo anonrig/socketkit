@@ -7,6 +7,7 @@ import { v4 } from 'uuid'
 
 import pg from '../pg.js'
 import Logger from '../logger.js'
+import Transaction from '../models/transaction.js'
 import insertTransaction from '../models/transaction-insert.js'
 import subscriber from '../grpc-client.js'
 
@@ -188,7 +189,40 @@ async function processTransactions(trx, account_id, transactions) {
     .ignore()
     .transacting(trx)
 
-  for (const transaction of transactions) {
+  const keys = new Set()
+
+  for (const raw of transactions) {
+    const transaction = new Transaction(raw)
+    await transaction.getExchangeRates()
     await insertTransaction(transaction, { account_id: account_id }, trx)
+    keys.add(`${transaction.event_date}#${transaction.country_id}`)
   }
+
+  await processDailyTransactions(
+    {
+      account_id: integration.account_id,
+      keys,
+    },
+    trx,
+  )
+}
+
+async function processDailyTransactions({ account_id, keys }, trx) {
+  await pg
+    .queryBuilder()
+    .insert(
+      keys
+        .values()
+        .map((k) => k.split('#'))
+        .map(([for_date, country_id]) => ({
+          account_id,
+          for_date,
+          country_id,
+          refetch_needed: true,
+        })),
+    )
+    .into('revenues')
+    .onConflict(['account_id', 'for_date', 'country_id'])
+    .merge()
+    .transacting(trx)
 }

@@ -2,16 +2,15 @@ import dayjs from 'dayjs'
 import dayjs_duration from 'dayjs/plugin/duration.js'
 import _ from 'lodash'
 
-import Transaction from './transaction.js'
 import pg from '../pg.js'
 
 dayjs.extend(dayjs_duration)
 
-export default async function insertTransaction(raw, { account_id }, trx) {
-  const transaction = new Transaction(raw)
-
-  await transaction.getExchangeRates()
-
+export default async function insertTransaction(
+  transaction,
+  { account_id },
+  trx,
+) {
   let subscription = await pg
     .queryBuilder()
     .transacting(trx)
