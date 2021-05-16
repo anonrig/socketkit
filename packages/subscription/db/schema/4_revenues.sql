@@ -28,7 +28,7 @@ CREATE INDEX ON revenues (for_date) WHERE refetch_needed;
 
 GRANT SELECT, INSERT, UPDATE ON revenues TO "subscription-worker";
 
-CREATE FUNCTION update_revenues (_account_id uuid, _for_date text, _country_id text)
+CREATE FUNCTION update_revenues (_account_id uuid, _for_date date, _country_id text)
   RETURNS void
   STRICT LANGUAGE sql
   AS $$
