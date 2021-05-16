@@ -1,10 +1,7 @@
 import dayjs from 'dayjs'
-import dayjsDuration from 'dayjs/plugin/duration.js'
 import _ from 'lodash'
 import * as CurrencyExchange from './currency-exchange.js'
 import { parseDuration } from '../helpers.js'
-
-dayjs.extend(dayjsDuration)
 
 export default class Transaction {
   subscriber_exchange = null
@@ -30,7 +27,6 @@ export default class Transaction {
     this.purchase_date = raw.purchaseDate
     this.free_trial_duration = raw.subscriptionOfferDuration ?? '00:00:00'
     this.standard_subscription_duration = raw.standardSubscriptionDuration
-    this.country_id = raw.country
 
     // for refunds the subscriber_purchase is negative but
     // the developer_proceeds is positive.
@@ -133,25 +129,5 @@ export default class Transaction {
       throw new Error(`Please call Transaction.getExchangeRates first`)
     else if (this.developer_exchange.amount === 0) return 0
     else return this.developer_proceeds / this.developer_exchange.amount
-  }
-
-  get base_developer_proceeds_as_mrr() {
-    if (this.base_developer_proceeds === 0) return 0
-    const duration = this.standard_subscription_duration
-      .toLowerCase()
-      .split(' ')
-    const [period, interval] = [parseInt(duration[0]), duration[1]]
-
-    if (interval.includes('week')) {
-      return (this.base_developer_proceeds / period) * 4
-    } else if (interval.includes('month')) {
-      return (this.base_developer_proceeds / period) * 1
-    } else if (interval.includes('year')) {
-      return this.base_developer_proceeds / period / 12
-    } else {
-      throw new Error(
-        `Unhandled duration caught ${this.standard_subscription_duration}`,
-      )
-    }
   }
 }
