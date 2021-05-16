@@ -10,12 +10,13 @@ export default class Transaction {
   base_currency_id = 'USD'
   subscription_started_at = null
 
-  // we're using this to have a seperate getter and setter
-  // to check and manipulate the type while setting
+  // We're using this to have a separate getter and setter
+  // to check and manipulate the type while setting.
   _total_base_developer_proceeds = 0
 
   constructor(raw) {
     this.raw = raw
+    this.country_id = raw.country.toLowerCase()
     this.application_id = raw.appAppleId
     this.subscription_package_id = raw.subscriptionAppleId
     this.subscriber_id = raw.subscriberId
