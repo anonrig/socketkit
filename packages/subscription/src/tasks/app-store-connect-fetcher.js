@@ -230,20 +230,18 @@ async function processDailyTransactions(
   { account_id, country_ids, next_day },
   trx,
 ) {
-  if (country_ids.size === 0) return
+  // TODO: We need to update "refetch_needed" column of older revenues.
 
   await pg
     .queryBuilder()
+    .transacting(trx)
+    .from('revenues')
     .insert(
-      Object.keys(country_ids).map((country_id) => ({
+      Array.from(country_ids, ([country_id, first_day]) => ({
         account_id,
-        for_date: country_ids.get(country_id),
+        for_date: next_day,
         country_id,
         refetch_needed: true,
       })),
     )
-    .into('revenues')
-    .onConflict(['account_id', 'for_date', 'country_id'])
-    .merge()
-    .transacting(trx)
 }
