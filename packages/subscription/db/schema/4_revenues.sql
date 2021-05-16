@@ -26,6 +26,8 @@ CREATE TABLE revenues (
 
 CREATE INDEX ON revenues (for_date) WHERE refetch_needed;
 
+GRANT SELECT, INSERT, UPDATE ON revenues TO "subscription-worker";
+
 CREATE FUNCTION update_revenues (_account_id uuid, _for_date text, _country_id text)
   RETURNS void
   STRICT LANGUAGE sql
@@ -36,5 +38,3 @@ CREATE FUNCTION update_revenues (_account_id uuid, _for_date text, _country_id t
       for_date = _for_date AND
       country_id = _country_id;
   $$;
-
-GRANT SELECT, INSERT ON revenues TO "subscription-worker";
