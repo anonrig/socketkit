@@ -12,20 +12,22 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  try {
-    const processed = await Promise.all([
-      appStoreConnectFetcher(),
-      deleteIntegrations(),
-      recalculateRevenues(),
-    ])
+  const tasks = [
+    appStoreConnectFetcher,
+    deleteIntegrations,
+    recalculateRevenues,
+  ]
 
-    if (processed.every((s) => !s)) {
-      await setTimeout(600000)
+  for (const task of tasks) {
+    logger.info(`Executing task "${task.name}"`)
+    try {
+      while (await task());
+    } catch (error) {
+      logger.fatal(error)
     }
-  } catch (error) {
-    logger.fatal(error)
-    await setTimeout(60000)
   }
 
+  logger.info('Sleeping because all tasks are done')
+  await setTimeout(60000)
   await runTasks()
 }
