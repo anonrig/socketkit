@@ -23,6 +23,7 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:cypress/recommended',
   ],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],

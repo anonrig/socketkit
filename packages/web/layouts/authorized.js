@@ -33,7 +33,7 @@ function AuthorizedLayout({ children }) {
       <Container>{children}</Container>
       <Footer />
 
-      {integration?.access_token === null && (
+      {integration !== null && integration?.access_token === null && (
         <Banner
           destination="/account/integrations"
           longMessage="Please, add an integration for Socketkit to work."

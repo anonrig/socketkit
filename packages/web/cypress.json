@@ -1,0 +1,1 @@
+{ "chromeWebSecurity": false, "ignoreErrors": ["ResizeObserver loop limit exceeded"] }
