@@ -18,6 +18,27 @@ afterAll(async (done) => {
 })
 
 describe('Applications', () => {
+  describe('search', () => {
+    test('should search applications', (done) => {
+      applications.search({ text: 'facebook ' }, (error, response) => {
+        try {
+          expect(error).toBeFalsy()
+          expect(typeof response).toEqual('object')
+          expect(Array.isArray(response.rows)).toBeTruthy()
+          response.rows.forEach((row) => {
+            expect(row.application_id.length).toBeTruthy()
+            expect(row.bundle_id.length).toBeTruthy()
+            expect(row.application_title.length).toBeTruthy()
+            expect(row.application_icon.length).toBeTruthy()
+          })
+          done()
+        } catch (error) {
+          done(error)
+        }
+      })
+    })
+  })
+
   describe('create', () => {
     test('should create facebook', (done) => {
       applications.create(
