@@ -23,13 +23,9 @@ describe('Subscriptions', () => {
     grpc.subscriptions.findPackages(
       { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        done()
       },
     )
   })
@@ -43,13 +39,9 @@ describe('Subscriptions', () => {
         end_date: dayjs().toString(),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })
@@ -63,13 +55,9 @@ describe('Subscriptions', () => {
         end_date: dayjs().toString(),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })
@@ -83,13 +71,9 @@ describe('Subscriptions', () => {
         end_date: dayjs().toString(),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response.total).toBeDefined()
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response.total).toBeDefined()
+        done()
       },
     )
   })

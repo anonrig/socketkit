@@ -28,19 +28,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -55,19 +51,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -82,19 +74,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -109,19 +97,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -136,19 +120,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -163,19 +143,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -190,19 +166,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })
@@ -217,19 +189,15 @@ describe('Reports', () => {
         end_date: dayjs().format('YYYY-MM-DD'),
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.ny).toBeGreaterThanOrEqual(1)
-          expect(response.rows).toBeInstanceOf(Array)
-          response.rows.forEach(({ x, y0 }) => {
-            expect(x).toHaveLength(10)
-            expect(y0).toBeGreaterThanOrEqual(0)
-          })
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.ny).toBeGreaterThanOrEqual(1)
+        expect(response.rows).toBeInstanceOf(Array)
+        response.rows.forEach(({ x, y0 }) => {
+          expect(x).toHaveLength(10)
+          expect(y0).toBeGreaterThanOrEqual(0)
+        })
+        done()
       },
     )
   })

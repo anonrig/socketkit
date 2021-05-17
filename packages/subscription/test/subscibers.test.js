@@ -26,14 +26,10 @@ describe('Subscribers', () => {
         application_id: TEST_APPLICATION_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })
@@ -45,14 +41,10 @@ describe('Subscribers', () => {
         subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeDefined()
-          expect(error.message).toContain('Subscriber not found')
-          expect(response).toBeUndefined()
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeDefined()
+        expect(error.message).toContain('Subscriber not found')
+        expect(response).toBeUndefined()
+        done()
       },
     )
   })
@@ -64,14 +56,10 @@ describe('Subscribers', () => {
         subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })
@@ -83,14 +71,10 @@ describe('Subscribers', () => {
         subscriber_id: TEST_SUBSCRIBER_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })

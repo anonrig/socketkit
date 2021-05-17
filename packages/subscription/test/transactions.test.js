@@ -25,14 +25,10 @@ describe('Transactions', () => {
         application_id: TEST_APPLICATION_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response).toBeInstanceOf(Object)
-          expect(response.rows).toBeInstanceOf(Array)
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response).toBeInstanceOf(Object)
+        expect(response.rows).toBeInstanceOf(Array)
+        done()
       },
     )
   })
@@ -44,13 +40,9 @@ describe('Transactions', () => {
         application_id: TEST_APPLICATION_ID,
       },
       (error, response) => {
-        try {
-          expect(error).toBeNull()
-          expect(response.current_total_base_developer_proceeds).toBeDefined()
-          done()
-        } catch (error) {
-          done(error)
-        }
+        expect(error).toBeNull()
+        expect(response.current_total_base_developer_proceeds).toBeDefined()
+        done()
       },
     )
   })
