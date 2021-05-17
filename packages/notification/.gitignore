@@ -4,3 +4,4 @@ build/
 .env
 coverage
 newrelic_agent.log
+.nyc_output
