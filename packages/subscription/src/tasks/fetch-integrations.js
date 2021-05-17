@@ -157,7 +157,7 @@ async function processTransactions(
 ) {
   await pg
     .insert(
-      transactions.map((t) => ({
+      _.uniqBy(transactions, 'device').map((t) => ({
         provider_id: 'apple',
         device_type_id: slug(t.device),
         name: t.device,
