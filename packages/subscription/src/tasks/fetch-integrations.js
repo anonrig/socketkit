@@ -84,7 +84,9 @@ export default function fetchIntegrations() {
         // We must try to fetch the same date again.
         next_day = dayjs(integration.last_fetch)
 
-        logger.error(error)
+        if (!error.message.includes('400')) {
+          logger.error(error)
+        }
       }
     }
 
