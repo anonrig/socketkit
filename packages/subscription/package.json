@@ -32,6 +32,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
     "@types/jest": "^26.0.23",
     "dotenv": "^9.0.2",
     "eslint": "^7.26.0",
@@ -52,5 +54,36 @@
       "text",
       "clover"
     ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:prettier/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:security/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "import",
+      "security"
+    ],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "modules": true
+      },
+      "ecmaVersion": 2020
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "semi": false,
+    "tabWidth": 2
   }
 }
