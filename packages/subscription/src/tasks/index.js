@@ -1,6 +1,6 @@
 import { setTimeout } from 'timers/promises'
 
-import appStoreConnectFetcher from './app-store-connect-fetcher.js'
+import appStoreConnectFetcher from './fetch-integrations.js'
 import deleteIntegrations from './delete-integrations.js'
 import recalculateRevenues from './recalculate-revenues.js'
 
