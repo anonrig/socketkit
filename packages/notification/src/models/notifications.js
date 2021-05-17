@@ -8,7 +8,7 @@ import * as Discord from '../providers/discord.js'
 
 const logger = Logger.create().withScope('notifications')
 
-export async function send({ account_id, type, properties }, trx) {
+export async function send({ account_id, provider_id, properties }, trx) {
   logger
     .withTag('send')
     .info(`Sending notification to=${account_id} with provider=${provider_id}`)
