@@ -209,14 +209,20 @@ async function processTransactions(
     await transaction.getExchangeRates()
     await insertTransaction(transaction, { account_id }, trx)
 
+    if (!country_ids.has(transaction.country_id))
+      country_ids.set(transaction.country_id, next_day)
     if (
-      !country_ids.has(transaction.country_id) ||
       dayjs(country_ids.get(transaction.country_id)).isAfter(
         dayjs(transaction.event_date),
       )
-    ) {
+    )
       country_ids.set(transaction.country_id, transaction.event_date)
-    }
+    if (
+      dayjs(country_ids.get(transaction.country_id)).isAfter(
+        dayjs(transaction.purchase_date),
+      )
+    )
+      country_ids.set(transaction.country_id, transaction.purchase_date)
   }
 
   await processDailyTransactions(
@@ -233,7 +239,20 @@ async function processDailyTransactions(
   { account_id, country_ids, next_day },
   trx,
 ) {
-  // TODO: We need to update "refetch_needed" column of older revenues.
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .from('revenues')
+    .update('refetch_needed', true)
+    .where('account_id', account_id)
+    .andWhere(function () {
+      country_ids.forEach((first_date, country_id) => {
+        this.orWhere(function () {
+          this.where('country_id', country_id)
+          this.andWhere('for_date', '>=', first_date)
+        })
+      })
+    })
 
   await pg
     .queryBuilder()
