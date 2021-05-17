@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
+import dayjsDuration from 'dayjs/plugin/duration.js'
 import _ from 'lodash'
 import * as CurrencyExchange from './currency-exchange.js'
 import { parseDuration } from '../helpers.js'
+
+dayjs.extend(dayjsDuration)
 
 export default class Transaction {
   subscriber_exchange = null
