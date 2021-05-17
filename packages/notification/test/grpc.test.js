@@ -18,6 +18,22 @@ afterAll(async (done) => {
   done()
 })
 
+describe('Notifications', () => {
+  describe('Slack', () => {
+    test('should validate input', (done) => {
+      notification.send(
+        { account_id: v4(), provider_id: 'slack' },
+        (error, response) => {
+          expect(error).toBeTruthy()
+          expect(error.message).toContain('Integration not found')
+          expect(response).toBeFalsy()
+          done()
+        },
+      )
+    })
+  })
+})
+
 describe('Integrations', () => {
   describe('findAll', () => {
     test('should return valid response', (done) => {
@@ -39,10 +55,11 @@ describe('Integrations', () => {
     })
 
     test('should validate account_id', (done) => {
-      integration.findAll({ account_id: 'ahmet' }, (error) => {
+      integration.findAll({ account_id: 'ahmet' }, (error, response) => {
         expect(error).toBeTruthy()
         expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
         expect(error.message).toContain('Account id is invalid')
+        expect(response).toBeFalsy()
         done()
       })
     })
@@ -54,6 +71,7 @@ describe('Integrations', () => {
         expect(error).toBeTruthy()
         expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
         expect(error.message).toContain('Account id is invalid')
+        expect(response).toBeFalsy()
         done()
       })
     })
@@ -65,6 +83,7 @@ describe('Integrations', () => {
         expect(error).toBeTruthy()
         expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
         expect(error.message).toContain('Account id is invalid')
+        expect(response).toBeFalsy()
         done()
       })
     })
