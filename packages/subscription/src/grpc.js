@@ -39,24 +39,28 @@ app.addService(
 app.addService(health, 'Health', options)
 
 app.use(async (context, next) => {
-  let tracer = null
+  const isHealthRequest = context.fullName.includes('grpc.health')
 
-  if (!context.fullName.includes('health')) {
-    tracer = Sentry.startTransaction({
-      name: context.fullName,
-      op: 'GET',
-      trimEnd: true,
-    })
-
-    Sentry.setUser({
-      ...context.request.metadata,
-      account_id: context.request.req.account_id,
-    })
+  if (isHealthRequest) {
+    return next()
   }
+
+  const tracer = Sentry.startTransaction({
+    name: context.fullName,
+    op: 'GET',
+    trimEnd: true,
+  })
+
+  Sentry.setUser({
+    ...context.request.metadata,
+    account_id: context.request.req.account_id,
+  })
+
   performance.mark(context.fullName)
+
   return next()
     .then(() => {
-      tracer?.finish()
+      tracer.finish()
       performance.mark(context.fullName + '-ended')
       performance.measure(
         context.fullName,
@@ -67,7 +71,7 @@ app.use(async (context, next) => {
     .catch((error) => {
       Sentry.captureException(error)
       logger.fatal(error)
-      tracer?.finish()
+      tracer.finish()
       performance.mark(context.fullName + '-ended')
       performance.measure(
         context.fullName,
