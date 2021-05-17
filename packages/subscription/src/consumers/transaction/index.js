@@ -2,14 +2,8 @@ import getByPagination from './get-by-pagination.js'
 import * as TransactionStatistics from '../../models/transaction-statistics.js'
 
 export const findAll = async (ctx) => {
-  const {
-    account_id,
-    application_id,
-    start_date,
-    end_date,
-    limit,
-    cursor,
-  } = ctx.req
+  const { account_id, application_id, start_date, end_date, limit, cursor } =
+    ctx.req
   ctx.res = await getByPagination(
     { account_id, application_id, start_date, end_date },
     { limit, cursor },

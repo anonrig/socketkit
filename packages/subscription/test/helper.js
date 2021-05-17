@@ -12,15 +12,10 @@ const defaults = {
   oneofs: true,
 }
 
-const {
-  Subscribers,
-  Subscriptions,
-  Transactions,
-  Integrations,
-  Reports,
-} = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
-)
+const { Subscribers, Subscriptions, Transactions, Integrations, Reports } =
+  grpc.loadPackageDefinition(
+    loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
+  )
 
 export default {
   subscribers: new Subscribers(url, grpc.credentials.createInsecure()),
