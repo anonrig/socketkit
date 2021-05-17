@@ -1,1 +1,9 @@
-{ "chromeWebSecurity": false, "ignoreErrors": ["ResizeObserver loop limit exceeded"] }
+{
+  "chromeWebSecurity": false,
+  "baseUrl": "https://web.socketkit.com",
+  "env": {
+    "codeCoverage": {
+      "url": "/api/__coverage__"
+    }
+  }
+}
