@@ -16,7 +16,7 @@ function Form({ actions, kratos, preAction }) {
   )
 
   const providers = () => (
-    <>
+    <form action={kratos.ui.action} method={kratos.ui.method} id="oidc">
       <p className="text-sm font-medium text-gray-700">Sign in with</p>
 
       <div className="mt-1 grid grid-cols-3 gap-3">
@@ -42,49 +42,51 @@ function Form({ actions, kratos, preAction }) {
           <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
         </div>
       </div>
-    </>
+    </form>
   )
 
   return (
-    <form action={kratos.ui.action} method={kratos.ui.method}>
+    <>
       {oidcProviders.length > 0 && providers()}
 
-      {nodes
-        .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
-        .sort((a, b) => a.order - b.order)
-        .map((field) => (
-          <FormField
-            key={field.attributes.name}
-            {...field.attributes}
-            messages={field.messages}
-            className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
-          />
+      <form action={kratos.ui.action} method={kratos.ui.method} id="default">
+        {nodes
+          .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
+          .sort((a, b) => a.order - b.order)
+          .map((field) => (
+            <FormField
+              key={field.attributes.name}
+              {...field.attributes}
+              messages={field.messages}
+              className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
+            />
+          ))}
+        {preAction}
+
+        <Button
+          className="w-full"
+          type={submitButton?.attributes.type}
+          name={submitButton?.attributes.name}
+          value={submitButton?.attributes.value}
+          disabled={submitButton?.attributes.disabled}>
+          {actions.primary}
+        </Button>
+
+        {actions.secondary && (
+          <Link href={actions.secondary.href}>
+            <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
+              {actions.secondary.label}
+            </a>
+          </Link>
+        )}
+
+        {kratos?.ui.messages?.map((message) => (
+          <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
+            {message.text}
+          </p>
         ))}
-      {preAction}
-
-      <Button
-        className="w-full"
-        type={submitButton?.attributes.type}
-        name={submitButton?.attributes.name}
-        value={submitButton?.attributes.value}
-        disabled={submitButton?.attributes.disabled}>
-        {actions.primary}
-      </Button>
-
-      {actions.secondary && (
-        <Link href={actions.secondary.href}>
-          <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
-            {actions.secondary.label}
-          </a>
-        </Link>
-      )}
-
-      {kratos?.ui.messages?.map((message) => (
-        <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
-          {message.text}
-        </p>
-      ))}
-    </form>
+      </form>
+    </>
   )
 }
 
