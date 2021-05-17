@@ -12,8 +12,9 @@ function Form({ actions, kratos, preAction }) {
     kratos?.ui.nodes.filter((m) => m.group !== 'oidc' && m.attributes.type !== 'submit') ?? []
   const oidcProviders = kratos?.ui.nodes.filter((m) => m.group === 'oidc') ?? []
   const submitButton = kratos?.ui.nodes.find(
-    (m) => m.attributes.type === 'submit' && m.group === 'password',
+    (m) => m.attributes.type === 'submit' && m.group !== 'oidc',
   )
+
   const providers = () => (
     <>
       <p className="text-sm font-medium text-gray-700">Sign in with</p>
@@ -62,7 +63,7 @@ function Form({ actions, kratos, preAction }) {
 
       <Button
         className="w-full"
-        type={submitButton.attributes.type}
+        type={submitButton?.attributes.type}
         name={submitButton?.attributes.name}
         value={submitButton?.attributes.value}
         disabled={submitButton?.attributes.disabled}>

@@ -28,10 +28,7 @@ export async function getServerSideProps(ctx) {
 
     return {
       props: {
-        data: {
-          reason: data.errors[0].reason,
-          status: data.errors[0].status,
-        },
+        data,
       },
     }
   } catch (error) {
@@ -40,14 +37,14 @@ export async function getServerSideProps(ctx) {
 }
 
 function Failed({ data }) {
+  console.error(data.errors[0]?.message)
   return (
     <div className="mb-48">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-        {data.status} (v{pkg.version})
+        Uncaught error (v{pkg.version})
       </h2>
       <p className="text-xl text-warmGray-500 mb-4">
         We&apos;re working really hard to fix this issue. <br></br>
-        {data.reason}
       </p>
       <a
         href={endpoints.login}
@@ -62,8 +59,14 @@ function Failed({ data }) {
 
 Failed.propTypes = {
   data: PropTypes.shape({
-    status: PropTypes.number.isRequired,
-    reason: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.number.isRequired,
+        status: PropTypes.string.isRequired,
+        message: PropTypes.string.isRequired,
+      }),
+    ),
   }),
 }
 
