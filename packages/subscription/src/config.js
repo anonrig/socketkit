@@ -9,6 +9,5 @@ export default {
       database: 'subscription',
       user: 'subscription-worker',
     },
-    pool: { min: 2, max: 10 },
   },
 }
