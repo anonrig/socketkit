@@ -47,6 +47,11 @@ export async function findVersion(ctx) {
 }
 
 export async function create(ctx) {
+  if (ctx.req.rows.length === 0) {
+    ctx.res = {}
+    return
+  }
+
   ctx.res = await pg.transaction(async (trx) => {
     const existing_application_ids = await Applications.exist(
       ctx.req.rows.map((a) => a.application_id),
