@@ -56,6 +56,7 @@ function Form({ actions, kratos, preAction }) {
           <FormField
             key={field.attributes.name}
             {...field.attributes}
+            messages={field.messages}
             className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
           />
         ))}
