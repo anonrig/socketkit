@@ -9,8 +9,7 @@
     "dev": "nodemon -r dotenv/config",
     "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
     "lint": "eslint ./src/**/*.js",
-    "lint:fix": "eslint --fix ./src/**/*.js",
-    "producer": "node -r dotenv/config ./src/helpers/producer.js"
+    "lint:fix": "eslint --fix ./src/**/*.js"
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
