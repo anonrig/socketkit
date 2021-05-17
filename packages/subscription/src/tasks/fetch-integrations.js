@@ -188,7 +188,7 @@ async function processTransactions(
 
   await pg
     .insert(
-      transactions.map((t) => ({
+      _.uniqBy(transactions, 'subscriptionAppleId').map((t) => ({
         account_id: account_id,
         application_id: t.appAppleId,
         subscription_group_id: t.subscriptionGroupId,
