@@ -11,15 +11,11 @@ const defaults = {
   defaults: true,
   oneofs: true,
 }
-const { Notifications, Integrations } = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles/notification.proto'), defaults),
+const { Payments, Integrations } = grpc.loadPackageDefinition(
+  loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
 )
 
-// @ts-ignore
-export const notification = new Notifications(
-  url,
-  grpc.credentials.createInsecure(),
-)
+export const payment = new Payments(url, grpc.credentials.createInsecure())
 
 export const integration = new Integrations(
   url,

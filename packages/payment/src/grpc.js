@@ -17,14 +17,17 @@ const options = {
 }
 const file = path.join(path.resolve(''), 'protofiles/payment.proto')
 const health = path.join(path.resolve(''), 'protofiles/health.proto')
-const performanceObserver = new PerformanceObserver((list) => {
-  list.getEntries().forEach((entry) => {
-    logger
-      .withTag('performance')
-      .info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
+
+if (process.env.NODE_ENV !== 'test') {
+  const performanceObserver = new PerformanceObserver((list) => {
+    list.getEntries().forEach((entry) => {
+      logger
+        .withTag('performance')
+        .info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
+    })
   })
-})
-performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
+  performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
+}
 
 const app = new Mali()
 

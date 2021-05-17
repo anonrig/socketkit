@@ -1,6 +1,4 @@
-import { v4 } from 'uuid'
-
-import { notification, integration } from './client.js'
+import { integration } from './client.js'
 import config from '../src/config.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
@@ -17,17 +15,38 @@ afterAll(async (done) => {
 })
 
 describe('Integrations', () => {
-  describe('findAll', () => {
-    test('should return valid response', (done) => {
-      integration.findAll(
+  describe('findOrCreate', () => {
+    test('should validate account_id', (done) => {
+      integration.findOrCreate(
         {
-          account_id: v4(),
+          account_id: 'ahmet',
         },
         (error, response) => {
           try {
-            expect(error).toBeNull()
-            expect(response.rows).toBeInstanceOf(Array)
-            expect(response.rows.length).toBeGreaterThanOrEqual(0)
+            expect(error).toBeTruthy()
+            expect(error.message).toContain('Invalid account id')
+            expect(response).toBeFalsy()
+            done()
+          } catch (error) {
+            done(error)
+          }
+        },
+      )
+    })
+  })
+
+  describe('updateUsage', () => {
+    test('should validate account_id', (done) => {
+      integration.updateUsage(
+        {
+          account_id: 'ahmet',
+          usage: 0,
+        },
+        (error, response) => {
+          try {
+            expect(error).toBeTruthy()
+            expect(error.message).toContain('Invalid account id')
+            expect(response).toBeFalsy()
             done()
           } catch (error) {
             done(error)
