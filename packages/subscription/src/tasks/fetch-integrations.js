@@ -99,17 +99,18 @@ export default function fetchIntegrations() {
         ['asc', 'desc'],
       )
 
-      const applications = transactions.reduce((i, t) => {
-        i[t.appAppleId] = {
-          application_id: t.appAppleId,
-          default_country_id: 'us',
-          default_language_id: 'EN',
-        }
-
-        return i
-      }, {})
+      const application_ids = _.uniqBy(transactions, 'appAppleId').map((t) => ({
+        application_id: t.appAppleId,
+        default_country_id: 'us',
+        default_language_id: 'EN',
+      }))
 
       performance.mark(`${traceId}-processing`)
+
+      const createApplicationTask =
+        application_ids.length > 0
+          ? subscriber.store.applications.create(application_ids)
+          : Promise.resolve()
       await Promise.all([
         processTransactions(
           {
@@ -119,7 +120,7 @@ export default function fetchIntegrations() {
           },
           trx,
         ),
-        subscriber.store.applications.create(Object.values(applications)),
+        createApplicationTask,
       ])
       performance.mark(`${traceId}-processing-ended`)
       performance.measure(
