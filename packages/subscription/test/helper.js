@@ -1,4 +1,3 @@
-// @ts-nocheck
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
 import path from 'path'
