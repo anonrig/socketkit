@@ -5,16 +5,16 @@ CREATE TABLE revenues (
   for_date date NOT NULL,
   country_id text NOT NULL,
 
-  weekly_recurring numeric NOT NULL DEFAULT '0.00',
-  monthly_recurring numeric NOT NULL DEFAULT '0.00',
-  yearly_recurring numeric NOT NULL DEFAULT '0.00',
+  weekly_recurring money_value NOT NULL DEFAULT 0.0,
+  monthly_recurring money_value NOT NULL DEFAULT 0.0,
+  yearly_recurring money_value NOT NULL DEFAULT 0.0,
 
-  total_revenue numeric NOT NULL DEFAULT '0.00',
+  total_revenue money_value NOT NULL DEFAULT 0.0,
 
-  mrr_gained numeric NOT NULL DEFAULT '0.00', -- Additional MRR from new customers
-  mrr_expansion numeric NOT NULL DEFAULT '0.00', -- Additional MRR from existing customers upgrades
-  mrr_churn numeric NOT NULL DEFAULT '0.00', -- MRR lost from cancellations
-  mrr_contraction numeric NOT NULL DEFAULT '0.00', -- MRR lost from existing customers downgrades
+  mrr_gained money_value NOT NULL DEFAULT 0.0, -- Additional MRR from new customers
+  mrr_expansion money_value NOT NULL DEFAULT 0.0, -- Additional MRR from existing customers upgrades
+  mrr_churn money_value NOT NULL DEFAULT 0.0, -- MRR lost from cancellations
+  mrr_contraction money_value NOT NULL DEFAULT 0.0, -- MRR lost from existing customers downgrades
 
   refetch_needed bool NOT NULL DEFAULT false,
 
