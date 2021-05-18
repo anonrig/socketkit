@@ -5,6 +5,7 @@ import { fetcher } from 'helpers/fetcher.js'
 
 function ApplicationPicker({ value = null, onChange }) {
   const promiseOptions = async (text) => {
+    if (text.length === 0) return []
     const response = await fetcher(`search/applications`, {
       qs: { text },
     })
