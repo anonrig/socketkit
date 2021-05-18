@@ -19,7 +19,7 @@ export async function runTasks() {
   ]
 
   for (const task of tasks) {
-    logger.info(`Executing task "${task.name}"`)
+    logger.info(`Checking whether anything to do in task "${task.name}"...`)
     try {
       while (await task());
     } catch (error) {
@@ -27,7 +27,7 @@ export async function runTasks() {
     }
   }
 
-  logger.info('Sleeping because all tasks are done')
+  logger.info('All done.  Sleeping for a minute...')
   await setTimeout(60000)
   await runTasks()
 }
