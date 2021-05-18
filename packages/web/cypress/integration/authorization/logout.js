@@ -14,7 +14,6 @@ context('Login > Logout', () => {
     cy.url()
     cy.get('.space-between > .font-extrabold').should('contain', 'Test!')
     cy.get('nav button.rounded-full').click()
-    cy.wait(500)
     cy.get(`div[role='menu'] > :nth-child(2) a`).click()
     cy.url().should('contain', 'signin')
   })
