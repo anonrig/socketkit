@@ -33,15 +33,19 @@ function ReviewsIntegration({ initialData }) {
   const [applications, setApplications] = useState(initialData.concat(null))
 
   async function onSubmit() {
+    const filled = applications.filter((a) => a?.country_ids?.length > 0)
+
+    if (filled.length === 0) {
+      return toast.error(`You didn't track any applications or countries`)
+    }
+
     setLoading(true)
 
     try {
       await fetcher(`integrations/reviews`, {
         method: 'PUT',
         body: JSON.stringify({
-          requirement_payload: applications
-            .filter((a) => !!a)
-            .map((a) => ({ ...a, country_ids: a.country_ids.map((c) => c.value) })),
+          requirement_payload: filled,
         }),
       })
       setLoading(false)
@@ -75,8 +79,7 @@ function ReviewsIntegration({ initialData }) {
 
   const updateCountry = (index, countries) => {
     let manipulated = applications.slice(0)
-    manipulated[index].country_ids = countries
-    console.log('countries', countries)
+    manipulated[index].country_ids = countries.map((c) => c.value)
     setApplications(manipulated)
   }
 
