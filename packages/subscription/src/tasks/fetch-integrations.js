@@ -266,4 +266,32 @@ async function processDailyTransactions(
         refetch_needed: true,
       })),
     )
+
+  await pg
+    .queryBuilder()
+    .transacting(trx)
+    .from(pg.raw('revenues (account_id, for_date, country_id, refetch_needed)'))
+    .insert(function () {
+      this.from('revenues AS a')
+        .where('account_id', account_id)
+        .andWhere('for_date', next_day.subtract(1, 'day').format('YYYY-MM-DD'))
+        .andWhere(
+          pg.raw(
+            'NOT EXISTS (' +
+              'SELECT 1 ' +
+              'FROM revenues b ' +
+              'WHERE a.account_id = b.account_id AND ' +
+              'a.country_id = b.country_id AND ' +
+              'b.for_date = ?' +
+              ')',
+            [next_day.format('YYYY-MM-DD')],
+          ),
+        )
+        .select([
+          pg.raw('account_id'),
+          pg.raw('?', next_day.format('YYYY-MM-DD')),
+          pg.raw('country_id'),
+          pg.raw('true'),
+        ])
+    })
 }
