@@ -28,13 +28,30 @@ CREATE INDEX ON revenues (for_date) WHERE refetch_needed;
 
 GRANT SELECT, INSERT, UPDATE ON revenues TO "subscription-worker";
 
-CREATE FUNCTION update_revenues (_account_id uuid, _for_date date, _country_id text)
+CREATE OR REPLACE FUNCTION update_revenues (
+  _account_id uuid,
+  _for_date date,
+  _country_id text
+)
   RETURNS void
   STRICT LANGUAGE sql
   AS $$
-    UPDATE revenues
-    SET refetch_needed = false
-    WHERE account_id = _account_id AND
-      for_date = _for_date AND
-      country_id = _country_id;
+    WITH t AS (
+      SELECT sum(t.base_developer_proceeds) AS total_revenue
+      FROM subscribers s
+        JOIN transactions t USING (account_id, subscriber_id)
+      WHERE
+        s.account_id = _account_id AND
+        t.event_date = _for_date AND
+        s.country_id = _country_id
+    )
+    UPDATE revenues r
+    SET
+      total_revenue = COALESCE(t.total_revenue, 0.0),
+      refetch_needed = false
+    FROM t
+    WHERE
+      r.account_id = _account_id AND
+      r.for_date = _for_date AND
+      r.country_id = _country_id;
   $$;
