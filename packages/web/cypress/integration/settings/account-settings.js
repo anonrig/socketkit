@@ -5,10 +5,7 @@ const user = require('../../fixtures/valid_user.json')
 
 context('Settings > Account Settings', () => {
   before(() => {
-    cy.visit('https://web.socketkit.com')
-    cy.get(`input[name='password_identifier']`).type(user.email).should('have.value', user.email)
-    cy.get(`input[name='password']`).type(user.password).should('have.value', user.password)
-    cy.get(`button[value='password']`).click()
+    cy.login(user)
   })
 
   beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
