@@ -63,7 +63,7 @@ export default function fetchApplications(
           .update({
             last_error_message: error.message,
             failed_fetches: app.failed_fetches + 1,
-            isActive: false,
+            is_active: false,
           })
           .where({ application_id: app.application_id })
           .from('applications')
