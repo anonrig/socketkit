@@ -261,7 +261,7 @@ async function processDailyTransactions(
     .insert(
       Array.from(country_ids, ([country_id, first_day]) => ({
         account_id,
-        for_date: next_day,
+        for_date: next_day.format('YYYY-MM-DD'),
         country_id,
         refetch_needed: true,
       })),
