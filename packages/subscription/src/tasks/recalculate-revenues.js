@@ -1,10 +1,17 @@
 import pg from '../pg.js'
+import Logger from '../logger.js'
+
+const logger = Logger.create().withScope('app-store-connect-fetcher')
 
 export default async function recalculateRevenues() {
   return pg.transaction(async (trx) => {
     const row = await pg
       .queryBuilder()
-      .select(['account_id', 'for_date', 'country_id'])
+      .select([
+        'account_id',
+        pg.raw('for_date::text AS for_date'),
+        'country_id',
+      ])
       .from('revenues')
       .where({ refetch_needed: true })
       .limit(1)
@@ -16,6 +23,10 @@ export default async function recalculateRevenues() {
     if (!row) {
       return false
     }
+
+    logger.info(
+      `Processing ${row.account_id} for ${row.for_date} and ${row.country_id}`,
+    )
 
     await pg
       .queryBuilder()
