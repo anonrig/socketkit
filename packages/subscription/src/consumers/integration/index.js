@@ -85,3 +85,8 @@ export const destroy = async (ctx) => {
   await Integrations.destroy({ account_id, provider_id })
   ctx.res = { state: true }
 }
+
+export const getTotalRevenue = async (ctx) => {
+  const { account_id, for_date } = ctx.req
+  ctx.res = await Integrations.getTotalRevenue({ account_id, for_date })
+}

@@ -25,6 +25,7 @@ service Integrations {
   rpc findOne (AccountIdProviderRequest) returns (IntegrationResponse) {}
   rpc destroy (AccountIdProviderRequest) returns (ActionStateResponse) {}
   rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
+  rpc getTotalRevenue (AccountTotalRevenueRequest) returns (TotalRevenueResponse) {}
 }
 
 service Reports {
@@ -252,6 +253,11 @@ message TransactionSums {
 
 // Integrations
 
+message AccountTotalRevenueRequest {
+  string account_id = 1;
+  string for_date = 2;
+}
+
 message AccountCreateRequest {
   string account_id = 1;
   string access_token = 2;
@@ -290,6 +296,10 @@ message Integration {
   }
   string state = 7;
   int32 failed_fetches = 8;
+}
+
+message TotalRevenueResponse {
+  int32 total = 1;
 }
 
 // Reports
