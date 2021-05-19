@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 
 import { AuthContext } from 'helpers/is-authorized.js'
-import { fetcher, getUrl } from 'helpers/fetcher.js'
+import { fetcher } from 'helpers/fetcher.js'
 import getGreeting from 'helpers/greeting.js'
 
 import DatePicker from 'components/date-picker.js'
