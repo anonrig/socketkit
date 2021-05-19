@@ -1,4 +1,5 @@
-import { Menu, Transition, Fragment } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 import cx from 'classnames'
 import DatePicker from 'components/date-picker.js'
 import Tabs from 'components/tabs.js'
