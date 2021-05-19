@@ -7,10 +7,12 @@ context('Settings > Users', () => {
     cy.login(user)
   })
 
-  beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('ory_kratos_session')
+    cy.visit('/account/users')
+  })
 
   it('should get all users', () => {
-    cy.visit('/account/users')
     cy.get('table').should('contain', user.email)
   })
 })
