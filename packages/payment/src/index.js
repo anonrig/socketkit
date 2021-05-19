@@ -1,6 +1,7 @@
 import Sentry from '@sentry/node'
 import Tracing from '@sentry/tracing'
 
+import { runTasks } from './tasks/index.js'
 import server from './grpc.js'
 import config from './config.js'
 import Logger from './logger.js'
@@ -31,6 +32,8 @@ const start = async () => {
   server.start(`0.0.0.0:${config.port}`)
   await pg.raw('select 1+1 as result')
   logger.withTag('start').success(`Application booted on port=${config.port}`)
+
+  await runTasks()
 }
 
 start()

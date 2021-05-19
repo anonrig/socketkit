@@ -1,3 +1,5 @@
+import { promisify } from 'util'
+
 // country code regex
 const CC_REGEX = /^[a-z]{2}$/i
 
@@ -58,4 +60,13 @@ export function getRatingEmojis(score) {
   })
 
   return ratings.join('')
+}
+
+export function promisifyAll(subscriber) {
+  const to = {}
+  for (var k in subscriber) {
+    if (typeof subscriber[k] != 'function') continue
+    to[k] = promisify(subscriber[k].bind(subscriber))
+  }
+  return to
 }

@@ -21,7 +21,7 @@ CREATE TABLE integrations (
 
   started_at timestamptz,
   expired_at timestamptz,
-
+  updated_stripe_at timestamptz NOT NULL,
   environment constant_environment NOT NULL DEFAULT 'staging',
 
   PRIMARY KEY (account_id, environment),
