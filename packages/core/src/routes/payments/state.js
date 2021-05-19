@@ -1,5 +1,4 @@
 import { verify } from '../../hooks.js'
-import grpc from '../../grpc.js'
 
 export default {
   method: 'GET',
