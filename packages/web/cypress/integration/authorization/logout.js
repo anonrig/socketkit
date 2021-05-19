@@ -4,7 +4,7 @@ const user = require('../../fixtures/valid_user.json')
 
 context('Login > Logout', () => {
   beforeEach(() => {
-    cy.visit('https://web.socketkit.com')
+    cy.goToRoot()
   })
 
   it('should logout', () => {
@@ -15,6 +15,6 @@ context('Login > Logout', () => {
     cy.get('.space-between > .font-extrabold').should('contain', 'Test!')
     cy.get('nav button.rounded-full').click()
     cy.get(`div[role='menu'] > :nth-child(2) a`).click()
-    cy.url().should('contain', 'signin')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/signin'))
   })
 })

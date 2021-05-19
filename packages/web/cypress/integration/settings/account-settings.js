@@ -8,17 +8,18 @@ context('Settings > Account Settings', () => {
     cy.login(user)
   })
 
-  beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('ory_kratos_session')
+    cy.visit('/account/settings')
+  })
 
   it('should update profile information', () => {
-    cy.visit('https://web.socketkit.com/account/settings')
-
     const name = v4()
 
     cy.get('input[name="traits.email"]').should('have.value', user.email)
     cy.get('input[name="traits.name"]').should('have.value', user.name)
     cy.get('button[value="profile"]').click()
-    cy.url().should('contain', 'account/settings')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/account/settings'))
 
     cy.get('input[name="traits.name"]').clear().type(name).should('have.value', name)
     cy.get('button[value="profile"]').click()
@@ -29,9 +30,8 @@ context('Settings > Account Settings', () => {
   })
 
   it('should update password', () => {
-    cy.visit('https://web.socketkit.com/account/settings')
     cy.get('input[name="password"]').type(user.password).should('have.value', user.password)
     cy.get('button[value="password"]').click()
-    cy.url().should('contain', 'account/settings')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/account/settings'))
   })
 })

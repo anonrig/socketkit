@@ -29,27 +29,23 @@ context('Login > Sign In', () => {
       .should('have.value', invalidUser.password)
 
     cy.get(`button[value='password']`).click()
-
-    cy.url()
-
     cy.get('p.text-red-500').contains('The provided credentials are invalid')
   })
 
   it('should go to signup', () => {
     cy.get(`a.font-semibold.text-orange-500`).click()
-    cy.url().should('contain', 'signup')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/signup'))
   })
 
   it('should go to recover account', () => {
     cy.get(`form > .flex.items-center > a`).click()
-    cy.url().should('contain', 'recover-account')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/recover-account'))
   })
 
   it('should redirect to dashboard after signing in', () => {
     cy.get(`input[name='password_identifier']`).type(user.email)
     cy.get(`input[name='password']`).type(user.password)
     cy.get(`button[value='password']`).click()
-    cy.url()
     cy.get('.space-between > .font-extrabold').should('contain', 'Test!')
   })
 

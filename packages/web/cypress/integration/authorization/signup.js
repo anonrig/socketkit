@@ -30,13 +30,12 @@ context('Login > Sign up', () => {
 
     cy.get(`input[type='password']`).type(v4())
     cy.get(`button[name='method']`).click()
-    cy.url()
 
     cy.get('p.text-red-500').contains('An account with the same identifier')
   })
 
   it('should go back to login', () => {
     cy.get(`form > a`).click()
-    cy.url().should('contain', 'signin')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/signin'))
   })
 })

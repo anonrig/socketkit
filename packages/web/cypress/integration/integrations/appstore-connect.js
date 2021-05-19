@@ -8,23 +8,23 @@ context('Settings > Integrations', () => {
     cy.login(user)
   })
 
-  beforeEach(() => {
-    Cypress.Cookies.preserveOnce('ory_kratos_session')
-    cy.visit('/account/integrations/appstore-connect')
-  })
+  beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
 
   it('should throw error on invalid appstore token', () => {
     const token = v4()
-
+    cy.visit('/account/integrations/appstore-connect')
     cy.get('button[type="submit"]').click()
     cy.get('input[name="access_token"]').focused()
     cy.get('input[name="access_token"]').type(token).should('have.value', token)
     cy.get('button[type="submit"]').click()
     cy.get('.pointer-events-auto').should('contain', 'Token validation failed')
+    cy.get('.space-x-4 :nth-child(1)').click()
+    cy.location('pathname').should('have.value', '/account/integrations')
   })
 
   it('should go back to integrations on cancel', () => {
-    cy.get('button[type="button"]').click()
-    cy.location().should((loc) => expect(loc.pathname).to.eq('/account/integrations'))
+    cy.visit('/account/integrations/appstore-connect')
+    cy.get('.space-x-4 :nth-child(1)').click()
+    cy.location('pathname').should('have.value', '/account/integrations')
   })
 })

@@ -2,7 +2,7 @@
 
 context('Login > Recover', () => {
   beforeEach(() => {
-    cy.visit('https://web.socketkit.com/recover-account')
+    cy.visit('/recover-account')
   })
 
   it('should focus to input on direct click to button', () => {
@@ -20,6 +20,6 @@ context('Login > Recover', () => {
 
   it('should go back to login', () => {
     cy.get(`form > a`).click()
-    cy.url().should('contain', 'signin')
+    cy.location().should((loc) => expect(loc.pathname).to.eq('/signin'))
   })
 })

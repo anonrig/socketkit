@@ -10,7 +10,7 @@ context('Settings > Users', () => {
   beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
 
   it('should get all users', () => {
-    cy.visit('https://web.socketkit.com/account/users')
+    cy.visit('/account/users')
     cy.get('table').should('contain', user.email)
   })
 })
