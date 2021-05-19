@@ -18,6 +18,5 @@ export default {
       database: 'core',
       user: 'core-worker',
     },
-    pool: { min: 0, max: 5 },
   },
 }
