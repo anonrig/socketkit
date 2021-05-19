@@ -74,7 +74,6 @@ export async function findAll({ account_id }) {
 export async function getTotalRevenue({ account_id, for_date }) {
   return pg
     .queryBuilder()
-    .select('*')
     .sum('total_revenue', { as: 'total' })
     .from('revenues')
     .where({ account_id, for_date })
