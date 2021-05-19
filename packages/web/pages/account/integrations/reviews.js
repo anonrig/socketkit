@@ -130,9 +130,11 @@ function ReviewsIntegration({ initialData }) {
 
           <div className="space-x-4">
             <Button
+              id="cancel"
               className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-warmGray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               disabled={loading}
-              onClick={() => router.push('/account/integrations')}>
+              onClick={() => router.push('/account/integrations')}
+              type="button">
               Cancel
             </Button>
 
