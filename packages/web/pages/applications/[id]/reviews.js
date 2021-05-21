@@ -30,7 +30,7 @@ function ApplicationReviews({ initialData, id, versions }) {
     () => [
       {
         id: 'country_id',
-        accessor: (fields) => {
+        accessor: function ApplicationCountryId(fields) {
           const country_id = fields.country_id.toUpperCase()
           return (
             <div className="flex flex-row space-x-2 flex-1">

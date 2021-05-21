@@ -6,9 +6,7 @@ import { fetcher } from 'helpers/fetcher.js'
 const LineChart = dynamic(() => import('components/charts/line.js'))
 
 function SubscribersWidget({ range, initialData }) {
-  const {
-    data,
-  } = useSWR(
+  const { data } = useSWR(
     `reports/subscription/subscribers?start_date=${range.from}&end_date=${range.to}&interval=day`,
     fetcher,
     { initialData },

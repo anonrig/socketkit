@@ -50,9 +50,9 @@ export default function Transactions({ initialData, id }) {
       {
         id: 'subscription_package_name',
         Header: 'Subscription',
-        accessor: (field) => (
-          <div className="text-warmGray-900">{field.subscription_package_name}</div>
-        ),
+        accessor: function SubscriptionPackageName(field) {
+          return <div className="text-warmGray-900">{field.subscription_package_name}</div>
+        },
         className: 'truncate w-56',
       },
       {
@@ -71,11 +71,11 @@ export default function Transactions({ initialData, id }) {
         Header: 'Proceed',
         accessor: (field) => `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`,
         className: '!text-right w-24',
-      },
+      },https://web-dev.socketkit.com/applications/integration-required
       {
         id: 'transaction_type',
         Header: 'Type',
-        accessor: (field) => {
+        accessor: function TransactionType(field) {
           const state =
             field.transaction_type == 'renewal'
               ? 'success'
