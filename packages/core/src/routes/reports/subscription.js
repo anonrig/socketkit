@@ -8,6 +8,9 @@ export default {
     querystring: {
       type: 'object',
       properties: {
+        application_id: {
+          type: 'string',
+        },
         start_date: {
           type: 'string',
           format: 'date',
@@ -54,10 +57,11 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], query, params }) => {
+  handler: async ({ accounts: [{ account_id }], query, params }) => {
     const { rows } = await grpc.reports.get({
       report_id: params.report_id,
-      account_id: account.account_id,
+      account_id,
+      application_id: query.application_id,
       start_date: query.start_date,
       end_date: query.end_date,
       interval: `1 ${query.interval}`,
