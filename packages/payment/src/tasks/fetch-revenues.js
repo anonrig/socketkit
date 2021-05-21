@@ -14,7 +14,7 @@ export default async function fetchRevenues() {
   return pg.transaction(async (trx) => {
     const row = await pg
       .queryBuilder()
-      .select(['account_id'])
+      .select(['account_id', 'stripe_id', 'updated_stripe_at'])
       .from('integrations')
       .where({ environment, state: 'active' })
       .whereNotNull('stripe_id')
