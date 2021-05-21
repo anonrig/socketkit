@@ -50,8 +50,8 @@ export async function getSalesRefunds({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: 'l.sale_sum',
-      y1: 'l.refund_sum',
+      y0: pg.raw('COALESCE(l.sale_sum, 0)'),
+      y1: pg.raw('COALESCE(l.refund_sum, 0)'),
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
