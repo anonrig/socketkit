@@ -7,16 +7,17 @@ context('Integrations > Reviews', () => {
     cy.login(user)
   })
 
-  beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('ory_kratos_session')
+    cy.visit('/account/integrations/reviews')
+  })
 
   it('should redirect to integrations on submit', () => {
-    cy.visit('/account/integrations/reviews')
     cy.get('button.bg-orange-500[type="button"]:nth-child(1)').click()
     cy.location().should((loc) => expect(loc.pathname).to.eq('/account/integrations'))
   })
 
   it('should go back to integrations on cancel', () => {
-    cy.visit('/account/integrations/reviews')
     cy.get('#cancel').click()
     cy.location().should((loc) => expect(loc.pathname).to.eq('/account/integrations'))
   })

@@ -8,11 +8,13 @@ context('Integrations > AppStore', () => {
     cy.login(user)
   })
 
-  beforeEach(() => Cypress.Cookies.preserveOnce('ory_kratos_session'))
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('ory_kratos_session')
+    cy.visit('/account/integrations/appstore-connect')
+  })
 
   it('should throw error on invalid appstore token', () => {
     const token = v4()
-    cy.visit('/account/integrations/appstore-connect')
     cy.get('button[type="submit"]').click()
     cy.get('input[name="access_token"]').focused()
     cy.get('input[name="access_token"]').type(token).should('have.value', token)
