@@ -3,12 +3,8 @@ import stripe from '../stripe.js'
 import pg from '../pg.js'
 
 export async function updateSubscription({ subscription, customer }) {
-  const {
-    status,
-    cancel_at,
-    current_period_start,
-    current_period_end,
-  } = await stripe.subscriptions.retrieve(subscription)
+  const { status, cancel_at, current_period_start, current_period_end } =
+    await stripe.subscriptions.retrieve(subscription)
 
   await pg
     .queryBuilder()
