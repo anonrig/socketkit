@@ -22,35 +22,10 @@ describe('Integrations', () => {
           account_id: 'ahmet',
         },
         (error, response) => {
-          try {
-            expect(error).toBeTruthy()
-            expect(error.message).toContain('Invalid account id')
-            expect(response).toBeFalsy()
-            done()
-          } catch (error) {
-            done(error)
-          }
-        },
-      )
-    })
-  })
-
-  describe('updateUsage', () => {
-    test('should validate account_id', (done) => {
-      integration.updateUsage(
-        {
-          account_id: 'ahmet',
-          usage: 0,
-        },
-        (error, response) => {
-          try {
-            expect(error).toBeTruthy()
-            expect(error.message).toContain('Invalid account id')
-            expect(response).toBeFalsy()
-            done()
-          } catch (error) {
-            done(error)
-          }
+          expect(error).toBeTruthy()
+          expect(error.message).toContain('Invalid account id')
+          expect(response).toBeFalsy()
+          done()
         },
       )
     })
