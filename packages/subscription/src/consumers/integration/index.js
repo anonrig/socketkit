@@ -80,6 +80,12 @@ export const upsert = async (ctx) => {
   ctx.res = { state: true }
 }
 
+export const update = async (ctx) => {
+  const { account_id, provider_id, state } = ctx.req
+  await Integrations.update({ account_id, provider_id, state })
+  ctx.res = { state: true }
+}
+
 export const destroy = async (ctx) => {
   const { account_id, provider_id } = ctx.req
   await Integrations.destroy({ account_id, provider_id })

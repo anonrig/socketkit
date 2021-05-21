@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import grpc from '@grpc/grpc-js'
 import pg from '../pg.js'
 
 export async function create({
@@ -22,10 +23,26 @@ export async function create({
     .ignore()
 }
 
-export async function update({ account_id, provider_id, access_token }) {
+export async function update({
+  account_id,
+  provider_id,
+  access_token = null,
+  state = null,
+}) {
+  const attributes = new Map()
+
+  if (access_token) attributes.set('access_token', access_token)
+  if (state) attributes.set('state', state)
+
+  if (attributes.size === 0) {
+    const error = new Error(`No value to update in integration`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
-    .update({ access_token })
+    .update(Object.fromEntries(attributes))
     .where({ account_id, provider_id })
     .from('integrations')
     .onConflict(['account_id'])
