@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
 
@@ -14,10 +15,19 @@ export default {
             properties: {
               total: { type: 'number' },
               total_trial: { type: 'number' },
+              at_start: { type: 'number' },
+              at_start_trial: { type: 'number' },
               current: { type: 'number' },
               current_trial: { type: 'number' },
             },
-            required: ['total', 'total_trial', 'current', 'current_trial'],
+            required: [
+              'total',
+              'total_trial',
+              'at_start',
+              'at_start_trial',
+              'current',
+              'current_trial',
+            ],
           },
           transaction_sums: {
             type: 'object',
@@ -36,16 +46,36 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { application_id } }) => {
+  handler: async ({
+    accounts: [{ account_id }],
+    params: { application_id },
+  }) => {
+    const {
+      rows: [integration],
+    } = await grpc.integrations.findAll({
+      account_id,
+      provider_id: 'apple',
+    })
+
+    const subscriptions = { account_id, application_id }
+    const transactions = {
+      account_id,
+      application_id,
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
+      end_date: dayjs().format('YYYY-MM-DD'),
+    }
+
+    if (integration?.last_fetch) {
+      subscriptions.start_date = integration.last_fetch
+      transactions.start_date = dayjs(integration.last_fetch)
+        .subtract('1', 'month')
+        .format('YYYY-MM-DD')
+      transactions.end_date = integration.last_fetch
+    }
+
     const [subscription_counts, transaction_sums] = await Promise.all([
-      grpc.subscriptions.count({
-        account_id: account.account_id,
-        application_id,
-      }),
-      grpc.transactions.sum({
-        account_id: account.account_id,
-        application_id,
-      }),
+      grpc.subscriptions.count(subscriptions),
+      grpc.transactions.sum(transactions),
     ])
 
     return { subscription_counts, transaction_sums }
