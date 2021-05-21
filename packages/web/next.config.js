@@ -11,7 +11,7 @@ module.exports = {
     return [
       {
         source: '/reports',
-        destination: '/reports/mrr',
+        destination: '/reports/revenue',
         permanent: false,
       },
     ]

@@ -1,11 +1,26 @@
 const report_groups = [
   {
-    name: 'Recurring Revenue',
+    name: 'Revenue',
     reports: [
+      {
+        slug: 'revenue',
+        title: 'Revenue',
+        short_title: 'Revenue',
+        description: 'Daily revenues include your normalized total sales including your refunds.',
+        formats: {
+          y0: '$%',
+        },
+        defaults: {
+          interval: 'day',
+          range: 2,
+          graph: 'bar',
+          y_format: '>-.2f',
+        },
+      },
       {
         slug: 'mrr',
         title: 'Recurring Revenue',
-        short_title: 'Revenue',
+        short_title: 'Recurring Revenue',
         description: 'Recurring revenue is a calculation of your normalised (amortized) revenue.',
         formats: {
           y0: '$%',
