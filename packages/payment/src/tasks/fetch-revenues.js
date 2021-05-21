@@ -23,8 +23,8 @@ export default async function fetchRevenues() {
         this.where(
           'updated_stripe_at',
           '<',
-          dayjs().format('YYYY-MM-DD'),
-        ).orWhere('updated_stripe_at', null)
+          dayjs().subtract(1, 'days').format('YYYY-MM-DD'),
+        )
       })
       .orderBy('updated_stripe_at', 'desc')
       .limit(1)

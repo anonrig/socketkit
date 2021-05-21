@@ -33,12 +33,14 @@ CREATE TABLE integrations (
         stripe_id IS NULL AND
         subscription_id IS NULL AND
         started_at IS NULL AND
-        expired_at IS NULL
+        expired_at IS NULL AND
+        updated_stripe_at IS NULL
       ELSE
         stripe_id IS NOT NULL AND
         subscription_id IS NOT NULL AND
         started_at IS NOT NULL AND
-        expired_at IS NOT NULL
+        expired_at IS NOT NULL AND
+        updated_stripe_at IS NOT NULL
     END
   )
 );
