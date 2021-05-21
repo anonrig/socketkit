@@ -51,7 +51,7 @@ export async function getSalesRefunds({
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
       y0: pg.raw('COALESCE(l.sale_sum, 0)'),
-      y1: pg.raw('COALESCE(l.refund_sum, 0)'),
+      y1: pg.raw('COALESCE(l.refund_sum * -1, 0)'),
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [

@@ -20,7 +20,7 @@ export function sum({
             ),
             pg.raw(
               'COALESCE(round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund'), 2), 0)` +
+                ` FILTER (WHERE event_date >= ? AND transaction_type = 'refund'), 2) * -1, 0)` +
                 ' AS current_refund_base_developer_proceeds',
               [change_date],
             ),
@@ -32,7 +32,7 @@ export function sum({
             ),
             pg.raw(
               'COALESCE(round(sum(base_developer_proceeds)' +
-                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund'), 2), 0)` +
+                ` FILTER (WHERE event_date < ? AND transaction_type = 'refund'), 2) * -1, 0)` +
                 ' AS changed_refund_base_developer_proceeds',
               [change_date],
             ),
