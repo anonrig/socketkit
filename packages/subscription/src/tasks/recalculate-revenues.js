@@ -14,6 +14,7 @@ export default async function recalculateRevenues() {
       ])
       .from('revenues')
       .where({ refetch_needed: true })
+      .orderBy('for_date')
       .limit(1)
       .forUpdate()
       .skipLocked()
