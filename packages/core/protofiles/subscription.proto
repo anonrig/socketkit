@@ -21,10 +21,12 @@ service Transactions {
 
 service Integrations {
   rpc upsert(AccountCreateRequest) returns (ActionStateResponse) {}
+  rpc update(IntegrationUpdateRequest) returns (ActionStateResponse) {}
   rpc findAll (AccountIdRequest) returns (IntegrationsResponse) {}
   rpc findOne (AccountIdProviderRequest) returns (IntegrationResponse) {}
   rpc destroy (AccountIdProviderRequest) returns (ActionStateResponse) {}
   rpc validate (AccessTokenRequest) returns (ActionStateResponse) {}
+  rpc getTotalRevenue (AccountTotalRevenueRequest) returns (TotalRevenueResponse) {}
 }
 
 service Reports {
@@ -42,15 +44,9 @@ message SubscriberIdRequest {
 
 message AccountIdRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
-  oneof optional_start_date {
-    string start_date = 3;
-  }
-  oneof optional_end_date {
-    string end_date = 4;
-  }
+  optional string application_id = 2;
+  optional string start_date = 3;
+  optional string end_date = 4;
 }
 
 message FilterRequest {
@@ -59,31 +55,18 @@ message FilterRequest {
 }
 
 message DateFilter {
-  oneof optional_start_date {
-    string start_date = 1;
-  }
-
-  oneof optional_end_date {
-    string end_date = 2;
-  }
+  optional string start_date = 1;
+  optional string end_date = 2;
 }
 
 // Subscribers
 
 message SubscriberPaginationRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
-  oneof optional_start_date {
-    string start_date = 3;
-  }
-  oneof optional_end_date {
-    string end_date = 4;
-  }
-  oneof optional_limit {
-    int32 limit = 5;
-  }
+  optional string application_id = 2;
+  optional string start_date = 3;
+  optional string end_date = 4;
+  optional int32 limit = 5;
   optional SubscriberCursor cursor = 6;
 }
 
@@ -120,15 +103,9 @@ message SubscriptionsResponse {
 
 message SubscriptionsRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
-  oneof optional_start_date {
-    string start_date = 3;
-  }
-  oneof optional_end_date {
-    string end_date = 4;
-  }
+  optional string application_id = 2;
+  optional string start_date = 3;
+  optional string end_date = 4;
 }
 
 message Subscription {
@@ -186,18 +163,10 @@ message SubscriptionCounts {
 
 message TransactionPaginationRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
-  oneof optional_start_date {
-    string start_date = 3;
-  }
-  oneof optional_end_date {
-    string end_date = 4;
-  }
-  oneof optional_limit {
-    int32 limit = 5;
-  }
+  optional string application_id = 2;
+  optional string start_date = 3;
+  optional string end_date = 4;
+  optional int32 limit = 5;
   optional TransactionCursor cursor = 6;
 }
 
@@ -229,18 +198,10 @@ message TransactionsResponse {
 
 message TransactionStatisticsRequest {
   string account_id = 1;
-  oneof optional_application_id {
-    string application_id = 2;
-  }
-  oneof optional_start_date {
-    string start_date = 3;
-  }
-  oneof optional_change_date {
-    string change_date = 4;
-  }
-  oneof optional_end_date {
-    string end_date = 5;
-  }
+  optional string application_id = 2;
+  optional string start_date = 3;
+  optional string change_date = 4;
+  optional string end_date = 5;
 }
 
 message TransactionSums {
@@ -251,6 +212,11 @@ message TransactionSums {
 }
 
 // Integrations
+
+message AccountTotalRevenueRequest {
+  string account_id = 1;
+  string for_date = 2;
+}
 
 message AccountCreateRequest {
   string account_id = 1;
@@ -285,11 +251,19 @@ message Integration {
   string provider_id = 3;
   string access_token = 4;
   repeated string vendor_ids = 5;
-  oneof optional_last_error_message {
-    string last_error_message = 6;
-  }
+  optional string last_error_message = 6;
   string state = 7;
   int32 failed_fetches = 8;
+}
+
+message IntegrationUpdateRequest {
+  string account_id = 1;
+  string provider_id = 2;
+  string state = 3;
+}
+
+message TotalRevenueResponse {
+  int32 total = 1;
 }
 
 // Reports

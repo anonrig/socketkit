@@ -31,6 +31,8 @@ export default {
       account_id: account.account_id,
     })
 
+    console.log(rows)
+
     const application_ids = rows.map((r) => r.application_id)
     const { rows: applications } = await grpc.applications.findAll({
       application_ids,
