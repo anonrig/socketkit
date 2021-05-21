@@ -14,19 +14,10 @@ export default {
             properties: {
               total: { type: 'number' },
               total_trial: { type: 'number' },
-              at_start: { type: 'number' },
-              at_start_trial: { type: 'number' },
               current: { type: 'number' },
               current_trial: { type: 'number' },
             },
-            required: [
-              'total',
-              'total_trial',
-              'at_start',
-              'at_start_trial',
-              'current',
-              'current_trial',
-            ],
+            required: ['total', 'total_trial', 'current', 'current_trial'],
           },
           transaction_sums: {
             type: 'object',
