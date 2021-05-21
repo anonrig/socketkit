@@ -1,3 +1,4 @@
+import grpc from '@grpc/grpc-js'
 import * as Integrations from './integrations.js'
 import stripe from '../stripe.js'
 import config from '../config.js'
@@ -13,6 +14,14 @@ export async function createPortal({ account_id }) {
 }
 
 export async function createCheckout({ account_id }) {
+  const existing = await Integrations.findOne({ account_id })
+
+  if (existing && existing.subscription_id) {
+    const error = new Error(`Customer already has a subscription`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   const { stripe_id, subscription_id } = await Integrations.findOrCreate({
     account_id,
   })
