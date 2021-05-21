@@ -94,5 +94,13 @@ export const destroy = async (ctx) => {
 
 export const getTotalRevenue = async (ctx) => {
   const { account_id, for_date } = ctx.req
-  ctx.res = await Integrations.getTotalRevenue({ account_id, for_date })
+  const result = await Integrations.getTotalRevenue({ account_id, for_date })
+
+  if (!result) {
+    const error = new Error(`Revenue not found on ${account_id} for ${for_date}`)
+    error.code = grpc.status.NOT_FOUND
+    throw error
+  }
+
+  ctx.res = result
 }
