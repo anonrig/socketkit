@@ -32,18 +32,9 @@ message CreateIntegration {
   string account_id = 1;
   string name = 2;
   string email = 3;
-
-  oneof optional_address {
-    PaymentAddress address = 4;
-  }
-
-  oneof optional_phone {
-    string phone = 5;
-  }
-
-  oneof optional_tax_exempt {
-    TaxExempt tax_exempt = 6;
-  }
+  optional PaymentAddress address = 4;
+  optional string phone = 5;
+  optional TaxExempt tax_exempt = 6;
 }
 
 enum TaxExempt {
@@ -68,17 +59,9 @@ message Session {
 
 message AccountIntegration {
   string account_id = 1;
-  oneof optional_stripe_id {
-    string stripe_id = 2;
-  }
-  oneof optional_subscription_id {
-    string subscription_id = 3;
-  }
+  optional string stripe_id = 2;
+  optional string subscription_id = 3;
   string state = 4;
-  oneof optional_started_at {
-    string started_at = 5;
-  }
-  oneof optional_expired_at {
-    string expired_at = 6;
-  }
+  optional string started_at = 5;
+  optional string expired_at = 6;
 }
