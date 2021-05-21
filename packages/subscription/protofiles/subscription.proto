@@ -278,8 +278,7 @@ message ReportsRequest {
 }
 
 message ReportsResponse {
-  uint32 ny = 1;
-  repeated ReportsRow rows = 2;
+  repeated ReportsRow rows = 1;
 }
 
 message ReportsRow {

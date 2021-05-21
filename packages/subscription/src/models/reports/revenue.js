@@ -1,6 +1,43 @@
 import dayjs from 'dayjs'
 import pg from '../../pg.js'
 
+export async function get({
+  account_id,
+  start_date,
+  end_date,
+  interval = '1 month',
+}) {
+  const lateral_join = pg
+    .queryBuilder()
+    .sum('r.total_revenue', { as: 'total' })
+    .from('revenues AS r')
+    .where('r.account_id', account_id)
+    .andWhere(function () {
+      this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [
+        interval,
+      ])
+    })
+
+  const rows = await pg
+    .queryBuilder()
+    .select({
+      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      y0: 'l.total',
+    })
+    .from(
+      pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
+        start_date,
+        end_date,
+        interval,
+      ]),
+    )
+    .joinRaw(`CROSS JOIN LATERAL (${lateral_join}) l`)
+
+  return {
+    rows,
+  }
+}
+
 export async function getMRR({
   account_id,
   start_date,
@@ -136,7 +173,6 @@ export async function getAverageSale({
     .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 2,
     rows,
   }
 }
