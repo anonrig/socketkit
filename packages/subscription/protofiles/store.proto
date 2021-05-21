@@ -4,8 +4,21 @@ service Applications {
   rpc create (ApplicationsCreateRequest) returns (Empty) {}
   rpc findAll(ApplicationsIdRequest) returns (ApplicationsResponse) {}
   rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
-  rpc findReviews(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
   rpc findVersions (ApplicationIdRequest) returns (ApplicationVersionsResponse) {}
+  rpc findVersion (ApplicationVersionRequest) returns (ApplicationVersionResponse) {}
+
+  rpc search (SearchRequest) returns (SearchResponse) {}
+}
+
+service Reviews {
+  rpc findAll(ReviewApplicationIdRequest) returns (ApplicationReviewsResponse) {}
+  rpc findVersions(ApplicationIdRequest) returns (ReviewApplicationVersionsResponse) {}
+  rpc findCountries(AccountIdRequest) returns (IntegrationCountriesResponse) {}
+}
+
+service Integrations {
+  rpc findAll (AccountIdRequest) returns (IntegrationsResponse) {}
+  rpc upsertAll (IntegrationsRequest) returns (Empty) {}
 }
 
 // Generics
@@ -14,14 +27,24 @@ message Empty {}
 
 // Requests
 
+message SearchRequest {
+  string text = 1;
+  optional string country_id = 2;
+}
+
+message AccountIdRequest {
+  string account_id = 1;
+  optional string application_id = 2;
+}
+
 message ReviewApplicationIdRequest {
-  string application_id = 1;
-  oneof optional_country_id {
-    string country_id = 2;
-  }
-  oneof optional_version {
-    string version = 3;
-  }
+  repeated string application_ids = 1;
+  repeated string country_ids = 2;
+  repeated string version_ids = 3;
+  optional string start_date = 4;
+  optional string end_date = 5;
+  optional int32 limit = 6;
+  optional ReviewCursor cursor = 7;
 }
 
 message ApplicationsCreateRequestRow {
@@ -35,13 +58,9 @@ message ApplicationsCreateRequest {
 }
 
 message ApplicationIdRequest {
-  oneof optional_application_id {
-    string application_id = 1;
-  }
-
-  oneof optional_bundle_id {
-    string bundle_id = 2;
-  }
+  optional string application_id = 1;
+  optional string bundle_id = 2;
+  optional string country_id = 3;
 }
 
 message ApplicationsIdRequest {
@@ -50,22 +69,64 @@ message ApplicationsIdRequest {
   repeated string developer_ids = 3;
 }
 
+message ApplicationVersionRequest {
+  optional string application_id = 1;
+  optional string bundle_id = 2;
+  string version = 3;
+}
+
+message IntegrationsRequest {
+  string account_id = 1;
+  repeated ApplicationIntegrations applications = 3;
+}
+
+message IntegrationRequest {
+  string account_id = 1;
+  string application_id = 2;
+  string country_id = 3;
+}
+
 // Responses
 
 message ApplicationsResponse {
-  repeated Application rows = 1;
+  repeated ApplicationSimplified rows = 1;
 }
 
 message ApplicationVersionsResponse {
-  repeated Application rows = 1;
+  repeated ApplicationVersionSimplified rows = 1;
 }
 
 message ApplicationReviewsResponse {
-  repeated Review rows = 1;
+  ReviewCursor cursor = 1;
+  repeated Review rows = 2;
 }
 
 message ApplicationResponse {
   Application row = 1;
+}
+
+message ApplicationVersionResponse {
+  ApplicationVersion row = 1;
+}
+
+message IntegrationsResponse {
+  repeated Integration rows = 1;
+}
+
+message IntegrationResponse {
+  Integration row = 1;
+}
+
+message SearchResponse {
+  repeated SearchResponseRow rows = 1;
+}
+
+message ReviewApplicationVersionsResponse {
+  repeated ApplicationVersionSimplified rows = 1;
+}
+
+message IntegrationCountriesResponse {
+  repeated CountrySimplified rows = 1;
 }
 
 // Models
@@ -73,14 +134,15 @@ message ApplicationResponse {
 message Review {
   string review_id = 1;
   string application_id = 2;
-  string version = 3;
+  string version_number = 3;
   string country_id = 4;
   int32 score = 5;
   string username = 6;
   string user_url = 7;
-  string url = 8;
+  string review_url = 8;
   string title = 9;
-  string text = 10;
+  string content = 10;
+  string updated_at = 11;
 }
 
 message Application {
@@ -99,10 +161,86 @@ message Application {
   string released_at = 13;
   string version_released_at = 14;
   string developer_name = 16;
+  int32 reviews = 17;
+  int32 score = 18;
+  string developer_url = 19;
+  int32 price = 20;
+  string currency = 21;
+  string content_rating = 22;
+  string required_os_version = 23;
+  string size = 24;
+}
+
+message ApplicationSimplified {
+  string application_id = 1;
+  string bundle_id = 2;
+  string title = 3;
+  string released_at = 4;
+  string developer_id = 5;
+  string developer_name = 6;
 }
 
 message Screenshot {
   repeated string default = 1;
   repeated string ipad = 2;
   repeated string appletv = 3;
+}
+
+message ApplicationVersion {
+  string application_id = 1;
+  string bundle_id = 2;
+
+  Screenshot screenshots = 3;
+
+  string title = 4;
+  string description = 5;
+  string release_notes = 6;
+
+  repeated string languages = 7;
+  string version = 8;
+  repeated int32 ratings = 9;
+  string released_at = 10;
+
+  int32 price = 11;
+  string currency = 12;
+  string content_rating = 13;
+  string required_os_version = 14;
+  string size = 15;
+
+  int32 reviews = 16;
+  int32 score = 17;
+}
+
+message ApplicationVersionSimplified {
+  string version = 1;
+  optional string released_at = 2;
+}
+
+message Integration {
+  string account_id = 1;
+  string application_id = 2;
+  string application_title = 3;
+  string application_icon = 4;
+  repeated string country_ids = 5;
+}
+
+message SearchResponseRow {
+  string application_id = 1;
+  string bundle_id = 2;
+  string application_title = 3;
+  string application_icon = 4;
+}
+
+message ApplicationIntegrations {
+  string application_id = 1;
+  repeated string country_ids = 2;
+}
+
+message ReviewCursor {
+  string review_id = 1;
+  string updated_at = 2;
+}
+
+message CountrySimplified {
+  string country_id = 1;
 }
