@@ -29,38 +29,22 @@ message Empty {}
 
 message SearchRequest {
   string text = 1;
-
-  oneof optional_country_id {
-    string country_id = 2;
-  }
+  optional string country_id = 2;
 }
 
 message AccountIdRequest {
   string account_id = 1;
-
-  oneof optional_application_id {
-    string application_id = 2;
-  }
+  optional string application_id = 2;
 }
 
 message ReviewApplicationIdRequest {
   repeated string application_ids = 1;
   repeated string country_ids = 2;
   repeated string version_ids = 3;
-
-  oneof optional_start_date {
-    string start_date = 4;
-  }
-  oneof optional_end_date {
-    string end_date = 5;
-  }
-
-  oneof optional_limit {
-    int32 limit = 6;
-  }
-  oneof optional_cursor {
-    ReviewCursor cursor = 7;
-  }
+  optional string start_date = 4;
+  optional string end_date = 5;
+  optional int32 limit = 6;
+  optional ReviewCursor cursor = 7;
 }
 
 message ApplicationsCreateRequestRow {
@@ -74,17 +58,9 @@ message ApplicationsCreateRequest {
 }
 
 message ApplicationIdRequest {
-  oneof optional_application_id {
-    string application_id = 1;
-  }
-
-  oneof optional_bundle_id {
-    string bundle_id = 2;
-  }
-
-  oneof optional_country_id {
-    string country_id = 3;
-  }
+  optional string application_id = 1;
+  optional string bundle_id = 2;
+  optional string country_id = 3;
 }
 
 message ApplicationsIdRequest {
@@ -94,14 +70,8 @@ message ApplicationsIdRequest {
 }
 
 message ApplicationVersionRequest {
-  oneof optional_application_id {
-    string application_id = 1;
-  }
-
-  oneof optional_bundle_id {
-    string bundle_id = 2;
-  }
-
+  optional string application_id = 1;
+  optional string bundle_id = 2;
   string version = 3;
 }
 
@@ -243,10 +213,7 @@ message ApplicationVersion {
 
 message ApplicationVersionSimplified {
   string version = 1;
-  oneof optional_released_at {
-    // optional if it does not exist on application_versions table
-    string released_at = 2;
-  }
+  optional string released_at = 2;
 }
 
 message Integration {
