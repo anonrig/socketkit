@@ -21,6 +21,7 @@ service Transactions {
 
 service Integrations {
   rpc upsert(AccountCreateRequest) returns (ActionStateResponse) {}
+  rpc update(IntegrationUpdateRequest) returns (ActionStateResponse) {}
   rpc findAll (AccountIdRequest) returns (IntegrationsResponse) {}
   rpc findOne (AccountIdProviderRequest) returns (IntegrationResponse) {}
   rpc destroy (AccountIdProviderRequest) returns (ActionStateResponse) {}
@@ -296,6 +297,12 @@ message Integration {
   }
   string state = 7;
   int32 failed_fetches = 8;
+}
+
+message IntegrationUpdateRequest {
+  string account_id = 1;
+  string provider_id = 2;
+  string state = 3;
 }
 
 message TotalRevenueResponse {

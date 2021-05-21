@@ -3,6 +3,7 @@ import pg from '../pg.js'
 import Logger from '../logger.js'
 import config from '../config.js'
 import { retrieve } from '../models/subscriptions.js'
+import { integrations } from '../grpc-client.js'
 
 const logger = Logger.create().withScope('update-stripe')
 const environment = config.stripe.key.includes('test')
@@ -32,12 +33,8 @@ export default async function updateStripe() {
 
     logger.info(`Checking the current state of ${row.account_id}`)
 
-    const {
-      status,
-      current_period_end,
-      current_period_start,
-      cancel_at,
-    } = await retrieve({ subscription_id: row.subscription_id })
+    const { status, current_period_end, current_period_start, cancel_at } =
+      await retrieve({ subscription_id: row.subscription_id })
 
     if (status !== row.state) {
       await pg
@@ -50,6 +47,23 @@ export default async function updateStripe() {
         .from('integrations')
         .where({ account_id: row.account_id })
         .transacting(trx)
+
+      const attributes = { account_id: row.account_id, provider_id: 'apple' }
+
+      if (
+        row.state === 'active' &&
+        ['unpaid', 'canceled', 'ended'].includes(status)
+      ) {
+        await integrations.update({
+          ...attributes,
+          state: 'suspended',
+        })
+      } else if (status === 'active') {
+        await integrations.update({
+          ...attributes,
+          state: 'active',
+        })
+      }
     }
 
     return true
