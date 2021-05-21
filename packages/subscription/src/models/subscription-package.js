@@ -14,8 +14,8 @@ export async function findAll(
     })
     .from('subscription_packages')
     .where({ account_id })
-    .where(function () {
-      if (application_id?.length) {
+    .andWhere(function () {
+      if (application_id) {
         this.andWhere('application_id', application_id)
       }
     })
@@ -30,10 +30,8 @@ export async function findAll(
 
 export function groupByApplication({ account_id }) {
   return pg
-    .select({
-      application_id: 'application_id',
-      subscription_package_count: pg.raw('count(*)'),
-    })
+    .count('*', 'subscription_packge_count')
+    .select(['application_id'])
     .from('subscription_packages')
     .where({ account_id })
     .groupBy('application_id')

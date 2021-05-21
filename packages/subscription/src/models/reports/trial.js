@@ -6,7 +6,28 @@ export async function get({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .select({
+      subscriber_count: pg.raw('count(distinct t.subscriber_id)'),
+    })
+    .from('transactions AS t')
+    .where({
+      't.account_id': account_id,
+      't.transaction_type': 'trial',
+    })
+    .andWhere(function () {
+      if (application_id) {
+        this.where('t.application_id', application_id)
+      }
+
+      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [
+        interval,
+      ])
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -20,21 +41,9 @@ export async function get({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT count(DISTINCT subscriber_id) AS subscriber_count
-          FROM transactions AS t
-          WHERE t.account_id = ?
-            AND t.transaction_type = ?
-            AND t.event_date >= g AND t.event_date < g + ?::interval
-        ) AS l
-      `,
-      [account_id, 'trial', interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }
@@ -44,7 +53,27 @@ export async function getActive({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .count('*', 'count')
+    .from('subscriptions AS s')
+    .where('s.account_id', account_id)
+    .andWhere(function () {
+      if (application_id) {
+        this.where('s.application_id', application_id)
+      }
+
+      this.whereRaw(
+        [
+          `s.active_period && daterange(g::date, (g + ?::interval)::date)`,
+          `NOT (s.paid_period && daterange(g::date, (g + ?::interval)::date))`,
+        ].join(' AND '),
+        [interval, interval],
+      )
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -58,22 +87,9 @@ export async function getActive({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT count(*) AS count
-          FROM subscriptions s
-          WHERE
-            s.account_id = ? AND
-            s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-            NOT (s.paid_period && daterange(g::date, (g + ?::interval)::date))
-        ) l
-      `,
-      [account_id, interval, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }
@@ -83,7 +99,25 @@ export async function getAverageDuration({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .avg('s.free_trial_duration AS average_trial_duration')
+    .from('subscriptions AS s')
+    .where('s.account_id', account_id)
+    .andWhere('s.free_trial_duration', '!=', '00:00:00')
+    .andWhere(function () {
+      if (application_id) {
+        this.where('s.application_id', application_id)
+      }
+
+      this.whereRaw(
+        `LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval`,
+        [interval],
+      )
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -99,22 +133,9 @@ export async function getAverageDuration({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT
-            AVG(s.free_trial_duration) AS average_trial_duration
-          FROM subscriptions AS s
-          WHERE s.account_id = ?
-            AND s.free_trial_duration != '00:00:00'
-            AND LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval
-        ) AS l
-      `,
-      [account_id, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }
@@ -124,7 +145,33 @@ export async function getTrialToPaid({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .select({
+      total: pg.raw('count(*)'),
+      converted: pg.raw(
+        'count(*) FILTER (WHERE (subscription_started_at + s.free_trial_duration)::date < subscription_expired_at)',
+      ),
+    })
+    .from('subscriptions AS s')
+    .where('s.account_id', account_id)
+    .andWhere(function () {
+      if (application_id) {
+        this.where('s.application_id', application_id)
+      }
+
+      this.whereRaw(
+        [
+          `s.active_period && daterange(g::date, (g + ?::interval)::date)`,
+          `s.free_trial_duration > '00:00'::interval`,
+          `(s.subscription_started_at + s.free_trial_duration)::date <@ daterange(g.date,  (g.date + ?::interval)::date)`,
+        ].join(' AND '),
+        [interval, interval],
+      )
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -142,28 +189,9 @@ export async function getTrialToPaid({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT
-            count(*) AS total,
-            count(*) FILTER (
-              WHERE (subscription_started_at + s.free_trial_duration)::date <
-                subscription_expired_at) AS converted
-          FROM subscriptions s
-          WHERE
-            s.account_id = ? AND
-            s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-            s.free_trial_duration > '00:00'::interval AND
-            (s.subscription_started_at + s.free_trial_duration)::date <@
-              daterange(g.date,  (g.date + ?::interval)::date)
-        ) l
-      `,
-      [account_id, interval, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }

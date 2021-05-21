@@ -6,7 +6,33 @@ export async function get({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const lateral_join = pg
+    .queryBuilder()
+    .count('*', { as: 'count' })
+    .from('subscribers AS c')
+    .where('c.account_id', account_id)
+    .andWhere(function () {
+      if (application_id) {
+        this.where('c.application_id', application_id)
+      }
+
+      this.whereExists(function () {
+        this.select(pg.raw('1'))
+          .from('subscriptions AS s')
+          .whereRaw(
+            [
+              's.account_id = c.account_id',
+              's.subscriber_id = c.subscriber_id',
+              's.active_period && daterange(g::date, (g + ?::interval)::date)',
+              's.paid_period && daterange(g::date, (g + ?::interval)::date)',
+            ].join(' AND '),
+            [interval, interval],
+          )
+      })
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -20,28 +46,9 @@ export async function get({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT count(*) AS count
-          FROM subscribers c
-          WHERE
-            c.account_id = ? AND
-            EXISTS (SELECT 1
-              FROM subscriptions s
-              WHERE
-                s.account_id = c.account_id AND
-                s.subscriber_id = c.subscriber_id AND
-                s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-                s.paid_period && daterange(g::date, (g + ?::interval)::date)
-            )
-        ) l
-      `,
-      [account_id, interval, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${lateral_join}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }
@@ -51,7 +58,50 @@ export async function getCustomerLifetimeValue({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .avg('total_base_developer_proceeds AS avg_total_base_developer_proceeds')
+    .from('subscribers AS c')
+    .where('c.account_id', account_id)
+    .andWhere(function () {
+      this.whereExists(function () {
+        this.select(pg.raw('1'))
+          .from('subscriptions AS s')
+          .whereRaw(
+            [
+              `s.account_id = c.account_id`,
+              `s.subscriber_id = c.subscriber_id`,
+              `s.active_period && daterange(g::date, (g + ?::interval)::date)`,
+            ].join(' AND '),
+            [interval],
+          )
+
+        if (application_id) {
+          this.andWhere('s.application_id', application_id)
+        }
+      })
+
+      this.whereNotExists(function () {
+        this.select(pg.raw('1'))
+          .from('subscriptions AS s')
+          .whereRaw(
+            [
+              `s.account_id = c.account_id`,
+              `s.subscriber_id = c.subscriber_id`,
+              `s.active_period && daterange(g::date, (g + ?::interval)::date)`,
+              `s.active_period @> 'today'::date`,
+            ].join(' AND '),
+            [interval],
+          )
+
+        if (application_id) {
+          this.andWhere('s.application_id', application_id)
+        }
+      })
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -65,35 +115,9 @@ export async function getCustomerLifetimeValue({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
-          FROM subscribers c
-          WHERE
-            c.account_id = ? AND
-            EXISTS (SELECT 1
-              FROM subscriptions s
-              WHERE
-                s.account_id = c.account_id AND
-                s.subscriber_id = c.subscriber_id AND
-                s.active_period && daterange(g::date, (g + ?::interval)::date)
-            ) AND
-            NOT EXISTS (SELECT 1
-              FROM subscriptions s
-              WHERE
-                s.account_id = c.account_id AND
-                s.subscriber_id = c.subscriber_id AND
-                s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-                s.active_period @> 'today'::date
-            )
-        ) l
-      `,
-      [account_id, interval, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }

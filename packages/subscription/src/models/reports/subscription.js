@@ -7,7 +7,28 @@ export async function get({
   start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
   end_date = dayjs().format('YYYY-MM-DD'),
   interval = '1 week',
+  application_id,
 }) {
+  const join_lateral = pg
+    .queryBuilder()
+    .count('*', 'count')
+    .avg('total_base_developer_proceeds AS avg_total_base_developer_proceeds')
+    .from('subscriptions AS s')
+    .where('s.account_id', account_id)
+    .andWhere(function () {
+      if (application_id) {
+        this.where('s.application_id', application_id)
+      }
+
+      this.whereRaw(
+        [
+          `s.active_period && daterange(g::date, (g + ?::interval)::date)`,
+          `s.paid_period && daterange(g::date, (g + ?::interval)::date)`,
+        ].join(' AND '),
+        [interval, interval],
+      )
+    })
+
   const rows = await pg
     .queryBuilder()
     .select({
@@ -24,23 +45,9 @@ export async function get({
         interval,
       ]),
     )
-    .joinRaw(
-      `
-        CROSS JOIN LATERAL (
-          SELECT
-            count(*) AS count,
-            avg(total_base_developer_proceeds) AS avg_total_base_developer_proceeds
-          FROM subscriptions s
-          WHERE s.account_id = ? AND
-            s.active_period && daterange(g::date, (g + ?::interval)::date) AND
-            s.paid_period && daterange(g::date, (g + ?::interval)::date)
-        ) l
-      `,
-      [account_id, interval, interval],
-    )
+    .joinRaw(`CROSS JOIN LATERAL (${join_lateral}) l`)
 
   return {
-    ny: 1,
     rows,
   }
 }
