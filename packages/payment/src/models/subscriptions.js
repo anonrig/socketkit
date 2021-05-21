@@ -35,3 +35,7 @@ export async function updateUsage({ stripe_id, usage, for_date }) {
       )
   }
 }
+
+export async function retrieve({ subscription_id }) {
+  return stripe.subscriptions.retrieve(subscription_id)
+}

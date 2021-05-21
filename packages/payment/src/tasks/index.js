@@ -1,6 +1,7 @@
 import { setTimeout } from 'timers/promises'
 
 import fetchRevenues from './fetch-revenues.js'
+import updateStripe from './update-stripe.js'
 
 import Logger from '../logger.js'
 
@@ -10,7 +11,7 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  const tasks = [fetchRevenues]
+  const tasks = [fetchRevenues, updateStripe]
 
   for (const task of tasks) {
     logger.info(`Checking whether anything to do in task "${task.name}"...`)
