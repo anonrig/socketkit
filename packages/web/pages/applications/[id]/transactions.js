@@ -71,7 +71,7 @@ export default function Transactions({ initialData, id }) {
         Header: 'Proceed',
         accessor: (field) => `$${parseFloat(field.base_developer_proceeds).toFixed(2)}`,
         className: '!text-right w-24',
-      },https://web-dev.socketkit.com/applications/integration-required
+      },
       {
         id: 'transaction_type',
         Header: 'Type',
