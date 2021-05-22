@@ -13,7 +13,7 @@ export default async function recalculateRevenues() {
     }
 
     logger.info(
-      `Processing ${row.account_id} for ${row.for_date} and ${row.country_id}`,
+      `Processing (${row.account_id}, ${row.for_date}, ${row.application_id}, ${row.country_id})`,
     )
 
     await validate(trx, row)

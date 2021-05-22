@@ -7,9 +7,9 @@ export function invalidate(trx, account_id, revenue_list) {
     .update('is_valid', false)
     .where('account_id', account_id)
     .andWhere(function () {
-      for (const { country_id, first_day } of revenue_list) {
+      for (const { first_day, ...rest } of revenue_list) {
         this.orWhere(function () {
-          this.where('country_id', country_id)
+          this.where(rest)
           this.andWhere('for_date', '>=', first_day.format('YYYY-MM-DD'))
         })
       }
@@ -22,17 +22,17 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
     .transacting(trx)
     .from('revenues')
     .insert(
-      Array.from(revenue_list, ({ country_id, first_day }) => ({
+      Array.from(revenue_list, ({ first_day, ...rest }) => ({
         account_id,
         for_date: revenue_list.current_day.format('YYYY-MM-DD'),
-        country_id,
+        ...rest,
       })),
     )
 
   await pg
     .queryBuilder()
     .transacting(trx)
-    .from(pg.raw('revenues (account_id, for_date, country_id)'))
+    .from(pg.raw('revenues (account_id, for_date, application_id, country_id)'))
     .insert(function () {
       this.from('revenues AS a')
         .where('account_id', account_id)
@@ -43,6 +43,7 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
               'SELECT 1 ' +
               'FROM revenues b ' +
               'WHERE a.account_id = b.account_id AND ' +
+              'a.application_id = b.application_id AND ' +
               'a.country_id = b.country_id AND ' +
               'b.for_date = ?' +
               ')',
@@ -52,6 +53,7 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
         .select([
           pg.raw('account_id'),
           pg.raw('?', revenue_list.current_day.format('YYYY-MM-DD')),
+          pg.raw('application_id'),
           pg.raw('country_id'),
         ])
     })
@@ -67,15 +69,28 @@ export function findOneToValidate(trx) {
     .limit(1)
     .forUpdate()
     .skipLocked()
-    .select(['account_id', pg.raw('for_date::text AS for_date'), 'country_id'])
+    .select([
+      'account_id',
+      pg.raw('for_date::text AS for_date'),
+      'application_id',
+      'country_id',
+    ])
     .first()
 }
 
-export function validate(trx, { account_id, for_date, country_id }) {
+export function validate(
+  trx,
+  { account_id, for_date, application_id, country_id },
+) {
   return pg
     .queryBuilder()
     .transacting(trx)
     .select(
-      pg.raw('validate_revenues(?, ?, ?)', [account_id, for_date, country_id]),
+      pg.raw('validate_revenues(?, ?, ?, ?)', [
+        account_id,
+        for_date,
+        application_id,
+        country_id,
+      ]),
     )
 }

@@ -3,6 +3,7 @@ SET ROLE subscription;
 CREATE TABLE revenues (
   account_id uuid NOT NULL,
   for_date date NOT NULL,
+  application_id text NOT NULL,
   country_id text NOT NULL,
 
   weekly_recurring money_value NOT NULL DEFAULT 0.0,
@@ -18,7 +19,7 @@ CREATE TABLE revenues (
 
   is_valid bool NOT NULL DEFAULT false,
 
-  PRIMARY KEY (account_id, for_date, country_id),
+  PRIMARY KEY (account_id, for_date, application_id, country_id),
 
   CONSTRAINT revenue_country_id_check
     CHECK (country_id ~ '\A[a-z]{2}\Z')
@@ -31,6 +32,7 @@ GRANT SELECT, INSERT, UPDATE ON revenues TO "subscription-worker";
 CREATE OR REPLACE FUNCTION validate_revenues (
   _account_id uuid,
   _for_date date,
+  _application_id text,
   _country_id text
 )
   RETURNS void
@@ -38,11 +40,12 @@ CREATE OR REPLACE FUNCTION validate_revenues (
   AS $$
     WITH t AS (
       SELECT sum(t.base_developer_proceeds) AS total_revenue
-      FROM subscribers s
-        JOIN transactions t USING (account_id, subscriber_id)
+      FROM transactions t
+        JOIN subscribers s USING (account_id, subscriber_id)
       WHERE
-        s.account_id = _account_id AND
+        t.account_id = _account_id AND
         t.event_date = _for_date AND
+        t.application_id = _application_id AND
         s.country_id = _country_id
     )
     UPDATE revenues r
@@ -53,5 +56,6 @@ CREATE OR REPLACE FUNCTION validate_revenues (
     WHERE
       r.account_id = _account_id AND
       r.for_date = _for_date AND
+      r.application_id = _application_id AND
       r.country_id = _country_id;
   $$;
