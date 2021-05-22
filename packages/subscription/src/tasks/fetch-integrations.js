@@ -213,16 +213,10 @@ async function processTransactions(
 
     if (!country_ids.has(transaction.country_id))
       country_ids.set(transaction.country_id, next_day)
-    if (
-      dayjs(country_ids.get(transaction.country_id)).isAfter(
-        dayjs(transaction.event_date),
-      )
-    )
+    if (country_ids.get(transaction.country_id).isAfter(transaction.event_date))
       country_ids.set(transaction.country_id, transaction.event_date)
     if (
-      dayjs(country_ids.get(transaction.country_id)).isAfter(
-        dayjs(transaction.purchase_date),
-      )
+      country_ids.get(transaction.country_id).isAfter(transaction.purchase_date)
     )
       country_ids.set(transaction.country_id, transaction.purchase_date)
   }
@@ -251,7 +245,7 @@ async function processDailyTransactions(
       country_ids.forEach((first_date, country_id) => {
         this.orWhere(function () {
           this.where('country_id', country_id)
-          this.andWhere('for_date', '>=', first_date)
+          this.andWhere('for_date', '>=', first_date.format('YYYY-MM-DD'))
         })
       })
     })

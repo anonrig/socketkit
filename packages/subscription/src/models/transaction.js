@@ -24,10 +24,10 @@ export default class Transaction {
     this.subscriber_id = raw.subscriberId
     this.subscriber_currency_id = raw.customerCurrency
     this.developer_currency_id = raw.proceedsCurrency
-    this.event_date = raw.eventDate
+    this.event_date = dayjs(raw.eventDate)
     this.subscriber_purchase = parseFloat(raw.customerPrice)
     this.developer_proceeds = parseFloat(raw.developerProceeds)
-    this.purchase_date = raw.purchaseDate
+    this.purchase_date = !!raw.purchaseDate ? dayjs(raw.purchaseDate) : null
     this.free_trial_duration = raw.subscriptionOfferDuration ?? '00:00:00'
     this.standard_subscription_duration = raw.standardSubscriptionDuration
     this.subscriber_exchange_rate = exchange_rates[this.subscriber_currency_id]
@@ -76,11 +76,7 @@ export default class Transaction {
   }
 
   get subscription_expired_at() {
-    return dayjs(this.event_date).add(this.duration).format('YYYY-MM-DD')
-  }
-
-  get subscription_refunded_at() {
-    return this.type === 'refund' ? this.purchase_date : null
+    return this.event_date.add(this.duration)
   }
 
   get base_subscriber_purchase() {
