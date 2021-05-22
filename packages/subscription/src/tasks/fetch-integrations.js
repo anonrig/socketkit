@@ -11,6 +11,10 @@ import Logger from '../logger.js'
 import Transaction from '../models/transaction.js'
 import RevenueList from '../models/revenue-list.js'
 import insertTransaction from '../pg/transaction-insert.js'
+import {
+  invalidate as invalidateRevenues,
+  insertCurrentDay as insertCurrentDayRevenues,
+} from '../pg/revenues-manipulate.js'
 import subscriber from '../grpc-client.js'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')
@@ -214,61 +218,6 @@ async function processTransactions(
     revenue_list.addTransaction(transaction)
   }
 
-  await processDailyTransactions(trx, account_id, revenue_list)
-}
-
-async function processDailyTransactions(trx, account_id, revenue_list) {
-  await pg
-    .queryBuilder()
-    .transacting(trx)
-    .from('revenues')
-    .update('is_valid', false)
-    .where('account_id', account_id)
-    .andWhere(function () {
-      for (const { country_id, first_day } of revenue_list) {
-        this.orWhere(function () {
-          this.where('country_id', country_id)
-          this.andWhere('for_date', '>=', first_day.format('YYYY-MM-DD'))
-        })
-      }
-    })
-
-  await pg
-    .queryBuilder()
-    .transacting(trx)
-    .from('revenues')
-    .insert(
-      Array.from(revenue_list, ({ country_id, first_day }) => ({
-        account_id,
-        for_date: revenue_list.current_day.format('YYYY-MM-DD'),
-        country_id,
-      })),
-    )
-
-  await pg
-    .queryBuilder()
-    .transacting(trx)
-    .from(pg.raw('revenues (account_id, for_date, country_id)'))
-    .insert(function () {
-      this.from('revenues AS a')
-        .where('account_id', account_id)
-        .andWhere('for_date', revenue_list.previous_day.format('YYYY-MM-DD'))
-        .andWhere(
-          pg.raw(
-            'NOT EXISTS (' +
-              'SELECT 1 ' +
-              'FROM revenues b ' +
-              'WHERE a.account_id = b.account_id AND ' +
-              'a.country_id = b.country_id AND ' +
-              'b.for_date = ?' +
-              ')',
-            [revenue_list.current_day.format('YYYY-MM-DD')],
-          ),
-        )
-        .select([
-          pg.raw('account_id'),
-          pg.raw('?', revenue_list.current_day.format('YYYY-MM-DD')),
-          pg.raw('country_id'),
-        ])
-    })
+  await invalidateRevenues(trx, account_id, revenue_list)
+  await insertCurrentDayRevenues(trx, account_id, revenue_list)
 }
