@@ -6,6 +6,7 @@ import AppStoreReporter from 'appstore-reporter'
 import { v4 } from 'uuid'
 
 import pg from '../pg.js'
+import { getExchangeRates } from '../fixer.js'
 import Logger from '../logger.js'
 import Transaction from '../models/transaction.js'
 import insertTransaction from '../models/transaction-insert.js'
@@ -155,6 +156,8 @@ async function processTransactions(
   { account_id, transactions, next_day },
   trx,
 ) {
+  const exchange_rates = await getExchangeRates(next_day)
+
   await pg
     .insert(
       _.uniqBy(transactions, 'device').map((t) => ({
@@ -205,8 +208,7 @@ async function processTransactions(
   const country_ids = new Map()
 
   for (const raw of transactions) {
-    const transaction = new Transaction(raw)
-    await transaction.getExchangeRates()
+    const transaction = new Transaction(raw, exchange_rates)
     await insertTransaction(transaction, { account_id }, trx)
 
     if (!country_ids.has(transaction.country_id))
