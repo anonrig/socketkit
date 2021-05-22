@@ -16,7 +16,7 @@ CREATE TABLE revenues (
   mrr_churn money_value NOT NULL DEFAULT 0.0, -- MRR lost from cancellations
   mrr_contraction money_value NOT NULL DEFAULT 0.0, -- MRR lost from existing customers downgrades
 
-  refetch_needed bool NOT NULL DEFAULT false,
+  is_valid bool NOT NULL DEFAULT false,
 
   PRIMARY KEY (account_id, for_date, country_id),
 
@@ -24,11 +24,11 @@ CREATE TABLE revenues (
     CHECK (country_id ~ '\A[a-z]{2}\Z')
 );
 
-CREATE INDEX ON revenues (for_date) WHERE refetch_needed;
+CREATE INDEX ON revenues (for_date) WHERE NOT is_valid;
 
 GRANT SELECT, INSERT, UPDATE ON revenues TO "subscription-worker";
 
-CREATE OR REPLACE FUNCTION update_revenues (
+CREATE OR REPLACE FUNCTION validate_revenues (
   _account_id uuid,
   _for_date date,
   _country_id text
@@ -48,7 +48,7 @@ CREATE OR REPLACE FUNCTION update_revenues (
     UPDATE revenues r
     SET
       total_revenue = COALESCE(t.total_revenue, 0.0),
-      refetch_needed = false
+      is_valid = true
     FROM t
     WHERE
       r.account_id = _account_id AND

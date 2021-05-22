@@ -2,7 +2,7 @@ import { setTimeout } from 'timers/promises'
 
 import appStoreConnectFetcher from './fetch-integrations.js'
 import deleteIntegrations from './delete-integrations.js'
-import recalculateRevenues from './recalculate-revenues.js'
+import validateRevenues from './validate-revenues.js'
 
 import Logger from '../logger.js'
 
@@ -15,7 +15,7 @@ export async function runTasks() {
   const tasks = [
     appStoreConnectFetcher,
     deleteIntegrations,
-    recalculateRevenues,
+    validateRevenues,
   ]
 
   for (const task of tasks) {

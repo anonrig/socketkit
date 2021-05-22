@@ -13,7 +13,7 @@ export default async function recalculateRevenues() {
         'country_id',
       ])
       .from('revenues')
-      .where({ refetch_needed: true })
+      .where('is_valid', false)
       .orderBy('for_date')
       .limit(1)
       .forUpdate()
@@ -32,7 +32,7 @@ export default async function recalculateRevenues() {
     await pg
       .queryBuilder()
       .select(
-        pg.raw('update_revenues(?, ?, ?)', [
+        pg.raw('validate_revenues(?, ?, ?)', [
           row.account_id,
           row.for_date,
           row.country_id,

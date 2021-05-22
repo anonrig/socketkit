@@ -222,7 +222,7 @@ async function processDailyTransactions(trx, account_id, revenue_list) {
     .queryBuilder()
     .transacting(trx)
     .from('revenues')
-    .update('refetch_needed', true)
+    .update('is_valid', false)
     .where('account_id', account_id)
     .andWhere(function () {
       for (const { country_id, first_day } of revenue_list) {
@@ -242,14 +242,13 @@ async function processDailyTransactions(trx, account_id, revenue_list) {
         account_id,
         for_date: revenue_list.current_day.format('YYYY-MM-DD'),
         country_id,
-        refetch_needed: true,
       })),
     )
 
   await pg
     .queryBuilder()
     .transacting(trx)
-    .from(pg.raw('revenues (account_id, for_date, country_id, refetch_needed)'))
+    .from(pg.raw('revenues (account_id, for_date, country_id)'))
     .insert(function () {
       this.from('revenues AS a')
         .where('account_id', account_id)
@@ -270,7 +269,6 @@ async function processDailyTransactions(trx, account_id, revenue_list) {
           pg.raw('account_id'),
           pg.raw('?', revenue_list.current_day.format('YYYY-MM-DD')),
           pg.raw('country_id'),
-          pg.raw('true'),
         ])
     })
 }

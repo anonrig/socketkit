@@ -93,5 +93,5 @@ export async function getTotalRevenue({ account_id, for_date }) {
     .queryBuilder()
     .sum('total_revenue', { as: 'total' })
     .from('revenues')
-    .where({ account_id, for_date, refetch_needed: false })
+    .where({ account_id, for_date, is_valid: true })
 }
