@@ -9,6 +9,7 @@ import pg from '../pg/index.js'
 import { getExchangeRates } from '../fixer.js'
 import Logger from '../logger.js'
 import Transaction from '../models/transaction.js'
+import RevenueList from '../models/revenue-list.js'
 import insertTransaction from '../pg/transaction-insert.js'
 import subscriber from '../grpc-client.js'
 
@@ -205,36 +206,18 @@ async function processTransactions(
     .ignore()
     .transacting(trx)
 
-  const country_ids = new Map()
+  const revenue_list = new RevenueList(next_day)
 
   for (const raw of transactions) {
     const transaction = new Transaction(raw, exchange_rates)
     await insertTransaction(transaction, { account_id }, trx)
-
-    if (!country_ids.has(transaction.country_id))
-      country_ids.set(transaction.country_id, next_day)
-    if (country_ids.get(transaction.country_id).isAfter(transaction.event_date))
-      country_ids.set(transaction.country_id, transaction.event_date)
-    if (
-      country_ids.get(transaction.country_id).isAfter(transaction.purchase_date)
-    )
-      country_ids.set(transaction.country_id, transaction.purchase_date)
+    revenue_list.addTransaction(transaction)
   }
 
-  await processDailyTransactions(
-    {
-      account_id,
-      country_ids,
-      next_day,
-    },
-    trx,
-  )
+  await processDailyTransactions(trx, account_id, revenue_list)
 }
 
-async function processDailyTransactions(
-  { account_id, country_ids, next_day },
-  trx,
-) {
+async function processDailyTransactions(trx, account_id, revenue_list) {
   await pg
     .queryBuilder()
     .transacting(trx)
@@ -242,12 +225,12 @@ async function processDailyTransactions(
     .update('refetch_needed', true)
     .where('account_id', account_id)
     .andWhere(function () {
-      country_ids.forEach((first_date, country_id) => {
+      for (const { country_id, first_day } of revenue_list) {
         this.orWhere(function () {
           this.where('country_id', country_id)
-          this.andWhere('for_date', '>=', first_date.format('YYYY-MM-DD'))
+          this.andWhere('for_date', '>=', first_day.format('YYYY-MM-DD'))
         })
-      })
+      }
     })
 
   await pg
@@ -255,9 +238,9 @@ async function processDailyTransactions(
     .transacting(trx)
     .from('revenues')
     .insert(
-      Array.from(country_ids, ([country_id, first_day]) => ({
+      Array.from(revenue_list, ({ country_id, first_day }) => ({
         account_id,
-        for_date: next_day.format('YYYY-MM-DD'),
+        for_date: revenue_list.current_day.format('YYYY-MM-DD'),
         country_id,
         refetch_needed: true,
       })),
@@ -270,7 +253,7 @@ async function processDailyTransactions(
     .insert(function () {
       this.from('revenues AS a')
         .where('account_id', account_id)
-        .andWhere('for_date', next_day.subtract(1, 'day').format('YYYY-MM-DD'))
+        .andWhere('for_date', revenue_list.previous_day.format('YYYY-MM-DD'))
         .andWhere(
           pg.raw(
             'NOT EXISTS (' +
@@ -280,12 +263,12 @@ async function processDailyTransactions(
               'a.country_id = b.country_id AND ' +
               'b.for_date = ?' +
               ')',
-            [next_day.format('YYYY-MM-DD')],
+            [revenue_list.current_day.format('YYYY-MM-DD')],
           ),
         )
         .select([
           pg.raw('account_id'),
-          pg.raw('?', next_day.format('YYYY-MM-DD')),
+          pg.raw('?', revenue_list.current_day.format('YYYY-MM-DD')),
           pg.raw('country_id'),
           pg.raw('true'),
         ])
