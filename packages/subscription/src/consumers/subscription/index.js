@@ -1,5 +1,5 @@
-import * as SubscriptionPackage from '../../models/subscription-package.js'
-import * as SubscriptionStatistics from '../../models/subscription-statistics.js'
+import * as SubscriptionPackage from '../../pg/subscription-package.js'
+import * as SubscriptionStatistics from '../../pg/subscription-statistics.js'
 
 export const findPackages = async (ctx) => {
   const { account_id, application_id } = ctx.req

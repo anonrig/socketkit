@@ -1,4 +1,4 @@
-import pg from '../pg.js'
+import pg from './index.js'
 
 export function groupByCountry({
   account_id,

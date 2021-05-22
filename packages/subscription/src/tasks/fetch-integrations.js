@@ -5,11 +5,11 @@ import slug from 'slug'
 import AppStoreReporter from 'appstore-reporter'
 import { v4 } from 'uuid'
 
-import pg from '../pg.js'
+import pg from '../pg/index.js'
 import { getExchangeRates } from '../fixer.js'
 import Logger from '../logger.js'
 import Transaction from '../models/transaction.js'
-import insertTransaction from '../models/transaction-insert.js'
+import insertTransaction from '../pg/transaction-insert.js'
 import subscriber from '../grpc-client.js'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')

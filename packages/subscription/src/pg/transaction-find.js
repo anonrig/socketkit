@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import pg from '../pg.js'
+import pg from './index.js'
 
 export async function findAll(
   { account_id, application_id, subscriber_id, start_date, end_date },

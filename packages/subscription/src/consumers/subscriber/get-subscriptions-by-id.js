@@ -1,4 +1,4 @@
-import pg from '../../pg.js'
+import pg from '../../pg/index.js'
 import dayjs from 'dayjs'
 
 export default async function getSubscriptionsById({

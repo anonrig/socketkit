@@ -1,5 +1,5 @@
 import getByPagination from './get-by-pagination.js'
-import * as TransactionStatistics from '../../models/transaction-statistics.js'
+import * as TransactionStatistics from '../../pg/transaction-statistics.js'
 
 export const findAll = async (ctx) => {
   const { account_id, application_id, start_date, end_date, limit, cursor } =

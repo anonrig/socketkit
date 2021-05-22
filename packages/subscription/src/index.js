@@ -4,7 +4,7 @@ import Tracing from '@sentry/tracing'
 import Logger from './logger.js'
 import config from './config.js'
 import { runTasks } from './tasks/index.js'
-import pg from './pg.js'
+import pg from './pg/index.js'
 import app from './grpc.js'
 
 const logger = Logger.create().withScope('application')

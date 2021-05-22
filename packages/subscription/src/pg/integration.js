@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import grpc from '@grpc/grpc-js'
-import pg from '../pg.js'
+import pg from './index.js'
 
 export async function create({
   account_id,

@@ -1,4 +1,4 @@
-import * as Subscriber from '../../models/subscriber-find.js'
+import * as Subscriber from '../../pg/subscriber-find.js'
 
 export default async function getByPagination(
   { account_id, application_id, start_date, end_date },

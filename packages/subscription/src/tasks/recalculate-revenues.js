@@ -1,4 +1,4 @@
-import pg from '../pg.js'
+import pg from '../pg/index.js'
 import Logger from '../logger.js'
 
 const logger = Logger.create().withScope('app-store-connect-fetcher')

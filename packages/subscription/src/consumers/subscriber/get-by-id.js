@@ -1,4 +1,4 @@
-import pg from '../../pg.js'
+import pg from '../../pg/index.js'
 
 export default async function getById({ account_id, subscriber_id }) {
   const subscriber = await pg

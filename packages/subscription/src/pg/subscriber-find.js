@@ -1,4 +1,4 @@
-import pg from '../pg.js'
+import pg from './index.js'
 import dayjs from 'dayjs'
 
 export async function findAll(

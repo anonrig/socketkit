@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import pg from '../../pg.js'
+import pg from '../index.js'
 
 export async function get({
   account_id,

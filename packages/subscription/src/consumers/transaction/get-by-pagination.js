@@ -1,4 +1,4 @@
-import * as Transaction from '../../models/transaction-find.js'
+import * as Transaction from '../../pg/transaction-find.js'
 
 export default async function (
   { account_id, application_id, start_date, end_date },

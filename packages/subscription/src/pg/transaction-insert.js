@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import dayjs_duration from 'dayjs/plugin/duration.js'
 import _ from 'lodash'
 
-import pg from '../pg.js'
+import pg from './index.js'
 
 dayjs.extend(dayjs_duration)
 
