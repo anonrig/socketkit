@@ -6,10 +6,7 @@ CREATE TABLE revenues (
   application_id text NOT NULL,
   country_id text NOT NULL,
 
-  weekly_recurring money_value NOT NULL DEFAULT 0.0,
-  monthly_recurring money_value NOT NULL DEFAULT 0.0,
-  yearly_recurring money_value NOT NULL DEFAULT 0.0,
-
+  recurring money_value NOT NULL DEFAULT 0.0,
   total_revenue money_value NOT NULL DEFAULT 0.0,
 
   mrr_gained money_value NOT NULL DEFAULT 0.0, -- Additional MRR from new customers
