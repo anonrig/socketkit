@@ -1,11 +1,10 @@
-import dayjs from 'dayjs'
 import pg from '../index.js'
 
 export async function get({
   account_id,
   start_date,
   end_date,
-  interval = '1 month',
+  interval,
   application_id,
 }) {
   const lateral_join = pg
@@ -87,9 +86,9 @@ export async function getRecurring({
 
 export async function getSalesRefunds({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg
@@ -137,9 +136,9 @@ export async function getSalesRefunds({
 
 export async function getAverageSale({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg

@@ -1,11 +1,10 @@
-import dayjs from 'dayjs'
 import pg from '../index.js'
 
 export async function get({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg
@@ -50,9 +49,9 @@ export async function get({
 
 export async function getActive({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg
@@ -96,9 +95,9 @@ export async function getActive({
 
 export async function getAverageDuration({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg
@@ -142,9 +141,9 @@ export async function getAverageDuration({
 
 export async function getTrialToPaid({
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg

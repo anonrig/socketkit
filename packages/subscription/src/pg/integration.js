@@ -1,5 +1,6 @@
-import dayjs from 'dayjs'
 import grpc from '@grpc/grpc-js'
+
+import { ISODate } from '../types.js'
 import pg from './index.js'
 
 export async function create({
@@ -11,7 +12,7 @@ export async function create({
   return pg
     .queryBuilder()
     .insert({
-      last_fetch: dayjs().subtract(9, 'month'),
+      last_fetch: (new ISODate()).subtract(9, 'month'),
       account_id,
       provider_id,
       access_token,

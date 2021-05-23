@@ -1,12 +1,11 @@
 import pg from '../index.js'
-import dayjs from 'dayjs'
 
 export async function get({
   report_id,
   account_id,
-  start_date = dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
-  end_date = dayjs().format('YYYY-MM-DD'),
-  interval = '1 week',
+  start_date,
+  end_date,
+  interval,
   application_id,
 }) {
   const join_lateral = pg
