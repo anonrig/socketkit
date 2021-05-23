@@ -30,7 +30,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -53,7 +52,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -76,7 +74,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -99,7 +96,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -122,7 +118,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -145,7 +140,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -168,7 +162,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
@@ -191,7 +184,6 @@ describe('Reports', () => {
       (error, response) => {
         expect(error).toBeNull()
         expect(response).toBeInstanceOf(Object)
-        expect(response.ny).toBeGreaterThanOrEqual(1)
         expect(response.rows).toBeInstanceOf(Array)
         response.rows.forEach(({ x, y0 }) => {
           expect(x).toHaveLength(10)
