@@ -30,4 +30,4 @@ CREATE TABLE integrations (
   )
 );
 
-GRANT SELECT, INSERT, UPDATE ON integrations TO "subscription-worker";
+GRANT SELECT, INSERT, UPDATE, DELETE ON integrations TO "subscription-worker";
