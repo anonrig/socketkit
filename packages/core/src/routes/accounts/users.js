@@ -1,4 +1,5 @@
-import { verify, kratos_private } from '../../hooks.js'
+import { kratos_private } from '../../authentication/kratos.js'
+import { verify } from '../../hooks.js'
 import { getAccountIdentities } from '../../models/accounts.js'
 
 export default {

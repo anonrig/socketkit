@@ -1,18 +1,9 @@
-import { Configuration, PublicApi, AdminApi } from '@ory/kratos-client'
 import { RequiredError } from '@ory/kratos-client/dist/base.js'
+import { kratos } from './authentication/kratos.js'
 
 import grpc from './grpc.js'
-import config from './config.js'
 import { createAccount, getAccounts } from './models/accounts.js'
 import logger from './logger.js'
-
-export const kratos = new PublicApi(
-  new Configuration({ basePath: config.kratos.public }),
-)
-
-export const kratos_private = new AdminApi(
-  new Configuration({ basePath: config.kratos.private }),
-)
 
 export const verify = async (request, reply) => {
   const { cookie, authorization } = request.headers
