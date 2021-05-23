@@ -25,7 +25,7 @@ export async function get({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
+      x: pg.raw('g::date'),
       y0: 'l.total',
     })
     .from(
@@ -67,7 +67,7 @@ export async function getRecurring({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
+      x: pg.raw('g::date'),
       y0: 'l.recurring_sum',
     })
     .from(
@@ -116,7 +116,7 @@ export async function getSalesRefunds({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw('date_trunc(?, g)::date', [interval.split(' ')[1]]),
+      x: pg.raw('g::date'),
       y0: pg.raw('COALESCE(l.sale_sum, 0)'),
       y1: pg.raw('COALESCE(l.refund_sum * -1, 0)'),
     })
@@ -169,7 +169,7 @@ export async function getAverageSale({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
+      x: pg.raw('g::date'),
       y0: 'l.mrr',
     })
     .from(

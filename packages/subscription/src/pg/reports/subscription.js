@@ -31,7 +31,7 @@ export async function get({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
+      x: pg.raw('g::date'),
       y0:
         report_id === 'subscriptions'
           ? 'l.count'
