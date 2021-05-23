@@ -25,26 +25,30 @@ export async function getServerSideProps({ query: { slug, start_date, end_date }
     }
   }
 
+  const format = 'YYYY-MM-DD'
+  const interval = report.defaults?.interval ?? 'day'
+
   return {
     props: {
-      initialQuery: {
+      query: {
         start_date: start_date
-          ? dayjs(start_date).format('YYYY-MM-DD')
+          ? dayjs(start_date).startOf(interval).format(format)
           : dayjs()
               .subtract(report.defaults?.range ?? 1, 'month')
-              .format('YYYY-MM-DD'),
-        end_date: dayjs(end_date).format('YYYY-MM-DD'),
+              .startOf(interval)
+              .format(format),
+        end_date: dayjs(end_date).endOf(interval).format(format),
       },
       slug: report.slug,
     },
   }
 }
 
-function Reports({ initialQuery, slug }) {
+function Reports({ query, slug }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)
   const [filters, setFilters] = useState({
-    start_date: dayjs(initialQuery.start_date),
-    end_date: dayjs(initialQuery.end_date),
+    start_date: dayjs(query.start_date),
+    end_date: dayjs(query.end_date),
     type: report.defaults?.graph ?? 'line',
     interval: report.defaults?.interval ?? 'day',
   })
@@ -162,7 +166,7 @@ function Reports({ initialQuery, slug }) {
 }
 
 Reports.propTypes = {
-  initialQuery: PropTypes.shape({
+  query: PropTypes.shape({
     start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
   }),
