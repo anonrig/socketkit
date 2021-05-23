@@ -4,7 +4,7 @@ import { findOneToValidate, validate } from '../pg/revenues-manipulate.js'
 
 const logger = Logger.create().withScope('validate-revenues')
 
-export default async function recalculateRevenues() {
+export default async function validateRevenues() {
   return pg.transaction(async (trx) => {
     const row = await findOneToValidate(trx)
 
