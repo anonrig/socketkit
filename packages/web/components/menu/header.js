@@ -46,7 +46,7 @@ function Header() {
                       Applications
                     </a>
                   </Link>
-                  <Link href="/reports/mrr">
+                  <Link href="/reports">
                     <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>
                       Reports
                     </a>
