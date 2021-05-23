@@ -43,7 +43,7 @@ export async function get({
   }
 }
 
-export async function getMRR({
+export async function getRecurring({
   account_id,
   start_date,
   end_date,
