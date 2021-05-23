@@ -1,6 +1,8 @@
 import dayjs from 'dayjs'
 import dayjsDuration from 'dayjs/plugin/duration.js'
 import _ from 'lodash'
+
+import { ISODate } from '../types.js'
 import { parseDuration } from '../helpers.js'
 
 dayjs.extend(dayjsDuration)
@@ -24,10 +26,12 @@ export default class Transaction {
     this.subscriber_id = raw.subscriberId
     this.subscriber_currency_id = raw.customerCurrency
     this.developer_currency_id = raw.proceedsCurrency
-    this.event_date = dayjs(raw.eventDate)
+    this.event_date = ISODate.parse(raw.eventDate)
     this.subscriber_purchase = parseFloat(raw.customerPrice)
     this.developer_proceeds = parseFloat(raw.developerProceeds)
-    this.purchase_date = !!raw.purchaseDate ? dayjs(raw.purchaseDate) : null
+    this.purchase_date = !!raw.purchaseDate
+      ? ISODate.parse(raw.purchaseDate)
+      : null
     this.free_trial_duration = raw.subscriptionOfferDuration ?? '00:00:00'
     this.standard_subscription_duration = raw.standardSubscriptionDuration
     this.subscriber_exchange_rate = exchange_rates[this.subscriber_currency_id]

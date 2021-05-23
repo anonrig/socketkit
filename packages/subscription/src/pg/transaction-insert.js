@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import dayjs from 'dayjs'
 
 import pg from './index.js'
 
@@ -19,16 +18,13 @@ export default async function insertTransaction(
     })
     .andWhere(function () {
       this.whereRaw('active_period @> ?::date', [
-        transaction.event_date.format('YYYY-MM-DD'),
-      ]).orWhere(
-        'subscription_expired_at',
-        transaction.event_date.format('YYYY-MM-DD'),
-      )
+        transaction.event_date,
+      ]).orWhere('subscription_expired_at', transaction.event_date)
 
       if (!!transaction.purchase_date) {
         this.orWhereRaw(`active_period && daterange(?, ?)`, [
-          transaction.purchase_date.format('YYYY-MM-DD'),
-          transaction.event_date.format('YYYY-MM-DD'),
+          transaction.purchase_date,
+          transaction.event_date,
         ])
       }
     })
@@ -45,8 +41,8 @@ export default async function insertTransaction(
         subscriber_id: transaction.subscriber_id,
         free_trial_duration: transaction.free_trial_duration,
         application_id: transaction.application_id,
-        subscription_started_at: transaction.event_date.format('YYYY-MM-DD'),
-        subscription_expired_at: transaction.event_date.format('YYYY-MM-DD'),
+        subscription_started_at: transaction.event_date,
+        subscription_expired_at: transaction.event_date,
         account_id,
       })
       .into('subscriptions')
@@ -55,9 +51,7 @@ export default async function insertTransaction(
     transaction.subscription_started_at = transaction.event_date
     transaction.total_base_developer_proceeds = 0
   } else {
-    transaction.subscription_started_at = dayjs(
-      subscription.subscription_started_at,
-    )
+    transaction.subscription_started_at = subscription.subscription_started_at
     transaction.total_base_developer_proceeds =
       subscription.total_base_developer_proceeds
   }
@@ -65,7 +59,7 @@ export default async function insertTransaction(
   await pg
     .queryBuilder()
     .insert({
-      event_date: transaction.event_date.format('YYYY-MM-DD'),
+      event_date: transaction.event_date,
       subscriber_purchase: transaction.subscriber_purchase,
       developer_proceeds: transaction.developer_proceeds,
       base_subscriber_purchase: transaction.base_subscriber_purchase,
@@ -75,8 +69,7 @@ export default async function insertTransaction(
       subscriber_currency_id: transaction.subscriber_currency_id,
       developer_currency_id: transaction.developer_currency_id,
       subscription_package_id: transaction.subscription_package_id,
-      subscription_started_at:
-        transaction.subscription_started_at.format('YYYY-MM-DD'),
+      subscription_started_at: transaction.subscription_started_at,
       account_id,
       transaction_type: transaction.type,
       base_currency_id: transaction.base_currency_id,
@@ -92,16 +85,13 @@ export default async function insertTransaction(
       account_id,
       subscription_package_id: transaction.subscription_package_id,
       subscriber_id: transaction.subscriber_id,
-      subscription_started_at:
-        transaction.subscription_started_at.format('YYYY-MM-DD'),
+      subscription_started_at: transaction.subscription_started_at,
     })
     .update({
       total_base_developer_proceeds:
         transaction.total_base_developer_proceeds +
         transaction.base_developer_proceeds,
-      subscription_expired_at:
-        transaction.subscription_expired_at.format('YYYY-MM-DD'),
-      subscription_refunded_at:
-        transaction.purchase_date?.format('YYYY-MM-DD') ?? null,
+      subscription_expired_at: transaction.subscription_expired_at,
+      subscription_refunded_at: transaction.purchase_date,
     })
 }

@@ -11,7 +11,7 @@ export function invalidate(trx, account_id, revenue_list) {
       for (const { first_day, ...rest } of revenue_list) {
         this.orWhere(function () {
           this.where(rest)
-          this.andWhere('for_date', '>=', first_day.format('YYYY-MM-DD'))
+          this.andWhere('for_date', '>=', first_day)
         })
       }
     })
@@ -25,7 +25,7 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
     .insert(
       Array.from(revenue_list, ({ first_day, ...rest }) => ({
         account_id,
-        for_date: revenue_list.current_day.format('YYYY-MM-DD'),
+        for_date: revenue_list.current_day,
         ...rest,
       })),
     )
@@ -42,7 +42,7 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
     .insert(function () {
       this.from('revenues AS a')
         .where('account_id', account_id)
-        .andWhere('for_date', revenue_list.previous_day.format('YYYY-MM-DD'))
+        .andWhere('for_date', revenue_list.previous_day)
         .andWhere(
           pg.raw(
             'NOT EXISTS (' +
@@ -53,12 +53,12 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
               'a.country_id = b.country_id AND ' +
               'b.for_date = ?' +
               ')',
-            [revenue_list.current_day.format('YYYY-MM-DD')],
+            [revenue_list.current_day],
           ),
         )
         .select([
           pg.raw('account_id'),
-          pg.raw('?', revenue_list.current_day.format('YYYY-MM-DD')),
+          pg.raw('?', revenue_list.current_day),
           pg.raw('application_id'),
           pg.raw('country_id'),
         ])
@@ -75,12 +75,7 @@ export function findOneToValidate(trx) {
     .limit(1)
     .forUpdate()
     .skipLocked()
-    .select([
-      'account_id',
-      pg.raw('for_date::text AS for_date'),
-      'application_id',
-      'country_id',
-    ])
+    .select(['account_id', 'for_date', 'application_id', 'country_id'])
     .first()
 }
 

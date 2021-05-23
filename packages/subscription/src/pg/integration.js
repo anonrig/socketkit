@@ -12,7 +12,7 @@ export async function create({
   return pg
     .queryBuilder()
     .insert({
-      last_fetch: (new ISODate()).subtract(9, 'month'),
+      last_fetch: ISODate.today().subtract(9, 'month'),
       account_id,
       provider_id,
       access_token,
@@ -78,7 +78,7 @@ export async function findAll({ account_id }) {
     .select({
       state: 'state',
       failed_fetches: 'failed_fetches',
-      last_fetch: pg.raw('last_fetch::text'),
+      last_fetch: 'last_fetch',
       account_id: 'account_id',
       provider_id: 'provider_id',
       access_token: 'access_token',

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import { ISODate } from '../types.js'
 import pg from '../pg/index.js'
 import Logger from '../logger.js'
 
@@ -12,7 +12,7 @@ export default function deleteIntegrations() {
       .where('state', 'to_be_deleted')
       .orWhere(function () {
         this.where('state', '>=', 'error')
-        this.andWhere('last_fetch', '<', dayjs().subtract(9, 'month'))
+        this.andWhere('last_fetch', '<', ISODate.today().subtract(9, 'month'))
       })
       .orderBy('last_fetch')
       .limit(1)

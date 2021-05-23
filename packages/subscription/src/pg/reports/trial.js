@@ -30,7 +30,7 @@ export async function get({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
       y0: 'l.subscriber_count',
     })
     .from(
@@ -76,7 +76,7 @@ export async function getActive({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
       y0: 'l.count',
     })
     .from(
@@ -120,7 +120,7 @@ export async function getAverageDuration({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
       y0: pg.raw(
         `COALESCE(EXTRACT(epoch FROM l.average_trial_duration) / 86400, 0)`,
       ),
@@ -174,7 +174,7 @@ export async function getTrialToPaid({
   const rows = await pg
     .queryBuilder()
     .select({
-      x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
+      x: pg.raw(`date_trunc(?, g)::date`, [interval.split(' ')[1]]),
       y0: pg.raw(
         'CASE WHEN l.total > 0 THEN 100.0 * l.converted / l.total ELSE 0 END',
       ),

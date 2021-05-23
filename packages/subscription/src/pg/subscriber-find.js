@@ -1,5 +1,4 @@
 import pg from './index.js'
-import dayjs from 'dayjs'
 
 export async function findAll(
   { account_id, application_id, start_date, end_date },
@@ -8,7 +7,7 @@ export async function findAll(
   return pg
     .select({
       subscriber_id: 'c.subscriber_id',
-      first_interaction: pg.raw(`TO_CHAR(c.first_interaction, 'YYYY-MM-DD')`),
+      first_interaction: 'c.first_interaction',
       total_base_subscriber_purchase: pg.raw(
         'ROUND(c.total_base_subscriber_purchase, 2)',
       ),
@@ -44,16 +43,13 @@ export async function findAll(
         }
 
         this.whereRaw(`(c.first_interaction, c.subscriber_id) < (?, ?)`, [
-          dayjs(first_interaction).format('YYYY-MM-DD'),
+          first_interaction,
           subscriber_id,
         ])
       }
 
       if (start_date && end_date) {
-        this.andWhereBetween('c.first_interaction', [
-          dayjs(start_date).format('YYYY-MM-DD'),
-          dayjs(end_date).format('YYYY-MM-DD'),
-        ])
+        this.andWhereBetween('c.first_interaction', [start_date, end_date])
       }
     })
     .orderBy([

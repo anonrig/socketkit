@@ -1,5 +1,4 @@
 import pg from '../../pg/index.js'
-import dayjs from 'dayjs'
 
 export default async function getSubscriptionsById({
   subscriber_id,
@@ -25,7 +24,6 @@ export default async function getSubscriptionsById({
     subscription_active_period: s.subscription_active_period
       .toString()
       .slice(1, -1)
-      .split(',')
-      .map((d) => dayjs(d).format('YYYY-MM-DD')),
+      .split(','),
   }))
 }

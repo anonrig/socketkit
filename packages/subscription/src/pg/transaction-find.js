@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import pg from './index.js'
 
 export async function findAll(
@@ -10,7 +9,7 @@ export async function findAll(
     .select({
       subscriber_id: 't.subscriber_id',
       transaction_type: 't.transaction_type',
-      event_date: pg.raw(`TO_CHAR(t.event_date, 'YYYY-MM-DD')`),
+      event_date: 't.event_date',
       base_subscriber_purchase: 't.base_subscriber_purchase',
       base_developer_proceeds: 't.base_developer_proceeds',
       subscription_package_id: 't.subscription_package_id',
@@ -43,16 +42,13 @@ export async function findAll(
         }
 
         this.whereRaw(`(t.event_date, t.subscriber_id) < (?, ?)`, [
-          dayjs(event_date).format('YYYY-MM-DD'),
+          event_date,
           subscriber_id,
         ])
       }
 
       if (start_date && end_date) {
-        this.andWhereBetween('t.event_date', [
-          dayjs(start_date).format('YYYY-MM-DD'),
-          dayjs(end_date).format('YYYY-MM-DD'),
-        ])
+        this.andWhereBetween('t.event_date', [start_date, end_date])
       }
     })
     .orderByRaw(`t.event_date desc, t.subscriber_id desc`)

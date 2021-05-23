@@ -1,8 +1,8 @@
-import dayjs from 'dayjs'
 import AppStoreReporter from 'appstore-reporter'
 import grpc from '@grpc/grpc-js'
 
 import onValidate from './on-validate.js'
+import { ISODate } from '../../types.js'
 import * as Integrations from '../../pg/integration.js'
 import pg from '../../pg/index.js'
 
@@ -59,7 +59,7 @@ export const upsert = async (ctx) => {
           provider_id,
           access_token,
           vendor_ids,
-          last_fetch: dayjs().subtract(9, 'months'),
+          last_fetch: ISODate.today().subtract(9, 'months'),
         })
         .into('integrations')
         .transacting(trx)

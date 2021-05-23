@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import dayjs from 'dayjs'
 import { performance } from 'perf_hooks'
 import slug from 'slug'
 import AppStoreReporter from 'appstore-reporter'
 import { v4 } from 'uuid'
 
+import { ISODate } from '../types.js'
 import pg from '../pg/index.js'
 import { getExchangeRates } from '../fixer.js'
 import Logger from '../logger.js'
@@ -37,7 +37,7 @@ export default function fetchIntegrations() {
       .andWhere(
         'last_fetch',
         '<',
-        dayjs().subtract(1, 'day').subtract(16, 'hour').format('YYYY-MM-DD'),
+        ISODate.today().subtract(1, 'day').subtract(16, 'hour'),
       )
       .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
@@ -53,15 +53,11 @@ export default function fetchIntegrations() {
     const vendor_id = integration.vendor_ids[0]
     let state = 'active'
     let failed_fetches = 0
-    let next_day = dayjs(integration.last_fetch).add(1, 'day')
+    let next_day = integration.last_fetch.add(1, 'day')
     let transactions = null
     let error_message = null
 
-    logger.info(
-      `Processing ${integration.account_id} for ${next_day.format(
-        'YYYY-MM-DD',
-      )}`,
-    )
+    logger.info(`Processing ${integration.account_id} for ${next_day}`)
 
     try {
       performance.mark(`${traceId}-network-started`)
@@ -88,7 +84,7 @@ export default function fetchIntegrations() {
         failed_fetches = integration.failed_fetches + 1
         error_message = error.message
         // We must try to fetch the same date again.
-        next_day = dayjs(integration.last_fetch)
+        next_day = integration.last_fetch
 
         if (!error.message.includes('400')) {
           logger.error(error)
@@ -145,14 +141,14 @@ export default function fetchIntegrations() {
       .update({
         state: state,
         failed_fetches: failed_fetches,
-        last_fetch: next_day.format('YYYY-MM-DD'),
+        last_fetch: next_day,
         last_error_message: error_message,
       })
       .transacting(trx)
 
     return (
       integration.state !== state ||
-      !dayjs(integration.last_fetch).isSame(next_day, 'day')
+      !integration.last_fetch.isSame(next_day, 'day')
     )
   })
 }
@@ -184,7 +180,7 @@ async function processTransactions(
         subscriber_id: t.subscriberId,
         device_type_id: slug(t.device),
         country_id: t.country.toLowerCase(),
-        first_interaction: dayjs(t.eventDate).format('YYYY-MM-DD'),
+        first_interaction: t.eventDate,
         total_base_subscriber_purchase: 0,
         total_base_developer_proceeds: 0,
       })),
