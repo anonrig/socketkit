@@ -1,6 +1,6 @@
 import { setTimeout } from 'timers/promises'
 
-import appStoreConnectFetcher from './fetch-integrations.js'
+import fetchIntegrations from './fetch-integrations.js'
 import deleteIntegrations from './delete-integrations.js'
 import validateRevenues from './validate-revenues.js'
 
@@ -12,7 +12,7 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  const tasks = [appStoreConnectFetcher, deleteIntegrations, validateRevenues]
+  const tasks = [fetchIntegrations, validateRevenues, deleteIntegrations]
 
   for (const task of tasks) {
     logger.info(`Checking whether anything to do in task "${task.name}"...`)
