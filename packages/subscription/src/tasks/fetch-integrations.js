@@ -17,7 +17,7 @@ import {
 } from '../pg/revenues-manipulate.js'
 import subscriber from '../grpc-client.js'
 
-const logger = Logger.create().withScope('app-store-connect-fetcher')
+const logger = Logger.create().withScope('fetch-integrations')
 
 export default function fetchIntegrations() {
   return pg.transaction(async (trx) => {
