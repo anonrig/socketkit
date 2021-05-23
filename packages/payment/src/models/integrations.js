@@ -32,6 +32,12 @@ export function update({ account_id, stripe_id }) {
 }
 
 export async function findOrCreate({ account_id, name, email }) {
+  const exists = await findOne({ account_id }).whereNotNull('stripe_id')
+
+  if (exists) {
+    return exists
+  }
+
   return pg.transaction(async (trx) => {
     // returning doesnt work with onConflict statements on knexjs.
     // fix this when knexjs does solve it.
