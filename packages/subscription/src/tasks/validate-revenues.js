@@ -1,6 +1,6 @@
 import pg from '../pg/index.js'
 import Logger from '../logger.js'
-import { findOneToValidate, validate } from '../pg/revenues-manipulate.js'
+import { findOneToValidate, validate } from '../pg/revenues-maintain.js'
 
 const logger = Logger.create().withScope('validate-revenues')
 

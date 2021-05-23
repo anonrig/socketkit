@@ -14,7 +14,7 @@ import insertTransaction from '../pg/transaction-insert.js'
 import {
   invalidate as invalidateRevenues,
   insertCurrentDay as insertCurrentDayRevenues,
-} from '../pg/revenues-manipulate.js'
+} from '../pg/revenues-maintain.js'
 import subscriber from '../grpc-client.js'
 
 const logger = Logger.create().withScope('fetch-integrations')

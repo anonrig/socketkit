@@ -13,7 +13,7 @@ export default class Transaction {
   subscription_started_at = null
 
   // We're using this to have a separate getter and setter
-  // to check and manipulate the type while setting.
+  // to check and maintain the type while setting.
   _total_base_developer_proceeds = 0
 
   constructor(raw, exchange_rates) {

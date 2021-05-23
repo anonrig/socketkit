@@ -101,6 +101,7 @@ export default async function insertTransaction(
         transaction.base_developer_proceeds,
       subscription_expired_at:
         transaction.subscription_expired_at.format('YYYY-MM-DD'),
-      subscription_refunded_at: transaction.purchase_date?.format('YYYY-MM-DD') ?? null,
+      subscription_refunded_at:
+        transaction.purchase_date?.format('YYYY-MM-DD') ?? null,
     })
 }
