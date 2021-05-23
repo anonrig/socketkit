@@ -14,6 +14,7 @@ const reports = new Map([
   ['average-sales-cycle', TrialReports.getAverageDuration],
   ['subscriptions', SubscriberReports.get],
   ['average-revenue-per-subscription', SubscriptionReports.get],
+  ['revenue', RevenueReports.get],
   ['recurring-revenue', RevenueReports.getRecurring],
   ['sales-refunds', RevenueReports.getSalesRefunds],
   ['average-sale', RevenueReports.getAverageSale],
