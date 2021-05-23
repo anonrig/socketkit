@@ -52,7 +52,7 @@ export async function getRecurring({
 }) {
   const lateral_join = pg
     .queryBuilder()
-    .sum('r.total_revenue', { as: 'total' })
+    .sum('r.recurring', { as: 'recurring_sum' })
     .from('revenues AS r')
     .where('r.account_id', account_id)
     .andWhere(function () {
@@ -69,7 +69,7 @@ export async function getRecurring({
     .queryBuilder()
     .select({
       x: pg.raw(`(date_trunc(?, g)::date)::text`, [interval.split(' ')[1]]),
-      y0: 'l.total',
+      y0: 'l.recurring_sum',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
