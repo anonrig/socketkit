@@ -29,6 +29,11 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
       })),
     )
 
+  // Some days there may not be any transactions for s given application
+  // and country.  We don't want to have gaps in the statistics.  It's
+  // better to fill those with 0s.  Also, sometimes we receive transactions
+  // on a later day, and invalidate the stats for previous days.  If we
+  // hadn't been filling the gaps in here, some values would go missing.
   await pg
     .queryBuilder()
     .transacting(trx)
