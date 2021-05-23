@@ -35,36 +35,40 @@ CREATE OR REPLACE FUNCTION validate_revenues (
   RETURNS void
   STRICT LANGUAGE sql
   AS $$
-    WITH t AS (
-      SELECT
-        sum(
-          CASE WHEN s.paid_period @> _for_date THEN
-            s.total_base_developer_proceeds /
-            (upper(s.paid_period) - lower(s.paid_period))
-          END
-        ) AS recurring,
-        sum(t.base_developer_proceeds) AS total_revenue
-      FROM subscriptions s
-        JOIN subscribers b USING (account_id, subscriber_id)
-        LEFT JOIN transactions t USING (
-          account_id,
-          subscription_package_id,
-          subscriber_id,
-          subscription_started_at
-        )
-      WHERE
-        s.account_id = _account_id AND
-        s.application_id = _application_id AND
-        b.country_id = _country_id AND
-        s.active_period @> _for_date AND
-        (t.event_date IS NULL OR t.event_date = _for_date)
-    )
+    WITH
+      s AS (
+        SELECT
+          sum(
+            CASE WHEN s.paid_period @> _for_date THEN
+              s.total_base_developer_proceeds /
+              (upper(s.paid_period) - lower(s.paid_period))
+            END
+          ) AS recurring
+        FROM subscriptions s
+          JOIN subscribers b USING (account_id, subscriber_id)
+        WHERE
+          s.account_id = _account_id AND
+          s.application_id = _application_id AND
+          s.active_period @> _for_date AND
+          b.country_id = _country_id
+      ),
+      t AS (
+        SELECT
+          sum(t.base_developer_proceeds) AS total_revenue
+        FROM transactions t
+          JOIN subscribers b USING (account_id, subscriber_id)
+        WHERE
+          t.account_id = _account_id AND
+          t.application_id = _application_id AND
+          t.event_date = _for_date AND
+          b.country_id = _country_id
+      )
     UPDATE revenues r
     SET
-      recurring = COALESCE(t.recurring, 0.0),
+      recurring = COALESCE(s.recurring, 0.0),
       total_revenue = COALESCE(t.total_revenue, 0.0),
       is_valid = true
-    FROM t
+    FROM s, t
     WHERE
       r.account_id = _account_id AND
       r.for_date = _for_date AND
