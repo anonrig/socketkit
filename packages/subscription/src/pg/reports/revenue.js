@@ -48,6 +48,7 @@ export async function getMRR({
   start_date,
   end_date,
   interval = '1 month',
+  application_id,
 }) {
   const lateral_join = pg
     .queryBuilder()
@@ -55,6 +56,10 @@ export async function getMRR({
     .from('revenues AS r')
     .where('r.account_id', account_id)
     .andWhere(function () {
+      if (application_id) {
+        this.where('r.application_id', application_id)
+      }
+
       this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [
         interval,
       ])
