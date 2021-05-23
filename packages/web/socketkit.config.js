@@ -26,8 +26,8 @@ const report_groups = [
           y0: '$%',
         },
         defaults: {
-          interval: 'day',
-          range: 2,
+          interval: 'month',
+          range: 3,
           graph: 'bar',
           y_format: '>-.2f',
         },
@@ -38,6 +38,15 @@ const report_groups = [
         short_title: 'MRR Movement',
         description:
           'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
+        formats: {
+          y0: '$%',
+        },
+        defaults: {
+          interval: 'month',
+          range: 3,
+          graph: 'bar',
+          y_format: '>-.2f',
+        },
       },
     ],
   },
@@ -179,6 +188,9 @@ const report_groups = [
         short_title: 'Customer churn rate',
         description: 'The rate at which your customers are cancelling their subscriptions.',
         route: 'reports/customer-churn-rate',
+        formats: {
+          y0: '%',
+        },
         defaults: {
           interval: 'month',
           range: 3,
@@ -193,6 +205,9 @@ const report_groups = [
         description:
           'The rate at which you are losing MRR through downgrades and cancellations, offset by expansion and reactivation MRR.',
         route: 'reports/net-mrr-churn',
+        formats: {
+          y0: '$%',
+        },
         defaults: {
           interval: 'month',
           range: 3,
@@ -206,6 +221,9 @@ const report_groups = [
         short_title: 'Gross MRR churn rate',
         description: 'MRR lost in a given month / MRR at the beginning of the month.',
         route: 'reports/gross-mrr-churn',
+        formats: {
+          y0: '$%',
+        },
         defaults: {
           interval: 'month',
           range: 3,
