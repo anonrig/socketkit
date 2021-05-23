@@ -18,7 +18,7 @@ const report_groups = [
         },
       },
       {
-        slug: 'mrr',
+        slug: 'recurring-revenue',
         title: 'Recurring Revenue',
         short_title: 'Recurring Revenue',
         description: 'Recurring revenue is a calculation of your normalised (amortized) revenue.',
