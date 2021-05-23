@@ -1,7 +1,8 @@
 import pg from './index.js'
 
 export function invalidate(trx, account_id, revenue_list) {
-  return pg.queryBuilder()
+  return pg
+    .queryBuilder()
     .transacting(trx)
     .from('revenues')
     .update('is_valid', false)

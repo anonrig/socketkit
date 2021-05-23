@@ -12,11 +12,7 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  const tasks = [
-    appStoreConnectFetcher,
-    deleteIntegrations,
-    validateRevenues,
-  ]
+  const tasks = [appStoreConnectFetcher, deleteIntegrations, validateRevenues]
 
   for (const task of tasks) {
     logger.info(`Checking whether anything to do in task "${task.name}"...`)
