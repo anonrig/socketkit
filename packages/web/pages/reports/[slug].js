@@ -57,12 +57,22 @@ function Reports({ initialQuery, slug }) {
     fetcher,
     { refreshInterval: 0 },
   )
-
-  useEffect(() => {
+  const changeInterval = (interval) => {
     setFilters({
       ...filters,
-      interval: report.defaults?.interval ?? 'day',
-      start_date: dayjs().subtract(report.defaults?.range ?? 2, 'month'),
+      interval,
+      start_date: filters.start_date.startOf(interval),
+      end_date: filters.end_date.endOf(interval),
+    })
+  }
+
+  useEffect(() => {
+    const interval = report.defaults?.interval ?? 'day'
+    setFilters({
+      ...filters,
+      interval,
+      start_date: dayjs().subtract(report.defaults?.range ?? 2, 'month').startOf(interval),
+      end_date: dayjs().endOf(interval),
       type: report.defaults?.graph ?? filters.type,
     })
   }, [report])
@@ -128,12 +138,7 @@ function Reports({ initialQuery, slug }) {
                     { key: 'week', label: 'Weekly' },
                     { key: 'month', label: 'Monthly' },
                   ]}
-                  onChange={({ key }) => {
-                    setFilters({
-                      ...filters,
-                      interval: key,
-                    })
-                  }}
+                  onChange={({ key }) => changeInterval(key)}
                 />
               </div>
             </div>
