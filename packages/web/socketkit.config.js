@@ -74,12 +74,13 @@ const report_groups = [
         description:
           'The percentage of free trials that have converted to active paying customers over time. ',
         formats: {
-          y0: '%',
+          y0: '%%',
         },
         defaults: {
-          interval: 'day',
-          range: 1,
+          interval: 'week',
+          range: 3,
           graph: 'line',
+          y_format: '>-.2f',
         },
       },
       {
