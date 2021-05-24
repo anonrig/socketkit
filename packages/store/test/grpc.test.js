@@ -246,19 +246,6 @@ describe('Reviews', () => {
       },
     )
   })
-
-  test('findCountries should throw error on missing application id', (done) => {
-    reviews.findCountries(
-      { account_id: TEST_ACCOUNT_ID },
-      (error, response) => {
-        expect(error).toBeTruthy()
-        expect(error.message).toContain('Missing application id')
-        expect(error.code).toEqual(grpc.status.FAILED_PRECONDITION)
-        expect(response).toBeFalsy()
-        done()
-      },
-    )
-  })
 })
 
 describe('Integrations', () => {

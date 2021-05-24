@@ -40,12 +40,6 @@ export async function findVersions(ctx) {
 export async function findCountries(ctx) {
   const { account_id, application_id } = ctx.req
 
-  if (!application_id?.length) {
-    const error = new Error('Missing application id')
-    error.code = grpc.status.FAILED_PRECONDITION
-    throw error
-  }
-
   ctx.res = {
     rows: await Reviews.findCountries({ account_id, application_id }),
   }
