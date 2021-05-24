@@ -50,7 +50,7 @@ function IntervalDropdown({ selected, onChange }) {
 }
 
 IntervalDropdown.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 }
 
