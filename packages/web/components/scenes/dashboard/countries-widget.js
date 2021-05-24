@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import dynamic from 'next/dynamic'
-import countries from 'helpers/countries.json'
 import { fetcher } from 'helpers/fetcher.js'
 
 const TreeMapChart = dynamic(() =>
@@ -36,7 +35,7 @@ function CountriesWidget({ range, initialData }) {
           <TreeMapChart
             id="Countries Summary"
             rows={(data ?? []).map((c) => ({
-              id: countries[c.country_id.toLowerCase()]?.name,
+              id: c.country_name,
               value: c.revenue,
               color: getRandomColor(),
             }))}
@@ -76,7 +75,7 @@ function CountriesWidget({ range, initialData }) {
                       {data?.slice(0, 5).map((c) => (
                         <tr key={c.country_id}>
                           <td className="pr-6 py-4 whitespace-nowrap text-sm font-medium text-warmGray-900">
-                            {countries[c.country_id.toLowerCase()]?.name}
+                            {c.country_name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
                             {(

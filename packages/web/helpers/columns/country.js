@@ -1,12 +1,8 @@
-import countries from 'helpers/countries.json'
-
 export default [
   {
     id: 'country_name',
     Header: 'Country',
-    accessor: function GetCountryName(field) {
-      return countries[field.country_id]?.name
-    },
+    accessor: 'country_name',
   },
   {
     id: 'total_count',

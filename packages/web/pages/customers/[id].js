@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import countries from 'helpers/countries.json'
 import TimelineRow from 'components/scenes/customers/timeline-row.js'
 import SubscriptionRow from 'components/scenes/customers/subscription-row.js'
 
@@ -50,7 +49,7 @@ export default function CustomerDetail() {
                   <div className="sm:col-span-1">
                     <dt className="text-sm font-medium text-warmGray-900">Country</dt>
                     <dd className="mt-1 text-sm text-warmGray-900">
-                      {countries[customer?.country_id]?.name ?? '-'}
+                      {customer?.country_name ?? '-'}
                     </dd>
                   </div>
                   <div className="sm:col-span-1">

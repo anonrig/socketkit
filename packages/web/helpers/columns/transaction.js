@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import TableBadge from 'components/table/badge.js'
-import countries from 'helpers/countries.json'
 
 export default [
   {
@@ -14,9 +13,7 @@ export default [
   {
     id: 'country_name',
     Header: 'Country',
-    accessor: function GetTransactionCountry(field) {
-      return countries[field.country_id]?.name
-    },
+    accessor: 'country_name',
   },
   {
     id: 'base_subscriber_purchase',
