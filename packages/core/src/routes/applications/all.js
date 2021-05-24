@@ -37,8 +37,6 @@ export default {
       application_ids,
     })
 
-    console.log(applications)
-
     return {
       rows: applications.map((application) => ({
         ...application,
