@@ -28,7 +28,6 @@ export async function getServerSideProps(ctx) {
 }
 
 function AccountSettings({ flow }) {
-  console.log(flow)
   const { session } = useContext(AuthContext)
   const isUserVerified = session.identity.verifiable_addresses[0]?.verified
   const [kratos, setKratos] = useState(null)
