@@ -1,6 +1,8 @@
 import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
 
+const region_names = new Intl.DisplayNames(['en'], { type: 'region' })
+
 export default {
   method: 'GET',
   path: '/:application_id/countries',
@@ -29,6 +31,7 @@ export default {
               type: 'object',
               properties: {
                 country_id: { type: 'string' },
+                country_name: { type: 'string' },
                 total_count: { type: 'number' },
                 total_direct_sale_count: { type: 'number' },
                 total_trial_count: { type: 'number' },
@@ -39,6 +42,7 @@ export default {
               },
               required: [
                 'country_id',
+                'country_name',
                 'total_count',
                 'total_direct_sale_count',
                 'total_trial_count',
@@ -55,11 +59,24 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { application_id }, query }) =>
-    grpc.subscriptions.groupByCountry({
+  handler: async ({
+    accounts: [account],
+    params: { application_id },
+    query,
+  }) => {
+    const { rows } = await grpc.subscriptions.groupByCountry({
       account_id: account.account_id,
       application_id,
       start_date: query.start_date,
       end_date: query.end_date,
-    }),
+    })
+
+    return {
+      rows: rows.map(({ country_id, ...rest }) => ({
+        country_id,
+        country_name: region_names.of(country_id.toUpperCase()),
+        ...rest,
+      })),
+    }
+  },
 }

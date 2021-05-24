@@ -1,6 +1,8 @@
 import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
 
+const region_names = new Intl.DisplayNames(['en'], { type: 'region' })
+
 export default {
   method: 'GET',
   path: '/:application_id/customers',
@@ -49,6 +51,7 @@ export default {
                 total_base_subscriber_purchase: { type: 'string' },
                 total_base_developer_proceeds: { type: 'string' },
                 country_id: { type: 'string' },
+                country_name: { type: 'string' },
                 device_type_id: { type: 'string' },
                 device_type_name: { type: 'string' },
                 provider_id: { type: 'string' },
@@ -59,6 +62,7 @@ export default {
                 'total_base_subscriber_purchase',
                 'total_base_developer_proceeds',
                 'country_id',
+                'country_name',
                 'device_type_id',
                 'device_type_name',
                 'provider_id',
@@ -76,12 +80,21 @@ export default {
     query,
     params: { application_id },
   }) => {
-    return grpc.subscribers.findAll({
+    const { rows, cursor } = await grpc.subscribers.findAll({
       account_id: account.account_id,
       application_id,
       start_date: query.start_date,
       end_date: query.end_date,
       cursor: query.cursor,
     })
+
+    return {
+      rows: rows.map(({ country_id, ...rest }) => ({
+        country_id,
+        country_name: region_names.of(country_id.toUpperCase()),
+        ...rest,
+      })),
+      cursor,
+    }
   },
 }

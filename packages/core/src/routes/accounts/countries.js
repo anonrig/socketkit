@@ -1,6 +1,8 @@
 import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
 
+const region_names = new Intl.DisplayNames(['en'], { type: 'region' })
+
 export default {
   method: 'GET',
   path: '/countries',
@@ -26,6 +28,7 @@ export default {
           type: 'object',
           properties: {
             country_id: { type: 'string' },
+            country_name: { type: 'string' },
             total_count: { type: 'number' },
             total_direct_sale_count: { type: 'number' },
             total_trial_count: { type: 'number' },
@@ -36,6 +39,7 @@ export default {
           },
           required: [
             'country_id',
+            'country_name',
             'total_count',
             'total_direct_sale_count',
             'total_trial_count',
@@ -56,6 +60,10 @@ export default {
       end_date: query.end_date,
     })
 
-    return rows
+    return rows.map(({ country_id, ...rest }) => ({
+      country_id,
+      country_name: region_names.of(country_id.toUpperCase()),
+      ...rest,
+    }))
   },
 }
