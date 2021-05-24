@@ -5,7 +5,7 @@ export default {
   method: 'GET',
   path: '/subscription/:report_id',
   schema: {
-    querystring: {
+    query: {
       type: 'object',
       properties: {
         application_id: {
@@ -21,8 +21,7 @@ export default {
         },
         interval: {
           type: 'string',
-          default: 'week',
-          // enum: ['week', 'month', 'year'],
+          enum: ['day', 'week', 'month'],
         },
       },
       required: ['start_date', 'end_date', 'interval'],
