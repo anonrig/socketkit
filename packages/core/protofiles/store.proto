@@ -178,6 +178,7 @@ message ApplicationSimplified {
   string released_at = 4;
   string developer_id = 5;
   string developer_name = 6;
+  string application_icon = 7;
 }
 
 message Screenshot {

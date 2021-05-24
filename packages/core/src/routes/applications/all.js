@@ -15,9 +15,10 @@ export default {
               type: 'object',
               properties: {
                 application_id: { type: 'string' },
+                application_icon: { type: 'string' },
                 title: { type: 'string' },
               },
-              required: ['application_id', 'title'],
+              required: ['application_id', 'application_icon', 'title'],
             },
           },
         },
@@ -35,6 +36,8 @@ export default {
     const { rows: applications } = await grpc.applications.findAll({
       application_ids,
     })
+
+    console.log(applications)
 
     return {
       rows: applications.map((application) => ({
