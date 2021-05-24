@@ -36,9 +36,9 @@ export function findAllSimplified({
   developer_ids,
 }) {
   if (
-    !application_ids?.length &&
-    !bundle_ids?.length &&
-    !developer_ids?.length
+    application_ids.length === 0 &&
+    bundle_ids.length === 0 &&
+    developer_ids.length === 0
   ) {
     return []
   }
@@ -52,12 +52,19 @@ export function findAllSimplified({
       released_at: 'a.released_at',
       developer_id: 'a.developer_id',
       developer_name: 'd.name',
+      application_icon: 'av.icon',
     })
     .from('applications AS a')
     .join('application_releases AS ar', function () {
       this.on('a.application_id', 'ar.application_id').andOn(
         'a.default_country_id',
         'ar.country_id',
+      )
+    })
+    .join('application_versions AS av', function () {
+      this.on('a.application_id', 'av.application_id').andOn(
+        'ar.latest_version_number',
+        'av.version_number',
       )
     })
     .join('application_version_contents AS avc', function () {
@@ -67,15 +74,15 @@ export function findAllSimplified({
     })
     .join('developers as d', 'd.developer_id', 'a.developer_id')
     .where(function () {
-      if (application_ids?.length > 0) {
+      if (application_ids.length > 0) {
         this.whereIn('a.application_id', application_ids)
       }
 
-      if (bundle_ids?.length > 0) {
+      if (bundle_ids.length > 0) {
         this.whereIn('a.bundle_id', bundle_ids)
       }
 
-      if (developer_ids?.length > 0) {
+      if (developer_ids.length > 0) {
         this.whereIn('d.developer_id', developer_ids)
       }
     })
