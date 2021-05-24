@@ -20,26 +20,22 @@ const {
   loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
 )
 
-const {
-  Subscribers,
-  Subscriptions,
-  Transactions,
-  Integrations,
-  Reports,
-} = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
-)
+const { Subscribers, Subscriptions, Transactions, Integrations, Reports } =
+  grpc.loadPackageDefinition(
+    loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
+  )
 
-const {
-  Integrations: PaymentIntegrations,
-  Payments,
-} = grpc.loadPackageDefinition(
-  loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
-)
+const { Integrations: PaymentIntegrations, Payments } =
+  grpc.loadPackageDefinition(
+    loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
+  )
 
 export default {
   subscribers: promisifyAll(
-    new Subscribers(config.grpc.subscription, grpc.credentials.createInsecure()),
+    new Subscribers(
+      config.grpc.subscription,
+      grpc.credentials.createInsecure(),
+    ),
   ),
   subscriptions: promisifyAll(
     new Subscriptions(
