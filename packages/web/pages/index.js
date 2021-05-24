@@ -6,6 +6,8 @@ import useSWR from 'swr'
 import { AuthContext } from 'helpers/is-authorized.js'
 import { fetcher } from 'helpers/fetcher.js'
 import getGreeting from 'helpers/greeting.js'
+import { AppstoreConnect } from 'helpers/types/integration.js'
+import PaymentPropTypes from 'helpers/types/payment.js'
 
 import DatePicker from 'components/date-picker.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
@@ -43,7 +45,8 @@ export async function getServerSideProps({
   }
 }
 
-export default function Dashboard({ countries, payment, integration }) {
+function Dashboard({ payment, integration }) {
+  console.log('payment', payment)
   const maxDate = dayjs(integration?.last_fetch ?? undefined)
   const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
@@ -91,3 +94,10 @@ export default function Dashboard({ countries, payment, integration }) {
     </>
   )
 }
+
+Dashboard.propTypes = {
+  integration: AppstoreConnect,
+  payment: PaymentPropTypes,
+}
+
+export default Dashboard

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
@@ -10,12 +11,14 @@ import Heading from 'components/heading'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import CustomerColumns from 'helpers/columns/customer.js'
+import CustomerPropTypes, { CustomerCursor } from 'helpers/types/customer.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, 'customers')
 }
 
-export default function Customers({ initialData }) {
+function Customers({ initialData }) {
+  console.log('initialData', initialData)
   const router = useRouter()
   const columns = useMemo(() => CustomerColumns, [])
   setDateRangeIfNeeded(router, '/customers')
@@ -69,3 +72,12 @@ export default function Customers({ initialData }) {
     </>
   )
 }
+
+Customers.propTypes = {
+  initialData: PropTypes.shape({
+    rows: PropTypes.arrayOf(CustomerPropTypes).isRequired,
+    cursor: CustomerCursor,
+  }),
+}
+
+export default Customers

@@ -1,10 +1,11 @@
+/* eslint-disable react/display-name */
 import PropTypes from 'prop-types'
 import { forwardRef } from 'react'
 import Select from 'react-select'
 import countries from 'helpers/countries.json'
 import cx from 'classnames'
 
-function CountryPicker({ className, onChange, value, ...props }, ref) {
+const CountryPicker = forwardRef(({ className, onChange, value, ...props }, ref) => {
   if (typeof value === 'string') {
     value = countries[value.toLowerCase()]
   } else if (Array.isArray(value)) {
@@ -41,12 +42,12 @@ function CountryPicker({ className, onChange, value, ...props }, ref) {
       {...props}
     />
   )
-}
+})
 
 CountryPicker.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 }
 
-export default forwardRef(CountryPicker)
+export default CountryPicker

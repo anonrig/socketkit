@@ -2,9 +2,10 @@ module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module', // Allows using import/export statements
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
+      modules: true,
     },
   },
   settings: {
@@ -16,6 +17,7 @@ module.exports = {
     browser: true,
     amd: true,
     node: true,
+    es6: true,
   },
   extends: [
     'eslint:recommended',

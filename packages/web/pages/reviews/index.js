@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
@@ -14,6 +15,7 @@ import { fetcher } from 'helpers/fetcher.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ReviewColumns from 'helpers/columns/review.js'
+import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, 'reviews')
@@ -140,6 +142,14 @@ function Reviews({ initialData }) {
       />
     </>
   )
+}
+
+Reviews.propTypes = {
+  initialData: PropTypes.shape({
+    fetching: PropTypes.bool,
+    rows: PropTypes.arrayOf(ReviewPropTypes),
+    cursor: ReviewCursor,
+  }).isRequired,
 }
 
 export default Reviews

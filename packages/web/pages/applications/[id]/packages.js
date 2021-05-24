@@ -1,16 +1,18 @@
+import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
 
+import { fetchOnBackground } from 'helpers/server-side.js'
 import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
+import SubscriptionPackagePropTypes from 'helpers/types/subscription-package.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, `applications/${query.id}/packages`)
 }
 
-export default function SubscriptionPackages({ initialData }) {
+function SubscriptionPackages({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => SubscriptionPackageColumns, [])
 
@@ -30,3 +32,11 @@ export default function SubscriptionPackages({ initialData }) {
     </>
   )
 }
+
+SubscriptionPackages.propTypes = {
+  initialData: PropTypes.shape({
+    rows: PropTypes.arrayOf(SubscriptionPackagePropTypes),
+  }),
+}
+
+export default SubscriptionPackages

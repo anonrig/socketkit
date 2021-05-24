@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types'
 import FormField from 'components/form/field'
 import Button from 'components/form/button'
+import { KratosNode } from 'helpers/types/kratos.js'
 
 function AccountPassword({ fields }) {
   const submit = fields.find((f) => f.attributes.type === 'submit') ?? {}
@@ -29,6 +31,10 @@ function AccountPassword({ fields }) {
       </div>
     </section>
   )
+}
+
+AccountPassword.propTypes = {
+  fields: PropTypes.arrayOf(KratosNode).isRequired,
 }
 
 export default AccountPassword

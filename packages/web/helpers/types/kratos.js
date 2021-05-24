@@ -1,5 +1,19 @@
 import PropTypes from 'prop-types'
 
+export const KratosNode = PropTypes.shape({
+  attributes: PropTypes.shape({
+    disabled: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.string,
+  }).isRequired,
+  group: PropTypes.oneOf(['default', 'link', 'oidc', 'password', 'profile']).isRequired,
+  messages: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)),
+  meta: PropTypes.any,
+  type: PropTypes.oneOf(['input']).isRequired,
+})
+
 export default PropTypes.shape({
   active: PropTypes.oneOf(['link']),
   expires_at: PropTypes.string.isRequired,
@@ -19,20 +33,6 @@ export default PropTypes.shape({
       }),
     ),
     method: PropTypes.oneOf(['POST']),
-    nodes: PropTypes.arrayOf(
-      PropTypes.shape({
-        attributes: PropTypes.shape({
-          disabled: PropTypes.bool,
-          name: PropTypes.string.isRequired,
-          required: PropTypes.bool,
-          type: PropTypes.string.isRequired,
-          value: PropTypes.string,
-        }).isRequired,
-        group: PropTypes.oneOf(['default', 'link', 'oidc', 'password']).isRequired,
-        messages: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)),
-        meta: PropTypes.any,
-        type: PropTypes.oneOf(['input']).isRequired,
-      }),
-    ).isRequired,
+    nodes: PropTypes.arrayOf(KratosNode).isRequired,
   }).isRequired,
 }).isRequired

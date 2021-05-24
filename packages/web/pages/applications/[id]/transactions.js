@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 
@@ -5,14 +6,14 @@ import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
-
 import TransactionColumns from 'helpers/columns/transaction.js'
+import TransactionPropTypes, { TransactionCursor } from 'helpers/types/transaction.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, `applications/${query.id}/transactions`)
 }
 
-export default function Transactions({ initialData }) {
+function Transactions({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => TransactionColumns, [])
   setDateRangeIfNeeded(router, '/applications/[id]/transactions')
@@ -34,3 +35,12 @@ export default function Transactions({ initialData }) {
     </>
   )
 }
+
+Transactions.propTypes = {
+  initialData: PropTypes.shape({
+    rows: PropTypes.arrayOf(TransactionPropTypes).isRequired,
+    cursor: TransactionCursor,
+  }),
+}
+
+export default Transactions

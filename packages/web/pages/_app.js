@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useCallback, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import router, { useRouter } from 'next/router'

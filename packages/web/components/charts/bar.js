@@ -64,7 +64,7 @@ BarChart.propTypes = {
         x: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    fields: PropTypes.shape(PropTypes.any).isRequired,
+    fields: PropTypes.any,
   }).isRequired,
 }
 

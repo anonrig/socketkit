@@ -1,26 +1,16 @@
-import PropTypes from 'prop-types'
-import Button from 'components/form/button.js'
-import { fetcher } from 'helpers/fetcher.js'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
 
-export async function getServerSideProps({
-  req: {
-    headers: { cookie, referer },
-  },
-}) {
-  const initialData = await fetcher(`integrations/appstore-connect`, {
-    headers: { cookie, referer },
-  })
+import Button from 'components/form/button.js'
+import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import { AppstoreConnect } from 'helpers/types/integration.js'
 
-  return {
-    props: {
-      initialData,
-    },
-  }
+export async function getServerSideProps({ query, req: { headers } }) {
+  return await fetchOnBackground({ query, headers }, 'integrations/appstore-connect')
 }
 
 function AppStoreConnectIntegration({ initialData }) {
@@ -127,13 +117,7 @@ function AppStoreConnectIntegration({ initialData }) {
 }
 
 AppStoreConnectIntegration.propTypes = {
-  integrations: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      requirement_schema: PropTypes.any,
-      integration: PropTypes.any,
-    }),
-  ),
+  initialData: AppstoreConnect,
 }
 
 export default AppStoreConnectIntegration

@@ -9,6 +9,7 @@ import Table from 'components/table/table'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ReviewColumns from 'helpers/columns/review.js'
+import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, `reviews?application_id=${query.id}`)
@@ -61,19 +62,13 @@ function ApplicationReviews({ initialData }) {
     </>
   )
 }
+
 ApplicationReviews.propTypes = {
   initialData: PropTypes.shape({
-    fetching: PropTypes.bool.isRequired,
-    rows: PropTypes.arrayOf(
-      PropTypes.shape({
-        review_id: PropTypes.string.isRequired,
-        country_id: PropTypes.string.isRequired,
-        score: PropTypes.number.isRequired,
-        version_number: PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired,
-      }),
-    ),
-  }),
+    fetching: PropTypes.bool,
+    rows: PropTypes.arrayOf(ReviewPropTypes),
+    cursor: ReviewCursor,
+  }).isRequired,
 }
 
 export default ApplicationReviews

@@ -1,16 +1,16 @@
+import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+
+import Settings from 'components/scenes/account/account-settings.js'
+import Password from 'components/scenes/account/account-password.js'
+import CTA from 'components/cta.js'
+
+import { AuthContext } from 'helpers/is-authorized.js'
 import { endpoints } from 'helpers/kratos.js'
 import { client } from 'helpers/is-authorized.js'
 import redirect from 'helpers/redirect'
-import Settings from 'components/scenes/account/account-settings.js'
-import Password from 'components/scenes/account/account-password.js'
-import { AuthContext } from 'helpers/is-authorized.js'
-import CTA from 'components/cta.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -27,7 +27,8 @@ export async function getServerSideProps(ctx) {
   return { props: { flow } }
 }
 
-export default function AccountSettings({ flow }) {
+function AccountSettings({ flow }) {
+  console.log(flow)
   const { session } = useContext(AuthContext)
   const isUserVerified = session.identity.verifiable_addresses[0]?.verified
   const [kratos, setKratos] = useState(null)
@@ -78,3 +79,9 @@ export default function AccountSettings({ flow }) {
     </div>
   )
 }
+
+AccountSettings.propTypes = {
+  flow: PropTypes.string.isRequired,
+}
+
+export default AccountSettings

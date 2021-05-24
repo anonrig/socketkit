@@ -1,8 +1,11 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+
+import ApplicationHeader from 'components/menu/application-header.js'
+
 import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
-import ApplicationHeader from 'components/menu/application-header.js'
+import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, `applications/${query.id}/statistics`)
@@ -21,7 +24,7 @@ function ApplicationDashboard({ initialData }) {
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="">
+                <div>
                   <dt className="text-sm font-medium text-gray-500 truncate">
                     Annual Recurring Revenue
                   </dt>
@@ -40,7 +43,7 @@ function ApplicationDashboard({ initialData }) {
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="">
+                <div>
                   <dt className="text-sm font-medium text-gray-500 truncate">
                     Monthly Recurring Revenue
                   </dt>
@@ -56,7 +59,7 @@ function ApplicationDashboard({ initialData }) {
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="">
+                <div>
                   <dt className="text-sm font-medium text-gray-500 truncate">
                     Active Subscriptions
                   </dt>
@@ -72,7 +75,7 @@ function ApplicationDashboard({ initialData }) {
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center">
-                <div className="">
+                <div>
                   <dt className="text-sm font-medium text-gray-500 truncate">Active Trials</dt>
                   <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">
@@ -87,6 +90,10 @@ function ApplicationDashboard({ initialData }) {
       </aside>
     </>
   )
+}
+
+ApplicationDashboard.propTypes = {
+  initialData: ApplicationStatisticsPropTypes,
 }
 
 export default ApplicationDashboard

@@ -2,15 +2,15 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
-
-import { fetcher } from 'helpers/fetcher.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
-
 import 'react-medium-image-zoom/dist/styles.css'
 
 import ApplicationHeader from 'components/menu/application-header.js'
 import Button from 'components/form/button.js'
 import Card from 'components/card.js'
+
+import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import ApplicationPropTypes from 'helpers/types/application.js'
 
 const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
@@ -139,6 +139,10 @@ function ApplicationInformation({ initialData }) {
       </div>
     </>
   )
+}
+
+ApplicationInformation.propTypes = {
+  initialData: ApplicationPropTypes,
 }
 
 export default ApplicationInformation

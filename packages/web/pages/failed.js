@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import pkg from '../package.json'
 
 import { client } from 'helpers/is-authorized.js'
@@ -36,6 +35,7 @@ export async function getServerSideProps(ctx) {
 }
 
 function Failed({ data }) {
+  console.error(data)
   return (
     <div className="mb-48">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">

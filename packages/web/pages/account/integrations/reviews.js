@@ -1,30 +1,20 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { mutate } from 'swr'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
 
 import Button from 'components/form/button.js'
 import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import { Review } from 'helpers/types/integration.js'
 
 const ApplicationPicker = dynamic(() => import('components/form/application-picker'))
 const CountryPicker = dynamic(() => import('components/form/country-picker'))
 
-export async function getServerSideProps({
-  req: {
-    headers: { cookie, referer },
-  },
-}) {
-  const initialData = await fetcher(`integrations/reviews`, {
-    headers: { cookie, referer },
-  })
-
-  return {
-    props: {
-      initialData,
-    },
-  }
+export async function getServerSideProps({ query, req: { headers } }) {
+  return await fetchOnBackground({ query, headers }, 'integrations/reviews')
 }
 
 function ReviewsIntegration({ initialData }) {
@@ -153,13 +143,7 @@ function ReviewsIntegration({ initialData }) {
 }
 
 ReviewsIntegration.propTypes = {
-  integrations: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      requirement_schema: PropTypes.any,
-      integration: PropTypes.any,
-    }),
-  ),
+  initialData: PropTypes.arrayOf(Review),
 }
 
 export default ReviewsIntegration
