@@ -16,16 +16,16 @@ export default {
             event_date: { type: 'string' },
           },
         },
-        from: {
+        start_date: {
           type: 'string',
           format: 'date',
         },
-        to: {
+        end_date: {
           type: 'string',
           format: 'date',
         },
       },
-      required: ['from', 'to'],
+      required: ['start_date', 'end_date'],
     },
     response: {
       200: {
@@ -70,8 +70,8 @@ export default {
       account_id: account.account_id,
       application_id,
       limit: query.limit,
-      start_date: query.from,
-      end_date: query.to,
+      start_date: query.start_date,
+      end_date: query.end_date,
       cursor: query.cursor,
     })
   },

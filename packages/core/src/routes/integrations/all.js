@@ -39,7 +39,7 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], user: { identity } }) => {
+  handler: async ({ accounts: [account] }) => {
     const appstore = await grpc.integrations.findAll({
       account_id: account.account_id,
       provider_id: 'apple',

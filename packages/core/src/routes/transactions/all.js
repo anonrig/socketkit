@@ -17,16 +17,16 @@ export default {
           },
           required: ['subscriber_id', 'event_date'],
         },
-        from: {
+        start_date: {
           type: 'string',
           format: 'date',
         },
-        to: {
+        end_date: {
           type: 'string',
           format: 'date',
         },
       },
-      required: ['from', 'to'],
+      required: ['start_date', 'end_date'],
     },
     response: {
       200: {
@@ -78,8 +78,8 @@ export default {
     return grpc.transactions.findAll({
       account_id: account.account_id,
       limit: query.limit,
-      start_date: query.from,
-      end_date: query.to,
+      start_date: query.start_date,
+      end_date: query.end_date,
       cursor: query.cursor,
     })
   },

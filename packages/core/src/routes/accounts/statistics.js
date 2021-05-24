@@ -6,19 +6,19 @@ export default {
   method: 'GET',
   path: '/statistics',
   schema: {
-    querystring: {
+    query: {
       type: 'object',
       properties: {
-        from: {
+        start_date: {
           type: 'string',
           format: 'date',
         },
-        to: {
+        end_date: {
           type: 'string',
           format: 'date',
         },
       },
-      required: ['from', 'to'],
+      required: ['start_date', 'end_date'],
     },
     response: {
       200: {
@@ -68,16 +68,16 @@ export default {
     const [subscription_counts, transaction_sums] = await Promise.all([
       grpc.subscriptions.count({
         account_id: account.account_id,
-        start_date: query.from,
-        end_date: query.to,
+        start_date: query.start_date,
+        end_date: query.end_date,
       }),
       grpc.transactions.sum({
         account_id: account.account_id,
-        start_date: dayjs(query.from)
-          .add(dayjs(query.from).diff(dayjs(query.to)))
+        start_date: dayjs(query.start_date)
+          .add(dayjs(query.start_date).diff(dayjs(query.end_date)))
           .format('YYYY-MM-DD'),
-        change_date: query.from,
-        end_date: query.to,
+        change_date: query.start_date,
+        end_date: query.end_date,
       }),
     ])
 
