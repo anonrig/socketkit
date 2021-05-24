@@ -32,22 +32,6 @@ const report_groups = [
           y_format: '>-.2f',
         },
       },
-      {
-        slug: 'mrr-movement',
-        title: 'MRR Movement',
-        short_title: 'MRR Movement',
-        description:
-          'MRR is a calculation of your normalised (amortized), monthly subscription revenue.',
-        formats: {
-          y0: '$%',
-        },
-        defaults: {
-          interval: 'month',
-          range: 3,
-          graph: 'bar',
-          y_format: '>-.2f',
-        },
-      },
     ],
   },
   {
