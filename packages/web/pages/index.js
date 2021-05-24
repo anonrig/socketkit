@@ -48,8 +48,8 @@ export default function Dashboard({ countries, payment, integration }) {
   const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
   const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
-    from: maxDate.subtract(1, 'month'),
-    to: maxDate,
+    start_date: maxDate.subtract(1, 'month'),
+    end_date: maxDate,
   })
 
   return (
@@ -60,25 +60,23 @@ export default function Dashboard({ countries, payment, integration }) {
         </h3>
 
         <DatePicker
-          interval={{ start_date: interval.from, end_date: interval.to }}
-          setInterval={({ start_date, end_date }) =>
-            setInterval({ from: start_date, to: end_date })
-          }
+          interval={interval}
+          setInterval={(interval) => setInterval(interval)}
           maxDate={maxDate.toDate()}
         />
       </div>
       <section className="space-y-10">
         <StatisticsWidget
-          range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
+          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
         />
 
         {['new', 'canceled'].includes(paymentsData.state) && <CheckoutButton />}
 
         <CustomersWidget
-          range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
+          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
         />
         <CountriesWidget
-          range={{ from: interval.from.format('YYYY-MM-DD'), to: interval.to.format('YYYY-MM-DD') }}
+          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
         />
       </section>
     </>

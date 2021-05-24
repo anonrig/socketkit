@@ -2,7 +2,9 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 
 function StatisticsWidget({ range }) {
-  const { data } = useSWR(`accounts/statistics?from=${range.from}&to=${range.to}`)
+  const { data } = useSWR(
+    `accounts/statistics?start_date=${range.start_date}&end_date=${range.end_date}`,
+  )
 
   return (
     <aside className="lg:col-span-4">
@@ -62,8 +64,8 @@ function StatisticsWidget({ range }) {
 
 StatisticsWidget.propTypes = {
   range: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
+    end_date: PropTypes.string.isRequired,
   }),
 }
 export default StatisticsWidget

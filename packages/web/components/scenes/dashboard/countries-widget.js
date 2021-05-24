@@ -10,7 +10,7 @@ const TreeMapChart = dynamic(() =>
 
 function CountriesWidget({ range, initialData }) {
   const { data } = useSWR(
-    `accounts/countries?from=${range.from}&to=${range.to}&limit=10`,
+    `accounts/countries?start_date=${range.start_date}&end_date=${range.end_date}&limit=10`,
     fetcher,
     { initialData, refreshInterval: 0 },
   )
@@ -109,8 +109,8 @@ function CountriesWidget({ range, initialData }) {
 
 CountriesWidget.propTypes = {
   range: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
+    end_date: PropTypes.string.isRequired,
   }),
   initialData: PropTypes.arrayOf(
     PropTypes.shape({

@@ -7,21 +7,21 @@ const LineChart = dynamic(() => import('components/charts/line.js'))
 
 function SubscribersWidget({ range, initialData }) {
   const { data } = useSWR(
-    `reports/subscription/subscribers?start_date=${range.from}&end_date=${range.to}&interval=day`,
+    `reports/subscription/subscribers?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
     fetcher,
     { initialData },
   )
 
   const { data: activeTrialsData } = useSWR(
-    `reports/subscription/active-trials?start_date=${range.from}&end_date=${range.to}&interval=day`,
+    `reports/subscription/active-trials?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
   )
 
   const { data: trialsData } = useSWR(
-    `reports/subscription/trials?start_date=${range.from}&end_date=${range.to}&interval=day`,
+    `reports/subscription/trials?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
   )
 
   const { data: salesData } = useSWR(
-    `reports/subscription/sales-refunds?start_date=${range.from}&end_date=${range.to}&interval=day`,
+    `reports/subscription/sales-refunds?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
   )
 
   return (
@@ -96,8 +96,8 @@ function SubscribersWidget({ range, initialData }) {
 
 SubscribersWidget.propTypes = {
   range: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
+    end_date: PropTypes.string.isRequired,
   }),
   initialData: PropTypes.any,
 }
