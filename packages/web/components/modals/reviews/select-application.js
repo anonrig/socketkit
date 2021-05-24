@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import ApplicationPicker from 'components/form/application-picker.js'
 
 function SelectApplication({ application = null, setApplication = () => ({}) }) {
@@ -9,6 +10,11 @@ function SelectApplication({ application = null, setApplication = () => ({}) }) 
       />
     </div>
   )
+}
+
+SelectApplication.propTypes = {
+  application: PropTypes.shape(PropTypes.any),
+  setApplication: PropTypes.func,
 }
 
 export default SelectApplication

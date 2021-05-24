@@ -59,7 +59,7 @@ function Integrations({ initial }) {
           <div className="ml-4 sm:flex-shrink-0">
             <Link href={`/account/integrations/appstore-connect`}>
               <a className="inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-                {!!appstoreConnect?.access_token ? 'Update' : 'Setup Integration'}
+                {appstoreConnect?.access_token ? 'Update' : 'Setup Integration'}
               </a>
             </Link>
           </div>

@@ -1,8 +1,6 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationIcon, CheckIcon } from '@heroicons/react/outline'
 
-import cx from 'classnames'
 import toast from 'react-hot-toast'
 
 import Steps from './steps.js'

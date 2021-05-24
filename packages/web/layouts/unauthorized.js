@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 
-export default function UnauthorizedLayout({ children }) {
+function UnauthorizedLayout({ children }) {
   return (
     <div className="min-h-screen bg-white flex">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24">
@@ -12,3 +13,9 @@ export default function UnauthorizedLayout({ children }) {
     </div>
   )
 }
+
+UnauthorizedLayout.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+}
+
+export default UnauthorizedLayout

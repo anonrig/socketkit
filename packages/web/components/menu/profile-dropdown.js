@@ -1,8 +1,9 @@
-import { Fragment, useEffect, useRef, useState, useContext } from 'react'
+import { Fragment, useContext } from 'react'
 import Link from 'next/link'
 import { Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/outline'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 import { AuthContext } from 'helpers/is-authorized'
 import { endpoints } from 'helpers/kratos'
@@ -73,6 +74,10 @@ function ProfileDropdown({ className }) {
       </Menu>
     </div>
   )
+}
+
+ProfileDropdown.propTypes = {
+  className: PropTypes.string,
 }
 
 export default ProfileDropdown

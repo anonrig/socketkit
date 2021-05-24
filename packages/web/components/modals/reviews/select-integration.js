@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import cx from 'classnames'
 
@@ -56,6 +57,11 @@ function SelectIntegration({ integration, setIntegration }) {
       ))}
     </div>
   )
+}
+
+SelectIntegration.propTypes = {
+  integration: PropTypes.shape(PropTypes.any),
+  setIntegration: PropTypes.func,
 }
 
 export default SelectIntegration

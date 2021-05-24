@@ -65,6 +65,7 @@ DatePicker.propTypes = {
     end_date: PropTypes.any,
   }).isRequired,
   setInterval: PropTypes.func.isRequired,
+  maxDate: PropTypes.date,
 }
 
 export default DatePicker

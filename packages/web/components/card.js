@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types'
 import cx from 'classnames'
 
-export default function Card({ title, className, children }) {
+function Card({ title, className, children }) {
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 border-b border-gray-200 sm:px-6">
       <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
@@ -13,3 +14,11 @@ export default function Card({ title, className, children }) {
     </div>
   )
 }
+
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+}
+
+export default Card

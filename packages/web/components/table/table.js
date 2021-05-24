@@ -14,7 +14,7 @@ function Table({ initialData, columns, getRowProps, url, options }) {
     (_, previous) => {
       if (previous && !previous.cursor) return null
       const query = getQueryString(
-        Object.assign({}, options, !!previous?.cursor ? { cursor: previous.cursor } : {}),
+        Object.assign({}, options, previous?.cursor ? { cursor: previous.cursor } : {}),
       )
 
       return query.length > 0 ? `${url}?${query}` : url
@@ -29,17 +29,11 @@ function Table({ initialData, columns, getRowProps, url, options }) {
     },
   )
 
-  const isLoadingInitialData = !data && !error
-  const isLoadingMore =
-    isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isEmpty = data?.[0]?.length === 0
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < (options.limit ?? 10))
-
   useEffect(() => {
     if (isVisible && !isValidating) {
       setSize(size + 1)
     }
-  }, [isVisible, isValidating])
+  }, [isVisible, isValidating]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 

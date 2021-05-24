@@ -53,7 +53,6 @@ function ApplicationPicker({ value = null, onChange }) {
         borderRadius: '0.375rem',
         colors: {
           ...theme.colors,
-          primary25: '#FAFAF9',
           primary50: '#FAFAF9',
           primary25: '#F5F5F4',
           primary: 'rgba(249, 115, 22, 1)',

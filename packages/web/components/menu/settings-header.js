@@ -1,4 +1,3 @@
-import cx from 'classnames'
 import Tabs from 'components/tabs.js'
 import { useRouter } from 'next/router'
 import { getUrl } from 'helpers/fetcher.js'

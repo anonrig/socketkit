@@ -1,6 +1,5 @@
-import cx from 'classnames'
-import Heading from 'components/heading'
-import { CheckIcon, DeviceMobileIcon } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
+import { DeviceMobileIcon } from '@heroicons/react/outline'
 import { Dialog } from '@headlessui/react'
 
 const steps = [
@@ -44,6 +43,10 @@ function Steps({ current = 'application' }) {
       <p className="text-sm text-gray-500">{existingStep?.subtitle}</p>
     </nav>
   )
+}
+
+Steps.propTypes = {
+  current: PropTypes.string.isRequired,
 }
 
 export default Steps

@@ -37,6 +37,7 @@ function TreeMapChart({ id, rows, identity }) {
 }
 
 TreeMapChart.propTypes = {
+  id: PropTypes.string.isRequired,
   identity: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   rows: PropTypes.arrayOf(

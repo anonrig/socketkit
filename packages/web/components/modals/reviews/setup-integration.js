@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 function SetupIntegration({ integration_id }) {
   const type = integration_id === 'email' ? 'email' : 'text'
   const placeholder =
@@ -16,6 +18,10 @@ function SetupIntegration({ integration_id }) {
       />
     </div>
   )
+}
+
+SetupIntegration.propTypes = {
+  integration_id: PropTypes.string,
 }
 
 export default SetupIntegration

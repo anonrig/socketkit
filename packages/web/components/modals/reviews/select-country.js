@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import CountryPicker from 'components/form/country-picker.js'
 
 function SelectCountry({ countries, setCountries = () => ({}) }) {
@@ -11,6 +12,11 @@ function SelectCountry({ countries, setCountries = () => ({}) }) {
       />
     </div>
   )
+}
+
+SelectCountry.propTypes = {
+  countries: PropTypes.arrayOf(PropTypes.string),
+  setCountries: PropTypes.func,
 }
 
 export default SelectCountry

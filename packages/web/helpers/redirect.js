@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import Head from 'next/head'
 import router from 'next/router'
 
@@ -16,15 +16,14 @@ function redirectTo(destination, { res } = { res: null }) {
 }
 
 export default (destination) =>
-  class RedirectRoute extends React.Component {
+  class RedirectRoute extends Component {
     static getInitialProps({ res }) {
       if (typeof window === 'undefined' && !res.writeHead) {
-        // This is the SSR mode
         return { metaRedirect: true }
       }
 
       redirectTo(destination, { res, status: 301 })
-      return {}
+      return { metaRedirect: false }
     }
 
     render() {

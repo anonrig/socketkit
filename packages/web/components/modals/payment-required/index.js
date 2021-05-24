@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
@@ -5,11 +6,10 @@ import cx from 'classnames'
 import toast from 'react-hot-toast'
 
 import Loading from 'components/loading.js'
-import { AuthContext } from 'helpers/is-authorized.js'
 import getStripe from 'helpers/stripe.js'
 import { fetcher } from 'helpers/fetcher.js'
 
-export default function PaymentRequiredModal({ open = true, setOpen = () => ({}) }) {
+function PaymentRequiredModal({ open = true, setOpen = () => ({}) }) {
   const [loading, setLoading] = useState(false)
   const buttonRef = useRef()
 
@@ -105,3 +105,10 @@ export default function PaymentRequiredModal({ open = true, setOpen = () => ({})
     </Transition.Root>
   )
 }
+
+PaymentRequiredModal.propTypes = {
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+}
+
+export default PaymentRequiredModal

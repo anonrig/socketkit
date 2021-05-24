@@ -1,6 +1,6 @@
-import cx from 'classnames'
+import PropTypes from 'prop-types'
 
-export default function Loading({ className }) {
+function Loading({ className }) {
   return (
     <div className={className}>
       <svg
@@ -23,3 +23,9 @@ export default function Loading({ className }) {
     </div>
   )
 }
+
+Loading.propTypes = {
+  className: PropTypes.string,
+}
+
+export default Loading

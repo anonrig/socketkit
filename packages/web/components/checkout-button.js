@@ -1,14 +1,12 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import cx from 'classnames'
 import toast from 'react-hot-toast'
 
 import Loading from 'components/loading.js'
 import { fetcher } from 'helpers/fetcher.js'
-import { AuthContext } from 'helpers/is-authorized.js'
-import getStripe from 'helpers/stripe.js'
+import { getStripe } from 'helpers/stripe.js'
 
 export default function CheckoutButton() {
-  const { session } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
   const onClick = async () => {

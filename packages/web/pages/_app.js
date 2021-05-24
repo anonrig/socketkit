@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
     if (!session) {
       fetchUser()
     }
-  }, [fetchUser])
+  }, [fetchUser]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
   if (session === undefined) {
     return null

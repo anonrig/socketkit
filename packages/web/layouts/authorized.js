@@ -6,30 +6,16 @@ import Banner from 'components/banner.js'
 import Container from 'components/container.js'
 import Footer from 'components/menu/footer.js'
 import Header from 'components/menu/header.js'
-import ApplicationHeader from 'components/menu/application-header.js'
 import SettingsHeader from 'components/menu/settings-header.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
   const { data: integration } = useSWR('integrations/appstore-connect')
-  let header = null
-
-  // Application header
-  if (router.pathname.startsWith('/applications')) {
-    // Don't render header on integration required page.
-    if (!router.pathname.includes('integration-required')) {
-      header = <ApplicationHeader />
-    }
-  }
-  // Account header
-  else if (router.pathname.startsWith('/account')) {
-    header = <SettingsHeader />
-  }
 
   return (
     <>
       <Header />
-      {header}
+      {router.pathname.startsWith('/account') && <SettingsHeader />}
       <Container>{children}</Container>
       <Footer />
 

@@ -75,11 +75,13 @@ function Reports({ query, slug }) {
     setFilters({
       ...filters,
       interval,
-      start_date: dayjs().subtract(report.defaults?.range ?? 2, 'month').startOf(interval),
+      start_date: dayjs()
+        .subtract(report.defaults?.range ?? 2, 'month')
+        .startOf(interval),
       end_date: dayjs().endOf(interval),
       type: report.defaults?.graph ?? filters.type,
     })
-  }, [report])
+  }, [report]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
   return (
     <SidebarLayout leading={<Sidebar />}>

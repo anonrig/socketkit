@@ -1,56 +1,32 @@
 import { useMemo } from 'react'
+import { useRouter } from 'next/router'
+import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table.js'
-import { fetcher } from 'helpers/fetcher'
+import { fetchOnBackground } from 'helpers/server-side.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
-export async function getServerSideProps({
-  query,
-  req: {
-    headers: { cookie, referer },
-  },
-}) {
-  const initialData = await fetcher(`applications/${query.id}/packages?limit=10`, {
-    headers: { cookie, referer },
-  })
-  return {
-    props: { initialData, id: query.id },
-  }
+import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
+
+export async function getServerSideProps({ query, req: { headers } }) {
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}/packages`)
 }
 
-export default function SubscriptionPackages({ initialData, id }) {
-  const columns = useMemo(
-    () => [
-      {
-        id: 'subscription_package_id',
-        Header: 'Identifier',
-        accessor: function SubscriptionPackageId(field) {
-          return <div className="font-semibold">{field.subscription_package_id}</div>
-        },
-        className: 'w-24',
-      },
-      { id: 'subscription_name', Header: 'Name', accessor: 'subscription_name' },
-      {
-        id: 'subscription_duration',
-        Header: 'Duration',
-        accessor: 'subscription_duration',
-        className: '!text-right w-32',
-      },
-    ],
-    [],
-  )
+export default function SubscriptionPackages({ initialData }) {
+  const router = useRouter()
+  const columns = useMemo(() => SubscriptionPackageColumns, [])
 
   return (
-    <Table
-      initialData={initialData}
-      url={`applications/${id}/packages`}
-      options={{}}
-      columns={columns}
-      getRowProps={({ original }) => ({
-        key: original.subscription_package_id,
-        onClick: () => {},
-      })}
-    />
+    <>
+      <ApplicationHeader />
+      <Table
+        initialData={initialData}
+        url={`applications/${router.query.id}/packages`}
+        options={{}}
+        columns={columns}
+        getRowProps={({ original }) => ({
+          key: original.subscription_package_id,
+          onClick: () => {},
+        })}
+      />
+    </>
   )
 }

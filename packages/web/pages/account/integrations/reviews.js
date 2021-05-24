@@ -115,7 +115,7 @@ function ReviewsIntegration({ initialData }) {
                     <CountryPicker
                       value={application?.country_ids}
                       onChange={(values) => updateCountry(index, values)}
-                      disabled={!!!application}
+                      disabled={!application}
                       className="ml-4"
                       isMulti
                     />
