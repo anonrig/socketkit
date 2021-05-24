@@ -8,7 +8,8 @@ import useSWR from 'swr'
 import SocketkitConfig from 'socketkit.config.js'
 
 import DatePicker from 'components/date-picker.js'
-import Dropdown from 'components/dropdown.js'
+import IntervalDropdown from 'components/reports/interval-dropdown.js'
+import ApplicationDropdown from 'components/reports/application-dropdown.js'
 import Sidebar from 'components/sidebar-reports.js'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import SidebarLayout from 'layouts/sidebar.js'
@@ -51,23 +52,29 @@ function Reports({ query, slug }) {
     end_date: dayjs(query.end_date),
     type: report.defaults?.graph ?? 'line',
     interval: report.defaults?.interval ?? 'day',
+    application_id: null,
   })
   const { data } = useSWR(
     `reports/subscription/${slug}?${getQueryString({
       start_date: filters.start_date.format('YYYY-MM-DD'),
       end_date: filters.end_date.format('YYYY-MM-DD'),
       interval: filters.interval,
+      application_id: filters.application_id,
     })}`,
     fetcher,
     { refreshInterval: 0 },
   )
-  const changeInterval = (interval) => {
+  function changeInterval(interval) {
     setFilters({
       ...filters,
       interval,
       start_date: filters.start_date.startOf(interval),
       end_date: filters.end_date.endOf(interval),
     })
+  }
+
+  function changeApplicationId(application_id) {
+    setFilters({ ...filters, application_id })
   }
 
   useEffect(() => {
@@ -136,15 +143,15 @@ function Reports({ query, slug }) {
                   Bar
                 </button>
               </nav>
-              <div className="flex align-middle items-center mb-1">
-                <Dropdown
+              <div className="flex align-middle items-center space-x-2 mb-1">
+                <ApplicationDropdown
+                  selected={filters.application_id}
+                  onChange={(key) => changeApplicationId(key)}
+                />
+
+                <IntervalDropdown
                   selected={filters.interval}
-                  items={[
-                    { key: 'day', label: 'Daily' },
-                    { key: 'week', label: 'Weekly' },
-                    { key: 'month', label: 'Monthly' },
-                  ]}
-                  onChange={({ key }) => changeInterval(key)}
+                  onChange={(key) => changeInterval(key)}
                 />
               </div>
             </div>
