@@ -15,7 +15,7 @@ export async function fetchOnBackground({ query, headers: { cookie, referer } },
 
     const initialData = await fetcher(resourceUrl, {
       headers: { cookie, referer },
-      qs: { from: start_date, to: end_date },
+      qs: { start_date, end_date },
     })
     return { props: { initialData } }
   } catch (error) {
