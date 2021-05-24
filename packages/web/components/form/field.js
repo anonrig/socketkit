@@ -6,8 +6,9 @@ function FormField({ name, type, value, required, className, messages }) {
   const hasError =
     messages && messages.length > 0 && (messages ?? []).filter((m) => m.type === 'error').length > 0
   const isPicture = name === 'traits.picture'
+  const isAccountId = name === 'traits.account_id'
 
-  if (isPicture) {
+  if (isPicture || isAccountId) {
     return null
   }
 
