@@ -67,16 +67,25 @@ export default function Dashboard({ countries, payment, integration }) {
       </div>
       <section className="space-y-10">
         <StatisticsWidget
-          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
+          range={{
+            start_date: interval.start_date.format('YYYY-MM-DD'),
+            end_date: interval.end_date.format('YYYY-MM-DD'),
+          }}
         />
 
         {['new', 'canceled'].includes(paymentsData.state) && <CheckoutButton />}
 
         <CustomersWidget
-          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
+          range={{
+            start_date: interval.start_date.format('YYYY-MM-DD'),
+            end_date: interval.end_date.format('YYYY-MM-DD'),
+          }}
         />
         <CountriesWidget
-          range={{ start_date: interval.start_date.format('YYYY-MM-DD'), end_date: interval.end_date.format('YYYY-MM-DD') }}
+          range={{
+            start_date: interval.start_date.format('YYYY-MM-DD'),
+            end_date: interval.end_date.format('YYYY-MM-DD'),
+          }}
         />
       </section>
     </>

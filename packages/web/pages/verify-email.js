@@ -1,10 +1,9 @@
 import dayjs from 'dayjs'
-import Form from '../components/form/form.js'
-import { client } from '../helpers/is-authorized.js'
+import Form from 'components/form/form.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
+import { client } from 'helpers/is-authorized.js'
+import KratosPropTypes from 'helpers/types/kratos.js'
+
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -54,5 +53,7 @@ function VerifyEmail({ kratos }) {
     </>
   )
 }
+
+VerifyEmail.propTypes = { kratos: KratosPropTypes }
 
 export default VerifyEmail

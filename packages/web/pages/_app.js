@@ -88,7 +88,6 @@ function MyApp({ Component, pageProps }) {
           refreshWhenHidden: true,
           registerOnReconnect: true,
           revalidateOnReconnect: true,
-          // revalidateOnMount: false,
           fetcher,
         }}>
         <AuthContext.Provider value={{ session }}>

@@ -1,11 +1,10 @@
 import dayjs from 'dayjs'
-import { client } from 'helpers/is-authorized.js'
-import { endpoints } from 'helpers/kratos.js'
 import Form from 'components/form/form.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
+import { client } from 'helpers/is-authorized.js'
+import { endpoints } from 'helpers/kratos.js'
+import KratosPropTypes from 'helpers/types/kratos.js'
+
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -32,7 +31,7 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default function SignUp({ kratos }) {
+function SignUp({ kratos }) {
   return (
     <>
       <h2 className="mt-6 text-3xl font-extrabold text-gray-900 mb-8">Create an account</h2>
@@ -49,3 +48,7 @@ export default function SignUp({ kratos }) {
     </>
   )
 }
+
+SignUp.propTypes = { kratos: KratosPropTypes }
+
+export default SignUp

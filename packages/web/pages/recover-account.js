@@ -1,11 +1,10 @@
 import dayjs from 'dayjs'
-import { endpoints } from 'helpers/kratos.js'
-import { client } from 'helpers/is-authorized.js'
 import Form from 'components/form/form.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
+import { endpoints } from 'helpers/kratos.js'
+import { client } from 'helpers/is-authorized.js'
+import KratosPropTypes from 'helpers/types/kratos.js'
+
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -32,7 +31,7 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default function RecoverAccount({ kratos }) {
+function RecoverAccount({ kratos }) {
   return (
     <>
       <h2 className="text-3xl font-extrabold text-gray-900">Recover Account</h2>
@@ -51,3 +50,7 @@ export default function RecoverAccount({ kratos }) {
     </>
   )
 }
+
+RecoverAccount.propTypes = { kratos: KratosPropTypes }
+
+export default RecoverAccount

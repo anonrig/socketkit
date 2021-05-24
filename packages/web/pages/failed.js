@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
-import { client } from '../helpers/is-authorized.js'
 import pkg from '../package.json'
-import { endpoints } from '../helpers/kratos.js'
 
-/**
- * @param {import("next").NextPageContext} ctx
- */
+import { client } from 'helpers/is-authorized.js'
+import { endpoints } from 'helpers/kratos.js'
+import KratosErrorPropTypes from 'helpers/types/kratos-error.js'
+
 export async function getServerSideProps(ctx) {
   const { error } = ctx.query
 
@@ -37,7 +36,6 @@ export async function getServerSideProps(ctx) {
 }
 
 function Failed({ data }) {
-  console.error(data.errors[0]?.message)
   return (
     <div className="mb-48">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
@@ -57,17 +55,6 @@ function Failed({ data }) {
   )
 }
 
-Failed.propTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    errors: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.number.isRequired,
-        status: PropTypes.string.isRequired,
-        message: PropTypes.string.isRequired,
-      }),
-    ),
-  }),
-}
+Failed.propTypes = { data: KratosErrorPropTypes }
 
 export default Failed
