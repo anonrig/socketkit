@@ -9,7 +9,7 @@ import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
 import SubscriptionPackagePropTypes from 'helpers/types/subscription-package.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/packages`)
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}/packages`, true)
 }
 
 function SubscriptionPackages({ initialData }) {

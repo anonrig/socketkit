@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import { Fragment } from 'react'
-import { Transition, Listbox, Menu } from '@headlessui/react'
-import { DeviceMobileIcon, ChevronDownIcon } from '@heroicons/react/outline'
+import { Transition, Menu } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/outline'
 import useSWR from 'swr'
 
 function ApplicationDropdown({ selected, onChange }) {
   const { data } = useSWR('applications')
-  const application = data?.rows.find(r => r.application_id === selected)?.title ?? 'Applications'
+  const application = data?.rows.find((r) => r.application_id === selected)?.title ?? 'Applications'
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -24,17 +24,17 @@ function ApplicationDropdown({ selected, onChange }) {
         enterTo="transform opacity-100 scale-100"
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
+        leaveTo="transform opacity-0 scale-95">
         <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
           <div className="px-1 py-1 ">
             {data?.rows.map((item) => (
               <Menu.Item key={item.application_id}>
                 {({ active }) => (
                   <button
-                    className={`${active ? 'bg-warmGray-100 text-semibold' : 'text-medium'} group flex rounded-md items-center w-full px-2 py-2 text-sm text-left space-x-4`}
-                    onClick={() => onChange(item.application_id)}
-                  >
+                    className={`${
+                      active ? 'bg-warmGray-100 text-semibold' : 'text-medium'
+                    } group flex rounded-md items-center w-full px-2 py-2 text-sm text-left space-x-4`}
+                    onClick={() => onChange(item.application_id)}>
                     <img
                       src={(item.application_icon ?? '').replaceAll('512', '36')}
                       className="h-5 w-5 rounded-md"
@@ -54,7 +54,7 @@ function ApplicationDropdown({ selected, onChange }) {
 }
 
 ApplicationDropdown.propTypes = {
-  value: PropTypes.string,
+  selected: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 }
 

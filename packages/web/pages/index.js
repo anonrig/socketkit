@@ -1,13 +1,9 @@
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
-import useSWR from 'swr'
 
-import { AuthContext } from 'helpers/is-authorized.js'
-import { fetcher } from 'helpers/fetcher.js'
+import { AuthContext } from 'helpers/context.js'
 import getGreeting from 'helpers/greeting.js'
-import { AppstoreConnect } from 'helpers/types/integration.js'
-import PaymentPropTypes from 'helpers/types/payment.js'
 
 import DatePicker from 'components/date-picker.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
@@ -18,37 +14,9 @@ import CheckoutButton from 'components/checkout-button.js'
 // to reduce page loading time
 const CountriesWidget = dynamic(() => import('components/scenes/dashboard/countries-widget'))
 
-export async function getServerSideProps({
-  req: {
-    headers: { cookie, referer },
-  },
-}) {
-  const headers = { cookie, referer }
-
-  try {
-    const [integration, payment] = await Promise.all([
-      fetcher(`integrations/appstore-connect`, { headers }),
-      fetcher(`payments/state`, { headers }),
-    ])
-
-    return {
-      props: {
-        payment,
-        integration,
-      },
-    }
-  } catch (error) {
-    console.error(error)
-    return {
-      props: { payment: { subscription_state: 'inactive' }, integration: { last_fetch: null } },
-    }
-  }
-}
-
-function Dashboard({ payment, integration }) {
+function Dashboard() {
+  const { payment, integration, session } = useContext(AuthContext)
   const maxDate = dayjs(integration?.last_fetch ?? undefined)
-  const { data: paymentsData } = useSWR(`payments/state`, fetcher, { initialData: payment })
-  const { session } = useContext(AuthContext)
   const [interval, setInterval] = useState({
     start_date: maxDate.subtract(1, 'month'),
     end_date: maxDate,
@@ -75,7 +43,7 @@ function Dashboard({ payment, integration }) {
           }}
         />
 
-        {['new', 'canceled'].includes(paymentsData.state) && <CheckoutButton />}
+        {['new', 'canceled'].includes(payment?.state) && <CheckoutButton />}
 
         <CustomersWidget
           range={{
@@ -92,11 +60,6 @@ function Dashboard({ payment, integration }) {
       </section>
     </>
   )
-}
-
-Dashboard.propTypes = {
-  integration: AppstoreConnect,
-  payment: PaymentPropTypes,
 }
 
 export default Dashboard

@@ -10,7 +10,7 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import CountryColumns from 'helpers/columns/country.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/countries`)
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}/countries`, true)
 }
 
 function Customers({ initialData }) {

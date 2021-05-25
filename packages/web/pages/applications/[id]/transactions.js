@@ -10,7 +10,7 @@ import TransactionColumns from 'helpers/columns/transaction.js'
 import TransactionPropTypes, { TransactionCursor } from 'helpers/types/transaction.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/transactions`)
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}/transactions`, true)
 }
 
 function Transactions({ initialData }) {

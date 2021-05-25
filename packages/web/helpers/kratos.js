@@ -1,4 +1,14 @@
+import { Configuration, PublicApi } from '@ory/kratos-client'
 import { kratosUrl } from 'helpers/config.js'
+
+export const client = new PublicApi(
+  new Configuration({
+    basePath: kratosUrl,
+    baseOptions: {
+      withCredentials: true,
+    },
+  }),
+)
 
 export const endpoints = {
   login: `${kratosUrl}/self-service/login/browser`,

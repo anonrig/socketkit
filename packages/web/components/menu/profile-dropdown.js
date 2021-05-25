@@ -5,7 +5,7 @@ import { UserCircleIcon } from '@heroicons/react/outline'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 
-import { AuthContext } from 'helpers/is-authorized'
+import { AuthContext } from 'helpers/context.js'
 import { endpoints } from 'helpers/kratos'
 
 function ProfileDropdown({ className }) {

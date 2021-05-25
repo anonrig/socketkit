@@ -6,10 +6,12 @@ import { SWRConfig } from 'swr'
 import { DefaultSeo } from 'next-seo'
 import Progress from 'nprogress'
 import { Toaster } from 'react-hot-toast'
+import useSWR from 'swr'
 
 import { fetcher } from 'helpers/fetcher.js'
-import { AuthContext, client } from 'helpers/is-authorized.js'
+import { AuthContext } from 'helpers/context.js'
 import { endpoints } from 'helpers/kratos.js'
+import { client } from 'helpers/kratos.js'
 
 import 'nprogress/nprogress.css'
 import 'styles/date-range.css'
@@ -28,6 +30,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const [session, setSession] = useState(undefined)
   const Layout = session === null ? UnauthorizedLayout : AuthorizedLayout
+
+  const { data: integration } = useSWR(session ? 'integrations/appstore-connect' : null, fetcher)
+  const { data: payment } = useSWR(session ? 'payments/state' : null, fetcher)
 
   const fetchUser = useCallback(async () => {
     try {
@@ -91,7 +96,7 @@ function MyApp({ Component, pageProps }) {
           revalidateOnReconnect: true,
           fetcher,
         }}>
-        <AuthContext.Provider value={{ session }}>
+        <AuthContext.Provider value={{ session, integration, payment }}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

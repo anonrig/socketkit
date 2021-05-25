@@ -33,7 +33,7 @@ function PaymentRequiredModal({ open = true, setOpen = () => ({}) }) {
       <Dialog
         as="div"
         static
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed z-20 inset-0 overflow-y-auto"
         initialFocus={buttonRef}
         open={open}
         onClose={setOpen}>
@@ -49,7 +49,6 @@ function PaymentRequiredModal({ open = true, setOpen = () => ({}) }) {
             <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          {/* This element is to trick the browser into centering the modal contents. */}
           <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
             &#8203;
           </span>

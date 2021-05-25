@@ -11,7 +11,7 @@ import CustomerColumns from 'helpers/columns/customer.js'
 import CustomerPropTypes, { CustomerCursor } from 'helpers/types/customer.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/customers`)
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}/customers`, true)
 }
 
 function Customers({ initialData }) {

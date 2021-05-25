@@ -15,7 +15,7 @@ import ApplicationPropTypes from 'helpers/types/application.js'
 const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}`)
+  return await fetchOnBackground({ query, headers }, `applications/${query.id}`, true)
 }
 
 function ApplicationInformation({ initialData }) {

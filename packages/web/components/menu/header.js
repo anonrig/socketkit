@@ -9,7 +9,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/solid'
 import { UserCircleIcon } from '@heroicons/react/outline'
 
 import ProfileDropdown from 'components/menu/profile-dropdown.js'
-import { AuthContext } from 'helpers/is-authorized.js'
+import { AuthContext } from 'helpers/context.js'
 
 import { endpoints } from 'helpers/kratos.js'
 
