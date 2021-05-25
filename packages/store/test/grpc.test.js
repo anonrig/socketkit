@@ -149,6 +149,19 @@ describe('Applications', () => {
     })
   })
 
+  test('findOne should validate missing application_id and bundle_id', (done) => {
+    applications.findOne(
+      { application_id: null, bundle_id: null },
+      (error, response) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain(
+          'Missing conditions on Applications.findOne',
+        )
+        done()
+      },
+    )
+  })
+
   test('findOne should return null on not found', (done) => {
     applications.findOne(
       { application_id: '1234512345' },
@@ -270,6 +283,19 @@ describe('Integrations', () => {
     )
   })
 
+  test('findAll should validate account_id', (done) => {
+    integrations.findAll(
+      {
+        account_id: 'ahmet',
+      },
+      (error) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain('Invalid account id')
+        done()
+      },
+    )
+  })
+
   test('upsertAll should insert properly', (done) => {
     integrations.upsertAll(
       {
@@ -286,6 +312,19 @@ describe('Integrations', () => {
         } catch (error) {
           done(error)
         }
+      },
+    )
+  })
+
+  test('upsertAll should validate account_id', (done) => {
+    integrations.upsertAll(
+      {
+        account_id: 'ahmet',
+      },
+      (error) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain('Invalid account id')
+        done()
       },
     )
   })

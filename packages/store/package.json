@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
+    "test": "npm run lint:fix && node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },

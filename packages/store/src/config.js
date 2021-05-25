@@ -1,11 +1,5 @@
-const {
-  PORT,
-  PROXY_HOST,
-  PROXY_PORT,
-  PROXY_AUTH,
-  NODE_ENV,
-  SENTRY_DSN,
-} = process.env
+const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV, SENTRY_DSN } =
+  process.env
 
 const isProxyEnabled = !!PROXY_HOST && !!PROXY_PORT && !!PROXY_AUTH
 
