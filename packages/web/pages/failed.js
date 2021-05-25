@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/nextjs"
+
 import pkg from '../package.json'
 
 import { endpoints, client } from 'helpers/kratos.js'
@@ -23,18 +25,20 @@ export async function getServerSideProps(ctx) {
       return redirect()
     }
 
+    Sentry.captureException(data)
+
     return {
       props: {
         data,
       },
     }
   } catch (error) {
+    Sentry.captureException(error)
     return redirect()
   }
 }
 
-function Failed({ data }) {
-  console.error(data)
+function Failed() {
   return (
     <div className="mb-48">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">

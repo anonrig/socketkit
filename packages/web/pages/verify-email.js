@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs"
 import dayjs from 'dayjs'
 import Form from 'components/form/form.js'
 
@@ -30,6 +31,7 @@ export async function getServerSideProps(ctx) {
 
     return { props: { kratos: data } }
   } catch (error) {
+    Sentry.captureException(error)
     return redirect()
   }
 }

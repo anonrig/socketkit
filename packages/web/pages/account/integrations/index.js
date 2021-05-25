@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs"
 import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
@@ -24,6 +25,7 @@ export async function getServerSideProps({
       props: { initial: { appstoreConnect, reviews } },
     }
   } catch (error) {
+    Sentry.captureException(error)
     return {
       props: {
         initial: { appstoreConnect: { access_token: null, last_fetch: null }, reviews: [] },
