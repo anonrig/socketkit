@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest --detectOpenHandles",
+    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js"
   },

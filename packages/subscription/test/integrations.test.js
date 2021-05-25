@@ -1,21 +1,24 @@
-import grpc from './helper.js'
-import config from '../src/config.js'
+import { v4 } from 'uuid'
+
+import pg from '../src/pg/index.js'
+import { getClients, getRandomPort } from './helper.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
-import { v4 } from 'uuid'
 
 const testedAccountId = '15b0dea9-d2f8-4eed-a0ff-fecac3fdcf33'
 const testedAccessToken = 'f4965faa-0374-42a9-988b-6e6f2a2aeac2'
 
-beforeAll(async (done) => {
+const port = getRandomPort()
+const grpc = getClients(port)
+
+beforeAll(async () => {
   logger.pauseLogs()
-  await app.start(`0.0.0.0:${config.port}`)
-  done()
+  await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async (done) => {
+afterAll(async () => {
   await app.close()
-  done()
+  await pg.destroy()
 })
 
 describe('Integrations', () => {

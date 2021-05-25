@@ -1,20 +1,23 @@
-import grpc from './helper.js'
+import { getRandomPort, getClients } from './helper.js'
 import config from '../src/config.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
+import pg from '../src/pg/index.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
 const TEST_APPLICATION_ID = `1494736719`
 
-beforeAll(async (done) => {
+const port = getRandomPort()
+const grpc = getClients(port)
+
+beforeAll(async () => {
   logger.pauseLogs()
-  await app.start(`0.0.0.0:${config.port}`)
-  done()
+  await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async (done) => {
+afterAll(async () => {
   await app.close()
-  done()
+  await pg.destroy()
 })
 
 describe('Transactions', () => {

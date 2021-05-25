@@ -31,7 +31,7 @@ const exchange_rates = {
 }
 
 describe('Transaction', () => {
-  test('should parse free trial correctly', async (done) => {
+  test('should parse free trial correctly', (done) => {
     const t = new Transaction(WITH_FREE_TRIAL, exchange_rates)
     expect(t.type).toEqual('trial')
     expect(t.subscription_refunded_at).toBeFalsy()
@@ -47,7 +47,7 @@ describe('Transaction', () => {
     done()
   })
 
-  test('should parse renewal correctly', async (done) => {
+  test('should parse renewal correctly', (done) => {
     const t = new Transaction(STANDARD, exchange_rates)
     t.total_base_developer_proceeds = '9.99'
     expect(t.type).toEqual('renewal')
