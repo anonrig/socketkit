@@ -6,14 +6,14 @@ import useSWR from 'swr'
 
 function ApplicationDropdown({ selected, onChange }) {
   const { data } = useSWR('applications')
-  const selectedApplication = data?.rows.find(r => r.application_id === selected)
+  const application = data?.rows.find(r => r.application_id === selected)?.title ?? 'Applications'
 
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button className="w-36 inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-warmGray-900 hover:bg-warmGray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
-        <span className="line-clamp-1 text-left">{selectedApplication?.title ?? 'Applications'}</span>
+        <span className="line-clamp-1 text-left">{application}</span>
         <ChevronDownIcon
-          className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+          className="w-4 h-4 ml-2 -mr-1 text-violet-200 hover:text-violet-100 flex-shrink-0"
           aria-hidden="true"
         />
       </Menu.Button>
@@ -26,7 +26,7 @@ function ApplicationDropdown({ selected, onChange }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
           <div className="px-1 py-1 ">
             {data?.rows.map((item) => (
               <Menu.Item key={item.application_id}>

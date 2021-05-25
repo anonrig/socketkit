@@ -87,6 +87,7 @@ function Reports({ query, slug }) {
         .startOf(interval),
       end_date: dayjs().endOf(interval),
       type: report.defaults?.graph ?? filters.type,
+      application_id: null,
     })
   }, [report]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
