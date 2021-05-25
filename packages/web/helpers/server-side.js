@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/nextjs"
+import * as Sentry from '@sentry/nextjs'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { fetcher } from 'helpers/fetcher.js'

@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react'
-import Link from 'next/link'
 import PropTypes from 'prop-types'
 import { SpeakerphoneIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 
 import { AuthContext } from 'helpers/context.js'
 import PaymentRequiredModal from 'components/modals/payment-required/index.js'
 
-function Banner({ shortMessage, longMessage, destination }) {
+function Banner({ shortMessage, longMessage }) {
+  const router = useRouter()
   const { payments } = useContext(AuthContext)
   const [showPayments, setShowPayments] = useState(false)
 

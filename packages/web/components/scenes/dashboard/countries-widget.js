@@ -3,9 +3,7 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { fetcher } from 'helpers/fetcher.js'
 
-const TreeMapChart = dynamic(() =>
-  import('components/charts/treemap.js' /* webpackChunkName: "TreeMapChart" */),
-)
+const TreeMapChart = dynamic(() => import('components/charts/treemap.js'))
 
 function CountriesWidget({ range, initialData }) {
   const { data } = useSWR(
