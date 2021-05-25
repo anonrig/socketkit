@@ -1,4 +1,5 @@
 import grpc from '@grpc/grpc-js'
+import { validate } from 'uuid'
 
 import { ISODate } from '../types.js'
 import pg from './index.js'
@@ -9,6 +10,12 @@ export async function create({
   access_token,
   vendor_ids,
 }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
     .insert({
@@ -30,6 +37,12 @@ export async function update({
   access_token = null,
   state = null,
 }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   const attributes = new Map()
 
   if (access_token) attributes.set('access_token', access_token)
@@ -51,6 +64,12 @@ export async function update({
 }
 
 export async function destroy({ account_id, provider_id }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
     .update({
@@ -64,6 +83,12 @@ export async function destroy({ account_id, provider_id }) {
 }
 
 export async function findOne({ account_id, provider_id }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
     .select('*')
@@ -73,6 +98,12 @@ export async function findOne({ account_id, provider_id }) {
 }
 
 export async function findAll({ account_id }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
     .select({
@@ -90,6 +121,12 @@ export async function findAll({ account_id }) {
 }
 
 export async function getTotalRevenue({ account_id, for_date }) {
+  if (!validate(account_id)) {
+    const error = new Error('Invalid account id')
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   return pg
     .queryBuilder()
     .sum('total_revenue', { as: 'total' })
