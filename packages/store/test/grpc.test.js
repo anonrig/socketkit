@@ -1,21 +1,22 @@
-import grpc from '@grpc/grpc-js'
 import { applications, integrations, reviews } from './client.js'
 import config from '../src/config.js'
 import logger from '../src/logger.js'
-import app from '../src/grpc.js'
+import { build } from '../src/grpc.js'
+import pg from '../src/pg.js'
 
 const TEST_ACCOUNT_ID = 'd5999420-8cf7-4b38-87c8-a5c751696ff4'
 const TEST_APPLICATION_ID = '1541177024'
 
-beforeAll((done) => {
+const app = build()
+
+beforeAll(async () => {
   logger.pauseLogs()
-  app.start(`0.0.0.0:${config.port}`)
-  done()
+  await app.start(`0.0.0.0:${config.port}`)
 })
 
-afterAll(async (done) => {
+afterAll(async () => {
+  await pg.destroy()
   await app.close()
-  done()
 })
 
 describe('Applications', () => {

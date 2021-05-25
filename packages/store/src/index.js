@@ -1,7 +1,7 @@
 import Sentry from '@sentry/node'
 import Tracing from '@sentry/tracing'
 
-import server from './grpc.js'
+import { build } from './grpc.js'
 import config from './config.js'
 import { runTasks } from './tasks/index.js'
 import Logger from './logger.js'
@@ -29,7 +29,8 @@ Sentry.init({
 })
 
 const start = async () => {
-  server.start(`0.0.0.0:${config.port}`)
+  const server = build()
+  await server.start(`0.0.0.0:${config.port}`)
   await pg.raw('select 1+1 as result')
   logger.withTag('start').success(`Application booted on port=${config.port}`)
   setImmediate(async () => {

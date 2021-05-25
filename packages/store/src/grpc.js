@@ -27,62 +27,63 @@ const performanceObserver = new PerformanceObserver((list) => {
 })
 performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
 
-const app = new Mali()
+export function build() {
+  const app = new Mali()
 
-app.addService(file, 'Reviews', options)
-app.addService(file, 'Applications', options)
-app.addService(file, 'Integrations', options)
+  app.addService(file, 'Reviews', options)
+  app.addService(file, 'Applications', options)
+  app.addService(file, 'Integrations', options)
+  app.addService(health, 'Health', options)
 
-app.addService(health, 'Health', options)
+  app.use(async (context, next) => {
+    let tracer = null
 
-app.use(async (context, next) => {
-  let tracer = null
+    if (!context.fullName.includes('health')) {
+      tracer = Sentry.startTransaction({
+        name: context.fullName,
+        op: 'GET',
+        trimEnd: true,
+      })
 
-  if (!context.fullName.includes('health')) {
-    tracer = Sentry.startTransaction({
-      name: context.fullName,
-      op: 'GET',
-      trimEnd: true,
-    })
+      Sentry.setUser({
+        ...context.request.metadata,
+        account_id: context.request.req.account_id,
+      })
+    }
+    performance.mark(context.fullName)
+    return next()
+      .then(() => {
+        tracer?.finish()
+        performance.mark(context.fullName + '-ended')
+        performance.measure(
+          context.fullName,
+          context.fullName,
+          context.fullName + '-ended',
+        )
+      })
+      .catch((error) => {
+        Sentry.captureException(error)
+        logger.fatal(error)
+        tracer?.finish()
+        performance.mark(context.fullName + '-ended')
+        performance.measure(
+          context.fullName,
+          context.fullName,
+          context.fullName + '-ended',
+        )
+        throw error
+      })
+  })
 
-    Sentry.setUser({
-      ...context.request.metadata,
-      account_id: context.request.req.account_id,
-    })
-  }
-  performance.mark(context.fullName)
-  return next()
-    .then(() => {
-      tracer?.finish()
-      performance.mark(context.fullName + '-ended')
-      performance.measure(
-        context.fullName,
-        context.fullName,
-        context.fullName + '-ended',
-      )
-    })
-    .catch((error) => {
+  app.use({ Applications, Integrations, Reviews })
+  app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
+
+  app.on('error', (error) => {
+    if (!error.code) {
       Sentry.captureException(error)
       logger.fatal(error)
-      tracer?.finish()
-      performance.mark(context.fullName + '-ended')
-      performance.measure(
-        context.fullName,
-        context.fullName,
-        context.fullName + '-ended',
-      )
-      throw error
-    })
-})
+    }
+  })
 
-app.use({ Applications, Integrations, Reviews })
-app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
-
-app.on('error', (error) => {
-  if (!error.code) {
-    Sentry.captureException(error)
-    logger.fatal(error)
-  }
-})
-
-export default app
+  return app
+}
