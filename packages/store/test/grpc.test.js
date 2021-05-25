@@ -1,5 +1,4 @@
-import { applications, integrations, reviews } from './client.js'
-import config from '../src/config.js'
+import { getRandomPort, getClients } from './client.js'
 import logger from '../src/logger.js'
 import { build } from '../src/grpc.js'
 import pg from '../src/pg.js'
@@ -7,11 +6,13 @@ import pg from '../src/pg.js'
 const TEST_ACCOUNT_ID = 'd5999420-8cf7-4b38-87c8-a5c751696ff4'
 const TEST_APPLICATION_ID = '1541177024'
 
+const port = getRandomPort()
+const { applications, integrations, reviews } = getClients(port)
 const app = build()
 
 beforeAll(async () => {
   logger.pauseLogs()
-  await app.start(`0.0.0.0:${config.port}`)
+  await app.start(`0.0.0.0:${port}`)
 })
 
 afterAll(async () => {
