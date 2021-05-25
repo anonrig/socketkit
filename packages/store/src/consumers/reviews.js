@@ -1,3 +1,4 @@
+import { validate } from 'uuid'
 import _ from 'lodash'
 import dayjs from 'dayjs'
 import grpc from '@grpc/grpc-js'
@@ -32,6 +33,13 @@ export async function findAll(ctx) {
 
 export async function findVersions(ctx) {
   const { application_id } = ctx.req
+
+  if (!application_id) {
+    const error = new Error(`Missing application id`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   ctx.res = {
     rows: await Reviews.findVersions({ application_id }),
   }
@@ -39,6 +47,18 @@ export async function findVersions(ctx) {
 
 export async function findCountries(ctx) {
   const { account_id, application_id } = ctx.req
+
+  if (!validate(account_id)) {
+    const error = new Error(`Invalid account id`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
+  if (!application_id) {
+    const error = new Error(`Missing application id`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
 
   ctx.res = {
     rows: await Reviews.findCountries({ account_id, application_id }),

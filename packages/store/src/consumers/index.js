@@ -1,3 +1,4 @@
+import grpc from '@grpc/grpc-js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 import * as Applications from '../models/applications.js'
@@ -22,6 +23,13 @@ export async function findAll(ctx) {
 
 export async function findOne(ctx) {
   const { application_id, bundle_id } = ctx.req
+
+  if (!application_id && !bundle_id) {
+    const error = new Error(`Missing conditions on Applications.findOne`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   const rows = await Applications.findAll({
     application_ids: [application_id].filter(Boolean),
     bundle_ids: [bundle_id].filter(Boolean),
@@ -31,6 +39,13 @@ export async function findOne(ctx) {
 
 export async function findVersions(ctx) {
   const { application_id, bundle_id } = ctx.req
+
+  if (!application_id && !bundle_id) {
+    const error = new Error(`Missing conditions on Applications.findVersions`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   ctx.res = {
     rows: await Applications.findVersions({
       application_id,
@@ -41,6 +56,13 @@ export async function findVersions(ctx) {
 
 export async function findVersion(ctx) {
   const { application_id, bundle_id, version } = ctx.req
+
+  if (!application_id && !bundle_id) {
+    const error = new Error(`Missing conditions on Applications.findVersion`)
+    error.code = grpc.status.FAILED_PRECONDITION
+    throw error
+  }
+
   ctx.res = {
     row: await Applications.findVersion({ application_id, bundle_id, version }),
   }
