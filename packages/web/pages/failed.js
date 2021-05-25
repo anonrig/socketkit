@@ -1,7 +1,6 @@
 import pkg from '../package.json'
 
-import { client } from 'helpers/is-authorized.js'
-import { endpoints } from 'helpers/kratos.js'
+import { endpoints, client } from 'helpers/kratos.js'
 import KratosErrorPropTypes from 'helpers/types/kratos-error.js'
 
 export async function getServerSideProps(ctx) {

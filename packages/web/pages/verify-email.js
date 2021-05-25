@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import Form from 'components/form/form.js'
 
-import { client } from 'helpers/is-authorized.js'
+import { client } from 'helpers/kratos.js'
 import KratosPropTypes from 'helpers/types/kratos.js'
 
 export async function getServerSideProps(ctx) {
