@@ -1,17 +1,19 @@
-import { integration } from './client.js'
-import config from '../src/config.js'
+import { getRandomPort, getClients } from './client.js'
 import logger from '../src/logger.js'
 import app from '../src/grpc.js'
+import pg from '../src/pg.js'
 
-beforeAll((done) => {
+const port = getRandomPort()
+const { integration } = getClients(port)
+
+beforeAll(async () => {
   logger.pauseLogs()
-  app.start(`0.0.0.0:${config.port}`)
-  done()
+  await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async (done) => {
+afterAll(async () => {
   await app.close()
-  done()
+  await pg.destroy()
 })
 
 describe('Integrations', () => {
