@@ -53,6 +53,7 @@ export async function findOrCreate({ account_id, name, email }) {
     }
 
     const { id } = await stripe.customers.create({ name, email })
-    return update({ account_id, stripe_id: id }).transacting(trx)
+    const [row] = await update({ account_id, stripe_id: id }).transacting(trx)
+    return row
   })
 }

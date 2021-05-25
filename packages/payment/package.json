@@ -1,5 +1,5 @@
 {
-  "name": "notification",
+  "name": "payment",
   "version": "0.1.0",
   "description": "Socketkit Notification service",
   "main": "src/index.js",
