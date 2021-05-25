@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 
 import Loading from 'components/loading.js'
 import { fetcher } from 'helpers/fetcher.js'
-import { getStripe } from 'helpers/stripe.js'
+import getStripe from 'helpers/stripe.js'
 
 export default function CheckoutButton() {
   const [loading, setLoading] = useState(false)
