@@ -196,6 +196,19 @@ describe('Applications', () => {
     )
   })
 
+  test('findVersions should throw error on missing application_id and bundle_id', (done) => {
+    applications.findVersions(
+      { application_id: null, bundle_id: null },
+      (error) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain(
+          'Missing conditions on Applications.findVersions',
+        )
+        done()
+      },
+    )
+  })
+
   test('findVersions should return empty array on not found', (done) => {
     applications.findVersions(
       { application_id: '1234512345' },
@@ -208,6 +221,41 @@ describe('Applications', () => {
         } catch (error) {
           done(error)
         }
+      },
+    )
+  })
+
+  test('findVersion should return available version', (done) => {
+    applications.findVersion(
+      { application_id: '284882215', version: '311.0' },
+      (error, response) => {
+        expect(error).toBeFalsy()
+        expect(response.row.application_id).toEqual('284882215')
+        done()
+      },
+    )
+  })
+
+  test('findVersion should throw error on missing application_id and bundle_id', (done) => {
+    applications.findVersion(
+      { application_id: null, version: '311.0' },
+      (error, response) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain(
+          'Missing conditions on Applications.findVersion',
+        )
+        done()
+      },
+    )
+  })
+
+  test('findVersion should return null if not founded', (done) => {
+    applications.findVersion(
+      { application_id: '284882215', version: '0.0' },
+      (error, response) => {
+        expect(error).toBeFalsy()
+        expect(response.row).toBeNull()
+        done()
       },
     )
   })
@@ -251,12 +299,42 @@ describe('Reviews', () => {
     })
   })
 
+  test('findVersions should throw error on missing application_id', (done) => {
+    reviews.findVersions({ application_id: null }, (error) => {
+      expect(error).toBeTruthy()
+      expect(error.message).toContain('Missing application id')
+      done()
+    })
+  })
+
   test('findCountries should return fetched countries', (done) => {
     reviews.findCountries(
       { account_id: TEST_ACCOUNT_ID, application_id: '284882215' },
       (error, response) => {
         expect(error).toBeFalsy()
         expect(typeof response).toEqual('object')
+        done()
+      },
+    )
+  })
+
+  test('findCountries should throw an error on invalid account_id', (done) => {
+    reviews.findCountries(
+      { account_id: 'ahmet', application_id: null },
+      (error) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain('Invalid account id')
+        done()
+      },
+    )
+  })
+
+  test('findCountries should throw an error on missing application_id', (done) => {
+    reviews.findCountries(
+      { account_id: TEST_ACCOUNT_ID, application_id: null },
+      (error, response) => {
+        expect(error).toBeTruthy()
+        expect(error.message).toContain('Missing application id')
         done()
       },
     )

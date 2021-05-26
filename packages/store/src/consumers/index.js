@@ -57,7 +57,7 @@ export async function findVersions(ctx) {
 export async function findVersion(ctx) {
   const { application_id, bundle_id, version } = ctx.req
 
-  if (!application_id && !bundle_id) {
+  if ((!application_id && !bundle_id) || !version) {
     const error = new Error(`Missing conditions on Applications.findVersion`)
     error.code = grpc.status.FAILED_PRECONDITION
     throw error
