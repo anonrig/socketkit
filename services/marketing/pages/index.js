@@ -32,6 +32,20 @@ export default function Home() {
                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-white sm:max-w-3xl">
                   Subscription management & event tracking for privacy advocates.
                 </p>
+
+                <a
+                  className="mx-auto mt-4 justify-center flex"
+                  href="https://www.producthunt.com/posts/subscription-review-analytics-for-ios?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-subscription-review-analytics-for-ios"
+                  target="_blank"
+                >
+                  <img
+                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=297161&theme=light"
+                    alt="Subscription & Review Analytics for iOS  - Get valuable subscription and user insights. | Product Hunt"
+                    style={{width: '250px', height: '54px'}}
+                    width="250"
+                    height="54"
+                  />
+                </a>
               </div>
             </div>
           </div>
