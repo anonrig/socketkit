@@ -29,6 +29,11 @@ export const verify = async (request, reply) => {
     } catch (error) {
       if (!error.message.includes('UNAVAILABLE')) {
         logger.warn(error.message)
+        logger.info({
+          account_id: request.accounts[0].account_id,
+          name: request.user.identity.traits.name,
+          email: request.user.identity.traits.email,
+        })
       }
     }
   } catch (error) {
