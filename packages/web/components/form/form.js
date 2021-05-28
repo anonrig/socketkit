@@ -47,6 +47,16 @@ function Form({ actions, kratos, preAction }) {
 
   return (
     <>
+      {kratos?.ui.messages?.map((message) => (
+        <p
+          key={message.id}
+          className={`font-medium text-sm mt-2 text-left mb-4 ${
+            message.type === 'error' ? 'text-red-500' : ''
+          }`}>
+          {message.text}
+        </p>
+      ))}
+
       {oidcProviders.length > 0 && providers()}
 
       <form action={kratos.ui.action} method={kratos.ui.method} id="default">
@@ -79,12 +89,6 @@ function Form({ actions, kratos, preAction }) {
             </a>
           </Link>
         )}
-
-        {kratos?.ui.messages?.map((message) => (
-          <p key={message.id} className="font-medium text-sm mt-2 text-left text-red-500">
-            {message.text}
-          </p>
-        ))}
       </form>
     </>
   )
