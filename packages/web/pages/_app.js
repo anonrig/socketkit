@@ -7,6 +7,7 @@ import { DefaultSeo } from 'next-seo'
 import Progress from 'nprogress'
 import { Toaster } from 'react-hot-toast'
 import useSWR from 'swr'
+import { IntercomProvider } from 'react-use-intercom'
 
 import { fetcher } from 'helpers/fetcher.js'
 import { AuthContext } from 'helpers/context.js'
@@ -97,9 +98,11 @@ function MyApp({ Component, pageProps }) {
           fetcher,
         }}>
         <AuthContext.Provider value={{ session, integration, payment }}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <IntercomProvider appId="o5s3ss3a">
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </IntercomProvider>
         </AuthContext.Provider>
       </SWRConfig>
     </>
