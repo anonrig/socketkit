@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 
 import Settings from 'components/scenes/account/account-settings.js'
 import Password from 'components/scenes/account/account-password.js'
-import CTA from 'components/cta.js'
 
-import { AuthContext } from 'helpers/context.js'
 import { endpoints, client } from 'helpers/kratos.js'
 import redirect from 'helpers/redirect'
 
@@ -27,8 +25,6 @@ export async function getServerSideProps(ctx) {
 }
 
 function AccountSettings({ flow }) {
-  const { session } = useContext(AuthContext)
-  const isUserVerified = session.identity.verifiable_addresses[0]?.verified
   const [kratos, setKratos] = useState(null)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,17 +48,6 @@ function AccountSettings({ flow }) {
 
   return (
     <div className="space-y-8">
-      {!isUserVerified && (
-        <CTA
-          title="Email verification required"
-          subtitle="You need to verify your email address."
-          primaryButton={{
-            title: 'Resend Email',
-            href: endpoints.verification,
-          }}
-        />
-      )}
-
       {profile?.length > 0 && (
         <form action={kratos?.ui.action} method={kratos?.ui.method}>
           <Settings fields={profile} />
