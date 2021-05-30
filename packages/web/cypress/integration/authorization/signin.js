@@ -48,9 +48,4 @@ context('Login > Sign In', () => {
     cy.get(`button[value='password']`).click()
     cy.get('.space-between > .font-extrabold').should('contain', 'Test!')
   })
-
-  it('should sign in using github', () => {
-    cy.get(`button[name='provider']`).click()
-    cy.url().should('contain', 'github.com')
-  })
 })
