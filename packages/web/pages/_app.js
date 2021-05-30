@@ -98,7 +98,7 @@ function MyApp({ Component, pageProps }) {
           fetcher,
         }}>
         <AuthContext.Provider value={{ session, integration, payment }}>
-          <IntercomProvider appId="o5s3ss3a">
+          <IntercomProvider appId="o5s3ss3a" autoBoot>
             <Layout>
               <Component {...pageProps} />
             </Layout>

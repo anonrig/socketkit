@@ -13,9 +13,8 @@ import { AuthContext } from 'helpers/context.js'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()
-  const { integration } = useContext(AuthContext)
+  const { integration, session } = useContext(AuthContext)
   const intercom = useIntercom()
-
   const isOnMembership = router.pathname.startsWith('/start-membership')
 
   useEffect(() => {
@@ -23,7 +22,7 @@ function AuthorizedLayout({ children }) {
   }, [router.pathname, intercom])
 
   useEffect(() => {
-    intercom.boot()
+    intercom.update(session?.identity?.traits ?? {})
   }, [intercom])
 
   return (
