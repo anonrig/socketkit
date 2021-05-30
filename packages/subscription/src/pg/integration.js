@@ -82,7 +82,7 @@ export async function destroy({ account_id, provider_id }) {
     .ignore()
 }
 
-export async function findOne({ account_id, provider_id }) {
+export async function findOne({ account_id, provider_id = 'apple' }) {
   if (!validate(account_id)) {
     const error = new Error('Invalid account id')
     error.code = grpc.status.FAILED_PRECONDITION
