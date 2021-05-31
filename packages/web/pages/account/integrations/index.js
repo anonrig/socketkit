@@ -47,7 +47,7 @@ function Integrations({ initial }) {
   })
 
   function navigateTo(url) {
-    if (payment?.state !== 'active') {
+    if (!['active', 'trialing'].includes(payment?.state)) {
       setShowingPayments(true)
     } else {
       router.push(url)

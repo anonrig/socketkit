@@ -12,7 +12,7 @@ function IntegrationRequired({ title, subtitle, url }) {
   const { payment } = useContext(AuthContext)
 
   function startTracking() {
-    if (payment?.state !== 'active') {
+    if (!['active', 'trialing'].includes(payment?.state)) {
       setShowingPayments(true)
     } else {
       router.push(url)

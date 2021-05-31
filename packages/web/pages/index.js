@@ -43,7 +43,7 @@ function Dashboard() {
           }}
         />
 
-        {['new', 'canceled'].includes(payment?.state) && <CheckoutButton />}
+        {payment && ['new', 'canceled'].includes(payment?.state) && <CheckoutButton />}
 
         <CustomersWidget
           range={{

@@ -12,7 +12,7 @@ function Banner({ shortMessage, longMessage }) {
   const [showPayments, setShowPayments] = useState(false)
 
   function navigate() {
-    if (payments?.state !== 'active') {
+    if (!['active', 'trialing'].includes(payments?.state)) {
       setShowPayments(true)
     } else {
       router.push('/account/integrations')
