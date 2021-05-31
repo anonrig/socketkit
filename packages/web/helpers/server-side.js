@@ -16,7 +16,7 @@ export async function fetchOnBackground(
     if (checkForPayments) {
       const { state } = await fetcher('payments/state', { headers: { cookie, referer } })
 
-      if (state !== 'active') {
+      if (!['active', 'trialing'].includes(state)) {
         return {
           redirect: {
             destination: '/start-membership',
