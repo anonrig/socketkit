@@ -1,22 +1,16 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { SpeakerphoneIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 
-import { AuthContext } from 'helpers/context.js'
 import PaymentRequiredModal from 'components/modals/payment-required/index.js'
 
 function Banner({ shortMessage, longMessage }) {
   const router = useRouter()
-  const { payments } = useContext(AuthContext)
   const [showPayments, setShowPayments] = useState(false)
 
   function navigate() {
-    if (!['active', 'trialing'].includes(payments?.state)) {
-      setShowPayments(true)
-    } else {
-      router.push('/account/integrations')
-    }
+    router.push('/account/integrations')
   }
 
   return (
