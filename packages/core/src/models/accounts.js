@@ -7,6 +7,7 @@ export async function getAccounts({ identity_id }) {
     .select('account_id')
     .from('account_identities')
     .where({ identity_id })
+    .orderBy('account_id')
 }
 
 export async function createAccount({ identity_id }) {
