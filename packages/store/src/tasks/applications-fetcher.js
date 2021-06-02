@@ -56,18 +56,20 @@ export default function fetchApplications(
         await AppStore.scrapeApp(app.application_id, app.default_country_id)
         enabled_applications.push(app)
       } catch (error) {
-        // @TODO Filter error.message
-        logger.warn(error)
-        await pg
-          .queryBuilder()
-          .update({
-            last_error_message: error.message,
-            failed_fetches: app.failed_fetches + 1,
-            is_active: false,
-          })
-          .where({ application_id: app.application_id })
-          .from('applications')
-          .transacting(trx)
+        if (error.message?.includes('404')) {
+          await pg
+            .queryBuilder()
+            .update({
+              last_error_message: error.message,
+              failed_fetches: app.failed_fetches + 1,
+              is_active: false,
+            })
+            .where({ application_id: app.application_id })
+            .from('applications')
+            .transacting(trx)
+        } else {
+          logger.warn(error)
+        }
       }
     }
 
