@@ -1,6 +1,8 @@
 import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
 
+const region_names = new Intl.DisplayNames(['en'], { type: 'region' })
+
 export default {
   method: 'GET',
   path: '/:subscriber_id',
@@ -16,6 +18,7 @@ export default {
           device_type_name: { type: 'string' },
           provider_id: { type: 'string' },
           country_id: { type: 'string' },
+          country_name: { type: 'string' },
         },
         required: [
           'subscriber_id',
@@ -25,6 +28,7 @@ export default {
           'device_type_name',
           'provider_id',
           'country_id',
+          'country_name',
         ],
       },
     },
@@ -36,6 +40,9 @@ export default {
       subscriber_id,
     })
 
-    return row
+    return {
+      country_name: region_names.of(row.country_id.toUpperCase()),
+      ...row,
+    }
   },
 }
