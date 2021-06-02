@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export const CustomerCursor = PropTypes.shape({
+export const ReviewCursor = PropTypes.shape({
   review_id: PropTypes.string.isRequired,
   updated_at: PropTypes.string.isRequired,
 })
