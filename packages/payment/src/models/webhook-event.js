@@ -26,8 +26,8 @@ export async function updateSubscription({ subscription, customer }) {
   const attributes = { account_id, provider_id: 'apple' }
 
   if (['unpaid', 'canceled', 'ended'].includes(status)) {
-    await integrations.update({ ...attributes, status: 'suspended' })
+    await integrations.update({ ...attributes, state: 'suspended' })
   } else if (status === 'active') {
-    await integrations.update({ ...attributes, status: 'active' })
+    await integrations.update({ ...attributes, state: 'active' })
   }
 }
