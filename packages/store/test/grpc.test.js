@@ -328,17 +328,6 @@ describe('Reviews', () => {
       },
     )
   })
-
-  test('findCountries should throw an error on missing application_id', (done) => {
-    reviews.findCountries(
-      { account_id: TEST_ACCOUNT_ID, application_id: null },
-      (error, response) => {
-        expect(error).toBeTruthy()
-        expect(error.message).toContain('Missing application id')
-        done()
-      },
-    )
-  })
 })
 
 describe('Integrations', () => {
