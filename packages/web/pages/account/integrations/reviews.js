@@ -25,10 +25,6 @@ function ReviewsIntegration({ initialData }) {
   async function onSubmit() {
     const filled = applications.filter((a) => a?.country_ids?.length > 0)
 
-    if (filled.length === 0) {
-      return toast.error(`You didn't track any applications or countries`)
-    }
-
     setLoading(true)
 
     try {
