@@ -16,7 +16,10 @@ export async function createPortal({ account_id }) {
 export async function createCheckout({ account_id }) {
   const existing = await Integrations.findOne({ account_id })
 
-  if (existing && existing.subscription_id) {
+  if (
+    existing?.subscription_id &&
+    ['active', 'trialing'].includes(existing?.state ?? 'new')
+  ) {
     const error = new Error(`Customer already has a subscription`)
     error.code = grpc.status.FAILED_PRECONDITION
     throw error
