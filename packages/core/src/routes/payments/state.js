@@ -21,11 +21,14 @@ export default {
               'new',
             ],
           },
+          account_id: { type: 'string' },
+          identity_id: { type: 'string' },
         },
         required: ['state'],
       },
     },
   },
   preHandler: verify,
-  handler: async ({ payments }) => payments,
+  handler: async ({ payments, accounts: [{ account_id }], user }) =>
+    Object.assign({}, payments, { account_id, identity_id: user.identity.id }),
 }
