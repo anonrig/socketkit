@@ -274,11 +274,11 @@ message ReportsRequest {
   string interval = 3;
   string start_date = 4;
   string end_date = 5;
+  optional string application_id = 6;
 }
 
 message ReportsResponse {
-  uint32 ny = 1;
-  repeated ReportsRow rows = 2;
+  repeated ReportsRow rows = 1;
 }
 
 message ReportsRow {
