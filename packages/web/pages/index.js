@@ -1,6 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
+import { mutate } from 'swr'
 
 import { AuthContext } from 'helpers/context.js'
 import getGreeting from 'helpers/greeting.js'
@@ -15,12 +17,19 @@ import CheckoutButton from 'components/checkout-button.js'
 const CountriesWidget = dynamic(() => import('components/scenes/dashboard/countries-widget'))
 
 function Dashboard() {
+  const router = useRouter()
   const { payment, integration, session } = useContext(AuthContext)
   const maxDate = dayjs(integration?.last_fetch ?? undefined)
   const [interval, setInterval] = useState({
     start_date: maxDate.subtract(1, 'month'),
     end_date: maxDate,
   })
+
+  useEffect(() => {
+    if (router.query.payment === 'success') {
+      mutate('payments/state')
+    }
+  }, [router.query])
 
   return (
     <>
