@@ -2,23 +2,14 @@ import { RequiredError } from '@ory/kratos-client/dist/base.js'
 import { kratos } from './authentication/kratos.js'
 
 import grpc from './grpc.js'
-import { createAccount, getAccounts } from './models/accounts.js'
+import { findOrCreate } from './models/accounts.js'
 import logger from './logger.js'
 
 export const verify = async (request, reply) => {
-  const { cookie, authorization } = request.headers
-
   try {
-    const { data } = await kratos.whoami(cookie, authorization)
+    const { data } = await kratos.whoami(request.headers.cookie)
     request.user = data
-    request.accounts = await getAccounts({ identity_id: data.identity.id })
-
-    if (request.accounts.length === 0) {
-      const account = await createAccount({
-        identity_id: request.user.identity.id,
-      })
-      request.accounts = [account]
-    }
+    request.accounts = await findOrCreate({ identity_id: data.identity.id })
 
     try {
       request.payments = await grpc.paymentIntegrations.findOrCreate({

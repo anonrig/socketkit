@@ -1,45 +1,40 @@
 import pg from '../pg.js'
 import { v4 } from 'uuid'
 
-export async function getAccounts({ identity_id }) {
+export function getAccounts({ identity_id }) {
   return pg
     .queryBuilder()
     .select('account_id')
     .from('account_identities')
     .where({ identity_id })
-    .orderBy('account_id')
+    .orderBy('created_at')
 }
 
-export async function createAccount({ identity_id }) {
+export async function findOrCreate({ identity_id }) {
   return pg.transaction(async (trx) => {
-    const account_id = v4()
+    const existing = await getAccounts({ identity_id }).transacting(trx)
 
-    await pg
-      .queryBuilder()
-      .insert({ account_id })
-      .into('accounts')
-      .transacting(trx)
-      .returning('account_id')
+    if (existing.length > 0) {
+      return existing
+    }
 
-    return pg
-      .queryBuilder()
-      .insert({
-        account_role: 'owner',
-        created_at: new Date(),
-        account_id,
-        identity_id,
-      })
-      .into('account_identities')
-      .returning('*')
+    await createAccount({ identity_id })
       .transacting(trx)
+      .onConflict('identity_id')
+      .ignore()
+
+    return getAccounts({ identity_id }).transacting(trx)
   })
 }
 
-export async function getAccountIdentities({ account_ids }) {
+export function createAccount({ identity_id }) {
   return pg
     .queryBuilder()
-    .select('*')
-    .from('account_identities')
-    .whereIn('account_id', account_ids)
-    .orderBy('created_at')
+    .insert({
+      account_role: 'owner',
+      created_at: new Date(),
+      account_id: v4(),
+      identity_id,
+    })
+    .into('account_identities')
 }
