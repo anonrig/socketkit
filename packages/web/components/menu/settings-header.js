@@ -20,11 +20,6 @@ function SettingsHeader() {
               href: `/account/settings`,
             },
             {
-              key: 'users',
-              title: 'Users',
-              href: `/account/users`,
-            },
-            {
               key: 'billing',
               title: 'Billing & Plan',
               href: getUrl(`payments/portal`),
