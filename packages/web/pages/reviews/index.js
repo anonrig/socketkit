@@ -16,8 +16,6 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import ReviewColumns from 'helpers/columns/review.js'
 import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
-import IntegrationRequired from 'components/integration-required.js'
-
 export async function getServerSideProps({ query, req: { headers } }) {
   return await fetchOnBackground({ query, headers }, 'reviews', true)
 }
@@ -40,16 +38,6 @@ function Reviews({ initialData }) {
     () => (filters.application ? `reviews/versions/${filters.application}` : null),
     { refreshInterval: 0, revalidateOnFocus: false },
   )
-
-  if (!initialData.fetching) {
-    return (
-      <IntegrationRequired
-        title="Review Integration Required"
-        subtitle="You need to add an integration to access the reviews for your application."
-        url="/account/integrations"
-      />
-    )
-  }
 
   return (
     <>
