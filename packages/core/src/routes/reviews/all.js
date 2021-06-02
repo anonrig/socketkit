@@ -26,7 +26,6 @@ export default {
       200: {
         type: 'object',
         properties: {
-          fetching: { type: 'boolean', default: true },
           cursor: {
             type: ['object', 'null'],
             properties: {
@@ -66,7 +65,7 @@ export default {
             },
           },
         },
-        required: ['fetching', 'cursor', 'rows'],
+        required: ['cursor', 'rows'],
       },
     },
   },
@@ -82,7 +81,6 @@ export default {
 
     if (integrations.length === 0) {
       return {
-        fetching: false,
         rows: [],
         cursor: null,
       }
@@ -97,32 +95,23 @@ export default {
 
       if (!existing) {
         return {
-          fetching: false,
           rows: [],
           cursor: null,
         }
       }
 
-      return Object.assign(
-        {},
-        grpc.reviews.findAll({
-          application_ids: [application_id],
-          country_ids,
-          version_ids,
-          cursor,
-        }),
-        { fetching: true },
-      )
+      return grpc.reviews.findAll({
+        application_ids: [application_id],
+        country_ids,
+        version_ids,
+        cursor,
+      })
     }
 
-    return Object.assign(
-      {},
-      grpc.reviews.findAll({
-        application_ids: integrations.map((i) => i.application_id),
-        country_ids,
-        cursor,
-      }),
-      { fetching: true },
-    )
+    return grpc.reviews.findAll({
+      application_ids: integrations.map((i) => i.application_id),
+      country_ids,
+      cursor,
+    })
   },
 }
