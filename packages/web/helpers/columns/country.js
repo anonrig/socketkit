@@ -25,27 +25,36 @@ export default [
   {
     id: 'churn',
     Header: 'Churn',
-    accessor: function GetCountryChurn(field) {
-      return `${(
-        ((field.churned_from_trial + field.churned_from_direct_sale) / field.total_count) *
-        100
-      ).toFixed(2)}%`
+    accessor: function GetCountryChurn({
+      churned_from_trial,
+      churned_from_direct_sale,
+      total_count,
+    }) {
+      const rate =
+        total_count === 0
+          ? '0.00'
+          : (((churned_from_trial + churned_from_direct_sale) / total_count) * 100).toFixed(2)
+      return `${rate}%`
     },
     className: '!text-right w-24',
   },
   {
     id: 'lead_conversion',
     Header: 'Conversion',
-    accessor: function GetCountryConversion(field) {
-      return `${((field.paid_converted_from_trial / field.total_trial_count) * 100).toFixed(2)}%`
+    accessor: function GetCountryConversion({ paid_converted_from_trial, total_trial_count }) {
+      const rate =
+        total_trial_count === 0
+          ? '0.00'
+          : ((paid_converted_from_trial / total_trial_count) * 100).toFixed(2)
+      return `${rate}%`
     },
     className: '!text-right w-32',
   },
   {
     id: 'revenue',
     Header: 'Revenue',
-    accessor: function GetCountryRevenue(field) {
-      return `$${field.revenue ?? 0}`
+    accessor: function GetCountryRevenue({ revenue = 0 }) {
+      return `$${revenue}`
     },
     className: '!text-right w-24',
   },

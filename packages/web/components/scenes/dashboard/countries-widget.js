@@ -84,7 +84,7 @@ function CountriesWidget({ range, initialData }) {
                             %
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
-                            {((c.paid_converted_from_trial / c.total_trial_count) * 100).toFixed(2)}
+                            {c.total_trial_count === 0 ? '0.00' : ((c.paid_converted_from_trial / c.total_trial_count) * 100).toFixed(2)}
                             %
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-trueGray-500 text-right">
