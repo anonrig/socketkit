@@ -33,7 +33,9 @@ function MyApp({ Component, pageProps }) {
   const Layout = session === null ? UnauthorizedLayout : AuthorizedLayout
 
   const { data: integration } = useSWR(session ? 'integrations/appstore-connect' : null, fetcher)
-  const { data: payment } = useSWR(session ? 'payments/state' : null, fetcher)
+  const { data: payment } = useSWR(session ? 'payments/state' : null, fetcher, {
+    refreshInterval: 60000,
+  })
 
   const fetchUser = useCallback(async () => {
     try {
