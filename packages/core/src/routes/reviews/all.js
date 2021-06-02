@@ -103,18 +103,26 @@ export default {
         }
       }
 
-      return grpc.reviews.findAll({
-        application_ids: [application_id],
-        country_ids,
-        version_ids,
-        cursor,
-      })
+      return Object.assign(
+        {},
+        grpc.reviews.findAll({
+          application_ids: [application_id],
+          country_ids,
+          version_ids,
+          cursor,
+        }),
+        { fetching: true },
+      )
     }
 
-    return grpc.reviews.findAll({
-      application_ids: integrations.map((i) => i.application_id),
-      country_ids,
-      cursor,
-    })
+    return Object.assign(
+      {},
+      grpc.reviews.findAll({
+        application_ids: integrations.map((i) => i.application_id),
+        country_ids,
+        cursor,
+      }),
+      { fetching: true },
+    )
   },
 }
