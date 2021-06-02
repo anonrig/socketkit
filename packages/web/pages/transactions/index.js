@@ -67,6 +67,14 @@ function Transactions({ initialData }) {
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
         })}
+        notFound={{
+          title: 'No transactions found',
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          action: {
+            message: 'Update integration',
+            callback: () => router.push('/account/integrations/appstore-connect'),
+          },
+        }}
       />
     </>
   )

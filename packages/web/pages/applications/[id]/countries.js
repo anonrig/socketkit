@@ -30,6 +30,14 @@ function Customers({ initialData }) {
           key: original.country_id,
           className: 'hover:bg-gray-50 cursor-pointer',
         })}
+        notFound={{
+          title: 'No countries found',
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          action: {
+            message: 'Update integration',
+            callback: () => router.push('/account/integrations/appstore-connect'),
+          },
+        }}
       />
     </>
   )

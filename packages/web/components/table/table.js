@@ -7,10 +7,10 @@ import { useSWRInfinite } from 'swr'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import useOnScreen from '../../helpers/use-onscreen.js'
 
-function Table({ initialData, columns, getRowProps, url, options }) {
+function Table({ initialData, columns, getRowProps, url, options, notFound }) {
   const loader = useRef()
   const isVisible = useOnScreen(loader)
-  const { data, size, setSize, isValidating } = useSWRInfinite(
+  const { data, size, setSize, isValidating, error } = useSWRInfinite(
     (_, previous) => {
       if (previous && !previous.cursor) return null
       const query = getQueryString(
@@ -29,11 +29,22 @@ function Table({ initialData, columns, getRowProps, url, options }) {
     },
   )
 
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore =
+    isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isEmpty = data?.[0]?.rows.length === 0
+
   useEffect(() => {
-    if (isVisible && !isValidating) {
+    if (isVisible && !isValidating && !isLoadingInitialData && !isLoadingMore && !isEmpty) {
       setSize(size + 1)
     }
-  }, [isVisible, isValidating]) /* eslint-disable-line react-hooks/exhaustive-deps */
+  }, [
+    isVisible,
+    isValidating,
+    isLoadingInitialData,
+    isLoadingMore,
+    isEmpty,
+  ]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
@@ -41,6 +52,24 @@ function Table({ initialData, columns, getRowProps, url, options }) {
     columns,
     data: memoized,
   })
+
+  if (!isLoadingInitialData && !isLoadingMore && isEmpty) {
+    return (
+      <div className="shadow-lgs sm:rounded-lg my-4">
+        <div className="px-4 py-5 sm:p-6">
+          <h3 className="text-lg leading-6 font-medium text-trueGray-900">{notFound.title}</h3>
+          <p className="mt-2 max-w-xl text-sm text-gray-500">{notFound.message}</p>
+          {notFound.action && (
+            <button
+              className="mt-3 text-sm font-medium text-orange-500 hover:text-orange-400"
+              onClick={() => notFound.action.callback()}>
+              {notFound.action.message} <span aria-hidden="true">&rarr;</span>
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -100,6 +129,14 @@ function Table({ initialData, columns, getRowProps, url, options }) {
   )
 }
 
+Table.defaultProps = {
+  notFound: {
+    title: 'No results found',
+    message: `Try adjusting your search or filter to find what you're looking for.`,
+    action: null,
+  },
+}
+
 Table.propTypes = {
   initialData: PropTypes.any,
   url: PropTypes.string.isRequired,
@@ -110,6 +147,14 @@ Table.propTypes = {
   }),
   columns: PropTypes.arrayOf(PropTypes.any).isRequired,
   getRowProps: PropTypes.func,
+  notFound: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    action: PropTypes.shape({
+      message: PropTypes.string,
+      callback: PropTypes.func,
+    }),
+  }),
 }
 
 export default Table

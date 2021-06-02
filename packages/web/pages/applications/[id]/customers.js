@@ -31,6 +31,14 @@ function Customers({ initialData }) {
           key: original.subscriber_id,
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
         })}
+        notFound={{
+          title: 'No customers found',
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          action: {
+            message: 'Update integration',
+            callback: () => router.push('/account/integrations/appstore-connect'),
+          },
+        }}
       />
     </>
   )
