@@ -73,11 +73,11 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ params: { application_id } }) => {
+  handler: async ({ params: { application_id } }, reply) => {
     const { row } = await grpc.applications.findOne({
       application_id,
     })
 
-    return row
+    return row ?? reply.notFound()
   },
 }

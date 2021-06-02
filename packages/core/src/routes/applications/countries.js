@@ -7,6 +7,13 @@ export default {
   method: 'GET',
   path: '/:application_id/countries',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        application_id: { type: 'string' },
+      },
+      required: ['application_id'],
+    },
     query: {
       type: 'object',
       properties: {

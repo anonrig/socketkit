@@ -6,6 +6,13 @@ export default {
   method: 'GET',
   path: '/:application_id/statistics',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        application_id: { type: 'string' },
+      },
+      required: ['application_id'],
+    },
     response: {
       200: {
         type: 'object',

@@ -7,6 +7,13 @@ export default {
   method: 'GET',
   path: '/:application_id/customers',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        application_id: { type: 'string' },
+      },
+      required: ['application_id'],
+    },
     querystring: {
       type: 'object',
       properties: {

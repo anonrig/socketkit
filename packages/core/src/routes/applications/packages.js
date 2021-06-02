@@ -5,6 +5,13 @@ export default {
   method: 'GET',
   path: '/:application_id/packages',
   schema: {
+    params: {
+      type: 'object',
+      properties: {
+        application_id: { type: 'string' },
+      },
+      required: ['application_id'],
+    },
     query: {
       type: 'object',
       properties: {
@@ -41,10 +48,9 @@ export default {
     },
   },
   preHandler: verify,
-  handler: async ({ accounts: [account], params: { application_id } }) => {
-    return grpc.subscriptions.findPackages({
+  handler: async ({ accounts: [account], params: { application_id } }) =>
+    grpc.subscriptions.findPackages({
       account_id: account.account_id,
       application_id,
-    })
-  },
+    }),
 }
