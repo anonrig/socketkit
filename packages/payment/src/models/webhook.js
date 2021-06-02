@@ -2,7 +2,7 @@ import stripe from '../stripe.js'
 import config from '../config.js'
 import Logger from '../logger.js'
 
-import { updateSubscription } from './webhook-event.js'
+import { updateSubscription, cancelSubscription } from './webhook-event.js'
 
 const logger = Logger.create().withScope('webhook')
 
@@ -21,7 +21,7 @@ export async function validate({ payload, signature }) {
       break
     // remove the customer’s access to the product
     case 'customer.subscription.deleted':
-      await updateSubscription({
+      await cancelSubscription({
         subscription: event.data.object.id,
         customer: event.data.object.customer,
       })
