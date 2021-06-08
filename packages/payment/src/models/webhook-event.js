@@ -16,7 +16,11 @@ export async function updateSubscription({ subscription, customer }) {
       expired_at: dayjs((cancel_at ?? current_period_end) * 1000),
       updated_stripe_at: pg.raw(
         `CASE WHEN updated_stripe_at IS NULL THEN ? ELSE updated_stripe_at END`,
-        [dayjs(current_period_start).subtract(1, 'day').format('YYYY-MM-DD')],
+        [
+          dayjs(current_period_start * 1000)
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD'),
+        ],
       ),
     })
     .from('integrations')
