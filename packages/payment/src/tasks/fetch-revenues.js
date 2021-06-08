@@ -16,16 +16,16 @@ export default async function fetchRevenues() {
       .queryBuilder()
       .select(['account_id', 'stripe_id', 'updated_stripe_at'])
       .from('integrations')
-      .where({ environment, state: 'active' })
+      .where({ environment })
+      .where(
+        'updated_stripe_at',
+        '<',
+        dayjs().subtract(1, 'days').format('YYYY-MM-DD'),
+      )
       .whereNotNull('stripe_id')
       .whereNotNull('subscription_id')
-      .andWhere(function () {
-        this.where(
-          'updated_stripe_at',
-          '<',
-          dayjs().subtract(1, 'days').format('YYYY-MM-DD'),
-        )
-      })
+      .where('state', '>', 'new')
+      .whereNot('subscription_id', config.subscription.special_user_key) // @TODO: refactor this.
       .orderBy('updated_stripe_at', 'desc')
       .limit(1)
       .forUpdate()

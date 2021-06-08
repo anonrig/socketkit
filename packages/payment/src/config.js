@@ -23,6 +23,10 @@ export default {
     flat_fee_based:
       process.env.FLAT_BASED_PRODUCT ?? 'price_1IhvnDEArFRUZZMzFFoIepCx',
   },
+  subscription: {
+    special_user_key:
+      process.env.SUBSCRIPTION_SPECIAL_USER_KEY ?? 'sub_special_user',
+  },
   knex: {
     client: 'pg',
     version: '13',
