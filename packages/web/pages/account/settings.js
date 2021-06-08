@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
 
 import Settings from 'components/scenes/account/account-settings.js'
 import Password from 'components/scenes/account/account-password.js'
@@ -47,19 +48,22 @@ function AccountSettings({ flow }) {
   const password = kratos?.ui.nodes.filter((n) => ['password', 'default'].includes(n.group))
 
   return (
-    <div className="space-y-8">
-      {profile?.length > 0 && (
-        <form action={kratos?.ui.action} method={kratos?.ui.method}>
-          <Settings fields={profile} />
-        </form>
-      )}
+    <>
+      <NextSeo title="Account Settings" />
+      <div className="space-y-8">
+        {profile?.length > 0 && (
+          <form action={kratos?.ui.action} method={kratos?.ui.method}>
+            <Settings fields={profile} />
+          </form>
+        )}
 
-      {password?.length > 0 && (
-        <form action={kratos?.ui.action} method={kratos?.ui.method}>
-          <Password fields={password} />
-        </form>
-      )}
-    </div>
+        {password?.length > 0 && (
+          <form action={kratos?.ui.action} method={kratos?.ui.method}>
+            <Password fields={password} />
+          </form>
+        )}
+      </div>
+    </>
   )
 }
 

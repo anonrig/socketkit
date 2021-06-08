@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
+
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table.js'
 
@@ -18,6 +20,7 @@ function SubscriptionPackages({ initialData }) {
 
   return (
     <>
+      <NextSeo title="Subscription Packages" />
       <ApplicationHeader />
       <Table
         initialData={initialData}

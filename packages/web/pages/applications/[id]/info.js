@@ -2,6 +2,8 @@ import useSWR from 'swr'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
+
 import 'react-medium-image-zoom/dist/styles.css'
 
 import ApplicationHeader from 'components/menu/application-header.js'
@@ -30,6 +32,7 @@ function ApplicationInformation({ initialData }) {
 
   return (
     <>
+      <NextSeo title="AppStore Info" />
       <ApplicationHeader />
 
       <div className="flex-grow lg:flex space-y-8 lg:space-y-0">

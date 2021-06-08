@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
 import Form from 'components/form/form.js'
 
 import { client } from 'helpers/kratos.js'
@@ -39,6 +40,8 @@ export async function getServerSideProps(ctx) {
 function VerifyEmail({ kratos }) {
   return (
     <>
+      <NextSeo title="Verify Email" />
+
       <div className="bg-white flex">
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">

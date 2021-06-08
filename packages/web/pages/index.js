@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 import { mutate } from 'swr'
 
 import { AuthContext } from 'helpers/context.js'
@@ -33,6 +34,7 @@ function Dashboard() {
 
   return (
     <>
+      <NextSeo title="Dashboard" />
       <div className="flex flex-1 space-between mb-10 items-center justify-center flex-col md:flex-row space-y-6 md:space-y-0">
         <h3 className="font-extrabold text-warmGray-900 sm:tracking-tight text-3xl flex-1">
           {getGreeting()}, {session?.identity.traits.name?.split(' ')[0]}!

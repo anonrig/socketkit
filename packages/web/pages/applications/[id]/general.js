@@ -1,5 +1,6 @@
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 
 import ApplicationHeader from 'components/menu/application-header.js'
 
@@ -17,6 +18,7 @@ function ApplicationDashboard({ initialData }) {
 
   return (
     <>
+      <NextSeo title="General" />
       <ApplicationHeader />
 
       <aside className="space-y-6">

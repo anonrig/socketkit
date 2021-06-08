@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { GlobeIcon, ChartSquareBarIcon, DeviceMobileIcon } from '@heroicons/react/outline'
+import { NextSeo } from 'next-seo'
 
 import Heading from 'components/heading.js'
 import Select from 'components/form/select'
@@ -41,6 +42,8 @@ function Reviews({ initialData }) {
 
   return (
     <>
+      <NextSeo title="Reviews" />
+
       <div className="flex flex-1 justify-between mb-8 items-center">
         <Heading>Reviews</Heading>
         <DatePicker

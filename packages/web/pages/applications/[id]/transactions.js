@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import { NextSeo } from 'next-seo'
 
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table'
@@ -20,6 +21,7 @@ function Transactions({ initialData }) {
 
   return (
     <>
+      <NextSeo title="Application Transactions" />
       <ApplicationHeader />
       <Table
         initialData={initialData}

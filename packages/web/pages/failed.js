@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/nextjs'
+import { NextSeo } from 'next-seo'
 
 import pkg from '../package.json'
 
@@ -41,22 +42,26 @@ export async function getServerSideProps(ctx) {
 function Failed({ data }) {
   console.log(data)
   return (
-    <div className="mb-48">
-      <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-        {data.errors[0]?.status ?? 'Uncaught error'} (v{pkg.version})
-      </h2>
-      <p className="text-xl text-warmGray-500 mb-4">
-        We&apos;re working really hard to fix this issue. <br></br>
-        {data.errors[0]?.reason}
-      </p>
-      <a
-        href={endpoints.login}
-        className={
-          'transition ease-in-out duration-150 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 w-44'
-        }>
-        Go to Login
-      </a>
-    </div>
+    <>
+      <NextSeo title="Application Error" />
+
+      <div className="mb-48">
+        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
+          {data.errors[0]?.status ?? 'Uncaught error'} (v{pkg.version})
+        </h2>
+        <p className="text-xl text-warmGray-500 mb-4">
+          We&apos;re working really hard to fix this issue. <br></br>
+          {data.errors[0]?.reason}
+        </p>
+        <a
+          href={endpoints.login}
+          className={
+            'transition ease-in-out duration-150 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 w-44'
+          }>
+          Go to Login
+        </a>
+      </div>
+    </>
   )
 }
 

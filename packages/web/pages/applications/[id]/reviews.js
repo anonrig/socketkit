@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table'
@@ -21,6 +22,7 @@ function ApplicationReviews({ initialData }) {
 
   return (
     <>
+      <NextSeo title="Application Reviews" />
       <ApplicationHeader />
       <Table
         initialData={initialData}

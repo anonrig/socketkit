@@ -1,5 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
+
 import Form from 'components/form/form.js'
 
 import { endpoints, client } from 'helpers/kratos.js'
@@ -35,6 +37,8 @@ export async function getServerSideProps(ctx) {
 function RecoverAccount({ kratos }) {
   return (
     <>
+      <NextSeo title="Recover Account" />
+
       <h2 className="text-3xl font-extrabold text-gray-900">Recover Account</h2>
       <div className="mt-8">
         <Form

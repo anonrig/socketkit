@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
+import { NextSeo } from 'next-seo'
 
 import SocketkitConfig from 'socketkit.config.js'
 
@@ -93,6 +94,8 @@ function Reports({ query, slug }) {
 
   return (
     <SidebarLayout leading={<Sidebar />}>
+      <NextSeo title={report.title} />
+
       <div className="lg:flex lg:items-start lg:justify-between">
         <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl sm:truncate">

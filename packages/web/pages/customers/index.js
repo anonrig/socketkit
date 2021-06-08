@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { SwitchHorizontalIcon } from '@heroicons/react/solid'
+import { NextSeo } from 'next-seo'
 
 import Table from 'components/table/table'
 import DatePicker from 'components/date-picker'
@@ -24,6 +25,8 @@ function Customers({ initialData }) {
 
   return (
     <>
+      <NextSeo title="Customers" />
+
       <div className="flex flex-1 justify-between mb-8 items-center">
         <Heading>Customers</Heading>
         <div className="inline-flex items-center">

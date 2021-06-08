@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
 import Form from 'components/form/form.js'
 
 import { endpoints, client } from 'helpers/kratos.js'
@@ -35,6 +36,11 @@ export async function getServerSideProps(ctx) {
 function SignUp({ kratos }) {
   return (
     <>
+      <NextSeo
+        title="Sign Up"
+        description="Sign up to Socketkit Mobile Analytics and Subscription Tracking web panel and create a new account."
+      />
+
       <h2 className="mt-6 text-3xl font-extrabold text-gray-900 mb-8">Create an account</h2>
       <Form
         actions={{

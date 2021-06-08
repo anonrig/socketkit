@@ -6,6 +6,7 @@ import {
   PresentationChartLineIcon,
   CheckIcon,
 } from '@heroicons/react/outline'
+import { NextSeo } from 'next-seo'
 import toast from 'react-hot-toast'
 import cx from 'classnames'
 
@@ -34,6 +35,7 @@ function StartMembership() {
 
   return (
     <>
+      <NextSeo title="Start Membership" />
       <div className="max-w-7xl mx-auto px-4 sm:pt-12 sm:pb-4 sm:px-6 lg:px-8 text-center">
         <p className="text-4xl font-extrabold text-warmGray-900 sm:text-5xl sm:tracking-tight">
           Start your free trial, today.

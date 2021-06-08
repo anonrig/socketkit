@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import useSWR from 'swr'
 import cx from 'classnames'
 import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
 
 import PaymentRequiredModal from 'components/modals/payment-required/index.js'
 
@@ -56,6 +57,8 @@ function Integrations({ initial }) {
 
   return (
     <>
+      <NextSeo title="Integrations" />
+
       <div className="space-y-4">
         <div
           className={
