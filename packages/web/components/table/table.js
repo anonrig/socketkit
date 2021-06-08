@@ -38,13 +38,7 @@ function Table({ initialData, columns, getRowProps, url, options, notFound }) {
     if (isVisible && !isValidating && !isLoadingInitialData && !isLoadingMore && !isEmpty) {
       setSize(size + 1)
     }
-  }, [
-    isVisible,
-    isValidating,
-    isLoadingInitialData,
-    isLoadingMore,
-    isEmpty,
-  ]) /* eslint-disable-line react-hooks/exhaustive-deps */
+  }, [isVisible, isValidating, isLoadingInitialData, isLoadingMore, isEmpty, size, setSize])
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
