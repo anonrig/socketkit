@@ -12,6 +12,7 @@ export async function search(ctx) {
 
 export async function findAll(ctx) {
   const { application_ids, bundle_ids, developer_ids } = ctx.req
+
   ctx.res = {
     rows: await Applications.findAllSimplified({
       application_ids,
