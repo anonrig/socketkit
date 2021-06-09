@@ -120,7 +120,7 @@ export default {
     const { cursor, rows } = await grpc.reviews.findAll({
       application_ids: integrations.map((i) => i.application_id),
       country_ids,
-      cursor,
+      cursor: query.cursor,
     })
 
     return {
