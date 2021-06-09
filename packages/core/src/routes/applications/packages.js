@@ -17,6 +17,7 @@ export default {
       properties: {
         limit: { type: 'number', default: 10, minimum: 10 },
       },
+      required: [],
     },
   },
   schema: {
