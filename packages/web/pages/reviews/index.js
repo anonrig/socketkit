@@ -10,6 +10,7 @@ import Heading from 'components/heading.js'
 import Select from 'components/form/select'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table/table'
+import ReviewDetailModal from 'components/modals/review-detail.js'
 
 import { fetcher } from 'helpers/fetcher.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
@@ -25,6 +26,7 @@ function Reviews({ initialData }) {
   const router = useRouter()
   const [filters, setFilters] = useState({ country: null, application: null, version: null })
   const columns = useMemo(() => ReviewColumns, [])
+  const [presentingReview, setPresentingReview] = useState(null)
   setDateRangeIfNeeded(router, '/reviews')
 
   const { data: countries } = useSWR(`reviews/countries`, fetcher, {
@@ -43,6 +45,12 @@ function Reviews({ initialData }) {
   return (
     <>
       <NextSeo title="Reviews" />
+
+      <ReviewDetailModal
+        open={!!presentingReview}
+        setOpen={() => setPresentingReview(null)}
+        review={presentingReview}
+      />
 
       <div className="flex flex-1 justify-between mb-8 items-center">
         <Heading>Reviews</Heading>
@@ -119,6 +127,7 @@ function Reviews({ initialData }) {
         getRowProps={({ original }) => ({
           id: original.review_id,
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          onClick: () => setPresentingReview(original),
         })}
         notFound={{
           title: 'No reviews found',

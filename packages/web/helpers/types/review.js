@@ -9,6 +9,7 @@ export default PropTypes.shape({
   application_id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   country_id: PropTypes.string.isRequired,
+  country_name: PropTypes.string.isRequired,
   review_id: PropTypes.string.isRequired,
   review_url: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
@@ -16,4 +17,5 @@ export default PropTypes.shape({
   user_url: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   version_number: PropTypes.string.isRequired,
+  updated_at: PropTypes.string.isRequired,
 })
