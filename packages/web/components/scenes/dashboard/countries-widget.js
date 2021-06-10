@@ -5,22 +5,22 @@ import { fetcher } from 'helpers/fetcher.js'
 
 const TreeMapChart = dynamic(() => import('components/charts/treemap.js'))
 
+const letters = '0123456789ABCDEF'
+
+function getRandomColor() {
+  let color = '#'
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
 function CountriesWidget({ range, initialData }) {
   const { data } = useSWR(
     `accounts/countries?start_date=${range.start_date}&end_date=${range.end_date}&limit=10`,
     fetcher,
     { initialData, refreshInterval: 0 },
   )
-
-  const letters = '0123456789ABCDEF'
-
-  function getRandomColor() {
-    let color = '#'
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)]
-    }
-    return color
-  }
 
   return (
     <section className="lg:col-span-4">

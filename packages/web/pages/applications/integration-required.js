@@ -10,7 +10,7 @@ export default function IntegrationRequired() {
       <Component
         title="Application Integration Required"
         subtitle="You need to add an integration to access your Applications list."
-        url="/account/integrations"
+        url="/products"
       />
     </>
   )

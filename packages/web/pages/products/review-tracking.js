@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 
+import Heading from 'components/heading'
 import Button from 'components/form/button.js'
 import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
@@ -38,7 +39,7 @@ function ReviewsIntegration({ initialData }) {
       setLoading(false)
       mutate(`integrations/reviews`)
       toast.success('Reviewed applications are updated')
-      router.replace('/account/integrations')
+      router.replace('/products')
     } catch (error) {
       setLoading(false)
       toast.error(error.message)
@@ -73,19 +74,15 @@ function ReviewsIntegration({ initialData }) {
   return (
     <>
       <NextSeo title="Reviews Integration" />
+      <Heading>Review Tracking</Heading>
+      <p className="mt-1 text-sm text-trueGray-500 mb-8">
+        Easily track the reviews of your applications on AppStore for better customer feedback and
+        higher ratings.
+      </p>
       <section aria-labelledby="reviews_integration_heading">
         <div className="shadow sm:rounded-md">
           <div className="bg-white py-6 px-4 sm:p-6">
-            <div>
-              <h2 className="text-lg leading-6 font-medium text-warmGray-900">
-                Review Tracking - AppStore Connect
-              </h2>
-              <p className="mt-1 text-sm text-trueGray-500">
-                Easily track the reviews of your applications on AppStore for better customer
-                feedback and higher ratings.
-              </p>
-            </div>
-            <div className="mt-6 grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-4 gap-6">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="application"
@@ -124,7 +121,7 @@ function ReviewsIntegration({ initialData }) {
                 id="cancel"
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-warmGray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 disabled={loading}
-                onClick={() => router.push('/account/integrations')}
+                onClick={() => router.push('/products')}
                 type="button">
                 Cancel
               </Button>

@@ -1,18 +1,8 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { SpeakerphoneIcon } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
-
-import PaymentRequiredModal from 'components/modals/payment-required/index.js'
+import Link from 'next/link'
 
 function Banner({ shortMessage, longMessage }) {
-  const router = useRouter()
-  const [showPayments, setShowPayments] = useState(false)
-
-  function navigate() {
-    router.push('/account/integrations')
-  }
-
   return (
     <>
       <div className="fixed bottom-0 inset-x-0 pb-2 sm:pb-5 z-10">
@@ -29,17 +19,16 @@ function Banner({ shortMessage, longMessage }) {
                 </p>
               </div>
               <div className="mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
-                <button
-                  onClick={() => navigate()}
-                  className="flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-orange-500 bg-white hover:text-orange-400">
-                  Add an Integration
-                </button>
+                <Link href="/products">
+                  <a className="flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-sm font-medium text-orange-500 bg-white hover:text-orange-400">
+                    Add an Integration
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <PaymentRequiredModal open={showPayments} setOpen={setShowPayments} />
     </>
   )
 }

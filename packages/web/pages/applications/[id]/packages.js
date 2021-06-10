@@ -36,7 +36,7 @@ function SubscriptionPackages({ initialData }) {
           message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
             message: 'Update integration',
-            callback: () => router.push('/account/integrations/appstore-connect'),
+            callback: () => router.push('/products/subscription-tracking'),
           },
         }}
       />

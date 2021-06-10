@@ -1,31 +1,24 @@
 /* eslint-disable react/prop-types */
 import { useCallback, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { SWRConfig } from 'swr'
 import { DefaultSeo } from 'next-seo'
-import Progress from 'nprogress'
 import { Toaster } from 'react-hot-toast'
 import useSWR from 'swr'
 import { IntercomProvider } from 'react-use-intercom'
 
 import { fetcher } from 'helpers/fetcher.js'
 import { AuthContext } from 'helpers/context.js'
-import { endpoints } from 'helpers/kratos.js'
-import { client } from 'helpers/kratos.js'
+import { endpoints, client } from 'helpers/kratos.js'
+import { intercomAppId } from 'helpers/config.js'
 
-import 'nprogress/nprogress.css'
 import 'styles/date-range.css'
 import 'styles/index.css'
 import 'tailwindcss/tailwind.css'
 
 const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized.js'))
 const AuthorizedLayout = dynamic(() => import('layouts/authorized.js'))
-
-Progress.configure({ easing: 'ease', speed: 800 })
-router.events.on('routeChangeStart', () => Progress.start())
-router.events.on('routeChangeComplete', () => Progress.done())
-router.events.on('routeChangeError', () => Progress.done())
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -100,7 +93,7 @@ function MyApp({ Component, pageProps }) {
           fetcher,
         }}>
         <AuthContext.Provider value={{ session, integration, payment }}>
-          <IntercomProvider appId="o5s3ss3a" autoBoot>
+          <IntercomProvider appId={intercomAppId} autoBoot>
             <Layout>
               <Component {...pageProps} />
             </Layout>

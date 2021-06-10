@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 import { AuthContext } from 'helpers/context.js'
 import { endpoints } from 'helpers/kratos'
+import { getUrl } from 'helpers/fetcher'
 
 function ProfileDropdown({ className }) {
   const { session } = useContext(AuthContext)
@@ -45,14 +46,21 @@ function ProfileDropdown({ className }) {
                   <Menu.Item>
                     <Link href="/account/settings">
                       <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Account
+                        Account Settings
                       </a>
                     </Link>
                   </Menu.Item>
                   <Menu.Item>
-                    <Link href="/account/integrations">
+                    <a
+                      href={getUrl(`payments/portal`)}
+                      className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      Billing & Plan
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <Link href="/products">
                       <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Integrations
+                        Products & Integrations
                       </a>
                     </Link>
                   </Menu.Item>

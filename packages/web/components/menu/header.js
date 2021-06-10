@@ -9,8 +9,9 @@ import { MenuIcon, XIcon } from '@heroicons/react/solid'
 import { UserCircleIcon } from '@heroicons/react/outline'
 
 import ProfileDropdown from 'components/menu/profile-dropdown.js'
-import { AuthContext } from 'helpers/context.js'
 
+import { AuthContext } from 'helpers/context.js'
+import { getUrl } from 'helpers/fetcher.js'
 import { endpoints } from 'helpers/kratos.js'
 
 function Header() {
@@ -94,6 +95,11 @@ function Header() {
                     Customers
                   </a>
                 </Link>
+                <Link href="/reviews">
+                  <a className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                    Reviews
+                  </a>
+                </Link>
               </div>
             </div>
             <div className="pt-4 pb-2">
@@ -111,14 +117,19 @@ function Header() {
                 </div>
               </div>
               <div className="mt-3 px-2 space-y-1">
-                <Link href="/account/settings">
+                <Link href="/account">
                   <a className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
-                    Account
+                    Account Settings
                   </a>
                 </Link>
-                <Link href="/account/integrations">
+                <a
+                  href={getUrl('payments/portal')}
+                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                  Billing & Plan
+                </a>
+                <Link href="/products">
                   <a className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
-                    Integrations
+                    Products & Integrations
                   </a>
                 </Link>
                 <a

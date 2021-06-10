@@ -7,7 +7,6 @@ import Banner from 'components/banner.js'
 import Container from 'components/container.js'
 import Footer from 'components/menu/footer.js'
 import Header from 'components/menu/header.js'
-import SettingsHeader from 'components/menu/settings-header.js'
 
 import { AuthContext } from 'helpers/context.js'
 
@@ -30,7 +29,6 @@ function AuthorizedLayout({ children }) {
   return (
     <>
       <Header />
-      {router.pathname.startsWith('/account') && <SettingsHeader />}
       <Container>{children}</Container>
       <Footer />
 

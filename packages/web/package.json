@@ -19,7 +19,7 @@
     "@nivo/line": "^0.70.1",
     "@nivo/treemap": "^0.70.1",
     "@ory/kratos-client": "^0.6.3-alpha.1",
-    "@sentry/nextjs": "^6.5.1",
+    "@sentry/nextjs": "^6.6.0",
     "@stripe/stripe-js": "^1.15.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
@@ -30,7 +30,6 @@
     "dayjs": "^1.10.5",
     "next": "^10.2.3",
     "next-seo": "^4.24.0",
-    "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "qs": "^6.10.1",
     "react": "^17.0.2",
@@ -45,7 +44,6 @@
     "swr": "^0.5.6"
   },
   "devDependencies": {
-    "@types/react-select": "^4.0.15",
     "autoprefixer": "^10.2.6",
     "cypress": "^7.5.0",
     "eslint": "^7.28.0",
@@ -55,7 +53,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.3.0",
+    "postcss": "^8.3.1",
     "prettier": "^2.3.1",
     "tailwindcss": "^2.1.4"
   },

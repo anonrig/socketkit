@@ -3,14 +3,13 @@ const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   mode: 'jit',
-  purge: {
-    mode: 'all',
-    enabled: process.env.NODE_ENV === 'production',
-    content: ['components', 'helpers', 'images', 'layouts', 'pages']
-      .map((p) => ['js'].map((e) => `./${p}/**/*.${e}`))
-      .flat(3)
-      .concat(['./node_modules/nprogress/**/*.js', './node_modules/react-date-range/**/*.js']),
-  },
+  purge: [
+    './components/**/*.js',
+    './helpers/**/*.js',
+    './layouts/*.js',
+    './pages/**/*.js',
+    './styles/*.css',
+  ],
   darkMode: false,
   theme: {
     extend: {

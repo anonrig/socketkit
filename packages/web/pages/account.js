@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { NextSeo } from 'next-seo'
 
+import Heading from 'components/heading'
 import Settings from 'components/scenes/account/account-settings.js'
 import Password from 'components/scenes/account/account-password.js'
 
@@ -50,6 +51,8 @@ function AccountSettings({ flow }) {
   return (
     <>
       <NextSeo title="Account Settings" />
+      <Heading className="mb-8">Account Settings</Heading>
+
       <div className="space-y-8">
         {profile?.length > 0 && (
           <form action={kratos?.ui.action} method={kratos?.ui.method}>
