@@ -46,11 +46,9 @@ function Reviews({ initialData }) {
     <>
       <NextSeo title="Reviews" />
 
-      <ReviewDetailModal
-        open={!!presentingReview}
-        setOpen={() => setPresentingReview(null)}
-        review={presentingReview}
-      />
+      {presentingReview && (
+        <ReviewDetailModal onClose={() => setPresentingReview(null)} review={presentingReview} />
+      )}
 
       <div className="flex flex-1 justify-between mb-8 items-center">
         <Heading>Reviews</Heading>

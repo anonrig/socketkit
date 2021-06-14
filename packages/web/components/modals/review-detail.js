@@ -7,8 +7,8 @@ import { ExclamationIcon, BadgeCheckIcon } from '@heroicons/react/outline'
 import InlineRating from 'components/inline-rating'
 import ReviewType from 'helpers/types/review'
 
-function ReviewDetailModal({ open, setOpen, review }) {
-  const cancelButtonRef = useRef(null)
+function ReviewDetailModal({ onClose, review }) {
+  const viewButtonRef = useRef(null)
   const ScoreIcon = (review?.score ?? 1) > 3 ? BadgeCheckIcon : ExclamationIcon
   const severity =
     review?.score == 1 ? 'text-red-600' : review?.score <= 3 ? 'text-yellow-500' : 'text-green-500'
@@ -16,13 +16,13 @@ function ReviewDetailModal({ open, setOpen, review }) {
     review?.score == 1 ? 'bg-red-100' : review?.score <= 3 ? 'bg-yellow-100' : 'bg-green-100'
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root appear={true} show={true} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-20 inset-0 overflow-y-auto"
-        initialFocus={cancelButtonRef}
-        open={open}
-        onClose={setOpen}>
+        open={true}
+        onClose={onClose}
+        initialFocus={viewButtonRef}>
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
@@ -81,7 +81,7 @@ function ReviewDetailModal({ open, setOpen, review }) {
                   href={review?.review_url}
                   target="_blank"
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  ref={cancelButtonRef}
+                  ref={viewButtonRef}
                   rel="noreferrer">
                   View on AppStore
                 </a>
@@ -95,13 +95,11 @@ function ReviewDetailModal({ open, setOpen, review }) {
 }
 
 ReviewDetailModal.defaultProps = {
-  open: false,
-  setOpen: () => ({}),
+  onClose: () => ({}),
 }
 
 ReviewDetailModal.propTypes = {
-  open: PropTypes.bool,
-  setOpen: PropTypes.func,
+  onClose: PropTypes.func,
   review: ReviewType.isRequired,
 }
 
