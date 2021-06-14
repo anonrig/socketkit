@@ -44,7 +44,7 @@ function ProfileDropdown({ className }) {
                 className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-orange-500 ring-opacity-5 focus:outline-none z-30">
                 <div className="px-1 py-1">
                   <Menu.Item>
-                    <Link href="/account/settings">
+                    <Link href="/account">
                       <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         Account Settings
                       </a>
