@@ -46,7 +46,7 @@ function TrackingApplications({ initialData }) {
             <p className="mt-2 max-w-xl text-sm text-gray-500">
               Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
-            <Link href="products/application-tracking/new">
+            <Link href="/products/application-tracking/new">
               <a className="mt-3 text-sm font-medium text-orange-500 hover:text-orange-400">
                 Add a new application <span aria-hidden="true">&rarr;</span>
               </a>
