@@ -1,4 +1,4 @@
-replicaCount: 10
+replicaCount: 5
 
 image:
   repository: "registry.gitlab.com/socketkit/subscription"
