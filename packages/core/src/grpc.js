@@ -30,6 +30,10 @@ const { Integrations: PaymentIntegrations, Payments } =
     loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
   )
 
+const { Applications: TrackingApplications } = grpc.loadPackageDefinition(
+  loader.loadSync(path.join('.', 'protofiles/tracking.proto'), defaults),
+)
+
 export default {
   subscribers: promisifyAll(
     new Subscribers(
@@ -75,5 +79,9 @@ export default {
   ),
   payments: promisifyAll(
     new Payments(config.grpc.payment, grpc.credentials.createInsecure()),
+  ),
+  trackingApplications: new TrackingApplications(
+    config.grpc.tracking,
+    grpc.credentials.createInsecure(),
   ),
 }

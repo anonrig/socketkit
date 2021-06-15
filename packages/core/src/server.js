@@ -12,6 +12,7 @@ import metrics from 'fastify-metrics'
 import rawBody from 'fastify-raw-body'
 import qs from 'qs'
 
+import ajv from './validation.js'
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
 import pg from './pg.js'
@@ -25,6 +26,7 @@ export default async function build() {
     trustProxy: true,
     disableRequestLogging: true,
     logger: false,
+    ajv,
   })
 
   server.setErrorHandler(async (error) => {
