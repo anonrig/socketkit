@@ -3,7 +3,6 @@ import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import cx from 'classnames'
 import dayjs from 'dayjs'
 import { NextSeo } from 'next-seo'
 
@@ -69,10 +68,9 @@ function Integrations({ initial }) {
     <>
       <NextSeo title="Products & Integrations" />
       <PaymentRequiredModal open={showingPayments} setOpen={setShowingPayments} />
-      <Heading>Products & Integrations</Heading>
-      <p className="mt-1 text-sm text-trueGray-500 mb-8">
-        All products and integrations supported by Socketkit.
-      </p>
+      <Heading subtitle="All products and integrations supported by Socketkit.">
+        Products & Integrations
+      </Heading>
 
       <div className="space-y-4">
         <IntegrationRow

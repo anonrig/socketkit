@@ -37,7 +37,7 @@ export default function CheckoutButton() {
           <button
             disabled={loading}
             onClick={() => onClick()}
-            className="relative flex-1 flex w-full items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400">
+            className="flex-1 flex w-full items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400">
             <span className={cx([loading ? 'opacity-0' : null])}>Start Free Trial</span>
             {loading && (
               <Loading className="absolute inset-0 flex flex-1 items-center justify-center" />
