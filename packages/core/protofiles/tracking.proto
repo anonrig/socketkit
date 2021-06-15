@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+service Applications {
+  rpc findAll (AccountIdRequest) returns (ApplicationsResponse) {}
+  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
+  rpc create (ApplicationRequest) returns (Empty) {}
+  rpc update (ApplicationRequest) returns (Empty) {}
+  rpc destroy (ApplicationIdRequest) returns (Empty) {}
+}
+
+// Generics
+
+message Empty {}
+
+// Requests
+
+message AccountIdRequest {
+  string account_id = 1;
+}
+
+message ApplicationIdRequest {
+  string account_id = 1;
+  string application_id = 2;
+}
+
+message ApplicationRequest {
+  string account_id = 1;
+  string application_id = 2;
+  string title = 3;
+  int32 session_timeout = 4;
+}
+
+// Responses
+
+message ApplicationResponse {
+  Application row = 1;
+}
+
+message ApplicationsResponse {
+  repeated Application rows = 1;
+}
+
+// Model definitions
+
+message Application {
+  string account_id = 1;
+  string application_id = 2;
+  string title = 3;
+  bytes authorization_key = 4;
+  bytes application_key = 5;
+  bytes server_key = 6;
+  int32 session_timeout = 7;
+  bool is_active = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
