@@ -23,7 +23,7 @@
     "consola": "^2.15.3",
     "dayjs": "^1.10.5",
     "dotenv": "^10.0.0",
-    "fastify": "^3.17.0",
+    "fastify": "^3.18.0",
     "fastify-auth": "^1.1.0",
     "fastify-compress": "^3.6.0",
     "fastify-cookie": "^5.3.1",
