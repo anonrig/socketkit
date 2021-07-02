@@ -15,7 +15,7 @@ export default function TermsOfService() {
           <div className="mt-6 prose prose-orange prose-lg text-warmGray-500 mx-auto">
             <p>
               These terms and conditions outline the rules and regulations for the use of Socketkit,
-              Inc.'s Website, located at https://socketkit.com.
+              Inc.&apos;s Website, located at https://socketkit.com.
             </p>
 
             <p>
@@ -26,16 +26,18 @@ export default function TermsOfService() {
 
             <p>
               The following terminology applies to these Terms and Conditions, Privacy Statement and
-              Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the
-              person log on this website and compliant to the Company’s terms and conditions. "The
-              Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party",
-              "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the
-              offer, acceptance and consideration of payment necessary to undertake the process of
-              our assistance to the Client in the most appropriate manner for the express purpose of
-              meeting the Client’s needs in respect of provision of the Company’s stated services,
-              in accordance with and subject to, prevailing law of Netherlands. Any use of the above
-              terminology or other words in the singular, plural, capitalization and/or he/she or
-              they, are taken as interchangeable and therefore as referring to same.
+              Disclaimer Notice and all Agreements: &quot;Client&quot;, &quot;You&quot; and
+              &quot;Your&quot; refers to you, the person log on this website and compliant to the
+              Company’s terms and conditions. &quot;The Company&quot;, &quot;Ourselves&quot;,
+              &quot;We&quot;, &quot;Our&quot; and &quot;Us&quot;, refers to our Company.
+              &quot;Party&quot;, &quot;Parties&quot;, or &quot;Us&quot;, refers to both the Client
+              and ourselves. All terms refer to the offer, acceptance and consideration of payment
+              necessary to undertake the process of our assistance to the Client in the most
+              appropriate manner for the express purpose of meeting the Client’s needs in respect of
+              provision of the Company’s stated services, in accordance with and subject to,
+              prevailing law of Netherlands. Any use of the above terminology or other words in the
+              singular, plural, capitalization and/or he/she or they, are taken as interchangeable
+              and therefore as referring to same.
             </p>
 
             <h3>
@@ -44,7 +46,7 @@ export default function TermsOfService() {
 
             <p>
               We employ the use of cookies. By accessing Socketkit, you agreed to use cookies in
-              agreement with the Socketkit, Inc.'s Privacy Policy.{' '}
+              agreement with the Socketkit, Inc.&apos;s Privacy Policy.{' '}
             </p>
 
             <p>
@@ -199,8 +201,8 @@ export default function TermsOfService() {
             </ul>
 
             <p>
-              No use of Socketkit, Inc.'s logo or other artwork will be allowed for linking absent a
-              trademark license agreement.
+              No use of Socketkit, Inc.&apos;s logo or other artwork will be allowed for linking
+              absent a trademark license agreement.
             </p>
 
             <h3>

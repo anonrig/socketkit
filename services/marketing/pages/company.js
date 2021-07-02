@@ -72,14 +72,15 @@ export default function Company() {
           <div className="relative pt-24 pb-24 xl:col-start-1 xl:pb-24">
             <p className="mt-3 text-3xl sm:text-4xl font-extrabold text-warmGray-900">About us</p>
             <p className="mt-5 text-lg text-trueGray-500">
-              We're a small team from New York & Istanbul who cares about privacy and security and
-              wants to disrupt the event management and tracking industry, enabling faulty solutions
-              to a simple problem: protecting users' privacy.
+              We&apos;re a small team from New York & Istanbul who cares about privacy and security
+              and wants to disrupt the event management and tracking industry, enabling faulty
+              solutions to a simple problem: protecting users&apos; privacy.
             </p>
             <p className="mt-5 text-lg text-trueGray-500">
-              Analytics tracking companies don't care about consumer privacy and force developers to
-              use <b>binary</b> libraries (closed-source) and frameworks, making it impossible to
-              keep track of which software is installed on your bundled mobile applications.
+              Analytics tracking companies don&apos;t care about consumer privacy and force
+              developers to use <b>binary</b> libraries (closed-source) and frameworks, making it
+              impossible to keep track of which software is installed on your bundled mobile
+              applications.
             </p>
             <p className="mt-5 text-lg text-trueGray-500">
               We care about privacy and security. We limit the data collected from mobile

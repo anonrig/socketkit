@@ -37,11 +37,11 @@ export default function Home() {
                   className="mx-auto mt-4 justify-center flex"
                   href="https://www.producthunt.com/posts/subscription-review-analytics-for-ios?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-subscription-review-analytics-for-ios"
                   target="_blank"
-                >
+                  rel="noreferrer">
                   <img
                     src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=297161&theme=light"
                     alt="Subscription & Review Analytics for iOS  - Get valuable subscription and user insights. | Product Hunt"
-                    style={{width: '250px', height: '54px'}}
+                    style={{ width: '250px', height: '54px' }}
                     width="250"
                     height="54"
                   />
@@ -92,8 +92,8 @@ export default function Home() {
                     </h2>
                     <p className="mt-4 text-lg text-trueGray-500">
                       Better understand your audience and your income flow from application stores
-                      using the pre-made reports by Socketkit. Figure out where you're losing your
-                      audience and the reason behind it.
+                      using the pre-made reports by Socketkit. Figure out where you&apos;re losing
+                      your audience and the reason behind it.
                     </p>
                   </div>
                 </div>

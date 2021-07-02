@@ -110,8 +110,8 @@ export default function Subscriptions() {
                       MRR
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      Analyze your normalised monthly recurring revenue and calculate your business'
-                      monthly income.
+                      Analyze your normalised monthly recurring revenue and calculate your
+                      business&apos; monthly income.
                     </p>
                   </div>
                 </div>
@@ -141,8 +141,8 @@ export default function Subscriptions() {
                       Leads
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      Understand your leads' trial-to-paid conversion rate as well as their average
-                      sales cycle length.
+                      Understand your leads&apos; trial-to-paid conversion rate as well as their
+                      average sales cycle length.
                     </p>
                   </div>
                 </div>
@@ -172,8 +172,8 @@ export default function Subscriptions() {
                       Life Time Value
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      Access to a projection of your customers' life time value, average revenue and
-                      average sale/transaction price.
+                      Access to a projection of your customers&apos; life time value, average
+                      revenue and average sale/transaction price.
                     </p>
                   </div>
                 </div>

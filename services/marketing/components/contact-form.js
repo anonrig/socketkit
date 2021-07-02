@@ -6,7 +6,7 @@ export default function ContactForm() {
   if (state.succeeded) {
     return (
       <p className="mt-4 text-lg text-trueGray-500 sm:mt-3 text-center">
-        We'll get back to you as soon as possible!
+        We&apos;ll get back to you as soon as possible!
       </p>
     )
   }

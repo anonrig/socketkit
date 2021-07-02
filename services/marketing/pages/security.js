@@ -210,8 +210,8 @@ export default function Security() {
                       Encryption
                     </h3>
                     <p className="mt-5 text-base text-trueGray-500">
-                      We encrypt and hash all of our users' credentials using Argon2 with multiple
-                      iterations.
+                      We encrypt and hash all of our users&apos; credentials using Argon2 with
+                      multiple iterations.
                     </p>
                   </div>
                 </div>
@@ -257,8 +257,8 @@ export default function Security() {
         <p className="mt-3 text-3xl font-extrabold text-warmGray-900">Sidenote;</p>
         <p className="mt-5 text-lg text-trueGray-500">
           We believe in the fundamental right to security and privacy. We do our best to protect
-          your and your customer's data and protect them from malicious attacks. We're currently in
-          the process of complying with <span className="font-semibold">GDPR</span>,{' '}
+          your and your customer&apos;s data and protect them from malicious attacks. We&apos;re
+          currently in the process of complying with <span className="font-semibold">GDPR</span>,{' '}
           <span className="font-semibold">CCPA</span>, and{' '}
           <span className="font-semibold">HIPAA</span>. Please keep in touch for further updates. If
           you have any questions regarding security and privacy practices in Socketkit, please

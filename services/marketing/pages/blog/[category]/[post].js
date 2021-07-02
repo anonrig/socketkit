@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import ReactMarkdown from 'react-markdown'
 import { BreadcrumbJsonLd, BlogJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'

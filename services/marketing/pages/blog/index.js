@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
+import PropTypes from 'prop-types'
 import Layout from 'components/layout.js'
 import { fetchEntries } from 'helpers/contentful.js'
 
@@ -13,7 +14,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function Guides({ entries = [] }) {
+function Guides({ entries = [] }) {
   return (
     <Layout>
       <NextSeo
@@ -110,3 +111,9 @@ export default function Guides({ entries = [] }) {
     </Layout>
   )
 }
+
+Guides.propTypes = {
+  entries: PropTypes.arrayOf(PropTypes.object),
+}
+
+export default Guides

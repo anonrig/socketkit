@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
 import 'tailwindcss/tailwind.css'
