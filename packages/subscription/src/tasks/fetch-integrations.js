@@ -79,15 +79,23 @@ export default function fetchIntegrations() {
         `${traceId}-network-ended`,
       )
     } catch (error) {
-      if (!error.message.includes('404')) {
+      const isNotFound = error.message.includes('404')
+      const isBadRequest = error.message.includes('400')
+      const isPermissionFailed = error.message.includes('403')
+
+      if (!isNotFound) {
         state = 'error'
         failed_fetches = integration.failed_fetches + 1
         error_message = error.message
         // We must try to fetch the same date again.
         next_day = integration.last_fetch
 
-        if (!error.message.includes('400')) {
+        if (!isBadRequest && !isPermissionFailed) {
           logger.error(error)
+        }
+
+        if (isPermissionFailed) {
+          // @TODO: Send a notification to user about failed integration.
         }
       }
     }
