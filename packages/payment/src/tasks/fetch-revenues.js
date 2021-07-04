@@ -20,7 +20,7 @@ export default async function fetchRevenues() {
       .where(
         'updated_stripe_at',
         '<',
-        dayjs().subtract(1, 'days').format('YYYY-MM-DD'),
+        dayjs().subtract(2, 'days').format('YYYY-MM-DD'),
       )
       .whereNotNull('stripe_id')
       .whereNotNull('subscription_id')
@@ -40,8 +40,6 @@ export default async function fetchRevenues() {
     const next_day = dayjs(row.updated_stripe_at)
       .add(1, 'day')
       .format('YYYY-MM-DD')
-
-    logger.info(`Processing revenue of ${row.account_id} for ${next_day}`)
 
     const { total: usage } = await integrations.getTotalRevenue({
       account_id: row.account_id,
