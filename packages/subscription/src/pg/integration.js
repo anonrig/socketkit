@@ -132,4 +132,5 @@ export async function getTotalRevenue({ account_id, for_date }) {
     .sum('total_revenue', { as: 'total' })
     .from('revenues')
     .where({ account_id, for_date, is_valid: true })
+    .first()
 }
