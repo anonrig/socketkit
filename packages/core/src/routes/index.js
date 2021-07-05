@@ -7,6 +7,7 @@ import reports from './reports/index.js'
 import search from './search/index.js'
 import reviews from './reviews/index.js'
 import payments from './payments/index.js'
+import events from './events/index.js'
 
 export default (f, _opts, done) => {
   f.register(applications, { prefix: 'applications' })
@@ -18,5 +19,6 @@ export default (f, _opts, done) => {
   f.register(search, { prefix: 'search' })
   f.register(reviews, { prefix: 'reviews' })
   f.register(payments, { prefix: 'payments' })
+  f.register(events, { prefix: 'events' })
   done()
 }

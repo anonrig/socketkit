@@ -30,7 +30,7 @@ const { Integrations: PaymentIntegrations, Payments } =
     loader.loadSync(path.join('.', 'protofiles/payment.proto'), defaults),
   )
 
-const { Applications: TrackingApplications } = grpc.loadPackageDefinition(
+const { Applications: TrackingApplications, Events } = grpc.loadPackageDefinition(
   loader.loadSync(path.join('.', 'protofiles/tracking.proto'), defaults),
 )
 
@@ -84,4 +84,5 @@ export default {
     config.grpc.tracking,
     grpc.credentials.createInsecure(),
   ),
+  events: new Events(config.grpc.tracking, grpc.credentials.createInsecure()),
 }
