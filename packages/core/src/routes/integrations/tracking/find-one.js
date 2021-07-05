@@ -54,8 +54,9 @@ export default {
         else
           reply.send({
             ...response.row,
-            authorization_key: response.row.authorization_key.toString('hex'),
-            application_key: response.row.application_key.toString('hex'),
+            authorization_key:
+              response.row.authorization_key.toString('base64'),
+            application_key: response.row.application_key.toString('base64'),
           })
       },
     )
