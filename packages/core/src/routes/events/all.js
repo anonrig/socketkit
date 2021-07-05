@@ -5,15 +5,20 @@ export default {
   method: 'GET',
   path: '/',
   schema: {
-    query: {
+    querystring: {
       type: 'object',
       properties: {
-        application_id: {
-          type: 'string',
-        },
+        application_id: { type: 'string' },
         limit: {
           type: 'number',
           default: 10,
+        },
+        cursor: {
+          type: 'object',
+          properties: {
+            created_at: { type: 'string' },
+          },
+          required: ['created_at'],
         },
       },
       required: [],
@@ -68,7 +73,12 @@ export default {
   preHandler: verify,
   handler: async ({ accounts: [{ account_id }], query }, reply) => {
     grpc.events.findAll(
-      { account_id, application_id: query.application_id, limit: query.limit },
+      {
+        account_id,
+        application_id: query.application_id,
+        limit: query.limit,
+        cursor: query.cursor,
+      },
       (error, response) => {
         if (error) reply.internalServerError(error)
         else reply.send(response)
