@@ -38,6 +38,11 @@ function Header() {
                   Applications
                 </a>
               </Link>
+              <Link href="/events">
+                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/events')])}>
+                  Events
+                </a>
+              </Link>
               <Link href="/reports">
                 <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/reports')])}>
                   Reports
@@ -83,6 +88,11 @@ function Header() {
                 <Link href="/applications">
                   <a className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                     Applications
+                  </a>
+                </Link>
+                <Link href="/events">
+                  <a className="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                    Events
                   </a>
                 </Link>
                 <Link href="/reports">
