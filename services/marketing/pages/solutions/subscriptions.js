@@ -39,6 +39,7 @@ export default function Subscriptions() {
                 width={800}
                 height={488}
                 layout="responsive"
+                unoptimized={process.env.NODE_ENV === 'development'}
               />
             </div>
           </div>

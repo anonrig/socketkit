@@ -29,6 +29,7 @@ export default function Header() {
                     src="/socketkit-logo.svg"
                     alt="Socketkit, Inc."
                     objectPosition="bottom"
+                    unoptimized={process.env.NODE_ENV === 'development'}
                   />
                 </a>
               </Link>

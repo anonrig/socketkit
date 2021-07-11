@@ -18,6 +18,7 @@ export default function Home() {
                   src={'/assets/landing-hero.png'}
                   className="h-full w-full"
                   alt="A developer accessing Socketkit"
+                  unoptimized={process.env.NODE_ENV === 'development'}
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
@@ -147,6 +148,7 @@ export default function Home() {
                 objectFit="cover"
                 objectPosition="center"
                 alt="People working on laptops"
+                unoptimized={process.env.NODE_ENV === 'development'}
               />
               <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-200 to-orange-500" />
               <div

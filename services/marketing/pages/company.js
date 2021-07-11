@@ -33,6 +33,7 @@ export default function Company() {
                 objectPosition="center"
                 className="h-full w-full"
                 alt="People using Socketkit"
+                unoptimized={process.env.NODE_ENV === 'development'}
               />
               <div
                 className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
