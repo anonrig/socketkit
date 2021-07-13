@@ -8,9 +8,9 @@ import Gitlab from 'components/providers/gitlab.js'
 import Button from 'components/form/button.js'
 
 function Form({ actions, kratos, preAction }) {
-  const nodes =
-    kratos?.ui.nodes.filter((m) => m.group !== 'oidc' && m.attributes.type !== 'submit') ?? []
-  const oidcProviders = kratos?.ui.nodes.filter((m) => m.group === 'oidc') ?? []
+  const nodes = kratos?.ui.nodes.filter((m) => m.attributes.type !== 'submit') ?? []
+  const oidcProviders =
+    kratos?.ui.nodes.filter((m) => m.group === 'oidc' && m.attributes.type === 'submit') ?? []
   const submitButton = kratos?.ui.nodes.find(
     (m) => m.attributes.type === 'submit' && m.group !== 'oidc',
   )
