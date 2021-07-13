@@ -16,13 +16,13 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.3.4",
     "@grpc/proto-loader": "^0.6.4",
-    "@sentry/node": "^6.8.0",
-    "@sentry/tracing": "^6.8.0",
+    "@sentry/node": "^6.9.0",
+    "@sentry/tracing": "^6.9.0",
     "@supercharge/promise-pool": "^1.7.0",
     "appstore-sensor": "^0.5.3",
     "consola": "^2.15.3",
-    "dayjs": "^1.10.5",
-    "knex": "^0.95.6",
+    "dayjs": "^1.10.6",
+    "knex": "^0.95.7",
     "lodash": "^4.17.21",
     "mali": "^0.44.1",
     "pg": "^8.6.0",
@@ -30,7 +30,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "dotenv": "^10.0.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
@@ -38,7 +38,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-security": "^1.4.0",
     "jest": "^27.0.6",
-    "nodemon": "^2.0.9",
+    "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
   "jest": {
