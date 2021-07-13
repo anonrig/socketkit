@@ -2,21 +2,19 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import fields from './kratos-fields'
 
-function FormField({ name, type, value, required, className, messages }) {
-  const hasError =
-    messages && messages.length > 0 && (messages ?? []).filter((m) => m.type === 'error').length > 0
-  const isPicture = name === 'traits.picture'
-  const isAccountId = name === 'traits.account_id'
+function FormField({ className, messages, meta, attributes, type }) {
+  const { value, ...extra_attributes } = attributes
+  const hasError = messages?.length > 0 && messages?.filter((m) => m.type === 'error')?.length > 0
 
-  if (isPicture || isAccountId) {
+  if (['traits.picture', 'traits.account_id'].includes(attributes.name)) {
     return null
   }
 
   return (
     <fieldset className={className}>
-      {type !== 'hidden' && (
+      {attributes.type !== 'hidden' && (
         <label className={'block text-sm font-medium text-gray-700'} htmlFor={name}>
-          {fields[name]?.label ?? name}
+          {meta.label?.text === 'ID' ? 'Email Address' : meta.label?.text}
         </label>
       )}
       <div className="mt-1 relative rounded-md shadow-sm">
@@ -29,11 +27,10 @@ function FormField({ name, type, value, required, className, messages }) {
               'placeholder-red-500': hasError,
             },
           )}
-          required={required}
           defaultValue={value}
-          name={name}
+          hidden={attributes.type === 'hidden'}
           type={type}
-          hidden={type === 'hidden'}
+          {...extra_attributes}
         />
         {hasError && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -67,10 +64,18 @@ function FormField({ name, type, value, required, className, messages }) {
 }
 
 FormField.propTypes = {
-  name: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    label: PropTypes.shape({
+      text: PropTypes.string,
+    }),
+  }),
+  attributes: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    value: PropTypes.string,
+  }),
   type: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  required: PropTypes.bool,
   className: PropTypes.string,
   labelClassName: PropTypes.string,
   inputClassName: PropTypes.string,

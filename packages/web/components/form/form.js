@@ -2,48 +2,20 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import cx from 'classnames'
 
+import FormProviders from 'components/form/form-providers.js'
 import FormField, { KratosFields } from 'components/form/field.js'
-import Github from 'components/providers/github.js'
-import Gitlab from 'components/providers/gitlab.js'
 import Button from 'components/form/button.js'
 
 function Form({ actions, kratos, preAction }) {
   const nodes = kratos?.ui.nodes.filter((m) => m.attributes.type !== 'submit') ?? []
-  const oidcProviders =
-    kratos?.ui.nodes.filter((m) => m.group === 'oidc' && m.attributes.type === 'submit') ?? []
-  const submitButton = kratos?.ui.nodes.find(
-    (m) => m.attributes.type === 'submit' && m.group !== 'oidc',
-  )
 
-  const providers = () => (
-    <form action={kratos.ui.action} method={kratos.ui.method} id="oidc">
-      <p className="text-sm font-medium text-gray-700">Sign in with</p>
+  const oidc_group = kratos?.ui.nodes.filter((m) => m.group === 'oidc')
+  const password_group = kratos?.ui.nodes.filter((m) => m.group === 'password')
 
-      <div className="mt-1 grid grid-cols-3 gap-3">
-        {oidcProviders.map((field) => (
-          <button
-            name={field.attributes.name}
-            value={field.attributes.value}
-            type={field.attributes.type}
-            key={field.attributes.value}
-            className={
-              'w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
-            }>
-            <span className="sr-only">Sign in with {field.attributes.value}</span>
-            {field.attributes.value === 'github' ? <Github /> : <Gitlab />}
-          </button>
-        ))}
-      </div>
-      <div className="mt-6 relative mb-6">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-warmGray-300"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
-        </div>
-      </div>
-    </form>
-  )
+  const login_with_provider = oidc_group.find((m) => m.attributes.type === 'submit')
+  const login_with_password = password_group.find((m) => m.attributes.type === 'submit')
+
+  const action_button = login_with_password ?? login_with_provider
 
   return (
     <>
@@ -57,30 +29,32 @@ function Form({ actions, kratos, preAction }) {
         </p>
       ))}
 
-      {oidcProviders.length > 0 && providers()}
+      {oidc_group.length > 0 && login_with_password && (
+        <FormProviders
+          oidc_group={oidc_group}
+          method={kratos.ui.method}
+          action={kratos.ui.action}
+        />
+      )}
 
       <form action={kratos.ui.action} method={kratos.ui.method} id="default">
-        {nodes
-          .map((field) => Object.assign({}, field, KratosFields[field.attributes.name]))
-          .sort((a, b) => a.order - b.order)
-          .map((field) => (
-            <FormField
-              key={field.attributes.name}
-              {...field.attributes}
-              messages={field.messages}
-              className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
-            />
-          ))}
+        {nodes.map((field) => (
+          <FormField
+            key={field.attributes.name}
+            {...field}
+            className={cx(field.attributes.type !== 'hidden' ? 'mb-6' : 'hidden')}
+          />
+        ))}
         {preAction}
 
-        {submitButton && (
+        {action_button && (
           <Button
             className="w-full"
-            type={submitButton?.attributes.type}
-            name={submitButton?.attributes.name}
-            value={submitButton?.attributes.value}
-            disabled={submitButton?.attributes.disabled}>
-            {actions.primary}
+            type={action_button?.attributes.type}
+            name={action_button?.attributes.name}
+            value={action_button?.attributes.value}
+            disabled={action_button?.attributes.disabled}>
+            {action_button?.meta?.label?.text ?? actions.primary}
           </Button>
         )}
 
