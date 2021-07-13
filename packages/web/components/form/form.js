@@ -73,14 +73,16 @@ function Form({ actions, kratos, preAction }) {
           ))}
         {preAction}
 
-        <Button
-          className="w-full"
-          type={submitButton?.attributes.type}
-          name={submitButton?.attributes.name}
-          value={submitButton?.attributes.value}
-          disabled={submitButton?.attributes.disabled}>
-          {actions.primary}
-        </Button>
+        {submitButton && (
+          <Button
+            className="w-full"
+            type={submitButton?.attributes.type}
+            name={submitButton?.attributes.name}
+            value={submitButton?.attributes.value}
+            disabled={submitButton?.attributes.disabled}>
+            {actions.primary}
+          </Button>
+        )}
 
         {actions.secondary && (
           <Link href={actions.secondary.href}>
