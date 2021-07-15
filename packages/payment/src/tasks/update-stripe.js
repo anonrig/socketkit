@@ -40,7 +40,7 @@ export default async function updateStripe() {
       await pg
         .queryBuilder()
         .update({
-          state: striped.status,
+          state: status,
           started_at: dayjs(current_period_start * 1000),
           expired_at: dayjs((cancel_at ?? current_period_end) * 1000),
         })
