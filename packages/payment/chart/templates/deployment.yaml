@@ -43,15 +43,15 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            initialDelaySeconds: 15
-            timeoutSeconds: 15
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
             exec:
               command:
                 - "/bin/grpc_health_probe"
                 - "-addr=:{{ .Values.service.port }}"
           readinessProbe:
-            initialDelaySeconds: 15
-            timeoutSeconds: 15
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
             exec:
               command:
                 - "/bin/grpc_health_probe"

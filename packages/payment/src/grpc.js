@@ -38,7 +38,7 @@ app.addService(health, 'Health', options)
 app.use(async (context, next) => {
   let tracer = null
 
-  if (!context.fullName.includes('health')) {
+  if (!context.fullName.toLowerCase().includes('health')) {
     tracer = Sentry.startTransaction({
       name: context.fullName,
       op: 'GET',
