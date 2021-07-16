@@ -1,5 +1,8 @@
+import pg from '../pg/index.js'
 import * as Integrations from '../pg/integrations.js'
 
 export async function findOrCreate(ctx) {
-  ctx.res = await Integrations.findOrCreate(ctx.req)
+  ctx.res = await pg.transaction((trx) =>
+    Integrations.findOrCreate(ctx.req, trx),
+  )
 }
