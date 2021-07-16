@@ -9,7 +9,7 @@ export default {
       'whsec_FJ74x22xcIJkEcBEWN01URUCc9wY5wd0',
     portal_return_url:
       process.env.STRIPE_PORTAL_RETURN_URL ??
-      'https://web.socketkit.com/account/settings',
+      'https://web.socketkit.com/account',
     checkout_success_url:
       process.env.STRIPE_CHECKOUT_SUCCESS_URL ??
       'https://web.socketkit.com/?payment=success',
