@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service Integrations {
+  rpc findOrCreate(IntegrationCreate) returns (Integration) {}
+}
+
+// Models
+
+message IntegrationCreate {
+  string identity_id = 1;
+}
+
+message Integration {
+  string account_id = 1;
+}
