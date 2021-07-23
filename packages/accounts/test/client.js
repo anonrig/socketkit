@@ -18,11 +18,12 @@ export function getClients(port = getRandomPort()) {
     defaults: true,
     oneofs: true,
   }
-  const { Integrations } = grpc.loadPackageDefinition(
+  const { Accounts, Memberships } = grpc.loadPackageDefinition(
     loader.loadSync(path.join('.', 'protofiles/accounts.proto'), defaults),
   )
 
   return {
-    integration: new Integrations(url, grpc.credentials.createInsecure()),
+    accounts: new Accounts(url, grpc.credentials.createInsecure()),
+    memberships: new Memberships(url, grpc.credentials.createInsecure()),
   }
 }

@@ -1,15 +1,72 @@
 syntax = "proto3";
 
-service Integrations {
-  rpc findOrCreate(IntegrationCreate) returns (Integration) {}
+service Memberships {
+  rpc findOrCreate(FindOrCreateMembership) returns (Member) {}
+}
+
+service Accounts {
+  rpc findAll(FindAllAccounts) returns (AccountRows) {}
+  rpc update(UpdateAccount) returns (Empty) {}
+  rpc findMembers(FilterMembers) returns (MemberRows) {}
+  rpc addMember(AddMember) returns (Empty) {}
+  rpc removeMember(RemoveMember) returns (Empty) {}
+}
+
+// Basics
+
+message Empty {}
+
+// Requests
+
+message FindAllAccounts {
+  string identity_id = 1;
+}
+
+message UpdateAccount {
+  string identity_id = 1;
+  string account_id = 2;
+  string name = 3;
+}
+
+message FindOrCreateMembership {
+  string identity_id = 1;
+  string name = 2;
+}
+
+message FilterMembers {
+  string account_id = 1;
+}
+
+message AddMember {
+  string account_id = 1;
+  string identity_id = 2;
+}
+
+message RemoveMember {
+  string account_id = 1;
+  string identity_id = 2;
 }
 
 // Models
 
-message IntegrationCreate {
-  string identity_id = 1;
+message Member {
+  string account_id = 1;
+  string identity_id = 2;
+  string created_at = 3;
+  string last_active_at = 4;
 }
 
-message Integration {
+message MemberRows {
+  repeated Member rows = 1;
+}
+
+message Account {
   string account_id = 1;
+  string name = 2;
+  string owner_identity_id = 3;
+  string created_at = 4;
+}
+
+message AccountRows {
+  repeated Account rows = 1;
 }

@@ -3,7 +3,8 @@ import Mali from 'mali'
 import Sentry from '@sentry/node'
 
 import Logger from './logger.js'
-import * as Integrations from './endpoints/integrations.js'
+import * as Accounts from './endpoints/accounts.js'
+import * as Memberships from './endpoints/memberships.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -18,13 +19,14 @@ const health = path.join(path.resolve(''), 'protofiles/health.proto')
 
 const app = new Mali()
 
-app.addService(file, 'Integrations', options)
+app.addService(file, 'Memberships', options)
+app.addService(file, 'Accounts', options)
 app.addService(health, 'Health', options)
 
 app.use(async (context, next) => {
   let tracer = null
 
-  if (!context.fullName.toLowerCase().includes('health')) {
+  if (!context.fullName.includes('health')) {
     tracer = Sentry.startTransaction({
       name: context.fullName,
       op: 'GET',
@@ -48,7 +50,7 @@ app.use(async (context, next) => {
     })
 })
 
-app.use({ Integrations })
+app.use({ Accounts, Memberships })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (error) => {
