@@ -23,6 +23,12 @@ app.addService(file, 'Memberships', options)
 app.addService(file, 'Accounts', options)
 app.addService(health, 'Health', options)
 
+import { addSchemas } from 'mali-ajv'
+import * as accounts from './endpoints/accounts.schema.js'
+import * as memberships from './endpoints/memberships.schema.js'
+
+app.use(addSchemas(app, { accounts, memberships }))
+
 app.use(async (context, next) => {
   let tracer = null
 
