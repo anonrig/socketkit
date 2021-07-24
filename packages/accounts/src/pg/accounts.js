@@ -4,7 +4,7 @@ export async function findAll({ identity_id }) {
   return pg
     .queryBuilder()
     .select({
-      id: 'a.account_id',
+      account_id: 'a.account_id',
       name: 'a.name',
       owner_identity_id: 'a.owner_identity_id',
       created_at: 'a.created_at',
