@@ -7,6 +7,9 @@ import Form from 'components/form/form.js'
 import { endpoints, client } from 'helpers/kratos.js'
 import KratosPropTypes from 'helpers/types/kratos.js'
 
+/**
+ * @param {import('next').NextPageContext} ctx
+ */
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -21,7 +24,7 @@ export async function getServerSideProps(ctx) {
   }
 
   try {
-    const { data } = await client.getSelfServiceRecoveryFlow(flow, ctx.req.headers.cookie)
+    const { data } = await client.getSelfServiceRecoveryFlow(flow, ctx.req?.headers['cookie'])
     const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {

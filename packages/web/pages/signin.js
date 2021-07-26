@@ -6,6 +6,9 @@ import Form from 'components/form/form.js'
 import { endpoints, client } from 'helpers/kratos.js'
 import KratosPropTypes from 'helpers/types/kratos.js'
 
+/**
+ * @param {import('next').NextPageContext} ctx Context
+ */
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
 
@@ -20,7 +23,8 @@ export async function getServerSideProps(ctx) {
   }
 
   try {
-    const { data } = await client.getSelfServiceLoginFlow(flow, ctx.req.headers.cookie)
+    const a = await client.initia
+    const { data } = await client.getSelfServiceLoginFlow(flow, ctx.req?.headers['cookie'])
     const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {
@@ -28,6 +32,7 @@ export async function getServerSideProps(ctx) {
     }
     return { props: { kratos: data } }
   } catch (error) {
+    console.error(error)
     Sentry.captureException(error)
     return redirect()
   }
