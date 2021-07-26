@@ -17,7 +17,7 @@ function AccountSettings({ fields }) {
           .map((field) => (
             <FormField
               key={field.attributes.name}
-              {...field.attributes}
+              {...field}
               className="col-span-2"
               labelClassName="block text-sm font-medium text-warmGray-700"
               inputClassName="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
