@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
+    "test": "c8 ava",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
@@ -21,20 +21,20 @@
     "ajv": "^8.6.2",
     "consola": "^2.15.3",
     "dayjs": "^1.10.6",
-    "knex": "^0.95.7",
+    "knex": "^0.95.8",
     "mali": "^0.44.3",
-    "mali-ajv": "^0.1.0",
+    "mali-ajv": "^0.2.0",
     "pg": "^8.6.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "ava": "^3.15.0",
+    "c8": "^7.7.3",
     "dotenv": "^10.0.0",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.0.6",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
@@ -87,5 +87,18 @@
         }
       ]
     }
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "failFast": true,
+    "environmentVariables": {
+      "CI": "true"
+    },
+    "nodeArguments": [
+      "--no-warnings",
+      "--require=dotenv/config"
+    ]
   }
 }
