@@ -23,16 +23,16 @@ export async function getServerSideProps(ctx) {
     return redirect()
   }
 
-  return { props: { flow } }
+  return { props: { flow, cookie: ctx.req.headers.cookie } }
 }
 
-function AccountSettings({ flow }) {
+function AccountSettings({ flow, cookie }) {
   const [kratos, setKratos] = useState(null)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     try {
-      const { data: kratos } = await client.getSelfServiceSettingsFlow(flow)
+      const { data: kratos } = await client.getSelfServiceSettingsFlow(flow, cookie)
       const isBefore = dayjs(kratos?.expires_at).isBefore(dayjs())
 
       if (isBefore) {
@@ -72,6 +72,7 @@ function AccountSettings({ flow }) {
 
 AccountSettings.propTypes = {
   flow: PropTypes.string.isRequired,
+  cookie: PropTypes.string.isRequired,
 }
 
 export default AccountSettings

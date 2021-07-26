@@ -21,7 +21,7 @@ export async function getServerSideProps(ctx) {
   }
 
   try {
-    const { data } = await client.getSelfServiceRecoveryFlow(flow)
+    const { data } = await client.getSelfServiceRecoveryFlow(flow, ctx.req.headers.cookie)
     const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {
