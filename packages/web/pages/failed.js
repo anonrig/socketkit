@@ -20,7 +20,7 @@ export async function getServerSideProps(ctx) {
   }
 
   try {
-    const { data } = await client.getSelfServiceError(error, ctx.req?.headers['cookie'])
+    const { data } = await client.getSelfServiceError(error, ctx.req?.headers.cookie)
 
     if (data.errors.length == 0) {
       return redirect()
