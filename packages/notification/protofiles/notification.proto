@@ -53,7 +53,7 @@ message Integration {
 
 message Notification {
   string account_id = 1;
-  string type = 2;
+  string provider_id = 2;
   repeated NotificationProperty properties = 3;
 }
 

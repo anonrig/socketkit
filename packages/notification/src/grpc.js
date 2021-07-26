@@ -1,9 +1,14 @@
 import path from 'path'
 import Mali from 'mali'
 import Sentry from '@sentry/node'
+import { addSchemas } from 'mali-ajv'
+
 import Logger from './logger.js'
 import * as Integrations from './consumers/integrations.js'
-import * as Notifications from './consumers/index.js'
+import * as Notifications from './consumers/notifications.js'
+
+import * as integration_schemas from './consumers/integrations.schema.js'
+import * as notification_schemas from './consumers/notifications.schema.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
@@ -22,6 +27,12 @@ app.addService(file, 'Integrations', options)
 app.addService(file, 'Notifications', options)
 app.addService(health, 'Health', options)
 
+app.use(
+  addSchemas(app, {
+    notifications: notification_schemas,
+    integrations: integration_schemas,
+  }),
+)
 app.use(async (context, next) => {
   logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
 

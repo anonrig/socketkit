@@ -1,11 +1,17 @@
 import pg from '../pg.js'
 
-export async function findAll({ account_id }) {
+export async function findAll({ account_id, provider_id }) {
   return pg
     .queryBuilder()
     .select('*')
     .from('integrations')
-    .where({ account_id })
+    .where(function () {
+      this.where({ account_id })
+
+      if (provider_id) {
+        this.andWhere({ provider_id })
+      }
+    })
 }
 
 export async function upsert({ account_id, provider_id, requirement }, trx) {
