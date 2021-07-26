@@ -3,7 +3,7 @@ import Link from 'next/link'
 import cx from 'classnames'
 
 import FormProviders from 'components/form/form-providers.js'
-import FormField, { KratosFields } from 'components/form/field.js'
+import FormField from 'components/form/field.js'
 import Button from 'components/form/button.js'
 
 function Form({ actions, kratos, preAction }) {
@@ -11,11 +11,13 @@ function Form({ actions, kratos, preAction }) {
 
   const oidc_group = kratos?.ui.nodes.filter((m) => m.group === 'oidc')
   const password_group = kratos?.ui.nodes.filter((m) => m.group === 'password')
+  const link_group = kratos?.ui.nodes.filter((m) => m.group === 'link')
 
   const login_with_provider = oidc_group.find((m) => m.attributes.type === 'submit')
   const login_with_password = password_group.find((m) => m.attributes.type === 'submit')
+  const forgot_password = link_group.find((m) => m.attributes.type === 'submit')
 
-  const action_button = login_with_password ?? login_with_provider
+  const action_button = login_with_password ?? login_with_provider ?? forgot_password
 
   return (
     <>

@@ -14,7 +14,9 @@ function FormField({ className, messages, meta, attributes, type }) {
     <fieldset className={className}>
       {attributes.type !== 'hidden' && (
         <label className={'block text-sm font-medium text-gray-700'} htmlFor={name}>
-          {meta.label?.text === 'ID' ? 'Email Address' : meta.label?.text}
+          {meta.label?.text === 'ID' || attributes.type === 'email'
+            ? 'Email Address'
+            : meta.label?.text}
         </label>
       )}
       <div className="mt-1 relative rounded-md shadow-sm">
