@@ -7,7 +7,7 @@ import logger from './logger.js'
 
 export const verify = async (request, reply) => {
   try {
-    const { data } = await kratos.whoami(request.headers.cookie)
+    const { data } = await kratos.toSession(null, request.headers.cookie)
     request.user = data
     request.accounts = await findOrCreate({ identity_id: data.identity.id })
 
