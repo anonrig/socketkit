@@ -6,11 +6,18 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 
 import { AuthContext } from 'helpers/context.js'
-import { endpoints } from 'helpers/kratos'
 import { getUrl } from 'helpers/fetcher'
+import { client } from 'helpers/kratos'
+import { useRouter } from 'next/router'
 
 function ProfileDropdown({ className }) {
+  const router = useRouter()
   const { session } = useContext(AuthContext)
+
+  async function logout() {
+    const { data } = await client.createSelfServiceLogoutFlowUrlForBrowsers()
+    router.replace(data.logout_url)
+  }
 
   return (
     <div className={cx(className)}>
@@ -67,12 +74,12 @@ function ProfileDropdown({ className }) {
                 </div>
                 <div className="px-1 py-1">
                   <Menu.Item>
-                    <a
-                      href={endpoints.logout}
+                    <button
+                      onClick={() => logout()}
                       className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem">
                       Log out
-                    </a>
+                    </button>
                   </Menu.Item>
                 </div>
               </Menu.Items>

@@ -12,13 +12,18 @@ import ProfileDropdown from 'components/menu/profile-dropdown.js'
 
 import { AuthContext } from 'helpers/context.js'
 import { getUrl } from 'helpers/fetcher.js'
-import { endpoints } from 'helpers/kratos.js'
+import { client } from 'helpers/kratos.js'
 
 function Header() {
   const router = useRouter()
   const { session } = useContext(AuthContext)
   const getActiveClassName = (path) =>
     router.pathname.startsWith(path) ? 'bg-warmGray-50' : 'bg-white'
+
+  async function logout() {
+    const { data } = await client.createSelfServiceLogoutFlowUrlForBrowsers()
+    router.replace(data.logout_url)
+  }
 
   return (
     <Disclosure as="nav" className="bg-white shadow z-10">
@@ -142,11 +147,11 @@ function Header() {
                     Products & Integrations
                   </a>
                 </Link>
-                <a
-                  href={endpoints.logout}
+                <button
+                  onClick={() => logout()}
                   className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                   Log out
-                </a>
+                </button>
               </div>
             </div>
           </div>
