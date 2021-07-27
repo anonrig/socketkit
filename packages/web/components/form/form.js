@@ -9,13 +9,13 @@ import Button from 'components/form/button.js'
 function Form({ actions, kratos, preAction }) {
   const nodes = kratos?.ui.nodes.filter((m) => m.attributes.type !== 'submit') ?? []
 
-  const oidc_group = kratos?.ui.nodes.filter((m) => m.group === 'oidc')
-  const password_group = kratos?.ui.nodes.filter((m) => m.group === 'password')
-  const link_group = kratos?.ui.nodes.filter((m) => m.group === 'link')
+  const oidc_group = kratos?.ui.nodes.filter((m) => m.group === 'oidc') ?? []
+  const password_group = kratos?.ui.nodes.filter((m) => m.group === 'password') ?? []
+  const link_group = kratos?.ui.nodes.filter((m) => m.group === 'link') ?? []
 
-  const login_with_provider = oidc_group.find((m) => m.attributes.type === 'submit')
-  const login_with_password = password_group.find((m) => m.attributes.type === 'submit')
-  const forgot_password = link_group.find((m) => m.attributes.type === 'submit')
+  const login_with_provider = oidc_group?.find((m) => m.attributes.type === 'submit')
+  const login_with_password = password_group?.find((m) => m.attributes.type === 'submit')
+  const forgot_password = link_group?.find((m) => m.attributes.type === 'submit')
 
   const action_button = login_with_password ?? login_with_provider ?? forgot_password
 
@@ -34,12 +34,12 @@ function Form({ actions, kratos, preAction }) {
       {oidc_group.length > 0 && login_with_password && (
         <FormProviders
           oidc_group={oidc_group}
-          method={kratos.ui.method}
-          action={kratos.ui.action}
+          method={kratos?.ui.method}
+          action={kratos?.ui.action}
         />
       )}
 
-      <form action={kratos.ui.action} method={kratos.ui.method} id="default">
+      <form action={kratos?.ui.action} method={kratos?.ui.method} id="default">
         {nodes.map((field) => (
           <FormField
             key={field.attributes.name}

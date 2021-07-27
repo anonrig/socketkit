@@ -23,7 +23,7 @@ export async function getServerSideProps(ctx) {
   }
 
   try {
-    const { data } = await client.getSelfServiceLoginFlow(flow, ctx.req?.headers.cookie)
+    const { data } = await client.getSelfServiceLoginFlow(flow, ctx.req.headers.cookie)
     const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {
@@ -31,8 +31,8 @@ export async function getServerSideProps(ctx) {
     }
     return { props: { kratos: data } }
   } catch (error) {
-    console.error(error)
-    Sentry.captureException(error)
+    console.error(error.response.data)
+    Sentry.captureException(error.response.data)
     return redirect()
   }
 }
