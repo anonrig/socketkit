@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "lib": ["ES2020"],
-    "module": "ES2020",
+    "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
-    "target": "ES2020"
+    "baseUrl": ".",
+    "checkJs": true
   },
-  "exclude": ["node_modules", "chart", "db"],
-  "include": ["src/**/*"]
+  "include": ["src", "test"],
+  "exclude": ["node_modules/"]
 }

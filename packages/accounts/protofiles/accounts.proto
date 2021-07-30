@@ -1,48 +1,82 @@
 syntax = "proto3";
 
-service Memberships {
-  rpc findOrCreate(FindOrCreateMembership) returns (Member) {}
+service Identities {
+  rpc findAccounts(FindAllAccounts) returns (AccountRows) {}
+  rpc findInvitations(FindIdentitiesInvitationRequest) returns (InvitationRows) {}
+  rpc acceptInvitation(AcceptInvitationRequest) returns (Empty) {}
+  rpc rejectInvitation(RejectInvitationRequest) returns (Empty) {}
 }
 
 service Accounts {
-  rpc findAll(FindAllAccounts) returns (AccountRows) {}
-  rpc update(UpdateAccount) returns (Empty) {}
-  rpc findMembers(FilterMembers) returns (MemberRows) {}
-  rpc addMember(AddMember) returns (Empty) {}
-  rpc removeMember(RemoveMember) returns (Empty) {}
+  rpc findOrCreate(CreateAccountRequest) returns (Member) {}
+  rpc findInvitations(FindInvitationsRequest) returns (InvitationRows) {}
+  rpc update(UpdateAccountRequest) returns (Empty) {}
+  rpc invite(InviteMemberRequest) returns (Empty) {}
+  rpc findMembers(FindAccountMembers) returns (MemberRows) {}
+  rpc removeMember(RemoveAccountMember) returns (Empty) {}
 }
-
-// Basics
 
 message Empty {}
 
-// Requests
+// Invitations
+
+message FindIdentitiesInvitationRequest {
+  string email = 1;
+}
+
+message AcceptInvitationRequest {
+  string identity_id = 1;
+  string account_id = 2;
+  string email = 3;
+}
+
+message RejectInvitationRequest {
+  string account_id = 1;
+  string email = 2;
+}
+
+message Invitation {
+  string account_id = 1;
+  string account_name = 2;
+  string email = 3;
+  string invited_at = 4;
+}
+
+message InvitationRows {
+  repeated Invitation rows = 1;
+}
+
+// Accounts
 
 message FindAllAccounts {
   string identity_id = 1;
 }
 
-message UpdateAccount {
+message UpdateAccountRequest {
   string identity_id = 1;
   string account_id = 2;
-  string name = 3;
+  string account_name = 3;
 }
 
-message FindOrCreateMembership {
-  string identity_id = 1;
-  string name = 2;
+message CreateAccountRequest {
+  string owner_identity_id = 1;
+  string account_name = 2;
 }
 
-message FilterMembers {
+message FindInvitationsRequest {
   string account_id = 1;
 }
 
-message AddMember {
+message InviteMemberRequest {
   string account_id = 1;
-  string identity_id = 2;
+  string email = 2;
 }
 
-message RemoveMember {
+message FindAccountMembers {
+  string account_id = 1;
+}
+
+message RemoveAccountMember {
   string account_id = 1;
   string identity_id = 2;
 }
@@ -62,7 +96,7 @@ message MemberRows {
 
 message Account {
   string account_id = 1;
-  string name = 2;
+  string account_name = 2;
   string owner_identity_id = 3;
   string created_at = 4;
 }
