@@ -50,7 +50,7 @@ export default function Reviews() {
           title: 'Real-time cross-platform review tracking',
           images: [
             {
-              url: '/twitter/review-tracking.png',
+              url: 'https://socketkit.com/twitter/review-tracking.png',
               width: 900,
               height: 450,
               alt: 'Real-time AppStore review tracking',

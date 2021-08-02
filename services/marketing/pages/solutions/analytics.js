@@ -14,7 +14,7 @@ export default function Analytics() {
           title: 'In-App Purchase & Subscription Management',
           images: [
             {
-              url: '/twitter/user-analytics.png',
+              url: 'https://socketkit.com/twitter/user-analytics.png',
               width: 900,
               height: 450,
               alt: 'Privacy-first Analytics for mobile',

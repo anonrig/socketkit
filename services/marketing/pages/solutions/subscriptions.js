@@ -16,7 +16,7 @@ export default function Subscriptions() {
           title: 'Subscription Management for Mobile Apps',
           images: [
             {
-              url: '/twitter/subscription-tracking.png',
+              url: 'https://socketkit.com/twitter/subscription-tracking.png',
               width: 900,
               height: 450,
               alt: 'Mobile-first Subscription Analytics',
