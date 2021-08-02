@@ -20,8 +20,11 @@ export async function getServerSideProps({ query, req: { headers } }) {
 
 function Transactions({ initialData }) {
   const router = useRouter()
+  const { application_id } = router.query
   const columns = useMemo(() => TransactionColumns, [])
-  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/transactions`)
+  setDateRangeIfNeeded(router, `/applications/[application_id]/transactions`, {
+    application_id,
+  })
 
   return (
     <>

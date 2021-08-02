@@ -110,7 +110,7 @@ function MyApp({ Component, pageProps, cookie }) {
  * @param {import('next').NextPageContext} ctx
  */
 MyApp.getInitialProps = async (context) => {
-  return { cookie: context.ctx.req.headers.cookie }
+  return { cookie: context.ctx.req?.headers.cookie }
 }
 
 export default MyApp

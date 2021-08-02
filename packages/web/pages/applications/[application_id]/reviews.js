@@ -21,8 +21,9 @@ export async function getServerSideProps({ query, req: { headers } }) {
 
 function ApplicationReviews({ initialData }) {
   const router = useRouter()
+  const { application_id } = router.query
   const columns = useMemo(() => ReviewColumns, [])
-  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/reviews`)
+  setDateRangeIfNeeded(router, `/applications/[application_id]/reviews`, { application_id })
 
   return (
     <>

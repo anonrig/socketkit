@@ -11,10 +11,14 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 
 function ApplicationHeader() {
   const router = useRouter()
-  const { start_date = dayjs().subtract(1, 'month'), end_date = dayjs(), id } = router.query
-  const { data: application } = useSWR(`applications/${id}`, { refreshInterval: 0 })
+  const {
+    start_date = dayjs().subtract(1, 'month'),
+    end_date = dayjs(),
+    application_id,
+  } = router.query
+  const { data: application } = useSWR(`applications/${application_id}`, { refreshInterval: 0 })
   const { data: applications } = useSWR(`applications`, { refreshInterval: 0 })
-  const current_page = router.pathname.split(`[id]/`)[1]
+  const current_page = router.pathname.split(`[application_id]/`)[1]
 
   return (
     <main className="mb-10">
@@ -69,9 +73,8 @@ function ApplicationHeader() {
             setInterval={({ start_date, end_date }) => {
               router.push(
                 {
-                  path: `/applications/[id]/[current_page]`,
+                  path: `/applications/${application_id}/[current_page]`,
                   query: {
-                    id,
                     current_page,
                     start_date: start_date.format('YYYY-MM-DD'),
                     end_date: end_date.format('YYYY-MM-DD'),
@@ -91,37 +94,37 @@ function ApplicationHeader() {
           {
             key: 'general',
             title: 'Status',
-            href: `/applications/${application?.application_id}/general`,
+            href: `/applications/${application_id}/general`,
           },
           {
             key: 'info',
             title: 'Info',
-            href: `/applications/${application?.application_id}/info`,
+            href: `/applications/${application_id}/info`,
           },
           {
             key: 'packages',
             title: 'Packages',
-            href: `/applications/${application?.application_id}/packages`,
+            href: `/applications/${application_id}/packages`,
           },
           {
             key: 'customers',
             title: 'Customers',
-            href: `/applications/${application?.application_id}/customers`,
+            href: `/applications/${application_id}/customers`,
           },
           {
             key: 'transactions',
             title: 'Transactions',
-            href: `/applications/${application?.application_id}/transactions`,
+            href: `/applications/${application_id}/transactions`,
           },
           {
             key: 'countries',
             title: 'Countries',
-            href: `/applications/${application?.application_id}/countries`,
+            href: `/applications/${application_id}/countries`,
           },
           {
             key: 'reviews',
             title: 'Reviews',
-            href: `/applications/${application?.application_id}/reviews`,
+            href: `/applications/${application_id}/reviews`,
           },
         ]}
       />
