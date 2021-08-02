@@ -30,7 +30,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 3005
+  port: 3006
 
 ingress:
   enabled: false

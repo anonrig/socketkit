@@ -11,6 +11,6 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.6 && \
 COPY package*.json ./
 RUN npm ci --prefer-offline --no-audit --progress=false
 COPY . .
-EXPOSE 3005
+EXPOSE 3006
 
 CMD ["npm", "start"]
