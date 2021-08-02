@@ -178,7 +178,12 @@ export default function Home() {
                     <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
                       {({ isVisible }) => (
                         <div>
-                          {isVisible ? <CountUp start={1250} end={28000} duration={2} /> : 1250}
+                          {isVisible ? (
+                            <CountUp start={12.5} end={64} duration={2} decimal="," decimals={3} />
+                          ) : (
+                            1250
+                          )}
+                          +
                         </div>
                       )}
                     </VisibilitySensor>
@@ -193,7 +198,12 @@ export default function Home() {
                     <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
                       {({ isVisible }) => (
                         <div>
-                          {isVisible ? <CountUp start={1250} end={96000} duration={1.5} /> : 1250}
+                          {isVisible ? (
+                            <CountUp start={45} end={127} duration={1.5} decimal="," decimals={3} />
+                          ) : (
+                            1250
+                          )}
+                          +
                         </div>
                       )}
                     </VisibilitySensor>
@@ -208,7 +218,12 @@ export default function Home() {
                     <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
                       {({ isVisible }) => (
                         <div>
-                          {isVisible ? <CountUp start={1250} end={25000} duration={2} /> : 1250}
+                          {isVisible ? (
+                            <CountUp start={12.5} end={17} duration={2} decimal="," decimals={3} />
+                          ) : (
+                            1250
+                          )}
+                          +
                         </div>
                       )}
                     </VisibilitySensor>
