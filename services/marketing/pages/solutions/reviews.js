@@ -41,15 +41,29 @@ export default function Reviews() {
   return (
     <Layout>
       <NextSeo
-        title={'AppStore Review Tracking & Management'}
-        description={`Easily used cross-platform user behavior analysis for growing teams and businesses. Built specifically for businesses who wants to be privacy and security compliant.`}
+        title={'Review Tracking for iOS and Android applications'}
+        description={`Monitor your app and business reviews. Real-time AppStore review tracking helps you to protect your brand and your revenue.`}
+        twitter={{
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title: 'Real-time cross-platform review tracking',
+          images: [
+            {
+              url: '/twitter/review-tracking.png',
+              width: 900,
+              height: 450,
+              alt: 'Real-time AppStore review tracking',
+            },
+          ],
+        }}
       />
 
       <BreadcrumbJsonLd
         itemListElements={[
           {
             position: 1,
-            name: 'Reviewclasss',
+            name: 'Reviews',
             item: 'https://socketkit.com/solutions/reviews',
           },
         ]}

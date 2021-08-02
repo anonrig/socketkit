@@ -19,20 +19,20 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 
 const solutions = [
   {
-    name: 'Revenue Management ',
+    name: 'Subscription Management ',
     description: 'Understand where your revenue is generated and act upon it.',
     href: '/solutions/subscriptions',
     icon: ChartBarIcon,
   },
   {
-    name: 'Reviews',
+    name: 'Review Tracking',
     description: 'Real-time application reviews across different app stores.',
     href: '/solutions/reviews',
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Analytics',
-    description: 'Understand user behaviour without compromising privacy.',
+    name: 'Mobile-first Analytics',
+    description: 'Understand user behavior without compromising privacy.',
     href: '/solutions/analytics',
     icon: CursorClickIcon,
   },

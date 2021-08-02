@@ -27,7 +27,7 @@ export default function MyApp({ Component, pageProps }) {
           site_name: 'Socketkit',
           images: [
             {
-              url: 'https://cdn.socketkit.com/seo/og-image.jpg',
+              url: '/twitter/homepage.jpg',
               width: 1024,
               height: 538,
               alt: 'Socketkit: Mobile Analytics & Subscription Tracking for mobile apps',

@@ -9,6 +9,20 @@ export default function Subscriptions() {
       <NextSeo
         title={'Subscription Management for Appstore & PlayStore'}
         description={`Understand where your Apple AppStore and Google Playstore application customers and revenues are coming from. Access to different reports including MRR and ARPU.`}
+        twitter={{
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title: 'Subscription Management for Mobile Apps',
+          images: [
+            {
+              url: '/twitter/subscription-tracking.png',
+              width: 900,
+              height: 450,
+              alt: 'Mobile-first Subscription Analytics',
+            },
+          ],
+        }}
       />
 
       <BreadcrumbJsonLd

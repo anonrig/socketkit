@@ -5,8 +5,22 @@ export default function Analytics() {
   return (
     <Layout>
       <NextSeo
-        title={'Mobile Analytics & Event Tracking'}
-        description={`Easily used cross-platform user behavior analysis for growing teams and businesses. Built specifically for businesses who wants to be privacy and security compliant.`}
+        title={'Mobile-first In-App Purchase & Subscription Management'}
+        description={`Cross-platform user analytics for growing teams and businesses. Built specifically for businesses who wants to be privacy and security compliant.`}
+        twitter={{
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title: 'In-App Purchase & Subscription Management',
+          images: [
+            {
+              url: '/twitter/user-analytics.png',
+              width: 900,
+              height: 450,
+              alt: 'Privacy-first Analytics for mobile',
+            },
+          ],
+        }}
       />
 
       <BreadcrumbJsonLd
