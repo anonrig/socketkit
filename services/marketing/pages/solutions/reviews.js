@@ -159,7 +159,8 @@ export default function Reviews() {
           </h2>
           <p className="mt-2 text-3xl font-extrabold text-gray-900">All-in-one platform</p>
           <p className="mt-4 text-lg text-gray-500">
-            All the features you need to increase your revenue by understanding your customers needs and feedback.
+            All the features you need to increase your revenue by understanding your customers needs
+            and feedback.
           </p>
         </div>
         <div className="mt-12 lg:mt-0 lg:col-span-2">
