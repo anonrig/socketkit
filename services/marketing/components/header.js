@@ -87,8 +87,8 @@ export default function Header() {
                 </a>
               </Link>
               <LogoJsonLd
-                logo="http://www.socketkit.com/socketkit-logo.svg"
-                url="https://www.socketkit.com"
+                logo="http://socketkit.com/socketkit-logo.svg"
+                url="https://socketkit.com"
               />
             </div>
             <div className="-mr-2 -my-2 md:hidden">
