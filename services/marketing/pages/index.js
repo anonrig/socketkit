@@ -1,4 +1,3 @@
-import { NextSeo } from 'next-seo'
 import Image from 'next/image'
 import CountUp from 'react-countup'
 import VisibilitySensor from 'react-visibility-sensor'
