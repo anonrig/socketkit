@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import CountUp from 'react-countup'
+import VisibilitySensor from 'react-visibility-sensor'
 import CTA from 'components/cta.js'
 import Layout from 'components/layout.js'
 
@@ -111,8 +113,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative mb-24 overflow-hidden">
-          <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
+        <div className="relative mb-16 overflow-hidden">
+          <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24 mb-8">
             <div className="my-28 px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
               <div>
                 <div className="mt-6">
@@ -172,17 +174,47 @@ export default function Home() {
               </p>
               <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
                 <p>
-                  <span className="block text-2xl font-bold text-blue-500">28K+</span>
+                  <span className="block text-4xl font-bold text-blue-500">
+                    <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
+                      {({ isVisible }) => (
+                        <div>
+                          {isVisible ? <CountUp start={1250} end={28000} duration={2} /> : 1250}
+                        </div>
+                      )}
+                    </VisibilitySensor>
+                  </span>
                   <span className="mt-1 block text-base text-trueGray-500">
                     <span className="font-semibold">Subscriptions</span> are tracked monthly using
                     Socketkit.
                   </span>
                 </p>
                 <p>
-                  <span className="block text-2xl font-bold text-blue-500">96K+</span>
+                  <span className="block text-4xl font-bold text-blue-500">
+                    <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
+                      {({ isVisible }) => (
+                        <div>
+                          {isVisible ? <CountUp start={1250} end={96000} duration={1.5} /> : 1250}
+                        </div>
+                      )}
+                    </VisibilitySensor>
+                  </span>
                   <span className="mt-1 block text-base text-trueGray-500">
                     <span className="font-semibold">Transactions</span> were stored and analyzed on
                     Socketkit.
+                  </span>
+                </p>
+                <p>
+                  <span className="block text-4xl font-bold text-blue-500">
+                    <VisibilitySensor partialVisibility offset={{ bottom: 200 }}>
+                      {({ isVisible }) => (
+                        <div>
+                          {isVisible ? <CountUp start={1250} end={25000} duration={2} /> : 1250}
+                        </div>
+                      )}
+                    </VisibilitySensor>
+                  </span>
+                  <span className="mt-1 block text-base text-trueGray-500">
+                    <span className="font-semibold">Reviews</span> were analyzed on Socketkit.
                   </span>
                 </p>
               </div>

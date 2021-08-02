@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@formspree/react": "^2.2.3",
-    "@headlessui/react": "^1.3.0",
-    "@heroicons/react": "^1.0.2",
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.3",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
@@ -22,25 +22,27 @@
     "keyword-extractor": "^0.0.20",
     "next": "^11.0.1",
     "next-seo": "^4.26.0",
-    "next-sitemap": "^1.6.133",
+    "next-sitemap": "^1.6.140",
     "react": "^17.0.2",
+    "react-countup": "^5.2.0",
     "react-dom": "^17.0.2",
-    "react-markdown": "^6.0.2",
+    "react-markdown": "^6.0.3",
     "react-use-intercom": "^1.3.0",
+    "react-visibility-sensor": "^5.1.1",
     "sharp": "^0.28.3"
   },
   "devDependencies": {
-    "autoprefixer": "^10.3.0",
-    "eslint": "^7.30.0",
+    "autoprefixer": "^10.3.1",
+    "eslint": "^7.32.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.3.5",
+    "postcss": "^8.3.6",
     "prettier": "^2.3.2",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.7"
   },
   "browserslist": {
     "production": [
