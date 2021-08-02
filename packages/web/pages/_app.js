@@ -70,9 +70,9 @@ function MyApp({ Component, pageProps, cookie }) {
           type: 'website',
           locale: 'en_US',
           url: 'https://web.socketkit.com/',
-          site_name: 'Socketkit, Inc.',
+          site_name: 'Socketkit',
         }}
-        titleTemplate="%s - Socketkit, Inc."
+        titleTemplate="%s - Socketkit"
         title="Subscription Management & Mobile Tracking"
         noindex={true}
       />
