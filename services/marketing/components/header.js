@@ -1,25 +1,78 @@
+import { Fragment } from 'react'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Transition } from '@headlessui/react'
+import { Transition, Popover } from '@headlessui/react'
 import cx from 'classnames'
 import { LogoJsonLd } from 'next-seo'
-import Badge from './badge.js'
-import useVisible from 'hooks/use-visible.js'
-import MobileHeader from './mobile-header.js'
+
+import {
+  ChartBarIcon,
+  CursorClickIcon,
+  MenuIcon,
+  ShieldCheckIcon,
+  ViewGridIcon,
+  XIcon,
+} from '@heroicons/react/outline'
+import { ChevronDownIcon } from '@heroicons/react/solid'
+
+const solutions = [
+  {
+    name: 'Revenue Management ',
+    description: 'Understand where your revenue is generated and act upon it.',
+    href: '/solutions/subscriptions',
+    icon: ChartBarIcon,
+  },
+  {
+    name: 'Reviews',
+    description: 'Real-time application reviews across different app stores.',
+    href: '/solutions/reviews',
+    icon: ShieldCheckIcon,
+  },
+  {
+    name: 'Analytics',
+    description: 'Understand user behaviour without compromising privacy.',
+    href: '/solutions/analytics',
+    icon: CursorClickIcon,
+  },
+  {
+    name: 'Integrations',
+    description: "Connect with third-party tools that you're already using.",
+    href: '/solutions/integrations',
+    icon: ViewGridIcon,
+  },
+]
+
+const resources = [
+  {
+    name: 'Security',
+    description: 'We follow the best practices, and we are transparent about it.',
+    href: '/security',
+  },
+  {
+    name: 'Company',
+    description: 'Meet with the team behind Socketkit and contact us.',
+    href: '/company',
+  },
+  {
+    name: 'Guides & Tips',
+    description: 'We care about sharing the things we learned along the way.',
+    href: '/blog',
+  },
+]
 
 export default function Header() {
   const router = useRouter()
   const getActiveClassName = (path) =>
     router.pathname.startsWith(path) ? 'bg-warmGray-50' : 'bg-white'
-  const { isVisible, setVisible, ref } = useVisible(false)
 
   return (
-    <header className="bg-white z-10">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex px-2 lg:px-0 flex-1 lg:justify-start justify-between items-center">
-            <div className="flex-shrink-0 flex items-center">
+    <Popover className="relative bg-white z-10">
+      {({ open }) => (
+        <>
+          <div className="flex justify-between items-center px-4 py-3 sm:px-6 md:justify-start md:space-x-10">
+            <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link href="/">
                 <a className="items-center flex">
                   <span className="sr-only">Socketkit, Inc.</span>
@@ -38,143 +91,148 @@ export default function Header() {
                 url="https://www.socketkit.com"
               />
             </div>
-            <nav
-              aria-label="Global"
-              className="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4 text-sm font-medium text-warmGray-900">
-              <div className="relative z-10" ref={ref}>
-                <button
-                  type="button"
-                  onClick={() => setVisible(!isVisible)}
-                  className={cx(['px-3 py-2 rounded-md flex', getActiveClassName('/solutions')])}>
-                  <span className="text-warmGray-900 font-medium">Solutions</span>
-                  <svg
-                    className={cx('ml-2 h-5 w-5 group-hover:text-trueGray-500 text-warmGray-900')}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-                <Transition
-                  show={isVisible}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  leave="transition ease-in duration-150"
-                  enterTo="opacity-100 translate-y-0"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1">
-                  <div className="absolute z-10 w-96 mt-3 px-2 sm:px-0">
-                    <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                      <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                        <Link href="/solutions/subscriptions">
-                          <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-warmGray-50 transition ease-in-out duration-150">
-                            <svg
-                              className="flex-shrink-0 h-6 w-6 text-orange-500"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true">
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                              />
-                            </svg>
-                            <div className="ml-4 flex-1">
-                              <p className="text-base font-medium text-warmGray-900">
-                                Subscription Management
-                              </p>
-                              <p className="mt-1 text-sm text-trueGray-500">
-                                Understand where your revenue is generated and act upon it.
-                              </p>
-                            </div>
-                          </a>
-                        </Link>
+            <div className="-mr-2 -my-2 md:hidden">
+              <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
+                <span className="sr-only">Open menu</span>
+                <MenuIcon className="h-6 w-6" aria-hidden="true" />
+              </Popover.Button>
+            </div>
+            <Popover.Group as="nav" className="hidden md:flex space-x-10">
+              <Popover className="relative">
+                {({ open }) => (
+                  <>
+                    <Popover.Button
+                      className={cx(
+                        getActiveClassName('/solutions'),
+                        'px-3 py-2 rounded-md group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-warmGray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500',
+                      )}>
+                      <span>Solutions</span>
+                      <ChevronDownIcon
+                        className={cx(
+                          open ? 'text-gray-600' : 'text-gray-400',
+                          'ml-2 h-5 w-5 group-hover:text-gray-500',
+                        )}
+                        aria-hidden="true"
+                      />
+                    </Popover.Button>
 
-                        <Link href="/solutions/reviews">
-                          <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-warmGray-50 transition ease-in-out duration-150">
-                            <svg
-                              className="flex-shrink-0 h-6 w-6 text-orange-500"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true">
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                              />
-                            </svg>
-                            <div className="ml-4 flex-1">
-                              <p className="text-base font-medium text-warmGray-900 flex justify-between">
-                                Reviews
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1">
+                      <Popover.Panel
+                        static
+                        className="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                          <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
+                            {solutions.map((item) => (
+                              <Link key={item.name} href={item.href}>
+                                <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
+                                  <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-orange-500 text-white sm:h-12 sm:w-12">
+                                    <item.icon className="h-6 w-6" aria-hidden="true" />
+                                  </div>
+                                  <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                      {item.name}
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                  </div>
+                                </a>
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="p-5 bg-gray-50 sm:p-8">
+                            <a
+                              href="https://awacs.socketkit.com"
+                              className="-m-3 p-3 flow-root rounded-md hover:bg-gray-100">
+                              <div className="flex items-center">
+                                <div className="text-base font-medium text-gray-900">
+                                  Open-source Event Tracking
+                                </div>
+                                <span className="ml-3 inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium leading-5 bg-orange-100 text-orange-800">
+                                  Upcoming
+                                </span>
+                              </div>
+                              <p className="mt-1 text-sm text-gray-500">
+                                Integrated mobile event tracking with our open-source server{' '}
+                                <b>Awacs</b>
                               </p>
-                              <p className="mt-1 text-sm text-trueGray-500">
-                                Track real-time application reviews across different application
-                                stores.
-                              </p>
-                            </div>
-                          </a>
-                        </Link>
-
-                        <Link href="/solutions/analytics">
-                          <a className="-m-3 p-3 flex items-start rounded-lg hover:bg-warmGray-50 transition ease-in-out duration-150">
-                            <svg
-                              className="flex-shrink-0 h-6 w-6 text-orange-500"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true">
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-                              />
-                            </svg>
-                            <div className="ml-4 flex-1">
-                              <p className="text-base font-medium text-warmGray-900 flex justify-between">
-                                Mobile Analytics <Badge title="Coming Soon" />
-                              </p>
-                              <p className="mt-1 text-sm text-trueGray-500">
-                                Understand your users&apos; behaviour without compromising privacy.
-                              </p>
-                            </div>
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </Transition>
-              </div>
-
-              <Link href="/security">
-                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/security')])}>
-                  Security
-                </a>
-              </Link>
+                            </a>
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
 
               <Link href="/pricing">
-                <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/pricing')])}>
+                <a
+                  className={cx([
+                    'px-3 py-2 rounded-md font-medium',
+                    getActiveClassName('/pricing'),
+                  ])}>
                   Pricing
                 </a>
               </Link>
-            </nav>
+
+              <Popover className="relative">
+                {({ open }) => (
+                  <>
+                    <Popover.Button
+                      className={cx(
+                        'px-3 py-2 rounded-md group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500',
+                      )}>
+                      <span>More</span>
+                      <ChevronDownIcon
+                        className={cx(
+                          open ? 'text-gray-600' : 'text-gray-400',
+                          'ml-2 h-5 w-5 group-hover:text-gray-500',
+                        )}
+                        aria-hidden="true"
+                      />
+                    </Popover.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1">
+                      <Popover.Panel
+                        static
+                        className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
+                        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                          <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                            {resources.map((item) => (
+                              <Link href={item.href} key={item.name}>
+                                <a className="-m-3 p-3 block rounded-md hover:bg-gray-50">
+                                  <p className="text-base font-medium text-gray-900">{item.name}</p>
+                                  <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                </a>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
+            </Popover.Group>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a
                 href="https://web.socketkit.com/signin"
                 className="whitespace-nowrap text-base font-medium text-warmGray-900 hover:text-warmGray-500">
-                Sign in
+                Login
               </a>
               <a
                 href="https://web.socketkit.com/signup"
@@ -182,10 +240,94 @@ export default function Header() {
                 Sign up
               </a>
             </div>
-            <MobileHeader />
           </div>
-        </div>
-      </div>
-    </header>
+
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="duration-200 ease-out"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="duration-100 ease-in"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95">
+            <Popover.Panel
+              focus
+              static
+              className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+              <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+                <div className="pt-5 pb-6 px-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Image
+                        height={30}
+                        width={130}
+                        src="/socketkit-logo.svg"
+                        alt="Socketkit, Inc."
+                        objectPosition="bottom"
+                        unoptimized={process.env.NODE_ENV === 'development'}
+                      />
+                    </div>
+                    <div className="-mr-2">
+                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500">
+                        <span className="sr-only">Close menu</span>
+                        <XIcon className="h-6 w-6" aria-hidden="true" />
+                      </Popover.Button>
+                    </div>
+                  </div>
+                  <div className="mt-6">
+                    <nav className="grid grid-cols-1 gap-7">
+                      {solutions.map((item) => (
+                        <Link key={item.name} href={item.href}>
+                          <a className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                            <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-orange-500 text-white">
+                              <item.icon className="h-6 w-6" aria-hidden="true" />
+                            </div>
+                            <div className="ml-4 text-base font-medium text-gray-900">
+                              {item.name}
+                            </div>
+                          </a>
+                        </Link>
+                      ))}
+                    </nav>
+                  </div>
+                </div>
+                <div className="py-6 px-5">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Link href="/pricing">
+                      <a className="text-base font-medium text-gray-900 hover:text-gray-700">
+                        Pricing
+                      </a>
+                    </Link>
+                    {resources.map((item) => (
+                      <Link key={item.href} href={item.href}>
+                        <a className="text-base font-medium text-gray-900 hover:text-gray-700">
+                          {item.name}
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-6">
+                    <a
+                      href="https://web.socketkit.com/signup"
+                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600">
+                      Sign up
+                    </a>
+                    <p className="mt-6 text-center text-base font-medium text-gray-500">
+                      Existing customer?{' '}
+                      <a
+                        href="https://web.socketkit.com/signin"
+                        className="text-orange-600 hover:text-orange-500">
+                        Login
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
   )
 }
