@@ -4,9 +4,17 @@ import { Transition, Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import useSWR from 'swr'
 
-function ApplicationDropdown({ selected, onChange }) {
-  const { data } = useSWR('applications')
+function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
+  const { data, error } = useSWR('applications')
   const application = data?.rows.find((r) => r.application_id === selected)?.title ?? 'Applications'
+
+  if (!data && !error && hideOnLoading) {
+    return null
+  }
+
+  if (data?.rows?.length <= 1) {
+    return null
+  }
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -53,7 +61,12 @@ function ApplicationDropdown({ selected, onChange }) {
   )
 }
 
+ApplicationDropdown.defaultProps = {
+  hideOnLoading: true,
+}
+
 ApplicationDropdown.propTypes = {
+  hideOnLoading: PropTypes.bool,
   selected: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 }
