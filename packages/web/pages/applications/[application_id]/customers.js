@@ -12,13 +12,17 @@ import CustomerColumns from 'helpers/columns/customer.js'
 import CustomerPropTypes, { CustomerCursor } from 'helpers/types/customer.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/customers`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `applications/${query.application_id}/customers`,
+    true,
+  )
 }
 
 function Customers({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => CustomerColumns, [])
-  setDateRangeIfNeeded(router, '/applications/[id]/customers')
+  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/customers`)
 
   return (
     <>
@@ -26,7 +30,7 @@ function Customers({ initialData }) {
       <ApplicationHeader />
       <Table
         initialData={initialData}
-        url={`applications/${router.query.id}/customers`}
+        url={`applications/${router.query.application_id}/customers`}
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({

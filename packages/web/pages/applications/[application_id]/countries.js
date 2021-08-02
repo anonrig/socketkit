@@ -11,13 +11,17 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import CountryColumns from 'helpers/columns/country.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/countries`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `applications/${query.application_id}/countries`,
+    true,
+  )
 }
 
 function Customers({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => CountryColumns, [])
-  setDateRangeIfNeeded(router, '/applications/[id]/countries')
+  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/countries`)
 
   return (
     <>
@@ -25,7 +29,7 @@ function Customers({ initialData }) {
       <ApplicationHeader />
       <Table
         initialData={initialData}
-        url={`applications/${router.query.id}/countries`}
+        url={`applications/${router.query.application_id}/countries`}
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({

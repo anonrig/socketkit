@@ -11,7 +11,11 @@ import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
 import SubscriptionPackagePropTypes from 'helpers/types/subscription-package.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/packages`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `applications/${query.application_id}/packages`,
+    true,
+  )
 }
 
 function SubscriptionPackages({ initialData }) {
@@ -24,7 +28,7 @@ function SubscriptionPackages({ initialData }) {
       <ApplicationHeader />
       <Table
         initialData={initialData}
-        url={`applications/${router.query.id}/packages`}
+        url={`applications/${router.query.application_id}/packages`}
         options={{}}
         columns={columns}
         getRowProps={({ original }) => ({

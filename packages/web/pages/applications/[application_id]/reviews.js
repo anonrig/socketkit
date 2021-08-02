@@ -12,13 +12,17 @@ import ReviewColumns from 'helpers/columns/review.js'
 import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `reviews?application_id=${query.id}`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `reviews?application_id=${query.application_id}`,
+    true,
+  )
 }
 
 function ApplicationReviews({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => ReviewColumns, [])
-  setDateRangeIfNeeded(router, '/applications/[id]/reviews')
+  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/reviews`)
 
   return (
     <>
@@ -28,7 +32,7 @@ function ApplicationReviews({ initialData }) {
         initialData={initialData}
         url={`reviews`}
         options={{
-          application_id: router.query.id,
+          application_id: router.query.application_id,
         }}
         columns={columns}
         getRowProps={({ original }) => ({

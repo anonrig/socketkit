@@ -9,12 +9,18 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/statistics`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `applications/${query.application_id}/statistics`,
+    true,
+  )
 }
 
 function ApplicationDashboard({ initialData }) {
   const router = useRouter()
-  const { data } = useSWR(`applications/${router.query.id}/statistics`, fetcher, { initialData })
+  const { data } = useSWR(`applications/${router.query.application_id}/statistics`, fetcher, {
+    initialData,
+  })
 
   return (
     <>

@@ -17,18 +17,22 @@ import ApplicationPropTypes from 'helpers/types/application.js'
 const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}`, true)
+  return await fetchOnBackground({ query, headers }, `applications/${query.application_id}`, true)
 }
 
 function ApplicationInformation({ initialData }) {
   const router = useRouter()
-  const { data: application } = useSWR(`applications/${router.query.id}`, fetcher, {
+  const { data: application } = useSWR(`applications/${router.query.application_id}`, fetcher, {
     initialData,
     refreshInterval: 0,
   })
-  const { data: versions } = useSWR(`applications/${router.query.id}/versions`, fetcher, {
-    refreshInterval: 0,
-  })
+  const { data: versions } = useSWR(
+    `applications/${router.query.application_id}/versions`,
+    fetcher,
+    {
+      refreshInterval: 0,
+    },
+  )
 
   return (
     <>

@@ -11,13 +11,17 @@ import TransactionColumns from 'helpers/columns/transaction.js'
 import TransactionPropTypes, { TransactionCursor } from 'helpers/types/transaction.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `applications/${query.id}/transactions`, true)
+  return await fetchOnBackground(
+    { query, headers },
+    `applications/${query.application_id}/transactions`,
+    true,
+  )
 }
 
 function Transactions({ initialData }) {
   const router = useRouter()
   const columns = useMemo(() => TransactionColumns, [])
-  setDateRangeIfNeeded(router, '/applications/[id]/transactions')
+  setDateRangeIfNeeded(router, `/applications/${router.query.application_id}/transactions`)
 
   return (
     <>
@@ -25,7 +29,7 @@ function Transactions({ initialData }) {
       <ApplicationHeader />
       <Table
         initialData={initialData}
-        url={`applications/${router.query.id}/transactions`}
+        url={`applications/${router.query.application_id}/transactions`}
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({
