@@ -1,6 +1,4 @@
 import f from 'fastify'
-import Sentry from '@sentry/node'
-import SentryCore from '@sentry/core'
 
 import pressure from 'under-pressure'
 import cors from 'fastify-cors'
@@ -41,7 +39,6 @@ export default async function build() {
           throw server.httpErrors.serviceUnavailable(error.message)
         default:
           logger.fatal(error)
-          Sentry.captureException(error)
           throw server.httpErrors.internalServerError('Something went wrong')
       }
     } else if (error.statusCode) {
@@ -50,7 +47,6 @@ export default async function build() {
     } else {
       // Handle uncaught errors due to runtime issues
       logger.error(error)
-      Sentry.captureException(error)
       throw server.httpErrors.internalServerError('Something went wrong')
     }
   })
@@ -99,45 +95,6 @@ export default async function build() {
   server.register(metrics, { endpoint: '/metrics' })
   server.register(routes, { prefix: '/v1' })
   server.get('/', async () => ({ status: 'up' }))
-
-  server.addHook('onError', (request, _, error, done) => {
-    Sentry.withScope((scope) => {
-      if (request.trace && request.trace.getSpan() === undefined) {
-        scope.setSpan(transaction)
-      }
-      scope.setUser({
-        id: request.user.identity.id,
-        email: request.user.identity.recovery_addresses[0].value,
-      })
-
-      Sentry.captureException(error)
-    })
-    done()
-  })
-
-  server.addHook('onRequest', (request, _, done) => {
-    if (request.routerPath?.startsWith('/v1/')) {
-      request.trace = Sentry.startTransaction({
-        op: request.method,
-        name: request.routerPath,
-        trimEnd: true,
-      })
-
-      SentryCore.getCurrentHub().configureScope((scope) => {
-        scope.setSpan(request.trace)
-      })
-    }
-
-    done()
-  })
-
-  server.addHook('onResponse', (request, response, done) => {
-    setImmediate(() => {
-      request.trace?.setHttpStatus(response.statusCode)
-      request.trace?.finish()
-    })
-    done()
-  })
 
   return server
 }
