@@ -11,6 +11,8 @@ service Applications {
   rpc findAll (AccountIdRequest) returns (ApplicationsResponse) {}
   // Find a specific application by id
   rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
+  // Count unique applications
+  rpc count (AccountIdRequest) returns (CountResponse) {}
   // Create a new application
   rpc create (ApplicationRequest) returns (Empty) {}
   // Update an existing application
@@ -21,129 +23,35 @@ service Applications {
 
 service Clients {
   // Filter through the clients
-  rpc findAll(FindAllClientsRequest) returns (ClientsResponse) {}
+  rpc findAll (FindAllClientsRequest) returns (ClientsResponse) {}
   // Find a specific client by id
-  rpc findOne(ClientIdRequest) returns (ClientResponse) {}
+  rpc findOne (ClientIdRequest) returns (ClientResponse) {}
+  // Count unique clients
+  rpc count (CountClientsRequest) returns (CountResponse) {}
 }
 
 service Events {
   // Filter through the events
-  rpc findAll(FindAllEventsRequest) returns (EventsResponse) {}
+  rpc findAll (FindAllEventsRequest) returns (EventsResponse) {}
+  // Count events
+  rpc count (CountEventsRequest) returns (CountResponse) {}
 }
 
 service Sessions {
   // Filter through the sessions
-  rpc findAll(FindAllSessionsRequest) returns (SessionsResponse) {}
+  rpc findAll (FindAllSessionsRequest) returns (SessionsResponse) {}
+  // Count sessions
+  rpc count (CountSessionsRequest) returns (CountResponse) {}
 }
 
 // Empty response
 message Empty {}
 
-// Request through unique Account id.
-message AccountIdRequest {
-  // Account id
-  string account_id = 1;
+// Count response
+message CountResponse {
+  // Counted distinct values as integer
+  int32 count = 1;
 }
-
-message ApplicationIdRequest {
-  // Account id
-  string account_id = 1;
-  // Application id. Typically your bundle id (Ex. com.socketkit.app)
-  string application_id = 2;
-}
-
-message ApplicationRequest {
-  // Account id
-  string account_id = 1;
-  // Application id. Typically your bundle id (Ex. com.socketkit.app)
-  string application_id = 2;
-  // Title of your application (Ex. Socketkit)
-  string title = 3;
-  // Default maximum session timeout seconds. Default 30 seconds
-  int32 session_timeout = 4;
-}
-
-message ClientIdRequest {
-  // Account id
-  string account_id = 1;
-  // Application id. Typically your bundle id (Ex. com.socketkit.app)
-  string application_id = 2;
-  // Client id
-  string client_id = 3;
-}
-
-message FindAllClientsRequest {
-  // Account id
-  string account_id = 1;
-  // Optional limit for limiting the result
-  optional int32 limit = 2;
-  // Optional application id. Typically your bundle id (Ex. com.socket.app)
-  optional string application_id = 3;
-  // Optional cursor for pagination
-  optional ClientCursor cursor = 4;
-}
-
-message FindAllEventsRequest {
-  // Account id
-  string account_id = 1;
-  // Optional limit for limiting the result
-  optional int32 limit = 2;
-  // Optional application id. Typically your bundle id (Ex. com.socket.app)
-  optional string application_id = 3;
-  // Optional client id (available for filtering)
-  optional string client_id = 4;
-  // Optional cursor for pagination
-  optional EventCursor cursor = 5;
-}
-
-message FindAllSessionsRequest {
-  // Account id
-  string account_id = 1;
-  // Optional limit for limiting the result
-  optional int32 limit = 2;
-  // Optional application id. Typically your bundle id (Ex. com.socket.app)
-  optional string application_id = 3;
-  // Optional client id (available for filtering)
-  optional string client_id = 4;
-  // Optional cursor for pagination
-  optional SessionCursor cursor = 5;
-}
-
-// Application response
-message ApplicationResponse {
-  Application row = 1;
-}
-
-// Applications list response
-message ApplicationsResponse {
-  repeated Application rows = 1;
-}
-
-// Clients pagination response
-message ClientsResponse {
-  repeated Client rows = 1;
-  // Optional cursor available for pagination
-  optional ClientCursor cursor = 2;
-}
-
-// Client response
-message ClientResponse {
-  Client row = 1;
-}
-
-// Events pagination response
-message EventsResponse {
-  repeated Event rows = 1;
-  // Optional cursor available for pagination
-  optional EventCursor cursor = 2;
-}
-
-message SessionsResponse {
-  repeated Session rows = 1;
-  // Optional cursor available for pagination
-  optional SessionCursor cursor = 2;
-}
-
 
 // Application
 message Application {
@@ -167,6 +75,42 @@ message Application {
   string created_at = 9;
   // Timestamp on last update
   string updated_at = 10;
+}
+
+// Request through unique account id.
+message AccountIdRequest {
+  // Account id
+  string account_id = 1;
+}
+
+// Request through both application and account id
+message ApplicationIdRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+}
+
+// Application create/update request
+message ApplicationRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+  // Title of your application (Ex. Socketkit)
+  string title = 3;
+  // Default maximum session timeout seconds. Default 30 seconds
+  int32 session_timeout = 4;
+}
+
+// Application response
+message ApplicationResponse {
+  Application row = 1;
+}
+
+// Applications list response
+message ApplicationsResponse {
+  repeated Application rows = 1;
 }
 
 // Client
@@ -219,6 +163,62 @@ message Client {
   string updated_at = 23;
 }
 
+// Client pagination cursor
+message ClientCursor {
+  // Creation timestamp
+  string created_at = 1;
+}
+
+// Request client of an application request with account id.
+message ClientIdRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+  // Client id
+  string client_id = 3;
+}
+
+// Find all clients
+message FindAllClientsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional cursor for pagination
+  optional ClientCursor cursor = 4;
+}
+
+// Count clients request
+message CountClientsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 2;
+}
+
+// Clients pagination response
+message ClientsResponse {
+  repeated Client rows = 1;
+  // Optional cursor available for pagination
+  optional ClientCursor cursor = 2;
+}
+
+// Client response
+message ClientResponse {
+  Client row = 1;
+}
+
+// Custom properties defined by the developer or the integration
+message CustomProperties {
+  // Property key
+  string key = 1;
+  // Property value
+  string value = 2;
+}
+
 // Event
 message Event {
   // Account id
@@ -235,14 +235,53 @@ message Event {
   string session_started_at = 6;
   // Event creation date
   string created_at = 7;
+  // Client who initiated the event
+  Client client = 8;
 }
 
-// Custom properties defined by the developer or the integration
-message CustomProperties {
-  // Property key
-  string key = 1;
-  // Property value
-  string value = 2;
+// Find all events
+message FindAllEventsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional client id (available for filtering)
+  optional string client_id = 4;
+  // Optional cursor for pagination
+  optional EventCursor cursor = 5;
+  // Optional start date for filtering
+  optional string start_date = 6;
+  // Optional end date for filtering
+  optional string end_date = 7;
+}
+
+// Event pagination cursor
+message EventCursor {
+  // Creation timestamp
+  string created_at = 1;
+}
+
+// Count events request
+message CountEventsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id for filtering
+  optional string application_id = 2;
+  // Optional client id for filtering
+  optional string client_id = 3;
+  // Optional start date for filtering
+  optional string start_date = 4;
+  // Optional end date for filtering
+  optional string end_date = 5;
+}
+
+// Events pagination response
+message EventsResponse {
+  repeated Event rows = 1;
+  // Optional cursor available for pagination
+  optional EventCursor cursor = 2;
 }
 
 // Session
@@ -259,21 +298,48 @@ message Session {
   string expired_at = 5;
 }
 
-
-// Event pagination cursor
-message EventCursor {
-  // Creation timestamp
-  string created_at = 1;
-}
-
 // Session pagination cursor
 message SessionCursor {
   // Expired timestamp
   string expired_at = 1;
 }
 
-// Client pagination cursor
-message ClientCursor {
-  // Creation timestamp
-  string created_at = 2;
+// Find all sessions request
+message FindAllSessionsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional client id (available for filtering)
+  optional string client_id = 4;
+  // Optional cursor for pagination
+  optional SessionCursor cursor = 5;
+  // Optional start date for filtering
+  optional string start_date = 6;
+  // Optional end date for filtering
+  optional string end_date = 7;
 }
+
+// Count sessions request
+message CountSessionsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id for filtering
+  optional string application_id = 2;
+  // Optional client id for filtering
+  optional string client_id = 3;
+  // Optional start date for filtering
+  optional string start_date = 4;
+  // Optional end date for filtering
+  optional string end_date = 5;
+}
+
+// Sessions response
+message SessionsResponse {
+  repeated Session rows = 1;
+  // Optional cursor available for pagination
+  optional SessionCursor cursor = 2;
+}
+
