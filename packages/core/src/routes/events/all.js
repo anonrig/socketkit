@@ -72,15 +72,15 @@ export default {
                   required: ['application_id', 'country_id'],
                 },
               },
+              required: [
+                'application_id',
+                'client_id',
+                'title',
+                'session_started_at',
+                'created_at',
+                'client',
+              ],
             },
-            required: [
-              'application_id',
-              'client_id',
-              'title',
-              'session_started_at',
-              'created_at',
-              'client',
-            ],
           },
           cursor: {
             type: ['object', 'null'],
