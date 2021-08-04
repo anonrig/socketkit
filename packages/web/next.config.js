@@ -1,6 +1,10 @@
 const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig({
+  sentry: {
+    disableServerWebpackPlugin: process.env.NODE_ENV === 'development',
+    disableClientWebpackPlugin: process.env.NODE_ENV === 'development',
+  },
   poweredByHeader: false,
   reactStrictMode: true,
   env: {

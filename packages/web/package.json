@@ -3,7 +3,7 @@
   "version": "1.4.1",
   "private": true,
   "scripts": {
-    "dev": "API_URL=https://core.socketkit.com/v1 NODE_TLS_REJECT_UNAUTHORIZED='0' next dev -p 8080",
+    "dev": "NODE_ENV=development API_URL=https://core-dev.socketkit.com/v1 NODE_TLS_REJECT_UNAUTHORIZED='0' next dev -p 8080",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --fix .",
