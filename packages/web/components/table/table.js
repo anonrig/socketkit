@@ -1,13 +1,22 @@
 /* eslint-disable react/jsx-key */
+import { Fragment } from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { useMemo, useRef, useEffect } from 'react'
-import { useTable } from 'react-table'
+import { useTable, useExpanded } from 'react-table'
 import { useSWRInfinite } from 'swr'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import useOnScreen from '../../helpers/use-onscreen.js'
 
-function Table({ initialData, columns, getRowProps, url, options, notFound }) {
+function Table({
+  initialData,
+  columns,
+  getRowProps,
+  url,
+  options,
+  notFound,
+  renderRowSubComponent,
+}) {
   const loader = useRef()
   const isVisible = useOnScreen(loader)
   const { data, size, setSize, isValidating, error } = useSWRInfinite(
@@ -42,10 +51,14 @@ function Table({ initialData, columns, getRowProps, url, options, notFound }) {
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data: memoized,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, visibleColumns } =
+    useTable(
+      {
+        columns,
+        data: memoized,
+      },
+      useExpanded,
+    )
 
   if (!isLoadingInitialData && !isLoadingMore && isEmpty) {
     return (
@@ -93,23 +106,35 @@ function Table({ initialData, columns, getRowProps, url, options, notFound }) {
                   {rows.map((row) => {
                     prepareRow(row)
 
+                    const { key } = row.getRowProps()
+
                     return (
-                      <tr
-                        className="hover:bg-warmGray-50 cursor-pointer"
-                        {...row.getRowProps(getRowProps(row))}>
-                        {row.cells.map((cell) => {
-                          return (
-                            <td
-                              className={cx([
-                                'px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal',
-                                cell.column.className,
-                              ])}
-                              {...cell.getCellProps()}>
-                              {cell.render('Cell')}
+                      <Fragment key={key}>
+                        <tr
+                          className="hover:bg-warmGray-50 cursor-pointer"
+                          {...row.getRowProps(getRowProps(row))}>
+                          {row.cells.map((cell) => {
+                            return (
+                              <td
+                                className={cx([
+                                  'px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal',
+                                  cell.column.className,
+                                ])}
+                                {...cell.getCellProps()}>
+                                {cell.render('Cell')}
+                              </td>
+                            )
+                          })}
+                        </tr>
+
+                        {row.isExpanded ? (
+                          <tr>
+                            <td colSpan={visibleColumns.length}>
+                              {renderRowSubComponent({ row })}
                             </td>
-                          )
-                        })}
-                      </tr>
+                          </tr>
+                        ) : null}
+                      </Fragment>
                     )
                   })}
                 </tbody>
@@ -149,6 +174,7 @@ Table.propTypes = {
       callback: PropTypes.func,
     }),
   }),
+  renderRowSubComponent: PropTypes.func,
 }
 
 export default Table

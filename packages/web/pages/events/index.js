@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo'
 
 import Table from 'components/table/table'
 import Heading from 'components/heading'
+import ExpandedCell from 'components/expanded-cell'
 
 import { fetchOnBackground } from 'helpers/server-side.js'
 import EventColumns from 'helpers/columns/event.js'
@@ -30,7 +31,6 @@ function Events({ initialData }) {
         columns={columns}
         getRowProps={({ original }) => ({
           key: `${original.application_id}-${original.client_id}-${original.session_started_at}-${original.created_at}`,
-          onClick: () => router.push(`/clients/${original.client_id}`),
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
         })}
         notFound={{
@@ -41,6 +41,7 @@ function Events({ initialData }) {
             callback: () => router.push('/products/tracking'),
           },
         }}
+        renderRowSubComponent={({ row }) => <ExpandedCell row={row.original} />}
       />
     </>
   )

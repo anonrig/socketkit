@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 
 export default PropTypes.shape({
-  account_id: PropTypes.string.isRequired,
   application_id: PropTypes.string.isRequired,
   client_id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
