@@ -1,10 +1,27 @@
 /* eslint-disable react/prop-types */
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
 import 'tailwindcss/tailwind.css'
 import { IntercomProvider } from 'react-use-intercom'
 
+import * as gtag from 'library/gtag.js'
+
 export default function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+
+  function handleRouteChange(url) {
+    gtag.pageview(url)
+  }
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
   return (
     <>
       <Head>
@@ -45,7 +62,7 @@ export default function MyApp({ Component, pageProps }) {
           },
         ]}
       />
-      <IntercomProvider appId="o5s3ss3a">
+      <IntercomProvider appId="o5s3ss3a" autoBoot>
         <Component {...pageProps} />
       </IntercomProvider>
     </>

@@ -5,4 +5,7 @@ module.exports = {
     locales: ['en-US'],
     defaultLocale: 'en-US',
   },
+  env: {
+    NEXT_PUBLIC_GA_ID: 'G-MP2KX3YPZZ',
+  },
 }
