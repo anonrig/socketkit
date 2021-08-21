@@ -43,7 +43,7 @@ export async function fetchOnBackground(
       }
     }
 
-    Sentry.captureException(error)
+    Sentry.captureException(error.error ?? error)
 
     return { props: {} }
   }
