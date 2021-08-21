@@ -31,8 +31,7 @@ export async function getServerSideProps(ctx) {
     }
     return { props: { kratos: data } }
   } catch (error) {
-    console.error(error.response.data)
-    Sentry.captureException(error.response.data)
+    Sentry.captureException(error.response?.data ?? error.request ?? error)
     return redirect()
   }
 }
