@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
 
+import { EventKeys } from 'helpers/types/event.js'
+
 function ExpandedCell({ row }) {
   const client = useMemo(() => Object.entries(row.client), [row.client])
 
@@ -12,7 +14,7 @@ function ExpandedCell({ row }) {
           <div className="w-full flex items-center justify-between px-8 py-3">
             <div className="flex-1">
               <div className="flex items-center space-x-2">
-                <h3 className="text-warmGray-900 text-xs font-medium">{key}:</h3>
+                <h3 className="text-warmGray-900 text-xs font-medium">{EventKeys[key] ?? key}:</h3>
                 <span className="text-warmGray-900 text-xs font-semibold">
                   {['created_at', 'updated_at'].includes(key)
                     ? dayjs(value).format('YYYY-MM-DD')

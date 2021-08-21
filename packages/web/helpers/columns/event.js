@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import dayjs from 'dayjs'
 import { SwitchVerticalIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid'
+import { EventTitles } from 'helpers/types/event.js'
 
 export default [
   {
@@ -33,7 +34,9 @@ export default [
   {
     id: 'title',
     Header: 'Event Title',
-    accessor: 'title',
+    accessor: function EventTitle({ title }) {
+      return EventTitles[title] ?? title
+    },
   },
   {
     id: 'application_id',
@@ -66,6 +69,6 @@ export default [
         </Link>
       )
     },
-    className: 'w-40',
+    className: 'w-48 text-left',
   },
 ]
