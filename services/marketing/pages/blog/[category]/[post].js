@@ -5,7 +5,7 @@ import Layout from 'components/layout.js'
 import { fetchEntries, fetchEntry } from 'helpers/contentful.js'
 import extractor from 'keyword-extractor'
 
-export async function getStaticProps({ query: { category, post }, resolvedUrl }) {
+export async function getStaticProps({ params: { category, post } }) {
   const entry = await fetchEntry('guide', category, post)
 
   if (!entry) {
@@ -13,7 +13,7 @@ export async function getStaticProps({ query: { category, post }, resolvedUrl })
       notFound: true,
     }
   }
-  return { props: { entry, url: resolvedUrl } }
+  return { props: { entry, url: `/${category}/${post}` } }
 }
 
 export async function getStaticPaths() {
@@ -37,8 +37,8 @@ export default function Post({ entry, url }) {
           openGraph={{
             title: entry.fields.title,
             description: entry.fields.short_description,
-            url,
             type: 'article',
+            url,
             article: {
               publishedTime: entry.sys.createdAt,
               modifiedTime: entry.sys.updatedAt,
