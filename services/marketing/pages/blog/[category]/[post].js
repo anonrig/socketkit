@@ -2,7 +2,7 @@
 import ReactMarkdown from 'react-markdown'
 import { BreadcrumbJsonLd, BlogJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
-import { fetchEntry } from 'helpers/contentful.js'
+import { fetchEntries, fetchEntry } from 'helpers/contentful.js'
 import extractor from 'keyword-extractor'
 
 export async function getStaticProps({ query: { category, post }, resolvedUrl }) {
@@ -17,8 +17,12 @@ export async function getStaticProps({ query: { category, post }, resolvedUrl })
 }
 
 export async function getStaticPaths() {
+  const entries = await fetchEntries('guide')
+
   return {
-    paths: [],
+    paths: entries.map((entry) => ({
+      params: { category: entry.fields.category.fields.slug, post: entry.fields.slug },
+    })),
     fallback: false,
   }
 }
