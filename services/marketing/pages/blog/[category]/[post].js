@@ -5,7 +5,7 @@ import Layout from 'components/layout.js'
 import { fetchEntry } from 'helpers/contentful.js'
 import extractor from 'keyword-extractor'
 
-export async function getServerSideProps({ query: { category, post }, resolvedUrl }) {
+export async function getStaticProps({ query: { category, post }, resolvedUrl }) {
   const entry = await fetchEntry('guide', category, post)
 
   if (!entry) {
@@ -14,6 +14,13 @@ export async function getServerSideProps({ query: { category, post }, resolvedUr
     }
   }
   return { props: { entry, url: resolvedUrl } }
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: false,
+  }
 }
 
 export default function Post({ entry, url }) {

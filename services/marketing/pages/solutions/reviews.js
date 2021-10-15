@@ -1,5 +1,4 @@
 import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
-import Image from 'next/image'
 import Layout from 'components/layout.js'
 
 import { SupportIcon, ChartBarIcon, TrendingUpIcon, CheckIcon } from '@heroicons/react/outline'
@@ -85,13 +84,11 @@ export default function Reviews() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="relative rounded-lg shadow-lg my-6">
-            <Image
+            <img
               src="/assets/landing-reviews.png"
               alt="Real-time review tracking for AppStore & Playstore"
               width={800}
               height={488}
-              layout="responsive"
-              unoptimized={process.env.NODE_ENV === 'development'}
             />
           </div>
         </div>

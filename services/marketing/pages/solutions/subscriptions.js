@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
 import Layout from 'components/layout.js'
 import CTA from 'components/cta.js'
@@ -47,13 +46,11 @@ export default function Subscriptions() {
           </div>
           <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-48">
             <div className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden">
-              <Image
+              <img
                 src="/assets/landing-dashboard.png"
                 alt="Subscription Management for AppStore & Playstore"
                 width={800}
                 height={488}
-                layout="responsive"
-                unoptimized={process.env.NODE_ENV === 'development'}
               />
             </div>
           </div>

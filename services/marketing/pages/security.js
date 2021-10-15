@@ -1,5 +1,4 @@
 import { BreadcrumbJsonLd, NextSeo } from 'next-seo'
-import Image from 'next/image'
 import Layout from 'components/layout.js'
 
 export default function Security() {
@@ -24,14 +23,10 @@ export default function Security() {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
             <div className="absolute inset-0">
-              <Image
+              <img
                 src={'/assets/security-hero.png'}
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
                 className="h-full w-full"
                 alt="People using Socketkit"
-                unoptimized={process.env.NODE_ENV === 'development'}
               />
               <div
                 className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"

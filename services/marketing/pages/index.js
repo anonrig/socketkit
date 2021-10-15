@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import CountUp from 'react-countup'
 import VisibilitySensor from 'react-visibility-sensor'
 import CTA from 'components/cta.js'
@@ -14,14 +13,10 @@ export default function Home() {
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
                 <div className="absolute inset-0">
-                  <Image
-                    objectFit="cover"
-                    objectPosition="center"
-                    layout="fill"
+                  <img
                     src={'/assets/landing-hero.png'}
                     className="h-full w-full"
                     alt="A developer accessing Socketkit"
-                    unoptimized={process.env.NODE_ENV === 'development'}
                   />
                   <div
                     className="absolute inset-0 bg-gradient-to-r from-blue-500 to-orange-500"
@@ -144,14 +139,10 @@ export default function Home() {
           <div className="relative bg-warmGray-50">
             <div className="h-80 absolute bottom-0 xl:inset-0 xl:h-auto xl:grid xl:grid-cols-2 hidden lg:visible">
               <div className="h-full absolute inset-0 col-start-2">
-                <Image
+                <img
                   className="h-full w-full object-cover xl:absolute xl:inset-0"
                   src={'/assets/people-using-laptop.png'}
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
                   alt="People working on laptops"
-                  unoptimized={process.env.NODE_ENV === 'development'}
                 />
                 <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-200 to-orange-500" />
                 <div

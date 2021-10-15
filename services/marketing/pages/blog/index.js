@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Layout from 'components/layout.js'
 import { fetchEntries } from 'helpers/contentful.js'
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const entries = await fetchEntries('guide')
     return { props: { entries } }

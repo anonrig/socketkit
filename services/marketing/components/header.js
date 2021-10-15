@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Transition, Popover } from '@headlessui/react'
 import cx from 'classnames'
@@ -76,14 +75,7 @@ export default function Header() {
               <Link href="/">
                 <a className="items-center flex">
                   <span className="sr-only">Socketkit, Inc.</span>
-                  <Image
-                    height={30}
-                    width={130}
-                    src="/socketkit-logo.svg"
-                    alt="Socketkit, Inc."
-                    objectPosition="bottom"
-                    unoptimized={process.env.NODE_ENV === 'development'}
-                  />
+                  <img height={30} width={130} src="/socketkit-logo.svg" alt="Socketkit, Inc." />
                 </a>
               </Link>
               <LogoJsonLd
@@ -259,13 +251,11 @@ export default function Header() {
                 <div className="pt-5 pb-6 px-5">
                   <div className="flex items-center justify-between">
                     <div>
-                      <Image
+                      <img
                         height={30}
                         width={130}
                         src="/socketkit-logo.svg"
                         alt="Socketkit, Inc."
-                        objectPosition="bottom"
-                        unoptimized={process.env.NODE_ENV === 'development'}
                       />
                     </div>
                     <div className="-mr-2">
