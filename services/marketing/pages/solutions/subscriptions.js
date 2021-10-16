@@ -45,14 +45,13 @@ export default function Subscriptions() {
             </p>
           </div>
           <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-48">
-            <div className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden">
-              <img
-                src="/assets/landing-dashboard.png"
-                alt="Subscription Management for AppStore & Playstore"
-                width={800}
-                height={488}
-              />
-            </div>
+            <img
+              src="/assets/landing-dashboard.png"
+              alt="Subscription Management for AppStore & Playstore"
+              className="rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden w-full"
+              width={800}
+              height={488}
+            />
           </div>
         </div>
       </div>

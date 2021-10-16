@@ -15,7 +15,7 @@ export default function Home() {
                 <div className="absolute inset-0">
                   <img
                     src={'/assets/landing-hero.png'}
-                    className="h-full w-full"
+                    className="h-full w-full object-cover"
                     alt="A developer accessing Socketkit"
                   />
                   <div

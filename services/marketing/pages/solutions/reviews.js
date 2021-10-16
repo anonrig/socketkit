@@ -83,14 +83,13 @@ export default function Reviews() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="relative rounded-lg shadow-lg my-6">
-            <img
-              src="/assets/landing-reviews.png"
-              alt="Real-time review tracking for AppStore & Playstore"
-              width={800}
-              height={488}
-            />
-          </div>
+          <img
+            src="/assets/landing-reviews.png"
+            alt="Real-time review tracking for AppStore & Playstore"
+            className="relative rounded-lg shadow-lg my-6 w-full"
+            width={800}
+            height={488}
+          />
         </div>
       </div>
 

@@ -27,7 +27,7 @@ export default function Company() {
             <div className="absolute inset-0">
               <img
                 src={'/assets/company-hero.png'}
-                className="h-full w-full"
+                className="h-full w-full object-cover"
                 alt="People using Socketkit"
               />
               <div
