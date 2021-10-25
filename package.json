@@ -2,5 +2,8 @@
   "name": "socketkit",
   "scripts": {
     "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.17.0"
   }
 }
