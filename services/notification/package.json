@@ -1,9 +1,8 @@
 {
-  "name": "notification",
+  "name": "@socketkit/notification-worker",
   "version": "0.1.0",
-  "description": "Socketkit Notification service",
+  "description": "Socketkit Notification Worker",
   "main": "src/index.js",
-  "private": true,
   "type": "module",
   "scripts": {
     "start": "node src/index.js",

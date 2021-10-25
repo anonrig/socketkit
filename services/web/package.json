@@ -1,7 +1,7 @@
 {
-  "name": "next-web",
+  "name": "@socketkit/web",
+  "description": "Socketkit Web",
   "version": "1.4.1",
-  "private": true,
   "scripts": {
     "dev": "NODE_ENV=development API_URL=https://core-dev.socketkit.com/v1 NODE_TLS_REJECT_UNAUTHORIZED='0' next dev -p 8080",
     "build": "next build",

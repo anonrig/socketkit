@@ -1,9 +1,8 @@
 {
-  "name": "core-v2",
+  "name": "@socketkit/core-worker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Socketkit Core Worker",
   "main": "src/index.js",
-  "private": true,
   "type": "module",
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",

@@ -1,9 +1,8 @@
 {
-  "name": "payment",
+  "name": "@socketkit/payment-worker",
   "version": "0.1.0",
-  "description": "Socketkit Notification service",
+  "description": "Socketkit Payment Worker",
   "main": "src/index.js",
-  "private": true,
   "type": "module",
   "scripts": {
     "start": "node src/index.js",

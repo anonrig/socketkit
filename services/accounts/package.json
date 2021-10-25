@@ -1,43 +1,42 @@
 {
-  "name": "store",
+  "name": "@socketkit/account-worker",
   "version": "0.1.0",
-  "description": "Socketkit Store",
+  "description": "Socketkit Account Worker",
   "main": "src/index.js",
-  "private": true,
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "npm run lint:fix && node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
+    "test": "c8 ava --verbose",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
-  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "author": "Socketkit <hello@socketkit.com>",
   "dependencies": {
     "@grpc/grpc-js": "^1.3.6",
     "@grpc/proto-loader": "^0.6.4",
     "@sentry/node": "^6.10.0",
     "@sentry/tracing": "^6.10.0",
-    "@supercharge/promise-pool": "^1.7.0",
-    "appstore-sensor": "^0.5.3",
+    "ajv": "^8.6.2",
+    "ajv-formats": "^2.1.0",
     "consola": "^2.15.3",
     "dayjs": "^1.10.6",
-    "knex": "^0.95.8",
-    "lodash": "^4.17.21",
+    "knex": "^0.95.9",
     "mali": "^0.44.3",
-    "pg": "^8.6.0",
-    "tunnel": "^0.0.6",
-    "uuid": "^8.3.2"
+    "mali-ajv": "^0.3.0",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "@types/faker": "^5.5.7",
+    "ava": "^3.15.0",
+    "c8": "^7.8.0",
     "dotenv": "^10.0.0",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.0.6",
+    "faker": "^5.5.3",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
@@ -90,5 +89,18 @@
         }
       ]
     }
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "failFast": true,
+    "environmentVariables": {
+      "CI": "true"
+    },
+    "nodeArguments": [
+      "--no-warnings",
+      "--require=dotenv/config"
+    ]
   }
 }
