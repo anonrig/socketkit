@@ -13,36 +13,34 @@
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
-    "@grpc/grpc-js": "^1.3.6",
-    "@grpc/proto-loader": "^0.6.4",
-    "@sendgrid/client": "^7.4.3",
-    "@sendgrid/helpers": "^7.4.3",
-    "@sentry/node": "^6.10.0",
-    "@sentry/tracing": "^6.10.0",
+    "@grpc/grpc-js": "^1.4.1",
+    "@grpc/proto-loader": "^0.6.6",
+    "@sendgrid/client": "^7.5.0",
+    "@sendgrid/helpers": "^7.5.0",
     "@slack/webhook": "^6.0.0",
-    "ajv": "^8.6.2",
+    "ajv": "^8.6.3",
     "ajv-errors": "^3.0.0",
-    "ajv-formats": "^2.1.0",
+    "ajv-formats": "^2.1.1",
     "consola": "^2.15.3",
-    "dayjs": "^1.10.6",
+    "dayjs": "^1.10.7",
     "discord-webhook-node": "^1.1.8",
-    "knex": "^0.95.8",
+    "knex": "^0.95.11",
     "lodash": "^4.17.21",
-    "mali": "^0.44.3",
+    "mali": "^0.44.4",
     "mali-ajv": "^0.1.1",
-    "pg": "^8.6.0"
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "dotenv": "^10.0.0",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.0.6",
-    "nodemon": "^2.0.12",
-    "prettier": "^2.3.2"
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1"
   },
   "jest": {
     "testEnvironment": "node",
@@ -78,7 +76,7 @@
       "ecmaFeatures": {
         "modules": true
       },
-      "ecmaVersion": 2020
+      "ecmaVersion": 2021
     },
     "env": {
       "node": true,

@@ -1,6 +1,5 @@
 import path from 'path'
 import Mali from 'mali'
-import Sentry from '@sentry/node'
 
 import ajvFormats from 'ajv-formats'
 import grpcPerformance from './grpc.performance.js'
@@ -33,7 +32,6 @@ app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (error) => {
   if (!error.code) {
-    Sentry.captureException(error)
     logger.fatal(error)
   }
 })

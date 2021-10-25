@@ -1,6 +1,5 @@
 import path from 'path'
 import Mali from 'mali'
-import Sentry from '@sentry/node'
 import { PerformanceObserver, performance } from 'perf_hooks'
 
 import Logger from './logger.js'
@@ -36,24 +35,10 @@ export function build() {
   app.addService(health, 'Health', options)
 
   app.use(async (context, next) => {
-    let tracer = null
-
-    if (!context.fullName.includes('health')) {
-      tracer = Sentry.startTransaction({
-        name: context.fullName,
-        op: 'GET',
-        trimEnd: true,
-      })
-
-      Sentry.setUser({
-        ...context.request.metadata,
-        account_id: context.request.req.account_id,
-      })
-    }
     performance.mark(context.fullName)
+
     return next()
       .then(() => {
-        tracer?.finish()
         performance.mark(context.fullName + '-ended')
         performance.measure(
           context.fullName,
@@ -62,9 +47,7 @@ export function build() {
         )
       })
       .catch((error) => {
-        Sentry.captureException(error)
         logger.fatal(error)
-        tracer?.finish()
         performance.mark(context.fullName + '-ended')
         performance.measure(
           context.fullName,
@@ -80,7 +63,6 @@ export function build() {
 
   app.on('error', (error) => {
     if (!error.code) {
-      Sentry.captureException(error)
       logger.fatal(error)
     }
   })

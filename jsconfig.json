@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2021"],
+    "module": "es2022",
+    "moduleResolution": "node",
+    "target": "ES2021"
+  },
+  "exclude": ["services/*/node_modules", "services/*/chart", "services/*/db"],
+  "include": ["services/**/*"]
+}

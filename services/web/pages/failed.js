@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import { NextSeo } from 'next-seo'
 
 import pkg from '../package.json'
@@ -26,21 +25,17 @@ export async function getServerSideProps(ctx) {
       return redirect()
     }
 
-    data.errors.forEach((error) => Sentry.captureException(error))
-
     return {
       props: {
         data,
       },
     }
   } catch (error) {
-    Sentry.captureException(error)
     return redirect()
   }
 }
 
 function Failed({ data }) {
-  console.log(data)
   return (
     <>
       <NextSeo title="Application Error" />

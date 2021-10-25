@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { fetcher } from 'helpers/fetcher.js'
@@ -42,8 +41,6 @@ export async function fetchOnBackground(
         notFound: true,
       }
     }
-
-    Sentry.captureException(error.error ?? error)
 
     return { props: {} }
   }

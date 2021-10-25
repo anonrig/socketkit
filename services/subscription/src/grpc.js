@@ -1,4 +1,3 @@
-import Sentry from '@sentry/node'
 import Mali from 'mali'
 import path from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
@@ -45,22 +44,10 @@ app.use(async (context, next) => {
     return next()
   }
 
-  const tracer = Sentry.startTransaction({
-    name: context.fullName,
-    op: 'GET',
-    trimEnd: true,
-  })
-
-  Sentry.setUser({
-    ...context.request.metadata,
-    account_id: context.request.req.account_id,
-  })
-
   performance.mark(context.fullName)
 
   return next()
     .then(() => {
-      tracer.finish()
       performance.mark(context.fullName + '-ended')
       performance.measure(
         context.fullName,
@@ -69,9 +56,7 @@ app.use(async (context, next) => {
       )
     })
     .catch((error) => {
-      Sentry.captureException(error)
       logger.fatal(error)
-      tracer.finish()
       performance.mark(context.fullName + '-ended')
       performance.measure(
         context.fullName,
@@ -93,7 +78,6 @@ app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
 app.on('error', (error) => {
   if (!error.code) {
-    Sentry.captureException(error)
     logger.fatal(error)
   }
 })

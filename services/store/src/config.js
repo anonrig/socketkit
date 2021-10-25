@@ -1,12 +1,10 @@
-const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV, SENTRY_DSN } =
-  process.env
+const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV } = process.env
 
 const isProxyEnabled = !!PROXY_HOST && !!PROXY_PORT && !!PROXY_AUTH
 
 export default {
   isProduction: NODE_ENV === 'production',
   port: PORT ? parseInt(PORT) : 3003,
-  sentry_dsn: SENTRY_DSN,
   isProxyEnabled,
   proxy: isProxyEnabled
     ? {
