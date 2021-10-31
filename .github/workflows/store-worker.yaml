@@ -1,4 +1,4 @@
-name: Store Tests
+name: Store
 on:
   push:
     branches:
@@ -11,7 +11,29 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: postgres-password
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_HOST: localhost
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
+    - name: Install PostgreSQL client
+      run: |
+        sudo bash -c "echo deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main >> /etc/apt/sources.list.d/pgdg.list"
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo apt-get update
+        sudo apt-get install libpq-dev postgresql-client-14
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
@@ -26,3 +48,17 @@ jobs:
       run: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
     - name: pnpm Build
       run: pnpm install
+    - name: Run psql commands
+      run: |
+        psql --host=localhost --username=postgres < db/globals.sql
+        cat db/schema/* | psql --host=localhost --username=postgres -1 store
+      working-directory: services/store
+      env:
+        PGPASSWORD: postgres-password
+    - name: Run tests
+      run: npm test
+      working-directory: services/store
+      env:
+        PGUSER: store-worker
+        PGPASSWORD: change-this
+
