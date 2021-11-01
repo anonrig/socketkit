@@ -1,6 +1,8 @@
+import path from 'path'
+
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
-import path from 'path'
+
 import config from '../src/config.js'
 
 export const getRandomPort = (a = 1000, b = 65000) => {

@@ -1,11 +1,12 @@
+import PromisePool from '@supercharge/promise-pool'
 import dayjs from 'dayjs'
 import _ from 'lodash'
-import PromisePool from '@supercharge/promise-pool'
+
+import config from '../config.js'
+import Logger from '../logger.js'
+import * as Applications from '../models/applications.js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
-import * as Applications from '../models/applications.js'
-import Logger from '../logger.js'
-import config from '../config.js'
 
 export default function fetchApplications(
   limit = config.applications_batch_size,

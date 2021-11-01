@@ -1,11 +1,13 @@
 import path from 'path'
-import Mali from 'mali'
+
 import { PerformanceObserver, performance } from 'perf_hooks'
 
-import Logger from './logger.js'
+import Mali from 'mali'
+
 import * as Applications from './consumers/index.js'
 import * as Integrations from './consumers/integrations.js'
 import * as Reviews from './consumers/reviews.js'
+import Logger from './logger.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {

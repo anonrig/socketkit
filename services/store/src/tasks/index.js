@@ -1,7 +1,8 @@
+import config from '../config.js'
+import Logger from '../logger.js'
+
 import fetchApplications from './applications-fetcher.js'
 import fetchReviews from './reviews-fetcher.js'
-import Logger from '../logger.js'
-import config from '../config.js'
 
 const logger = Logger.create().withScope('tasks')
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

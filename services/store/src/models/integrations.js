@@ -1,7 +1,10 @@
 import _ from 'lodash'
+
 import pg from '../pg.js'
-import * as Applications from './applications.js'
+
 import * as AppStore from '../requests/app-store.js'
+
+import * as Applications from './applications.js'
 
 export async function findAll({ account_id }) {
   return pg

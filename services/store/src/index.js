@@ -1,8 +1,8 @@
-import { build } from './grpc.js'
 import config from './config.js'
-import { runTasks } from './tasks/index.js'
+import { build } from './grpc.js'
 import Logger from './logger.js'
 import pg from './pg.js'
+import { runTasks } from './tasks/index.js'
 
 const logger = Logger.create().withScope('application')
 const server = build()

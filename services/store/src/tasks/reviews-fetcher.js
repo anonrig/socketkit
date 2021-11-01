@@ -1,10 +1,11 @@
 import PromisePool from '@supercharge/promise-pool'
 import dayjs from 'dayjs'
+
+import config from '../config.js'
+import Logger from '../logger.js'
+import * as Reviews from '../models/reviews.js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
-import * as Reviews from '../models/reviews.js'
-import Logger from '../logger.js'
-import config from '../config.js'
 
 export default function fetchReviews(limit = config.reviews_batch_size) {
   const logger = Logger.create().withScope('fetchReviews')

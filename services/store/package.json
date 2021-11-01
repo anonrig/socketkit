@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
-    "test": "npm run lint:fix && node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
+    "test": "c8 ava",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
@@ -27,17 +27,17 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "ava": "^3.15.0",
+    "c8": "^7.10.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^25.2.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.3.1",
     "nodemon": "^2.0.14",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "quibble": "^0.6.6"
   },
   "jest": {
     "testEnvironment": "node",
@@ -63,26 +63,43 @@
       "plugin:import/recommended",
       "plugin:security/recommended"
     ],
-    "plugins": [
-      "jest"
-    ],
     "parserOptions": {
       "sourceType": "module",
       "ecmaVersion": "latest"
     },
     "env": {
       "node": true,
-      "es6": true,
-      "jest/globals": true
+      "es6": true
     },
     "rules": {
-      "import/extensions": [
+      "import/order": [
         "error",
-        "always",
         {
-          "ignorePackages": true
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          },
+          "warnOnUnassignedImports": true,
+          "newlines-between": "always-and-inside-groups"
         }
       ]
     }
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "cache": true,
+    "failFast": false,
+    "failWithoutAssertions": true,
+    "environmentVariables": {
+      "CI": "true"
+    },
+    "nodeArguments": [
+      "--loader=quibble",
+      "--no-warnings",
+      "--require=dotenv/config",
+      "--experimental-json-modules"
+    ]
   }
 }

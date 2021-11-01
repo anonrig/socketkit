@@ -1,7 +1,8 @@
 import grpc from '@grpc/grpc-js'
+
+import * as Applications from '../models/applications.js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
-import * as Applications from '../models/applications.js'
 
 export async function search(ctx) {
   const { text } = ctx.req

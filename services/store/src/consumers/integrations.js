@@ -1,7 +1,8 @@
-import { validate } from 'uuid'
 import grpc from '@grpc/grpc-js'
-import pg from '../pg.js'
+import { validate } from 'uuid'
+
 import * as Integrations from '../models/integrations.js'
+import pg from '../pg.js'
 
 export async function upsertAll(ctx) {
   const { account_id, applications } = ctx.req
