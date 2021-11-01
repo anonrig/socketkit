@@ -1,6 +1,5 @@
 import PromisePool from '@supercharge/promise-pool'
 import dayjs from 'dayjs'
-import _ from 'lodash'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 import * as Reviews from '../models/reviews.js'

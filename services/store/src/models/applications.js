@@ -234,8 +234,6 @@ export function findVersion({ application_id, bundle_id, version }) {
 }
 
 export async function create(trx, scraped_apps) {
-  const logger = Logger.create().withScope('applications-create')
-
   const developers = scraped_apps.reduce((i, s) => {
     i[s.detail.developerId] = {
       developer_id: s.detail.developerId,

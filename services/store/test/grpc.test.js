@@ -150,16 +150,13 @@ describe('Applications', () => {
   })
 
   test('findOne should validate missing application_id and bundle_id', (done) => {
-    applications.findOne(
-      { application_id: null, bundle_id: null },
-      (error, response) => {
-        expect(error).toBeTruthy()
-        expect(error.message).toContain(
-          'Missing conditions on Applications.findOne',
-        )
-        done()
-      },
-    )
+    applications.findOne({ application_id: null, bundle_id: null }, (error) => {
+      expect(error).toBeTruthy()
+      expect(error.message).toContain(
+        'Missing conditions on Applications.findOne',
+      )
+      done()
+    })
   })
 
   test('findOne should return null on not found', (done) => {
@@ -239,7 +236,7 @@ describe('Applications', () => {
   test('findVersion should throw error on missing application_id and bundle_id', (done) => {
     applications.findVersion(
       { application_id: null, version: '311.0' },
-      (error, response) => {
+      (error) => {
         expect(error).toBeTruthy()
         expect(error.message).toContain(
           'Missing conditions on Applications.findVersion',

@@ -13,26 +13,27 @@
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.1",
+    "@grpc/grpc-js": "^1.4.2",
     "@grpc/proto-loader": "^0.6.6",
     "@supercharge/promise-pool": "^1.8.0",
     "appstore-sensor": "^0.5.4",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
-    "knex": "^0.95.11",
+    "knex": "^0.95.12",
     "lodash": "^4.17.21",
-    "mali": "^0.44.4",
+    "mali": "^0.46.0",
     "pg": "^8.7.1",
     "tunnel": "^0.0.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.2",
     "dotenv": "^10.0.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-jest": "^25.2.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
     "jest": "^27.3.1",
     "nodemon": "^2.0.14",
@@ -57,26 +58,22 @@
   },
   "eslintConfig": {
     "extends": [
+      "eslint:recommended",
       "plugin:prettier/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
+      "plugin:import/recommended",
       "plugin:security/recommended"
     ],
     "plugins": [
-      "prettier",
-      "import",
-      "security"
+      "jest"
     ],
     "parserOptions": {
       "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      },
-      "ecmaVersion": 2021
+      "ecmaVersion": "latest"
     },
     "env": {
       "node": true,
-      "es6": true
+      "es6": true,
+      "jest/globals": true
     },
     "rules": {
       "import/extensions": [
