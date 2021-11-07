@@ -5,11 +5,7 @@ import logger from '../src/logger.js'
 import pg from '../src/pg.js'
 
 import { getRandomPort, getClients } from './client.js'
-import {
-  facebook_application,
-  test_account_id,
-  test_application_id,
-} from './seeds.js'
+import { facebook_application, test_account_id } from './seeds.js'
 
 const app = build()
 
@@ -20,6 +16,13 @@ test.before(async (t) => {
   Object.assign(t.context, getClients(t.context.port))
 
   await app.start(`0.0.0.0:${t.context.port}`)
+
+  await new Promise((resolve, reject) => {
+    t.context.applications.create({ rows: [facebook_application] }, (error) => {
+      if (error) reject(error)
+      else resolve()
+    })
+  })
 })
 
 test.after(async () => {
@@ -43,41 +46,23 @@ test.cb('Applications.search should return valid applications', (t) => {
 })
 
 test.cb('Applications.create should create an application', (t) => {
-  t.context.applications.create(
-    { rows: [facebook_application] },
+  t.context.applications.findAll(
+    { application_ids: [facebook_application.application_id] },
     (error, response) => {
       t.falsy(error)
-      t.truthy(response)
+      t.is(response.rows[0].application_id, facebook_application.application_id)
 
-      t.context.applications.findAll(
-        { application_ids: [facebook_application.application_id] },
-        (error, response) => {
-          t.falsy(error)
-          t.is(
-            response.rows[0].application_id,
-            facebook_application.application_id,
-          )
-
-          t.end()
-        },
-      )
+      t.end()
     },
   )
 })
 
 test.cb('Applications.findAll should find by application_ids', (t) => {
   t.context.applications.findAll(
-    { application_ids: ['284882215'] },
+    { application_ids: [facebook_application.application_id] },
     (error, response) => {
       t.falsy(error)
-      t.is(typeof response, 'object')
-      t.is(Array.isArray(response.rows), true)
-      t.is(response.rows.length, 1)
-
-      response.rows.forEach((row) => {
-        t.is(row.application_id, '284882215')
-        t.is(row.bundle_id, 'com.facebook.Facebook')
-      })
+      t.is(response.rows[0].application_id, facebook_application.application_id)
 
       t.end()
     },
@@ -86,12 +71,11 @@ test.cb('Applications.findAll should find by application_ids', (t) => {
 
 test.cb('Applications.findAll should find by bundle_ids', (t) => {
   t.context.applications.findAll(
-    { bundle_ids: ['com.facebook.Facebook'] },
+    { bundle_ids: [facebook_application.bundle_id] },
     (error, response) => {
       t.falsy(error)
-      t.is(Array.isArray(response.rows), true)
-      t.is(response.rows.length, 1)
-      t.is(response.rows[0].application_id, '284882215')
+      t.is(response.rows[0].application_id, facebook_application.application_id)
+
       t.end()
     },
   )
@@ -99,12 +83,11 @@ test.cb('Applications.findAll should find by bundle_ids', (t) => {
 
 test.cb('Applications.findAll should find by developer_ids', (t) => {
   t.context.applications.findAll(
-    { developer_ids: ['284882218'] },
+    { developer_ids: [facebook_application.developer_id] },
     (error, response) => {
       t.falsy(error)
-      t.is(Array.isArray(response.rows), true)
-      t.is(response.rows.length, 1)
-      t.is(response.rows[0].application_id, '284882215')
+      t.is(response.rows[0].application_id, facebook_application.application_id)
+
       t.end()
     },
   )
@@ -124,10 +107,10 @@ test.cb('Applications.findAll should return empty if input is invalid', (t) => {
 
 test.cb('Applications.findOne should return valid application', (t) => {
   t.context.applications.findOne(
-    { application_id: '284882215' },
+    { application_id: facebook_application.application_id },
     (error, response) => {
       t.falsy(error)
-      t.is(response.row.application_id, '284882215')
+      t.is(response.row.application_id, facebook_application.application_id)
       t.end()
     },
   )
@@ -367,22 +350,6 @@ test.cb('Integrations.findAll should validate account_id', (t) => {
     },
   )
 })
-
-// test.cb('Integrations.upsertAll should insert properly', (t) => {
-//   t.context.integrations.upsertAll(
-//     {
-//       account_id: test_account_id,
-//       applications: [
-//         { application_id: test_application_id, country_ids: ['us'] },
-//       ],
-//     },
-//     (error, response) => {
-//       t.falsy(error)
-//       t.truthy(response)
-//       t.end()
-//     },
-//   )
-// })
 
 test.cb('Integrations.upsertAll should validate account_id', (t) => {
   t.context.integrations.upsertAll(
