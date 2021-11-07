@@ -35,8 +35,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.4.1",
-    "quibble": "^0.6.6"
+    "prettier": "^2.4.1"
   },
   "jest": {
     "testEnvironment": "node",
@@ -98,7 +97,6 @@
       "dotenv/config"
     ],
     "nodeArguments": [
-      "--loader=quibble",
       "--no-warnings",
       "--experimental-json-modules"
     ],
