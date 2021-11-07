@@ -6,20 +6,20 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon -r dotenv/config",
+    "dev": "npx nodemon -r dotenv/config",
     "test": "c8 ava",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.2",
+    "@grpc/grpc-js": "^1.4.3",
     "@grpc/proto-loader": "^0.6.6",
-    "@supercharge/promise-pool": "^1.8.0",
+    "@supercharge/promise-pool": "^1.9.0",
     "appstore-sensor": "^0.5.4",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
-    "knex": "^0.95.12",
+    "knex": "^0.95.13",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
     "pg": "^8.7.1",
@@ -30,12 +30,11 @@
     "ava": "^3.15.0",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.1.0",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
     "quibble": "^0.6.6"
   },
@@ -90,16 +89,20 @@
       "test/**/*.test.js"
     ],
     "cache": true,
-    "failFast": false,
+    "failFast": true,
     "failWithoutAssertions": true,
     "environmentVariables": {
       "CI": "true"
     },
+    "require": [
+      "dotenv/config"
+    ],
     "nodeArguments": [
       "--loader=quibble",
       "--no-warnings",
-      "--require=dotenv/config",
       "--experimental-json-modules"
-    ]
+    ],
+    "verbose": false,
+    "workerThreads": true
   }
 }
