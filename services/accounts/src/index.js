@@ -1,5 +1,5 @@
-import server from './grpc.js'
 import config from './config.js'
+import server from './grpc.js'
 import Logger from './logger.js'
 import pg from './pg/index.js'
 

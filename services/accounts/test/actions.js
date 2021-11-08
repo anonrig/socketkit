@@ -1,7 +1,9 @@
 import { randomUUID } from 'crypto'
+
 import faker from 'faker'
-import pg from '../src/pg/index.js'
+
 import * as AccountModel from '../src/pg/accounts.js'
+import pg from '../src/pg/index.js'
 
 export async function createAccount(Accounts, t) {
   const response = await Accounts.findOrCreate({

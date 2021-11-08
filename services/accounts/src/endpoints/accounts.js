@@ -1,7 +1,7 @@
 import grpc from '@grpc/grpc-js'
 
-import pg from '../pg/index.js'
 import * as Accounts from '../pg/accounts.js'
+import pg from '../pg/index.js'
 import * as Invitations from '../pg/invitations.js'
 
 export async function findOrCreate(ctx) {

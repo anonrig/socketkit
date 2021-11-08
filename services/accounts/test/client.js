@@ -15,7 +15,7 @@ export const getRandomPort = (a = 1000, b = 65000) => {
 export function promisifyAll(subscriber) {
   const to = {}
   for (const k in subscriber) {
-    if (typeof subscriber[k] != 'function') continue
+    if (typeof subscriber[k] !== 'function') continue
     to[k] = promisify(subscriber[k].bind(subscriber))
   }
   return to

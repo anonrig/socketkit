@@ -1,4 +1,5 @@
 import { PerformanceObserver, performance } from 'perf_hooks'
+
 import Logger from './logger.js'
 
 const logger = Logger.create({}).withScope('grpc')

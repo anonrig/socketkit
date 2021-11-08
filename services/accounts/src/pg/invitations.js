@@ -1,4 +1,5 @@
 import grpc from '@grpc/grpc-js'
+
 import pg from './index.js'
 
 export async function findAll({ email, account_id }) {

@@ -1,5 +1,6 @@
 import knex from 'knex'
 import pg from 'pg'
+
 import config from '../config.js'
 
 const types = pg.types

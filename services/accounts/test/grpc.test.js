@@ -1,26 +1,27 @@
-import test from 'ava'
 import { randomUUID } from 'crypto'
+
+import test from 'ava'
 import faker from 'faker'
-import grpc from '@grpc/grpc-js'
+
+import app from '../src/grpc.js'
+import logger from '../src/logger.js'
+
+import pg from '../src/pg/index.js'
 
 import { createAccount } from './actions.js'
 import { getRandomPort, getClients, promisifyAll } from './client.js'
-import logger from '../src/logger.js'
-import app from '../src/grpc.js'
-import pg from '../src/pg/index.js'
-import * as Account from '../src/pg/accounts.js'
 
 const port = getRandomPort()
 const { accounts, identities } = getClients(port)
 const Accounts = promisifyAll(accounts)
 const Identities = promisifyAll(identities)
 
-test.before(async (t) => {
+test.before(async () => {
   logger.pauseLogs()
   await app.start(`0.0.0.0:${port}`)
 })
 
-test.after.always(async (t) => {
+test.after.always(async () => {
   await app.close()
   await pg.destroy()
 })
@@ -136,7 +137,7 @@ test('Identities.findInvitations should return empty array if not found', async 
 
 test('Identities.findInvitations should find invitations', async (t) => {
   const email = faker.internet.email()
-  const { account_id, identity_id } = await createAccount(Accounts, t)
+  const { account_id } = await createAccount(Accounts, t)
   await Accounts.invite({ email, account_id })
 
   const { rows: invitations } = await Identities.findInvitations({ email })

@@ -8,8 +8,8 @@
     "start": "node src/index.js",
     "dev": "nodemon -r dotenv/config",
     "test": "c8 ava --verbose",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
-    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
+    "lint": "eslint \"{src,test}/**/*.js\" --fix",
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
   },
   "author": "Socketkit <hello@socketkit.com>",
   "dependencies": {
@@ -57,33 +57,29 @@
   },
   "eslintConfig": {
     "extends": [
+      "eslint:recommended",
       "plugin:prettier/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
+      "plugin:import/recommended",
       "plugin:security/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "import",
-      "security"
     ],
     "parserOptions": {
       "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      },
-      "ecmaVersion": 2021
+      "ecmaVersion": "latest"
     },
     "env": {
       "node": true,
       "es6": true
     },
     "rules": {
-      "import/extensions": [
+      "import/order": [
         "error",
-        "always",
         {
-          "ignorePackages": true
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          },
+          "warnOnUnassignedImports": true,
+          "newlines-between": "always-and-inside-groups"
         }
       ]
     }
@@ -92,13 +88,20 @@
     "files": [
       "test/**/*.test.js"
     ],
+    "cache": true,
     "failFast": true,
+    "failWithoutAssertions": true,
     "environmentVariables": {
       "CI": "true"
     },
+    "require": [
+      "dotenv/config"
+    ],
     "nodeArguments": [
       "--no-warnings",
-      "--require=dotenv/config"
-    ]
+      "--experimental-json-modules"
+    ],
+    "verbose": false,
+    "workerThreads": true
   }
 }

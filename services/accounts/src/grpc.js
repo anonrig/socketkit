@@ -1,13 +1,15 @@
 import path from 'path'
-import Mali from 'mali'
 
 import ajvFormats from 'ajv-formats'
-import grpcPerformance from './grpc.performance.js'
-import Logger from './logger.js'
-import * as Accounts from './endpoints/accounts.js'
-import * as Identities from './endpoints/identities.js'
+import Mali from 'mali'
 
 import MaliAjv, { addSchemas } from 'mali-ajv'
+
+import * as Accounts from './endpoints/accounts.js'
+import * as Identities from './endpoints/identities.js'
+import grpcPerformance from './grpc.performance.js'
+import Logger from './logger.js'
+
 import schemas from './schemas/index.js'
 const logger = Logger.create({}).withScope('grpc')
 const options = {
