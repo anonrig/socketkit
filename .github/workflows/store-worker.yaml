@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-  # paths:
-  #     - services/store/**
+  paths:
+    - services/store/**
 jobs:
   build:
     runs-on: ubuntu-latest
