@@ -1821,7 +1821,7 @@ packages:
       fastq: 1.13.0
 
   /@ory/kratos-client/0.8.0-alpha.2:
-    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==, tarball: '@ory/kratos-client/-/kratos-client-0.8.0-alpha.2.tgz'}
+    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==}
     dependencies:
       axios: 0.21.4
     transitivePeerDependencies:
@@ -3802,6 +3802,10 @@ packages:
     resolution: {integrity: sha512-J0piedu6Z8iB6TbIGfZgDzfXxUFN3qQRMofy2oPdXzQibYGqPB/9iMcxr/TGalU+2RsyDO+U4f33id8tbnSRMQ==}
     dev: false
 
+  /d3-format/2.0.0:
+    resolution: {integrity: sha512-Ab3S6XuE/Q+flY96HXT0jOXcM4EAClYFnRGY5zsjRGNy6qCYrQsMffs7cV5Q9xejb35zxW5hf/guKw34kvIKsA==}
+    dev: false
+
   /d3-hierarchy/1.1.9:
     resolution: {integrity: sha512-j8tPxlqh1srJHAtxfvOUwKNYJkQuBFdM1+JAUfq6xqH5eAqf93L7oG1NVqDa4CpFZNvnNKtCYEUC8KY9yEn9lQ==}
     dev: false
@@ -3827,7 +3831,7 @@ packages:
     resolution: {integrity: sha512-1JGp44NQCt5d1g+Yy+GeOnZP7xHo0ii8zsQp6PGzd+C1/dl0KGsp9A7Mxwp+1D1o4unbTTxVdU/ZOIEBoeZPbQ==}
     dependencies:
       d3-array: 2.12.1
-      d3-format: 1.4.5
+      d3-format: 2.0.0
       d3-interpolate: 2.0.1
       d3-time: 2.1.1
       d3-time-format: 3.0.0
