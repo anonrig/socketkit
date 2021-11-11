@@ -19,7 +19,7 @@ import ReviewColumns from 'helpers/columns/review.js'
 import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, 'reviews', true)
+  return fetchOnBackground({ query, headers }, 'reviews')
 }
 
 function Reviews({ initialData }) {

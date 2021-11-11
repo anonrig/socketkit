@@ -333,7 +333,6 @@ importers:
       '@nivo/line': ^0.74.0
       '@nivo/treemap': ^0.74.0
       '@ory/kratos-client': ^0.8.0-alpha.2
-      '@stripe/stripe-js': ^1.21.1
       '@tailwindcss/aspect-ratio': ^0.3.0
       '@tailwindcss/forms': ^0.3.4
       '@tailwindcss/line-clamp': ^0.2.2
@@ -365,7 +364,6 @@ importers:
       react-medium-image-zoom: ^4.3.5
       react-select: ^5.2.1
       react-table: ^7.7.0
-      react-use-intercom: ^1.4.0
       swr: ^1.0.1
       tailwindcss: ^2.2.19
       use-clipboard-copy: ^0.2.0
@@ -377,7 +375,6 @@ importers:
       '@nivo/line': 0.74.0_8b274917a978509245ebaa9bd1ee10bf
       '@nivo/treemap': 0.74.0_8b274917a978509245ebaa9bd1ee10bf
       '@ory/kratos-client': 0.8.0-alpha.2
-      '@stripe/stripe-js': 1.21.1
       '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
       '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
       '@tailwindcss/line-clamp': 0.2.2_tailwindcss@2.2.19
@@ -397,7 +394,6 @@ importers:
       react-medium-image-zoom: 4.3.5_react-dom@17.0.2+react@17.0.2
       react-select: 5.2.1_react-dom@17.0.2+react@17.0.2
       react-table: 7.7.0_react@17.0.2
-      react-use-intercom: 1.4.0_react-dom@17.0.2+react@17.0.2
       swr: 1.0.1_react@17.0.2
       use-clipboard-copy: 0.2.0_react@17.0.2
     devDependencies:
@@ -1825,7 +1821,7 @@ packages:
       fastq: 1.13.0
 
   /@ory/kratos-client/0.8.0-alpha.2:
-    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==}
+    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==, tarball: '@ory/kratos-client/-/kratos-client-0.8.0-alpha.2.tgz'}
     dependencies:
       axios: 0.21.4
     transitivePeerDependencies:
@@ -1993,10 +1989,6 @@ packages:
       ajv: ^8.6.1
     dependencies:
       ajv: 8.6.3
-    dev: false
-
-  /@stripe/stripe-js/1.21.1:
-    resolution: {integrity: sha512-/HhRol0Bia/6L7JstXUOpg3m0U3nBW8c2tvaBE6QdonN+OMusYT9AIqCMR/PyzoF3ROifFJ2kbWT7xQjbKN3tw==}
     dev: false
 
   /@supercharge/promise-pool/1.9.0:
@@ -8685,17 +8677,6 @@ packages:
     dependencies:
       react: 17.0.2
       tslib: 2.3.1
-    dev: false
-
-  /react-use-intercom/1.4.0_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-HqPp7nRnftREE01i88w2kYWOV45zvJt0Of6jtHflIBa3eKl1bAs/izZUINGCJ0DOdgAdlbLweAvJlP4VTzsJjQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-use/17.3.1_react-dom@17.0.2+react@17.0.2:

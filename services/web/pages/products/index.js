@@ -1,4 +1,3 @@
-import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
@@ -7,10 +6,8 @@ import { NextSeo } from 'next-seo'
 
 import IntegrationRow from 'components/scenes/integration-row'
 import Heading from 'components/heading'
-import PaymentRequiredModal from 'components/modals/payment-required/index.js'
 
 import { fetcher } from 'helpers/fetcher.js'
-import { AuthContext } from 'helpers/context.js'
 
 export async function getServerSideProps({
   req: {
@@ -41,8 +38,6 @@ export async function getServerSideProps({
 
 function Integrations({ initial }) {
   const router = useRouter()
-  const { payment } = useContext(AuthContext)
-  const [showingPayments, setShowingPayments] = useState(false)
 
   const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
     initialData: initial.appstoreConnect,
@@ -55,17 +50,12 @@ function Integrations({ initial }) {
   })
 
   function navigateTo(url) {
-    if (!['active', 'trialing'].includes(payment?.state)) {
-      setShowingPayments(true)
-    } else {
-      router.push(url)
-    }
+    router.push(url)
   }
 
   return (
     <>
       <NextSeo title="Products & Integrations" />
-      <PaymentRequiredModal open={showingPayments} setOpen={setShowingPayments} />
       <Heading subtitle="All products and integrations supported by Socketkit.">
         Products & Integrations
       </Heading>

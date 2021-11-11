@@ -12,7 +12,7 @@ import EventColumns from 'helpers/columns/event.js'
 import EventPropTypes, { EventCursor } from 'helpers/types/event.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, 'events', true)
+  return fetchOnBackground({ query, headers }, 'events')
 }
 
 function Events({ initialData }) {

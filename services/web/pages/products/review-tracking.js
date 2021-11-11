@@ -16,7 +16,7 @@ const ApplicationPicker = dynamic(() => import('components/form/application-pick
 const CountryPicker = dynamic(() => import('components/form/country-picker'))
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, 'integrations/reviews', true)
+  return fetchOnBackground({ query, headers }, 'integrations/reviews')
 }
 
 function ReviewsIntegration({ initialData }) {

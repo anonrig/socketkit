@@ -35,7 +35,6 @@ export async function getServerSideProps({ query: { application_id }, req: { hea
   const fetched = await fetchOnBackground(
     { query: {}, headers },
     `integrations/tracking/${application_id}`,
-    true,
   )
 
   if (fetched.redirect || fetched.notFound) {

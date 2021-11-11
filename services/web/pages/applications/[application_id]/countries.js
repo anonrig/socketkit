@@ -11,10 +11,9 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import CountryColumns from 'helpers/columns/country.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground(
+  return fetchOnBackground(
     { query, headers },
     `applications/${query.application_id}/countries`,
-    true,
   )
 }
 

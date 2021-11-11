@@ -1,9 +1,7 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
-import { mutate } from 'swr'
 
 import { AuthContext } from 'helpers/context.js'
 import getGreeting from 'helpers/greeting.js'
@@ -11,26 +9,18 @@ import getGreeting from 'helpers/greeting.js'
 import DatePicker from 'components/date-picker.js'
 import StatisticsWidget from 'components/scenes/dashboard/statistics-widget.js'
 import CustomersWidget from 'components/scenes/dashboard/subscribers-widget.js'
-import CheckoutButton from 'components/checkout-button.js'
 
 // countries require country list dependency. therefore it should be dynamically loaded
 // to reduce page loading time
 const CountriesWidget = dynamic(() => import('components/scenes/dashboard/countries-widget'))
 
 function Dashboard() {
-  const router = useRouter()
-  const { payment, integration, session } = useContext(AuthContext)
+  const { integration, session } = useContext(AuthContext)
   const maxDate = dayjs(integration?.last_fetch ?? undefined)
   const [interval, setInterval] = useState({
     start_date: maxDate.subtract(1, 'month'),
     end_date: maxDate,
   })
-
-  useEffect(() => {
-    if (router.query.payment === 'success') {
-      mutate('payments/state')
-    }
-  }, [router.query])
 
   return (
     <>
@@ -53,8 +43,6 @@ function Dashboard() {
             end_date: interval.end_date.format('YYYY-MM-DD'),
           }}
         />
-
-        {payment && ['new', 'canceled'].includes(payment?.state) && <CheckoutButton />}
 
         <CustomersWidget
           range={{

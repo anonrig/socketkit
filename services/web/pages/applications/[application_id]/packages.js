@@ -11,10 +11,9 @@ import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
 import SubscriptionPackagePropTypes from 'helpers/types/subscription-package.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground(
+  return fetchOnBackground(
     { query, headers },
     `applications/${query.application_id}/packages`,
-    true,
   )
 }
 

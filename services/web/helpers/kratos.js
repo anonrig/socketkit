@@ -1,7 +1,7 @@
-import { Configuration, V0alpha1Api } from '@ory/kratos-client'
+import { Configuration, V0alpha2Api } from '@ory/kratos-client'
 import { kratosUrl } from 'helpers/config.js'
 
-export const client = new V0alpha1Api(
+export const client = new V0alpha2Api(
   new Configuration({
     basePath: kratosUrl,
     baseOptions: {

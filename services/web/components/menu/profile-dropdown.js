@@ -58,13 +58,6 @@ function ProfileDropdown({ className }) {
                     </Link>
                   </Menu.Item>
                   <Menu.Item>
-                    <a
-                      href={getUrl(`payments/portal`)}
-                      className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      Billing & Plan
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item>
                     <Link href="/products">
                       <a className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         Products & Integrations

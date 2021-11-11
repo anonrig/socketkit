@@ -12,7 +12,7 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import { AppstoreConnect } from 'helpers/types/integration.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, 'integrations/appstore-connect', true)
+  return fetchOnBackground({ query, headers }, 'integrations/appstore-connect')
 }
 
 function AppStoreConnectIntegration({ initialData }) {

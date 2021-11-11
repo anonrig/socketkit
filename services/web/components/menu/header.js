@@ -11,7 +11,6 @@ import { UserCircleIcon } from '@heroicons/react/outline'
 import ProfileDropdown from 'components/menu/profile-dropdown.js'
 
 import { AuthContext } from 'helpers/context.js'
-import { getUrl } from 'helpers/fetcher.js'
 import { client } from 'helpers/kratos.js'
 
 function Header() {
@@ -137,11 +136,6 @@ function Header() {
                     Account Settings
                   </a>
                 </Link>
-                <a
-                  href={getUrl('payments/portal')}
-                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
-                  Billing & Plan
-                </a>
                 <Link href="/products">
                   <a className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                     Products & Integrations

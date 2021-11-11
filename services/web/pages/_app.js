@@ -6,12 +6,10 @@ import { SWRConfig } from 'swr'
 import { DefaultSeo } from 'next-seo'
 import { Toaster } from 'react-hot-toast'
 import useSWR from 'swr'
-import { IntercomProvider } from 'react-use-intercom'
 
 import { fetcher } from 'helpers/fetcher.js'
 import { AuthContext } from 'helpers/context.js'
 import { endpoints, client } from 'helpers/kratos.js'
-import { intercomAppId } from 'helpers/config.js'
 
 import 'styles/date-range.css'
 import 'styles/index.css'
@@ -26,9 +24,6 @@ function MyApp({ Component, pageProps, cookie }) {
   const Layout = session === null ? UnauthorizedLayout : AuthorizedLayout
 
   const { data: integration } = useSWR(session ? 'integrations/appstore-connect' : null, fetcher)
-  const { data: payment } = useSWR(session ? 'payments/state' : null, fetcher, {
-    refreshInterval: 60000,
-  })
 
   const fetchUser = useCallback(async () => {
     try {
@@ -94,12 +89,10 @@ function MyApp({ Component, pageProps, cookie }) {
           revalidateOnReconnect: true,
           fetcher,
         }}>
-        <AuthContext.Provider value={{ session, integration, payment }}>
-          <IntercomProvider appId={intercomAppId} autoBoot>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </IntercomProvider>
+        <AuthContext.Provider value={{ session, integration }}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </AuthContext.Provider>
       </SWRConfig>
     </>

@@ -14,7 +14,7 @@ import { fetchOnBackground } from 'helpers/server-side'
 const breadcrumb = [{ title: 'Products & Integrations', href: '/products' }]
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground({ query, headers }, `integrations/tracking`, true)
+  return fetchOnBackground({ query, headers }, `integrations/tracking`)
 }
 
 function TrackingApplications({ initialData }) {

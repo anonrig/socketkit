@@ -9,10 +9,9 @@ import { fetchOnBackground } from 'helpers/server-side.js'
 import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return await fetchOnBackground(
+  return fetchOnBackground(
     { query, headers },
     `applications/${query.application_id}/statistics`,
-    true,
   )
 }
 

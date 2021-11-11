@@ -4,7 +4,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { useMemo, useRef, useEffect } from 'react'
 import { useTable, useExpanded } from 'react-table'
-import { useSWRInfinite } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import useOnScreen from '../../helpers/use-onscreen.js'
 

@@ -19,7 +19,6 @@
     "@nivo/line": "^0.74.0",
     "@nivo/treemap": "^0.74.0",
     "@ory/kratos-client": "^0.8.0-alpha.2",
-    "@stripe/stripe-js": "^1.21.1",
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/line-clamp": "^0.2.2",
@@ -39,7 +38,6 @@
     "react-medium-image-zoom": "^4.3.5",
     "react-select": "^5.2.1",
     "react-table": "^7.7.0",
-    "react-use-intercom": "^1.4.0",
     "swr": "^1.0.1",
     "use-clipboard-copy": "^0.2.0"
   },

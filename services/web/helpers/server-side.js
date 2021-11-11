@@ -9,22 +9,8 @@ dayjs.extend(utc)
 export async function fetchOnBackground(
   { query, headers: { cookie, referer } },
   resourceUrl,
-  checkForPayments = false,
 ) {
   try {
-    if (checkForPayments) {
-      const { state } = await fetcher('payments/state', { headers: { cookie, referer } })
-
-      if (!['active', 'trialing'].includes(state)) {
-        return {
-          redirect: {
-            destination: '/start-membership',
-            permanent: false,
-          },
-        }
-      }
-    }
-
     const start_date = query.start_date
       ? dayjs.utc(query.start_date).format(format)
       : dayjs.utc().subtract(1, 'month').format(format)
