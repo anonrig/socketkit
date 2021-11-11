@@ -24,6 +24,7 @@ export async function getServerSideProps({
       props: { initial: { appstoreConnect, reviews, tracking } },
     }
   } catch (error) {
+    console.error(error)
     return {
       props: {
         initial: {
