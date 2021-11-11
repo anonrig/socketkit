@@ -1,7 +1,9 @@
 {
   "name": "@socketkit/web",
-  "description": "Socketkit Web",
-  "version": "1.4.1",
+  "description": "Socketkit web page",
+  "version": "0.1.0",
+  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "license": "MPL-2.0",
   "scripts": {
     "dev": "NODE_ENV=development API_URL=https://core-dev.socketkit.com/v1 NODE_TLS_REJECT_UNAUTHORIZED='0' next dev -p 8080",
     "build": "next build",

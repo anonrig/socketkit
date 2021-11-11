@@ -2,6 +2,8 @@
   "name": "@socketkit/notification-worker",
   "version": "0.1.0",
   "description": "Socketkit Notification Worker",
+  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "license": "MPL-2.0",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -11,7 +13,6 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
-  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
   "dependencies": {
     "@grpc/grpc-js": "^1.4.2",
     "@grpc/proto-loader": "^0.6.6",
