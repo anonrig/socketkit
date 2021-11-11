@@ -96,10 +96,10 @@ function Integrations({ initial }) {
           title="Review Tracking"
           description={
             <span className="font-semibold mr-1">
-              {reviews.length > 0 ? `Following ${reviews.length} applications` : `Inactive`}
+              {reviews?.length > 0 ? `Following ${reviews?.length ?? 0} applications` : `Inactive`}
             </span>
           }
-          action={reviews.length > 0 ? 'Preferences' : 'Set Up'}
+          action={reviews?.length > 0 ? 'Preferences' : 'Set Up'}
           onAction={() => navigateTo(`/products/review-tracking`)}
         />
       </div>
