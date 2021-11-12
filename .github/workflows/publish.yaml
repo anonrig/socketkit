@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        worker_name: [accounts, core, store]
+        worker_name: [accounts, core, store, subscription]
 
     steps:
       - name: Check out the repo
@@ -39,6 +39,17 @@ jobs:
             docker.pkg.github.com/${{ github.repository }}/${{ matrix.worker_name }}:${{ steps.release.outputs.version }}
             docker.pkg.github.com/${{ github.repository }}/${{ matrix.worker_name }}:latest
 
+      - name: Get argocd app name
+        uses: actions/github-script@v5
+        id: argocd
+        with:
+          script: |
+            const name = process.env.WORKER_NAME
+            const argocd_app = ['subscription', 'store'].includes(name) ? name + '-worker' : name
+            core.setOutput('app_name', name)
+        env:
+          WORKER_NAME: ${{ matrix.worker_name }}
+
       - name: Update ArgoCD
         if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
         continue-on-error: true
@@ -50,5 +61,5 @@ jobs:
           ARGOCD_VERSION: v2.0.1
           ARGOCD_BASE_URL: cd.socketkit.com
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-          SERVICE_NAME: ${{ matrix.worker_name }}
+          SERVICE_NAME: ${{ steps.argocd.outputs.app_name }}
 
