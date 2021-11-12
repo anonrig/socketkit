@@ -42,7 +42,7 @@ jobs:
       - name: Get argocd app name
         id: argocd
         run: |
-          items=(store subscription)
+          items=(accounts store subscription)
           app_name=$([[ " ${items[*]} " =~ " ${{matrix.worker_name}} " ]] && echo "${{matrix.worker_name}}-worker" || echo "${{matrix.worker_name}}")
           echo "::set-output name=app_name::$app_name"
 
