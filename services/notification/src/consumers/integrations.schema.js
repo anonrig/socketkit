@@ -11,24 +11,32 @@ export const findAll = {
 
 export const upsert = {
   type: 'object',
-  properties: {
-    account_id: { type: 'string', format: 'uuid' },
-    provider_id: { type: 'string', enum: ['slack', 'discord', 'email'] },
-    requirement: {
-      type: 'object',
+  oneOf: [
+    {
       properties: {
-        url: { type: 'string', minLength: 1 },
+        provider_id: { enum: ['discord'] },
+        account_id: { type: 'string', format: 'uuid' },
+        requirement: Providers.discord,
       },
-      required: [],
+      required: ['account_id', 'properties'],
     },
-    select: { $data: '0/provider_id' },
-    selectCases: {
-      discord: { properties: { requirement: Providers.discord } },
-      email: { properties: { requirement: Providers.email } },
-      slack: { properties: { requirement: Providers.slack } },
+    {
+      properties: {
+        provider_id: { enum: ['email'] },
+        account_id: { type: 'string', format: 'uuid' },
+        requirement: Providers.email,
+      },
+      required: ['account_id', 'properties'],
     },
-    selectDefault: false,
-  },
+    {
+      properties: {
+        provider_id: { enum: ['slack'] },
+        account_id: { type: 'string', format: 'uuid' },
+        requirement: Providers.slack,
+      },
+      required: ['account_id', 'properties'],
+    },
+  ],
   required: ['account_id', 'provider_id', 'requirement'],
 }
 
