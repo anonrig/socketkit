@@ -161,7 +161,10 @@ export default function Pricing() {
               <div className="max-w-lg mx-auto w-full space-y-8 lg:mx-0">
                 <div>
                   <h2 className="sr-only">Price</h2>
-                  <p className="relative grid grid-cols-2">
+                  <p className="mt-2 text-3xl font-extrabold text-warmGray-900 sm:text-3xl text-center mb-4">
+                    Socketkit is free to use!
+                  </p>
+                  <p className="relative grid grid-cols-2 line-through">
                     <span className="flex flex-col text-center">
                       <span className="text-5xl font-extrabold text-warmGray-900 tracking-tight">
                         $15
@@ -192,9 +195,7 @@ export default function Pricing() {
                         <span className="text-5xl font-extrabold text-warmGray-900 tracking-tight">
                           %0.5
                         </span>
-                        <span className="mt-2 text-base font-medium text-cyan-100">
-                          of your revenue
-                        </span>
+                        <span className="mt-2 text-base font-medium text-cyan-100">of revenue</span>
                       </span>
                     </span>
                   </p>
@@ -303,15 +304,6 @@ export default function Pricing() {
                     <span className="ml-3">Cancel anytime</span>
                   </li>
                 </ul>
-                <a
-                  href="https://web.socketkit.com"
-                  className="w-full border border-transparent rounded-md py-4 px-8 flex items-center justify-center text-lg leading-6 font-medium text-white bg-orange-500 md:px-10">
-                  Start using for free
-                </a>
-                <p className="text-warmGray-500 text-center text-sm">
-                  Socketkit is always <span className="font-semibold">free up to $5000</span>{' '}
-                  Monthly Recurring Revenue.
-                </p>
               </div>
             </div>
           </div>
