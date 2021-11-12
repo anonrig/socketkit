@@ -3,14 +3,15 @@ name: Publish
 on:
   release:
     types: [published]
-strategy:
-  matrix:
-    worker_name: [store, accounts]
 
 jobs:
   push_to_github:
     name: Push Docker image to Github Packages
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        worker_name: [accounts, core, store]
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -30,10 +31,10 @@ jobs:
 
       - name: Build container image
         uses: docker/build-push-action@v2
-        working-directory: services/${{ matrix.worker_name }}
         if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
         with:
           push: true
+          context: services/${{ matrix.worker_name }}
           tags: |
             docker.pkg.github.com/${{ github.repository }}/${{ matrix.worker_name }}:${{ steps.release.outputs.version }}
             docker.pkg.github.com/${{ github.repository }}/${{ matrix.worker_name }}:latest
