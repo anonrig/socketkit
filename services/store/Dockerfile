@@ -9,7 +9,7 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.6 && \
   chmod +x /bin/grpc_health_probe
 
 COPY package*.json ./
-RUN npm ci --prefer-offline --no-audit --progress=false
+RUN npm install --prefer-offline --no-audit --progress=false --only=production
 COPY . .
 EXPOSE 3003
 

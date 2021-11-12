@@ -4,7 +4,7 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 COPY package*.json ./
-RUN npm ci --prefer-offline --no-audit --progress=false
+RUN npm install --prefer-offline --no-audit --progress=false --only=production
 COPY . .
 EXPOSE 3000
 
