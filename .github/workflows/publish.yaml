@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        worker_name: [accounts, core, store, subscription]
+        worker_name: [accounts, core, store, subscription, notification]
 
     steps:
       - name: Check out the repo
