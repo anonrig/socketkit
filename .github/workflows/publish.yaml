@@ -40,15 +40,11 @@ jobs:
             docker.pkg.github.com/${{ github.repository }}/${{ matrix.worker_name }}:latest
 
       - name: Get argocd app name
-        uses: actions/github-script@v5
         id: argocd
-        with:
-          script: |
-            const name = process.env.WORKER_NAME
-            const argocd_app = ['subscription', 'store'].includes(name) ? name + '-worker' : name
-            core.setOutput('app_name', name)
-        env:
-          WORKER_NAME: ${{ matrix.worker_name }}
+        run: |
+          items=(store subscription)
+          app_name=$([[ " ${items[*]} " =~ " ${{matrix.worker_name}} " ]] && echo "${{matrix.worker_name}}-worker" || echo "${{matrix.worker_name}}")
+          echo "::set-output name=app_name::$app_name"
 
       - name: Update ArgoCD
         if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
