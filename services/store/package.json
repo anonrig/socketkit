@@ -14,13 +14,13 @@
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.3",
+    "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.6",
     "@supercharge/promise-pool": "^1.9.0",
     "appstore-sensor": "^0.5.4",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
-    "knex": "^0.95.13",
+    "knex": "^0.95.14",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
     "pg": "^8.7.1",
@@ -33,7 +33,7 @@
     "dotenv": "^10.0.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
     "prettier": "^2.4.1"
