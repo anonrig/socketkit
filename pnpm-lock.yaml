@@ -86,6 +86,7 @@ importers:
       fastify-raw-body: ^3.1.0
       fastify-sensible: ^3.1.2
       knex: ^0.95.12
+      lodash: ^4.17.21
       nodemon: ^2.0.14
       pg: ^8.7.1
       prettier: ^2.4.1
@@ -113,6 +114,7 @@ importers:
       fastify-raw-body: 3.1.0
       fastify-sensible: 3.1.2
       knex: 0.95.12_pg@8.7.1
+      lodash: 4.17.21
       pg: 8.7.1
       qs: 6.10.1
       under-pressure: 5.8.0
