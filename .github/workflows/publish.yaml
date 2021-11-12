@@ -45,9 +45,10 @@ jobs:
         run: |
           curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/${{env.ARGOCD_VERSION}}/argocd-linux-amd64
           chmod +x /usr/local/bin/argocd
-          argocd app set ${{matrix.worker_name}} -p image.repository=ghcr.io/socketkit/socketkit/${{matrix.worker_name}} image.tag=${{steps.release.outputs.version}} --server ${{env.ARGOCD_BASE_URL}} --auth-token ${{env.ARGOCD_TOKEN}} --grpc-web
+          argocd app set ${{env.SERVICE_NAME}} -p image.repository=ghcr.io/socketkit/socketkit/${{matrix.worker_name}} -p image.tag=${{steps.release.outputs.version}} --server ${{env.ARGOCD_BASE_URL}} --auth-token ${{env.ARGOCD_TOKEN}} --grpc-web
         env:
           ARGOCD_VERSION: v2.0.1
           ARGOCD_BASE_URL: cd.socketkit.com
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+          SERVICE_NAME: ${{ matrix.worker_name }}
 
