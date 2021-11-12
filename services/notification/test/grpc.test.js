@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto'
+import test from 'ava'
 
 import { getRandomPort, getClients } from './client.js'
 import logger from '../src/logger.js'
@@ -8,40 +9,40 @@ import pg from '../src/pg.js'
 const port = getRandomPort()
 const { notification, integration } = getClients(port)
 
-beforeAll(async () => {
+test.before(async () => {
   logger.pauseLogs()
   await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async () => {
+test.after(async () => {
   await app.close()
   await pg.destroy()
 })
 
-describe('Notifications', () => {
-  test('send should validate input', (done) => {
-    notification.send(
-      { account_id: randomUUID(), provider_id: 'slack' },
-      (error, response) => {
-        expect(error).toBeTruthy()
-        expect(error.message).toContain('Integration not found')
-        expect(response).toBeFalsy()
-        done()
-      },
-    )
-  })
+test.cb('Notifications.send should validate input', (t) => {
+  t.plan(3)
+
+  notification.send(
+    { account_id: randomUUID(), provider_id: 'slack' },
+    (error, response) => {
+      t.truthy(error)
+      t.truthy(error.message.includes('Integration not found'))
+      t.falsy(response)
+      t.end()
+    },
+  )
 })
 
-describe('Integrations', () => {
-  test('findAll should return valid response', (done) => {
-    integration.findAll(
-      { account_id: randomUUID(), provider_id: 'slack' },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response.rows).toBeInstanceOf(Array)
-        expect(response.rows.length).toBeGreaterThanOrEqual(0)
-        done()
-      },
-    )
-  })
+test.cb('Integrations.findAll should return valid response', (t) => {
+  t.plan(3)
+
+  integration.findAll(
+    { account_id: randomUUID(), provider_id: 'slack' },
+    (error, response) => {
+      t.is(error, null)
+      t.true(Array.isArray(response.rows))
+      t.true(response.rows.length >= 0)
+      t.end()
+    },
+  )
 })

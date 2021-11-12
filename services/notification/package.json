@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
+    "dev": "npx nodemon -r dotenv/config",
+    "test": "c8 ava",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
   },
@@ -28,31 +28,19 @@
     "knex": "^0.95.14",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
-    "mali-ajv": "^0.3.0",
+    "mali-ajv": "^0.4.0",
     "pg": "^8.7.1"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "ava": "^3.15.0",
+    "c8": "^7.10.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.3.1",
-    "nodemon": "^2.0.15",
     "prettier": "^2.4.1"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "coverageProvider": "v8",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "clover"
-    ]
   },
   "prettier": {
     "singleQuote": true,
@@ -92,5 +80,25 @@
         }
       ]
     }
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "cache": true,
+    "failFast": true,
+    "failWithoutAssertions": true,
+    "environmentVariables": {
+      "CI": "true"
+    },
+    "require": [
+      "dotenv/config"
+    ],
+    "nodeArguments": [
+      "--no-warnings",
+      "--experimental-json-modules"
+    ],
+    "verbose": false,
+    "workerThreads": true
   }
 }
