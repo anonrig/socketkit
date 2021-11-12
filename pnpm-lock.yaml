@@ -195,59 +195,59 @@ importers:
 
   services/notification:
     specifiers:
-      '@grpc/grpc-js': ^1.4.2
+      '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.6
-      '@sendgrid/client': ^7.5.0
-      '@sendgrid/helpers': ^7.5.0
+      '@sendgrid/client': ^7.6.0
+      '@sendgrid/helpers': ^7.6.0
       '@slack/webhook': ^6.0.0
       '@types/jest': ^27.0.2
-      ajv: ^8.6.3
+      ajv: ^8.7.1
       ajv-errors: ^3.0.0
       ajv-formats: ^2.1.1
       consola: ^2.15.3
       dayjs: ^1.10.7
       discord-webhook-node: ^1.1.8
       dotenv: ^10.0.0
-      eslint: ^8.1.0
+      eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ^2.25.2
+      eslint-plugin-import: ^2.25.3
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-security: ^1.4.0
       jest: ^27.3.1
-      knex: ^0.95.12
+      knex: ^0.95.14
       lodash: ^4.17.21
       mali: ^0.46.0
       mali-ajv: ^0.3.0
-      nodemon: ^2.0.14
+      nodemon: ^2.0.15
       pg: ^8.7.1
       prettier: ^2.4.1
     dependencies:
-      '@grpc/grpc-js': 1.4.2
+      '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.6
-      '@sendgrid/client': 7.5.0
-      '@sendgrid/helpers': 7.5.0
+      '@sendgrid/client': 7.6.0
+      '@sendgrid/helpers': 7.6.0
       '@slack/webhook': 6.0.0
-      ajv: 8.6.3
-      ajv-errors: 3.0.0_ajv@8.6.3
+      ajv: 8.7.1
+      ajv-errors: 3.0.0_ajv@8.7.1
       ajv-formats: 2.1.1
       consola: 2.15.3
       dayjs: 1.10.7
       discord-webhook-node: 1.1.8
-      knex: 0.95.12_pg@8.7.1
+      knex: 0.95.14_pg@8.7.1
       lodash: 4.17.21
-      mali: 0.46.0_96d84141b3be040b8b6ae169fc7dc8d8
-      mali-ajv: 0.3.0_@grpc+grpc-js@1.4.2+ajv@8.6.3
+      mali: 0.46.0_cfbcf10ac8ee4f917f04da566c605c91
+      mali-ajv: 0.3.0_@grpc+grpc-js@1.4.4+ajv@8.7.1
       pg: 8.7.1
     devDependencies:
       '@types/jest': 27.0.2
       dotenv: 10.0.0
-      eslint: 8.1.0
-      eslint-config-prettier: 8.3.0_eslint@8.1.0
-      eslint-plugin-import: 2.25.2_eslint@8.1.0
-      eslint-plugin-prettier: 4.0.0_850528f9ec3c0797b9b19a94a36b5ba3
+      eslint: 8.2.0
+      eslint-config-prettier: 8.3.0_eslint@8.2.0
+      eslint-plugin-import: 2.25.3_eslint@8.2.0
+      eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-security: 1.4.0
       jest: 27.3.1
-      nodemon: 2.0.14
+      nodemon: 2.0.15
       prettier: 2.4.1
 
   services/payments:
@@ -2009,18 +2009,18 @@ packages:
     resolution: {integrity: sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==}
     dev: true
 
-  /@sendgrid/client/7.5.0:
-    resolution: {integrity: sha512-tu2l3a1Egp65hRsDdX6qUHvpZydZvgEL7PLViQh4uu5DTqztpNCyw0UQYkyPYyXInWJjLax12UOciTG2V/s4OQ==}
+  /@sendgrid/client/7.6.0:
+    resolution: {integrity: sha512-cpBVZKLlMTO+vpE18krTixubYmZa98oTbLkqBDuTiA3zRkW+urrxg7pDR24TkI35Mid0Zru8jDHwnOiqrXu0TA==}
     engines: {node: 6.* || 8.* || >=10.*}
     dependencies:
-      '@sendgrid/helpers': 7.5.0
+      '@sendgrid/helpers': 7.6.0
       axios: 0.21.4
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@sendgrid/helpers/7.5.0:
-    resolution: {integrity: sha512-uzCzpougTDKifyVksx5obZtMcEypq7UVAon/FLurrGEncGrx/N4bYDGPo4chmEdHAZvN75fpavyfETx3DZYebg==}
+  /@sendgrid/helpers/7.6.0:
+    resolution: {integrity: sha512-0uWD+HSXLl4Z/X3cN+UMQC20RE7xwAACgppnfjDyvKG0KvJcUgDGz7HDdQkiMUdcVWfmyk6zKSg7XKfKzBjTwA==}
     engines: {node: '>= 6.0.0'}
     dependencies:
       deepmerge: 4.2.2
@@ -2057,7 +2057,7 @@ packages:
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
     dependencies:
       '@slack/types': 1.10.0
-      '@types/node': 16.11.5
+      '@types/node': 16.11.7
       axios: 0.21.4
     transitivePeerDependencies:
       - debug
@@ -2069,6 +2069,14 @@ packages:
       ajv: ^8.6.1
     dependencies:
       ajv: 8.6.3
+    dev: false
+
+  /@socketkit/ajv-uuid/1.0.1_ajv@8.7.1:
+    resolution: {integrity: sha512-+c505AC3i85+JiKY6FvlYva4t7POvEYqo7Kca+WDuJFydAJkyJnR9niyx74h/MjGSXN76D+lSM6xt3tctBsXAg==}
+    peerDependencies:
+      ajv: ^8.6.1
+    dependencies:
+      ajv: 8.7.1
     dev: false
 
   /@supercharge/promise-pool/1.9.0:
@@ -2501,13 +2509,21 @@ packages:
       ajv: 8.6.3
     dev: false
 
+  /ajv-errors/3.0.0_ajv@8.7.1:
+    resolution: {integrity: sha512-V3wD15YHfHz6y0KdhYFjyy9vWtEVALT9UrxfN3zqlI6dMioHnJrqOYfyPKol3oqrnCM9uwkcdCwkJ0WUcbLMTQ==}
+    peerDependencies:
+      ajv: ^8.0.1
+    dependencies:
+      ajv: 8.7.1
+    dev: false
+
   /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
     peerDependenciesMeta:
       ajv:
         optional: true
     dependencies:
-      ajv: 8.6.3
+      ajv: 8.7.1
     dev: false
 
   /ajv/6.12.6:
@@ -4278,7 +4294,7 @@ packages:
     resolution: {integrity: sha512-3u0rrwywwYGc6HrgYirN/9gkBYqmdpvReyQjapoXARAHi0P0fIyf3W5tS5i3U3cc7e44E+e7dIHYUeec7yWaug==}
     dependencies:
       form-data: 3.0.1
-      node-fetch: 2.6.5
+      node-fetch: 2.6.6
     dev: false
 
   /dlv/1.1.3:
@@ -7442,20 +7458,6 @@ packages:
       tmpl: 1.0.5
     dev: true
 
-  /mali-ajv/0.3.0_@grpc+grpc-js@1.4.2+ajv@8.6.3:
-    resolution: {integrity: sha512-JZ4g3uKFgFiiLMwZ6N+//aCi/LRLGxIWWAqEUrumQKCCq/Qgrz4GbF5yXYYa7MQOzuHCEIP/0m0qPgsNf8lA4w==}
-    peerDependencies:
-      '@grpc/grpc-js': ^1.3.6
-      ajv: ^8.6.2
-    dependencies:
-      '@grpc/grpc-js': 1.4.2
-      '@socketkit/ajv-uuid': 1.0.1_ajv@8.6.3
-      ajv: 8.6.3
-      ava: 3.15.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /mali-ajv/0.3.0_@grpc+grpc-js@1.4.3+ajv@8.6.3:
     resolution: {integrity: sha512-JZ4g3uKFgFiiLMwZ6N+//aCi/LRLGxIWWAqEUrumQKCCq/Qgrz4GbF5yXYYa7MQOzuHCEIP/0m0qPgsNf8lA4w==}
     peerDependencies:
@@ -7470,6 +7472,20 @@ packages:
       - supports-color
     dev: false
 
+  /mali-ajv/0.3.0_@grpc+grpc-js@1.4.4+ajv@8.7.1:
+    resolution: {integrity: sha512-JZ4g3uKFgFiiLMwZ6N+//aCi/LRLGxIWWAqEUrumQKCCq/Qgrz4GbF5yXYYa7MQOzuHCEIP/0m0qPgsNf8lA4w==}
+    peerDependencies:
+      '@grpc/grpc-js': ^1.3.6
+      ajv: ^8.6.2
+    dependencies:
+      '@grpc/grpc-js': 1.4.4
+      '@socketkit/ajv-uuid': 1.0.1_ajv@8.7.1
+      ajv: 8.7.1
+      ava: 3.15.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /mali/0.46.0_4bb70372b57790071e1b23b060bb3879:
     resolution: {integrity: sha512-bS1QrQGPjFsOLURqv4YhBf+Amp2U6LSO47/WY0M2TvFce6EoOA/iGfVPIH2a9mGjhJlgIFa2cPAdEYAFNfNX3Q==}
     engines: {node: '>=14'}
@@ -7478,24 +7494,6 @@ packages:
       '@grpc/proto-loader': ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0
     dependencies:
       '@grpc/grpc-js': 1.4.3
-      '@grpc/proto-loader': 0.6.6
-      '@malijs/call-types': 0.4.0
-      '@malijs/compose': 1.3.2
-      delegates: 1.0.0
-      destroy: 1.0.4
-      ee-first: 1.1.1
-      lodash.camelcase: 4.3.0
-      lodash.pull: 4.1.0
-    dev: false
-
-  /mali/0.46.0_96d84141b3be040b8b6ae169fc7dc8d8:
-    resolution: {integrity: sha512-bS1QrQGPjFsOLURqv4YhBf+Amp2U6LSO47/WY0M2TvFce6EoOA/iGfVPIH2a9mGjhJlgIFa2cPAdEYAFNfNX3Q==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@grpc/grpc-js': ^1.4.1
-      '@grpc/proto-loader': ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0
-    dependencies:
-      '@grpc/grpc-js': 1.4.2
       '@grpc/proto-loader': 0.6.6
       '@malijs/call-types': 0.4.0
       '@malijs/compose': 1.3.2
@@ -8111,13 +8109,6 @@ packages:
     engines: {node: 4.x || >=6.0.0}
     dev: false
 
-  /node-fetch/2.6.5:
-    resolution: {integrity: sha512-mmlIVHJEu5rnIxgEgez6b9GgWXbkZj5YZ7fx+2r94a2E+Uirsp6HsPTPlomfdHtpt/B0cdKviwkoaM6pyvUOpQ==}
-    engines: {node: 4.x || >=6.0.0}
-    dependencies:
-      whatwg-url: 5.0.0
-    dev: false
-
   /node-fetch/2.6.6:
     resolution: {integrity: sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==}
     engines: {node: 4.x || >=6.0.0}
@@ -8149,6 +8140,24 @@ packages:
 
   /nodemon/2.0.14:
     resolution: {integrity: sha512-frcpDx+PviKEQRSYzwhckuO2zoHcBYLHI754RE9z5h1RGtrngerc04mLpQQCPWBkH/2ObrX7We9YiwVSYZpFJQ==}
+    engines: {node: '>=8.10.0'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      chokidar: 3.5.2
+      debug: 3.2.7
+      ignore-by-default: 1.0.1
+      minimatch: 3.0.4
+      pstree.remy: 1.1.8
+      semver: 5.7.1
+      supports-color: 5.5.0
+      touch: 3.1.0
+      undefsafe: 2.0.5
+      update-notifier: 5.1.0
+    dev: true
+
+  /nodemon/2.0.15:
+    resolution: {integrity: sha512-gdHMNx47Gw7b3kWxJV64NI+Q5nfl0y5DgDbiVtShiwa7Z0IZ07Ll4RLFo6AjrhzMtoEZn5PDE3/c2AbVsiCkpA==}
     engines: {node: '>=8.10.0'}
     hasBin: true
     requiresBuild: true
