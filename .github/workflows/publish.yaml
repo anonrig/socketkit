@@ -43,7 +43,6 @@ jobs:
         if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
         continue-on-error: true
         run: |
-          apk add --update curl && rm -rf /var/cache/apk/*
           curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/${{env.ARGOCD_VERSION}}/argocd-linux-amd64
           chmod +x /usr/local/bin/argocd
           argocd app set ${{matrix.worker_name}} -p image.repository=ghcr.io/socketkit/socketkit/${{matrix.worker_name}} image.tag=${{steps.release.outputs.version}} --server ${{env.ARGOCD_BASE_URL}} --auth-token ${{env.ARGOCD_TOKEN}} --grpc-web
