@@ -4,7 +4,6 @@ export default {
   grpc: {
     subscription: process.env.SUBSCRIPTION_GRPC_URL ?? 'localhost:3001',
     store: process.env.STORE_GRPC_URL ?? 'localhost:3003',
-    payment: process.env.PAYMENT_GRPC_URL ?? 'localhost:3005',
     tracking: process.env.TRACKING_GRPC_URL ?? 'localhost:4001',
   },
   kratos: {
