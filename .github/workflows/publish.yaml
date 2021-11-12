@@ -46,7 +46,7 @@ jobs:
           script: |
             const name = process.env.WORKER_NAME
             const argocd_app = ['subscription', 'store'].includes(name) ? name + '-worker' : name
-            context.setOutput('app_name', name)
+            core.setOutput('app_name', name)
         env:
           WORKER_NAME: ${{ matrix.worker_name }}
 
