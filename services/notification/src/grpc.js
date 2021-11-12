@@ -9,6 +9,8 @@ import * as Notifications from './consumers/notifications.js'
 import * as integration_schemas from './consumers/integrations.schema.js'
 import * as notification_schemas from './consumers/notifications.schema.js'
 
+import ajv from './validator.js'
+
 const logger = Logger.create().withScope('grpc')
 const options = {
   keepCase: true,
@@ -30,7 +32,7 @@ app.use(
   addSchemas(app, {
     notifications: notification_schemas,
     integrations: integration_schemas,
-  }),
+  }, { ajv }),
 )
 app.use(async (context, next) => {
   logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
