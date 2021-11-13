@@ -3,19 +3,17 @@ on:
   push:
     branches:
       - main
-    paths:
-      - services/store/**
   pull_request:
     branches:
       - main
-    paths:
-      - services/store/**
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16]
+        worker_name: [accounts, store, notification]
+
     services:
       postgres:
         image: postgres:14
@@ -32,37 +30,62 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
+    - name: Filter service name
+      uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          src:
+            - 'services/${{matrix.worker_name}}/**'
+
     - name: Install PostgreSQL client
+      if: steps.changes.outputs.src == 'true'
       run: |
         sudo bash -c "echo deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main >> /etc/apt/sources.list.d/pgdg.list"
         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
         sudo apt-get update
         sudo apt-get install libpq-dev postgresql-client-14
-    - uses: actions/checkout@v2
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      if: steps.changes.outputs.src == 'true'
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
+      if: steps.changes.outputs.src == 'true'
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: Cache .pnpm-store
       uses: actions/cache@v1
+      if: steps.changes.outputs.src == 'true'
       with:
         path: ~/.pnpm-store
         key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
     - name: Install pnpm
       run: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
+      if: steps.changes.outputs.src == 'true'
+
     - name: pnpm Build
       run: pnpm install
+      if: steps.changes.outputs.src == 'true'
+
     - name: Run psql commands
       run: |
         psql --host=localhost --username=postgres < db/globals.sql
-        cat db/schema/* | psql --host=localhost --username=postgres -1 store
-      working-directory: services/store
+        cat db/schema/* | psql --host=localhost --username=postgres -1 ${{matrix.worker_name}}
+      working-directory: services/${{matrix.worker_name}}
+      if: steps.changes.outputs.src == 'true'
       env:
         PGPASSWORD: postgres-password
+
     - name: Run tests
       run: npm test
-      working-directory: services/store
+      working-directory: services/${{matrix.worker_name}}
+      if: steps.changes.outputs.src == 'true'
       env:
         PGUSER: store-worker
         PGPASSWORD: change-this
