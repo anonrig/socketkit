@@ -5,6 +5,11 @@ on:
       - main
     paths:
       - services/store/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - services/store/**
 jobs:
   build:
     runs-on: ubuntu-latest

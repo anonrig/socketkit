@@ -5,6 +5,11 @@ on:
       - main
     paths:
       - services/accounts/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - services/accounts/**
 jobs:
   build:
     runs-on: ubuntu-latest
