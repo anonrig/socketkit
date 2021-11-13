@@ -295,7 +295,7 @@ importers:
     specifiers:
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.6
-      '@supercharge/promise-pool': ^1.9.0
+      '@supercharge/promise-pool': ^2.0.0
       appstore-sensor: ^0.5.4
       ava: ^3.15.0
       c8: ^7.10.0
@@ -317,7 +317,7 @@ importers:
     dependencies:
       '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.6
-      '@supercharge/promise-pool': 1.9.0
+      '@supercharge/promise-pool': 2.0.0
       appstore-sensor: 0.5.4
       consola: 2.15.3
       dayjs: 1.10.7
@@ -2077,8 +2077,8 @@ packages:
       ajv: 8.7.1
     dev: false
 
-  /@supercharge/promise-pool/1.9.0:
-    resolution: {integrity: sha512-UqQrree8uGTCEDKAnGJci1B7NGIZ1xepXHjUEqbH16Wgvr/j5+54hxebkpTpDcz5t2SrzY6J6USSlmgQeo66/g==}
+  /@supercharge/promise-pool/2.0.0:
+    resolution: {integrity: sha512-j6J0MFycKPB8wv+hxnYYxi+4KIyKvkdQC3apkZ242ZOD2INWMrAW57Acyl/0RX78fj6upiSq3VssnW0Fx4H5IA==}
     engines: {node: '>=8'}
     dev: false
 

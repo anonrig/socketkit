@@ -16,7 +16,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.6",
-    "@supercharge/promise-pool": "^1.9.0",
+    "@supercharge/promise-pool": "^2.0.0",
     "appstore-sensor": "^0.5.4",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
