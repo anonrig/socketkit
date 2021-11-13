@@ -32,6 +32,9 @@ jobs:
           --health-retries 5
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
     - name: Filter service name
       uses: dorny/paths-filter@v2
       id: changes
@@ -47,10 +50,6 @@ jobs:
         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
         sudo apt-get update
         sudo apt-get install libpq-dev postgresql-client-14
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      if: steps.changes.outputs.src == 'true'
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
