@@ -1,4 +1,4 @@
-import PromisePool from '@supercharge/promise-pool'
+import { PromisePool } from '@supercharge/promise-pool'
 import dayjs from 'dayjs'
 
 import config from '../config.js'
