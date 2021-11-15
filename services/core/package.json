@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "start": "node -r dotenv/config src/index.js",
-    "dev": "DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
+    "dev": "npx DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
@@ -44,7 +44,6 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "nodemon": "^2.0.15",
     "prettier": "^2.4.1"
   },
   "eslintConfig": {

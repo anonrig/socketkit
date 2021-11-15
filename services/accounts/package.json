@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon -r dotenv/config",
+    "dev": "npx nodemon -r dotenv/config",
     "test": "c8 ava --verbose",
     "lint": "eslint \"{src,test}/**/*.js\" --fix",
     "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
@@ -36,7 +36,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
     "faker": "^5.5.3",
-    "nodemon": "^2.0.15",
     "prettier": "^2.4.1"
   },
   "jest": {
