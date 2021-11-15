@@ -19,7 +19,7 @@
     "@sendgrid/client": "^7.6.0",
     "@sendgrid/helpers": "^7.6.0",
     "@slack/webhook": "^6.0.0",
-    "ajv": "^8.7.1",
+    "ajv": "^8.8.0",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "consola": "^2.15.3",
