@@ -31,7 +31,6 @@ importers:
       knex: ^0.95.14
       mali: ^0.46.0
       mali-ajv: ^0.4.0
-      nodemon: ^2.0.15
       pg: ^8.7.1
       prettier: ^2.4.1
     dependencies:
@@ -56,7 +55,6 @@ importers:
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-security: 1.4.0
       faker: 5.5.3
-      nodemon: 2.0.15
       prettier: 2.4.1
 
   services/core:
@@ -87,7 +85,6 @@ importers:
       fastify-sensible: ^3.1.2
       knex: ^0.95.14
       lodash: ^4.17.21
-      nodemon: ^2.0.15
       pg: ^8.7.1
       prettier: ^2.4.1
       qs: ^6.10.1
@@ -125,7 +122,6 @@ importers:
       eslint-plugin-import: 2.25.3_eslint@8.2.0
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-security: 1.4.0
-      nodemon: 2.0.15
       prettier: 2.4.1
 
   services/marketing:
@@ -264,7 +260,6 @@ importers:
       jest: ^27.3.1
       knex: ^0.95.14
       mali: ^0.46.0
-      nodemon: ^2.0.15
       pg: ^8.7.1
       prettier: ^2.4.1
       stripe: ^8.188.0
@@ -288,7 +283,6 @@ importers:
       eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
       eslint-plugin-security: 1.4.0
       jest: 27.3.1
-      nodemon: 2.0.15
       prettier: 2.4.1
 
   services/store:
@@ -1866,7 +1860,7 @@ packages:
       fastq: 1.13.0
 
   /@ory/kratos-client/0.8.0-alpha.2:
-    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==}
+    resolution: {integrity: sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==, tarball: '@ory/kratos-client/-/kratos-client-0.8.0-alpha.2.tgz'}
     dependencies:
       axios: 0.21.4
     transitivePeerDependencies:
@@ -2381,10 +2375,6 @@ packages:
 
   /abab/2.0.5:
     resolution: {integrity: sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==}
-    dev: true
-
-  /abbrev/1.1.1:
-    resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
     dev: true
 
   /abstract-logging/2.0.1:
@@ -5713,10 +5703,6 @@ packages:
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
-  /ignore-by-default/1.0.1:
-    resolution: {integrity: sha1-SMptcvbGo68Aqa1K5odr44ieKwk=}
-    dev: true
-
   /ignore-by-default/2.0.0:
     resolution: {integrity: sha512-+mQSgMRiFD3L3AOxLYOCxjIq4OnAmo5CIuC+lj5ehCJcPtV++QacEV7FdpzvYxH6DaOySWzQU6RR0lPLy37ckA==}
     engines: {node: '>=10 <11 || >=12 <13 || >=14'}
@@ -7793,31 +7779,6 @@ packages:
     resolution: {integrity: sha512-CqyzN6z7Q6aMeF/ktcMVTzhAHCEpf8SOarwpzpf8pNBY2k5/oM34UHldUwp8VKI7uxct2HxSRdJjBaZeESzcxA==}
     dev: true
 
-  /nodemon/2.0.15:
-    resolution: {integrity: sha512-gdHMNx47Gw7b3kWxJV64NI+Q5nfl0y5DgDbiVtShiwa7Z0IZ07Ll4RLFo6AjrhzMtoEZn5PDE3/c2AbVsiCkpA==}
-    engines: {node: '>=8.10.0'}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      chokidar: 3.5.2
-      debug: 3.2.7
-      ignore-by-default: 1.0.1
-      minimatch: 3.0.4
-      pstree.remy: 1.1.8
-      semver: 5.7.1
-      supports-color: 5.5.0
-      touch: 3.1.0
-      undefsafe: 2.0.5
-      update-notifier: 5.1.0
-    dev: true
-
-  /nopt/1.0.10:
-    resolution: {integrity: sha1-bd0hvSoxQXuScn3Vhfim83YI6+4=}
-    hasBin: true
-    dependencies:
-      abbrev: 1.1.1
-    dev: true
-
   /normalize-package-data/2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
@@ -8613,10 +8574,6 @@ packages:
 
   /psl/1.8.0:
     resolution: {integrity: sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==}
-    dev: true
-
-  /pstree.remy/1.1.8:
-    resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
     dev: true
 
   /public-encrypt/4.0.3:
@@ -10080,13 +10037,6 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /touch/3.1.0:
-    resolution: {integrity: sha512-WBx8Uy5TLtOSRtIq+M03/sKDrXCLHxwDcquSP2c43Le03/9serjQBIztjRz6FkJez9D/hleyAXTBGLwwZUw9lA==}
-    hasBin: true
-    dependencies:
-      nopt: 1.0.10
-    dev: true
-
   /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
     engines: {node: '>=0.8'}
@@ -10273,10 +10223,6 @@ packages:
       has-bigints: 1.0.1
       has-symbols: 1.0.2
       which-boxed-primitive: 1.0.2
-
-  /undefsafe/2.0.5:
-    resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
-    dev: true
 
   /under-pressure/5.8.0:
     resolution: {integrity: sha512-8ADLZkFEGDAsKof1FEICH/OLyGWjDZy6KR/Exq3MTv7W81zC2W23VekY05Fo350lip1ywYNH9wP7itiVnk4wHg==}
