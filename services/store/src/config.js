@@ -13,6 +13,7 @@ export default {
     oneofs: true,
   },
   isCI: process.env.NODE_ENV === 'test',
+  isProd: process.env.NODE_ENV === 'production',
   isProduction: NODE_ENV === 'production',
   isProxyEnabled,
   knex: {
