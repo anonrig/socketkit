@@ -40,10 +40,7 @@ export async function findAll(
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw(`(updated_at, review_id) < (?, ?)`, [
-          dayjs(updated_at).toDate(),
-          review_id,
-        ])
+        this.whereRaw(`(updated_at, review_id) < (?, ?)`, [dayjs(updated_at).toDate(), review_id])
       }
     })
     .orderByRaw(`updated_at desc, review_id desc`)
@@ -54,8 +51,8 @@ export async function findVersions({ application_id }) {
   return pg
     .queryBuilder()
     .select({
-      version: pg.raw(`DISTINCT(r.version_number)`),
       released_at: 'av.released_at',
+      version: pg.raw(`DISTINCT(r.version_number)`),
     })
     .from('reviews AS r')
     .where('r.application_id', application_id)
@@ -82,9 +79,7 @@ export async function findCountries({ account_id, application_id }) {
 }
 
 export async function create({ application_id, country_id, page = 1 }, trx) {
-  const logger = Logger.create()
-    .withScope('application-reviews')
-    .withTag(application_id)
+  const logger = Logger.create().withScope('application-reviews').withTag(application_id)
 
   logger.debug(`Fetching reviews for country ${country_id} using page ${page}`)
 
@@ -101,17 +96,17 @@ export async function create({ application_id, country_id, page = 1 }, trx) {
       .queryBuilder()
       .insert(
         reviews.map((review) => ({
-          review_id: review.id,
           application_id: application_id,
-          version_number: review.version,
-          country_id,
-          score: review.score,
-          username: review.userName,
-          user_url: review.userUrl,
-          review_url: review.url,
-          title: review.title,
           content: review.text,
+          country_id,
+          review_id: review.id,
+          review_url: review.url,
+          score: review.score,
+          title: review.title,
           updated_at: review.updatedAt,
+          user_url: review.userUrl,
+          username: review.userName,
+          version_number: review.version,
         })),
       )
       .into('reviews')

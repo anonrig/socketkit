@@ -24,16 +24,8 @@ async function generateTask(task, label, limit) {
 }
 
 export async function runTasks() {
-  if (process.env.NODE_ENV === 'test') {
-    return
-  }
-
   await Promise.all([
-    generateTask(
-      fetchApplications,
-      'applications',
-      config.applications_batch_size,
-    ),
+    generateTask(fetchApplications, 'applications', config.applications_batch_size),
     generateTask(fetchReviews, 'reviews', config.reviews_batch_size),
   ])
 }

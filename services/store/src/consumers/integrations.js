@@ -13,9 +13,7 @@ export async function upsertAll(ctx) {
     throw error
   }
 
-  await pg.transaction((trx) =>
-    Integrations.upsertAll({ account_id, applications }, trx),
-  )
+  await pg.transaction((trx) => Integrations.upsertAll({ account_id, applications }, trx))
   ctx.res = {}
 }
 
