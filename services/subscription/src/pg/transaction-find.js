@@ -7,15 +7,15 @@ export async function findAll(
   return pg
     .queryBuilder()
     .select({
-      subscriber_id: 't.subscriber_id',
-      transaction_type: 't.transaction_type',
-      event_date: 't.event_date',
-      base_subscriber_purchase: 't.base_subscriber_purchase',
+      application_id: 't.application_id',
       base_developer_proceeds: 't.base_developer_proceeds',
+      base_subscriber_purchase: 't.base_subscriber_purchase',
+      country_id: 'c.country_id',
+      event_date: 't.event_date',
+      subscriber_id: 't.subscriber_id',
       subscription_package_id: 't.subscription_package_id',
       subscription_package_name: 'p.name',
-      application_id: 't.application_id',
-      country_id: 'c.country_id',
+      transaction_type: 't.transaction_type',
     })
     .from('transactions as t')
     .innerJoin('subscription_packages as p', function () {

@@ -84,10 +84,10 @@ export async function getSalesRefunds({
   const join_lateral = pg
     .queryBuilder()
     .select({
+      refund_sum: pg.raw(`sum(base_developer_proceeds) FILTER (WHERE transaction_type = 'refund')`),
       sale_sum: pg.raw(
         `sum(base_developer_proceeds) FILTER (WHERE transaction_type IN ('conversion', 'renewal'))`,
       ),
-      refund_sum: pg.raw(`sum(base_developer_proceeds) FILTER (WHERE transaction_type = 'refund')`),
     })
     .from('transactions AS t')
     .where({ 't.account_id': account_id })

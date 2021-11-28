@@ -5,8 +5,8 @@ export default async function (
   { limit, cursor },
 ) {
   const rows = await Transaction.findAll(
-    { account_id, application_id, start_date, end_date },
-    { limit, cursor },
+    { account_id, application_id, end_date, start_date },
+    { cursor, limit },
   )
 
   const pagination_cursor =
@@ -18,7 +18,7 @@ export default async function (
       : null
 
   return {
-    rows,
     cursor: pagination_cursor,
+    rows,
   }
 }

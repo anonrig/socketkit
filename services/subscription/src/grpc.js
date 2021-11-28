@@ -1,22 +1,23 @@
-import Mali from 'mali'
 import path from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
 
+import Mali from 'mali'
+
 import config from './config.js'
 
-import * as Subscribers from './consumers/subscriber/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
+import * as Subscribers from './consumers/subscriber/index.js'
 import * as Subscriptions from './consumers/subscription/index.js'
 import * as Transactions from './consumers/transaction/index.js'
 import Logger from './logger.js'
 
 const logger = Logger.create().withScope('grpc')
 const options = {
+  defaults: true,
+  enums: String,
   keepCase: true,
   longs: String,
-  enums: String,
-  defaults: true,
   oneofs: true,
 }
 const file = path.join(path.resolve(''), 'protofiles/subscription.proto')
@@ -26,7 +27,7 @@ const performanceObserver = new PerformanceObserver((list) => {
     logger.withTag('performance').info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
   })
 })
-performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
+performanceObserver.observe({ buffered: true, entryTypes: ['measure'] })
 
 const app = new Mali()
 
@@ -60,11 +61,11 @@ app.use(async (context, next) => {
 })
 
 app.use({
+  Integrations,
+  Reports,
   Subscribers,
   Subscriptions,
   Transactions,
-  Integrations,
-  Reports,
 })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 

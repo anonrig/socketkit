@@ -4,10 +4,10 @@ export async function findAll({ account_id, application_id }, { limit = 10 } = {
   const rows = await pg
     .queryBuilder()
     .select({
-      subscription_name: 'name',
       subscription_duration: 'subscription_duration',
-      subscription_package_id: 'subscription_package_id',
       subscription_group_id: 'subscription_group_id',
+      subscription_name: 'name',
+      subscription_package_id: 'subscription_package_id',
     })
     .from('subscription_packages')
     .where({ account_id })

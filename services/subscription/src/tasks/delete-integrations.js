@@ -1,6 +1,6 @@
-import { ISODate } from '../types.js'
-import pg from '../pg/index.js'
 import Logger from '../logger.js'
+import pg from '../pg/index.js'
+import { ISODate } from '../types.js'
 
 const logger = Logger.create().withScope('delete-integrations')
 

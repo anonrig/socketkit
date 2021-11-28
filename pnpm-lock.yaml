@@ -321,6 +321,7 @@ importers:
 
   services/subscription:
     specifiers:
+      '@anonrig/eslint-config': ^0.2.1
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.7
       ajv: ^8.8.2
@@ -331,17 +332,12 @@ importers:
       dayjs: ^1.10.7
       dotenv: ^10.0.0
       eslint: ^8.3.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ^2.25.3
-      eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-security: ^1.4.0
       fixer-api: ^2.2.1
       knex: ^0.95.14
       lodash: ^4.17.21
       mali: ^0.46.0
       pg: ^8.7.1
       pg-range: ^1.1.1
-      prettier: ^2.5.0
       slug: ^5.1.0
       uuid: ^8.3.2
     dependencies:
@@ -360,15 +356,11 @@ importers:
       slug: 5.1.0
       uuid: 8.3.2
     devDependencies:
+      '@anonrig/eslint-config': 0.2.1_eslint@8.3.0
       ava: 3.15.0
       c8: 7.10.0
       dotenv: 10.0.0
       eslint: 8.3.0
-      eslint-config-prettier: 8.3.0_eslint@8.3.0
-      eslint-plugin-import: 2.25.3_eslint@8.3.0
-      eslint-plugin-prettier: 4.0.0_d8c6a2a4ba8850181fffb74d8e835cec
-      eslint-plugin-security: 1.4.0
-      prettier: 2.5.0
 
   services/web:
     specifiers:

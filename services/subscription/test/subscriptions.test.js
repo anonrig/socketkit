@@ -1,10 +1,11 @@
+/* eslint-disable ava/no-unknown-modifiers */
 import test from 'ava'
-
 import dayjs from 'dayjs'
 
-import { getRandomPort, getClients } from './helper.js'
 import app from '../src/grpc.js'
 import pg from '../src/pg/index.js'
+
+import { getRandomPort, getClients } from './helper.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
 const TEST_APPLICATION_ID = `1494736719`
@@ -37,8 +38,8 @@ test.cb('groupByApplication', (t) => {
     {
       account_id: TEST_ACCOUNT_ID,
       application_id: TEST_APPLICATION_ID,
-      start_date: dayjs().subtract(1, 'month').toString(),
       end_date: dayjs().toString(),
+      start_date: dayjs().subtract(1, 'month').toString(),
     },
     (error, response) => {
       t.falsy(error)
@@ -54,8 +55,8 @@ test.cb('groupByCountry', (t) => {
     {
       account_id: TEST_ACCOUNT_ID,
       application_id: TEST_APPLICATION_ID,
-      start_date: dayjs().subtract(1, 'month').toString(),
       end_date: dayjs().toString(),
+      start_date: dayjs().subtract(1, 'month').toString(),
     },
     (error, response) => {
       t.falsy(error)
@@ -71,8 +72,8 @@ test.cb('count', (t) => {
     {
       account_id: TEST_ACCOUNT_ID,
       application_id: TEST_APPLICATION_ID,
-      start_date: dayjs().subtract(1, 'month').toString(),
       end_date: dayjs().toString(),
+      start_date: dayjs().subtract(1, 'month').toString(),
     },
     (error, response) => {
       t.falsy(error)

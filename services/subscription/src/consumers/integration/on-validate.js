@@ -1,4 +1,5 @@
 import AppStoreReporter from 'appstore-reporter'
+
 import logger from '../../logger.js'
 
 export default async function onValidate(accessToken) {

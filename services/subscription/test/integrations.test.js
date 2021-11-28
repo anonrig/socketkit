@@ -1,11 +1,13 @@
-import test from 'ava'
+/* eslint-disable ava/no-unknown-modifiers */
 import { randomUUID } from 'crypto'
 
-import pg from '../src/pg/index.js'
-import { getClients, getRandomPort } from './helper.js'
-import app from '../src/grpc.js'
+import test from 'ava'
 
-const testedAccountId = '15b0dea9-d2f8-4eed-a0ff-fecac3fdcf33'
+import app from '../src/grpc.js'
+import pg from '../src/pg/index.js'
+
+import { getClients, getRandomPort } from './helper.js'
+
 const testedAccessToken = 'f4965faa-0374-42a9-988b-6e6f2a2aeac2'
 
 const port = getRandomPort()
@@ -60,9 +62,9 @@ test.cb('findAll', (t) => {
 test.cb('upsert', (t) => {
   grpc.integrations.upsert(
     {
+      access_token: testedAccessToken,
       account_id: '58e670db-f4ee-407d-979e-3e0d88c8eeb8',
       provider_id: 'apple',
-      access_token: testedAccessToken,
     },
     (error, response) => {
       t.falsy(error)

@@ -1,8 +1,10 @@
+/* eslint-disable ava/no-unknown-modifiers */
 import test from 'ava'
 
-import { getRandomPort, getClients } from './helper.js'
 import app from '../src/grpc.js'
 import pg from '../src/pg/index.js'
+
+import { getRandomPort, getClients } from './helper.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
 const TEST_APPLICATION_ID = `1494736719`

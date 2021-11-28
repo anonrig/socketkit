@@ -1,10 +1,11 @@
-import AppStoreReporter from 'appstore-reporter'
 import grpc from '@grpc/grpc-js'
+import AppStoreReporter from 'appstore-reporter'
+
+import pg from '../../pg/index.js'
+import * as Integrations from '../../pg/integration.js'
+import { ISODate } from '../../types.js'
 
 import onValidate from './on-validate.js'
-import { ISODate } from '../../types.js'
-import * as Integrations from '../../pg/integration.js'
-import pg from '../../pg/index.js'
 
 export const validate = async (ctx) => {
   const { access_token } = ctx.req
@@ -55,11 +56,11 @@ export const upsert = async (ctx) => {
       await pg
         .queryBuilder()
         .insert({
-          account_id,
-          provider_id,
           access_token,
-          vendor_ids,
+          account_id,
           last_fetch: ISODate.today().subtract(9, 'months'),
+          provider_id,
+          vendor_ids,
         })
         .into('integrations')
         .transacting(trx)

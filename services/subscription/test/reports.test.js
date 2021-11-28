@@ -1,8 +1,10 @@
+/* eslint-disable ava/no-unknown-modifiers */
 import test from 'ava'
-
 import dayjs from 'dayjs'
+
 import app from '../src/grpc.js'
 import pg from '../src/pg/index.js'
+
 import { getClients, getRandomPort } from './helper.js'
 
 const TEST_ACCOUNT_ID = `58e670db-f4ee-407d-979e-3e0d88c8eeb8`
@@ -22,11 +24,11 @@ test.after(async () => {
 test.cb('subscribers', (t) => {
   grpc.reports.get(
     {
-      report_id: 'subscribers',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'subscribers',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -44,11 +46,11 @@ test.cb('subscribers', (t) => {
 test.cb('customer-lifetime-value', (t) => {
   grpc.reports.get(
     {
-      report_id: 'customer-lifetime-value',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'customer-lifetime-value',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -66,11 +68,11 @@ test.cb('customer-lifetime-value', (t) => {
 test.cb('trials', (t) => {
   grpc.reports.get(
     {
-      report_id: 'trials',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'trials',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -88,11 +90,11 @@ test.cb('trials', (t) => {
 test.cb('average-sales-cycle', (t) => {
   grpc.reports.get(
     {
-      report_id: 'average-sales-cycle',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'average-sales-cycle',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -110,11 +112,11 @@ test.cb('average-sales-cycle', (t) => {
 test.cb('subscriptions', (t) => {
   grpc.reports.get(
     {
-      report_id: 'subscriptions',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'subscriptions',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -132,11 +134,11 @@ test.cb('subscriptions', (t) => {
 test.cb('average-revenue-per-subscription', (t) => {
   grpc.reports.get(
     {
-      report_id: 'average-revenue-per-subscription',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'average-revenue-per-subscription',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -154,11 +156,11 @@ test.cb('average-revenue-per-subscription', (t) => {
 test.cb('sales-refunds', (t) => {
   grpc.reports.get(
     {
-      report_id: 'sales-refunds',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'sales-refunds',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)
@@ -176,11 +178,11 @@ test.cb('sales-refunds', (t) => {
 test.cb('average-sale', (t) => {
   grpc.reports.get(
     {
-      report_id: 'average-sale',
       account_id: TEST_ACCOUNT_ID,
-      interval: '1 week',
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      interval: '1 week',
+      report_id: 'average-sale',
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     },
     (error, response) => {
       t.falsy(error)

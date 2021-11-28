@@ -2,6 +2,7 @@ import grpc from '@grpc/grpc-js'
 import { validate } from 'uuid'
 
 import { ISODate } from '../types.js'
+
 import pg from './index.js'
 
 export async function create({ account_id, provider_id, access_token, vendor_ids }) {
@@ -14,12 +15,12 @@ export async function create({ account_id, provider_id, access_token, vendor_ids
   return pg
     .queryBuilder()
     .insert({
-      last_fetch: ISODate.today().subtract(9, 'month'),
-      account_id,
-      provider_id,
       access_token,
-      vendor_ids,
+      account_id,
       last_error_message: null,
+      last_fetch: ISODate.today().subtract(9, 'month'),
+      provider_id,
+      vendor_ids,
     })
     .into('integrations')
     .onConflict(['account_id', 'provider_id'])
@@ -63,8 +64,8 @@ export async function destroy({ account_id, provider_id }) {
   return pg
     .queryBuilder()
     .update({
-      state: 'to_be_deleted',
       last_error_message: 'Deleting integration',
+      state: 'to_be_deleted',
     })
     .from('integrations')
     .where({ account_id, provider_id })
@@ -97,14 +98,14 @@ export async function findAll({ account_id }) {
   return pg
     .queryBuilder()
     .select({
-      state: 'state',
-      failed_fetches: 'failed_fetches',
-      last_fetch: 'last_fetch',
-      account_id: 'account_id',
-      provider_id: 'provider_id',
       access_token: 'access_token',
-      vendor_ids: 'vendor_ids',
+      account_id: 'account_id',
+      failed_fetches: 'failed_fetches',
       last_error_message: 'last_error_message',
+      last_fetch: 'last_fetch',
+      provider_id: 'provider_id',
+      state: 'state',
+      vendor_ids: 'vendor_ids',
     })
     .from('integrations')
     .where({ account_id })
