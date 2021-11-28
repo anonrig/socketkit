@@ -1,12 +1,6 @@
 import pg from '../index.js'
 
-export async function get({
-  account_id,
-  start_date,
-  end_date,
-  interval,
-  application_id,
-}) {
+export async function get({ account_id, start_date, end_date, interval, application_id }) {
   const lateral_join = pg
     .queryBuilder()
     .count('*', { as: 'count' })

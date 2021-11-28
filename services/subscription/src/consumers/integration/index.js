@@ -97,9 +97,7 @@ export const getTotalRevenue = async (ctx) => {
   const result = await Integrations.getTotalRevenue({ account_id, for_date })
 
   if (!result) {
-    const error = new Error(
-      `Revenue not found on ${account_id} for ${for_date}`,
-    )
+    const error = new Error(`Revenue not found on ${account_id} for ${for_date}`)
     error.code = grpc.status.NOT_FOUND
     throw error
   }

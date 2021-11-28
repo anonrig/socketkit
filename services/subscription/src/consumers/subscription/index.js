@@ -4,10 +4,7 @@ import * as SubscriptionStatistics from '../../pg/subscription-statistics.js'
 export const findPackages = async (ctx) => {
   const { account_id, application_id } = ctx.req
   ctx.res = {
-    rows: await SubscriptionPackage.findAll(
-      { account_id, application_id },
-      { limit: 10 },
-    ),
+    rows: await SubscriptionPackage.findAll({ account_id, application_id }, { limit: 10 }),
   }
 }
 

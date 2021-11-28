@@ -8,12 +8,8 @@ export async function findAll(
     .select({
       subscriber_id: 'c.subscriber_id',
       first_interaction: 'c.first_interaction',
-      total_base_subscriber_purchase: pg.raw(
-        'ROUND(c.total_base_subscriber_purchase, 2)',
-      ),
-      total_base_developer_proceeds: pg.raw(
-        'ROUND(c.total_base_developer_proceeds, 2)',
-      ),
+      total_base_subscriber_purchase: pg.raw('ROUND(c.total_base_subscriber_purchase, 2)'),
+      total_base_developer_proceeds: pg.raw('ROUND(c.total_base_developer_proceeds, 2)'),
       country_id: 'c.country_id',
       device_type_id: 'c.device_type_id',
       device_type_name: 't.name',

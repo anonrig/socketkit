@@ -1,9 +1,6 @@
 import pg from '../../pg/index.js'
 
-export default async function getTransactionsById({
-  subscriber_id,
-  account_id,
-}) {
+export default async function getTransactionsById({ subscriber_id, account_id }) {
   return pg
     .select({
       application_id: 't.application_id',

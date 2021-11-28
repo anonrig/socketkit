@@ -79,19 +79,11 @@ export function findOneToValidate(trx) {
     .first()
 }
 
-export function validate(
-  trx,
-  { account_id, for_date, application_id, country_id },
-) {
+export function validate(trx, { account_id, for_date, application_id, country_id }) {
   return pg
     .queryBuilder()
     .transacting(trx)
     .select(
-      pg.raw('validate_revenues(?, ?, ?, ?)', [
-        account_id,
-        for_date,
-        application_id,
-        country_id,
-      ]),
+      pg.raw('validate_revenues(?, ?, ?, ?)', [account_id, for_date, application_id, country_id]),
     )
 }

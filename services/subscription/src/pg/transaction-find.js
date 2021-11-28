@@ -41,10 +41,7 @@ export async function findAll(
           throw new Error(`Invalid cursor for pagination`)
         }
 
-        this.whereRaw(`(t.event_date, t.subscriber_id) < (?, ?)`, [
-          event_date,
-          subscriber_id,
-        ])
+        this.whereRaw(`(t.event_date, t.subscriber_id) < (?, ?)`, [event_date, subscriber_id])
       }
 
       if (start_date && end_date) {

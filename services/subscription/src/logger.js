@@ -1,2 +1,2 @@
 import Consola from 'consola'
-export default Consola.withDefaults()
+export default Consola.withDefaults({})

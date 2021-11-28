@@ -2,11 +2,7 @@ import _ from 'lodash'
 
 import pg from './index.js'
 
-export default async function insertTransaction(
-  transaction,
-  { account_id },
-  trx,
-) {
+export default async function insertTransaction(transaction, { account_id }, trx) {
   let subscription = await pg
     .queryBuilder()
     .transacting(trx)
@@ -17,9 +13,10 @@ export default async function insertTransaction(
       account_id,
     })
     .andWhere(function () {
-      this.whereRaw('active_period @> ?::date', [
+      this.whereRaw('active_period @> ?::date', [transaction.event_date]).orWhere(
+        'subscription_expired_at',
         transaction.event_date,
-      ]).orWhere('subscription_expired_at', transaction.event_date)
+      )
 
       if (!!transaction.purchase_date) {
         this.orWhereRaw(`active_period && daterange(?, ?)`, [
@@ -52,8 +49,7 @@ export default async function insertTransaction(
     transaction.total_base_developer_proceeds = 0
   } else {
     transaction.subscription_started_at = subscription.subscription_started_at
-    transaction.total_base_developer_proceeds =
-      subscription.total_base_developer_proceeds
+    transaction.total_base_developer_proceeds = subscription.total_base_developer_proceeds
   }
 
   await pg
@@ -89,8 +85,7 @@ export default async function insertTransaction(
     })
     .update({
       total_base_developer_proceeds:
-        transaction.total_base_developer_proceeds +
-        transaction.base_developer_proceeds,
+        transaction.total_base_developer_proceeds + transaction.base_developer_proceeds,
       subscription_expired_at: transaction.subscription_expired_at,
       subscription_refunded_at: transaction.purchase_date,
     })

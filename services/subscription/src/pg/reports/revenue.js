@@ -1,12 +1,6 @@
 import pg from '../index.js'
 
-export async function get({
-  account_id,
-  start_date,
-  end_date,
-  interval,
-  application_id,
-}) {
+export async function get({ account_id, start_date, end_date, interval, application_id }) {
   const lateral_join = pg
     .queryBuilder()
     .sum('r.total_revenue', { as: 'total' })
@@ -17,9 +11,7 @@ export async function get({
         this.where('r.application_id', application_id)
       }
 
-      this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [
-        interval,
-      ])
+      this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [interval])
     })
 
   const rows = await pg
@@ -59,9 +51,7 @@ export async function getRecurring({
         this.where('r.application_id', application_id)
       }
 
-      this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [
-        interval,
-      ])
+      this.whereRaw('r.for_date >= g AND r.for_date < g + ?::interval', [interval])
     })
 
   const rows = await pg
@@ -97,9 +87,7 @@ export async function getSalesRefunds({
       sale_sum: pg.raw(
         `sum(base_developer_proceeds) FILTER (WHERE transaction_type IN ('conversion', 'renewal'))`,
       ),
-      refund_sum: pg.raw(
-        `sum(base_developer_proceeds) FILTER (WHERE transaction_type = 'refund')`,
-      ),
+      refund_sum: pg.raw(`sum(base_developer_proceeds) FILTER (WHERE transaction_type = 'refund')`),
     })
     .from('transactions AS t')
     .where({ 't.account_id': account_id })
@@ -108,9 +96,7 @@ export async function getSalesRefunds({
         this.where('t.application_id', application_id)
       }
 
-      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [
-        interval,
-      ])
+      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [interval])
     })
 
   const rows = await pg
@@ -149,9 +135,7 @@ export async function getAverageSale({
       ),
     })
     .from('transactions AS t')
-    .joinRaw(
-      `JOIN subscription_packages p USING (account_id, subscription_package_id)`,
-    )
+    .joinRaw(`JOIN subscription_packages p USING (account_id, subscription_package_id)`)
     .where({
       't.account_id': account_id,
       't.transaction_type': 'conversion',
@@ -161,9 +145,7 @@ export async function getAverageSale({
         this.where('t.application_id', application_id)
       }
 
-      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [
-        interval,
-      ])
+      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [interval])
     })
 
   const rows = await pg

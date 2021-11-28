@@ -32,10 +32,7 @@ export async function get({
     .queryBuilder()
     .select({
       x: pg.raw('g::date'),
-      y0:
-        report_id === 'subscriptions'
-          ? 'l.count'
-          : 'l.avg_total_base_developer_proceeds',
+      y0: report_id === 'subscriptions' ? 'l.count' : 'l.avg_total_base_developer_proceeds',
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
