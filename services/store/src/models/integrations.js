@@ -11,19 +11,15 @@ export async function findAll({ account_id }) {
     .queryBuilder()
     .select({
       account_id: 'i.account_id',
+      application_icon: 'av.icon',
       application_id: 'i.application_id',
       application_title: 'avc.title',
-      application_icon: 'av.icon',
       country_ids: 'i.country_ids',
     })
     .joinRaw(
       `FROM (${pg
         .queryBuilder()
-        .select([
-          'account_id',
-          'application_id',
-          pg.raw('array_agg(country_id) AS country_ids'),
-        ])
+        .select(['account_id', 'application_id', pg.raw('array_agg(country_id) AS country_ids')])
         .from('integrations')
         .groupBy(['account_id', 'application_id'])
         .toString()}) i`,
@@ -65,9 +61,7 @@ export async function upsertAll({ account_id, applications }, trx) {
   const removed_applications = _.differenceWith(
     currently_tracking,
     applications,
-    (t, a) =>
-      t.application_id === a.application_id &&
-      a.country_ids.includes(t.country_id),
+    (t, a) => t.application_id === a.application_id && a.country_ids.includes(t.country_id),
   )
 
   if (removed_applications.length) {
@@ -77,8 +71,8 @@ export async function upsertAll({ account_id, applications }, trx) {
           .queryBuilder()
           .where({
             account_id,
-            country_id: removed.country_id,
             application_id: removed.application_id,
+            country_id: removed.country_id,
           })
           .from('integrations')
           .delete()
@@ -105,9 +99,7 @@ export async function upsertAll({ account_id, applications }, trx) {
     (n, e) => n.application_id === e.application_id,
   )
   const scraped_apps = await Promise.all(
-    new_applications.map((app) =>
-      AppStore.scrapeApp(app.application_id, 'us', 'EN'),
-    ),
+    new_applications.map((app) => AppStore.scrapeApp(app.application_id, 'us', 'EN')),
   )
 
   const normalized = scraped_apps.filter((a) => !!a)

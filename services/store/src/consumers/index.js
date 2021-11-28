@@ -91,11 +91,7 @@ export async function create(ctx) {
 
     const scraped_apps = await Promise.all(
       new_applications.map((app) =>
-        AppStore.scrapeApp(
-          app.application_id,
-          app.default_country_id,
-          app.default_language_id,
-        ),
+        AppStore.scrapeApp(app.application_id, app.default_country_id, app.default_language_id),
       ),
     )
 

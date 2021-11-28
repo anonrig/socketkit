@@ -3,9 +3,28 @@ const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV } = process.env
 const isProxyEnabled = !!PROXY_HOST && !!PROXY_PORT && !!PROXY_AUTH
 
 export default {
+  applications_batch_size: 1,
+  applications_fetch_interval: 1,
+  grpc_options: {
+    defaults: true,
+    enums: String,
+    keepCase: true,
+    longs: String,
+    oneofs: true,
+  },
+  isCI: process.env.NODE_ENV === 'test',
   isProduction: NODE_ENV === 'production',
-  port: PORT ? parseInt(PORT) : 3003,
   isProxyEnabled,
+  knex: {
+    client: 'pg',
+    connection: {
+      database: 'store',
+      port: 5432,
+      user: 'store-worker',
+    },
+    version: '13',
+  },
+  port: PORT ? parseInt(PORT) : 3003,
   proxy: isProxyEnabled
     ? {
         host: PROXY_HOST,
@@ -13,17 +32,6 @@ export default {
         proxyAuth: PROXY_AUTH,
       }
     : null,
-  reviews_fetch_interval: 15, // minutes
   reviews_batch_size: 10,
-  applications_fetch_interval: 1, // hour
-  applications_batch_size: 1,
-  knex: {
-    client: 'pg',
-    version: '13',
-    connection: {
-      database: 'store',
-      user: 'store-worker',
-      port: 5432,
-    },
-  },
+  reviews_fetch_interval: 15,
 }

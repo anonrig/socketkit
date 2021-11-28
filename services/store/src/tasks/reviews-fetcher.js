@@ -15,11 +15,7 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
       .queryBuilder()
       .select(['wl.application_id', 'wl.country_id'])
       .from('reviews_watchlist as wl')
-      .where(
-        'wl.last_fetch',
-        '<',
-        dayjs().subtract(config.reviews_fetch_interval, 'minutes'),
-      )
+      .where('wl.last_fetch', '<', dayjs().subtract(config.reviews_fetch_interval, 'minutes'))
       .andWhere('wl.is_active', true)
       .limit(limit)
       .forUpdate()
@@ -45,10 +41,10 @@ export default function fetchReviews(limit = config.reviews_batch_size) {
         await pg
           .queryBuilder()
           .update({
-            is_active: failed_fetches !== 3,
-            last_fetch: dayjs(),
-            last_error_message: error.message,
             failed_fetches,
+            is_active: failed_fetches !== 3,
+            last_error_message: error.message,
+            last_fetch: dayjs(),
           })
           .from('reviews_watchlist')
           .where({

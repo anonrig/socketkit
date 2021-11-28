@@ -8,20 +8,13 @@ import * as Applications from '../models/applications.js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 
-export default function fetchApplications(
-  limit = config.applications_batch_size,
-) {
+export default function fetchApplications(limit = config.applications_batch_size) {
   const logger = Logger.create().withScope('fetchApplications')
 
   return pg.transaction(async (trx) => {
     const applications = await pg
       .queryBuilder()
-      .select([
-        'a.application_id',
-        'a.default_country_id',
-        'a.failed_fetches',
-        'av.language_ids',
-      ])
+      .select(['a.application_id', 'a.default_country_id', 'a.failed_fetches', 'av.language_ids'])
       .from('applications AS a')
       .limit(limit)
       .join('application_releases AS ar', function () {
@@ -36,11 +29,7 @@ export default function fetchApplications(
           'av.version_number',
         )
       })
-      .where(
-        'a.last_fetch',
-        '<',
-        dayjs().subtract(config.applications_fetch_interval, 'hours'),
-      )
+      .where('a.last_fetch', '<', dayjs().subtract(config.applications_fetch_interval, 'hours'))
       .andWhere('a.is_active', true)
       .forUpdate()
       .skipLocked()
@@ -61,9 +50,9 @@ export default function fetchApplications(
           await pg
             .queryBuilder()
             .update({
-              last_error_message: error.message,
               failed_fetches: app.failed_fetches + 1,
               is_active: false,
+              last_error_message: error.message,
             })
             .where({ application_id: app.application_id })
             .from('applications')
@@ -77,9 +66,7 @@ export default function fetchApplications(
     const parseLanguages = async (app, country, languages) => {
       const { results, errors } = await PromisePool.for(languages)
         .withConcurrency(5)
-        .process((language) =>
-          AppStore.scrapeApp(app.application_id, country, language),
-        )
+        .process((language) => AppStore.scrapeApp(app.application_id, country, language))
 
       if (errors.length) {
         logger.warn(errors)
@@ -90,9 +77,7 @@ export default function fetchApplications(
 
     const { results, errors } = await PromisePool.for(enabled_applications)
       .withConcurrency(config.applications_batch_size)
-      .process(async (app) =>
-        parseLanguages(app, app.default_country_id, app.language_ids),
-      )
+      .process(async (app) => parseLanguages(app, app.default_country_id, app.language_ids))
 
     if (errors.length) {
       logger.warn(errors)
@@ -118,9 +103,9 @@ export default function fetchApplications(
         await pg
           .queryBuilder()
           .update({
-            last_fetch: dayjs(),
-            last_error_message: null,
             failed_fetches: 0,
+            last_error_message: null,
+            last_fetch: dayjs(),
           })
           .from('applications')
           .whereIn(

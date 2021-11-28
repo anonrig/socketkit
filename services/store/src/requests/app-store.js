@@ -15,10 +15,7 @@ const extraOptions = config.isProxyEnabled
   : {}
 
 export async function search(term, country = 'US') {
-  return scraper.search(
-    { term, country },
-    Object.assign({}, { timeout: 5000 }, extraOptions),
-  )
+  return scraper.search({ country, term }, Object.assign({}, { timeout: 5000 }, extraOptions))
 }
 
 export async function scrapeApp(application_id, country_id, language) {
@@ -27,18 +24,15 @@ export async function scrapeApp(application_id, country_id, language) {
   try {
     detail = await scraper.app(
       {
-        id: application_id,
         country: country_id,
-        language,
+        id: application_id,
         include_ratings: true,
+        language,
       },
       Object.assign({}, { timeout: 5000 }, extraOptions),
     )
   } catch (error) {
-    if (
-      !error.message?.includes('not found') &&
-      !error.message?.includes('Bad Request')
-    ) {
+    if (!error.message?.includes('not found') && !error.message?.includes('Bad Request')) {
       logger.debug(
         `Received ${error.message} on application_id=${application_id}, country_id=${country_id} and language=${language}`,
       )
@@ -62,8 +56,8 @@ export async function scrapeApp(application_id, country_id, language) {
 export async function scrapeReviews(application_id, country_id, page) {
   const reviews = await scraper.reviews(
     {
-      id: application_id,
       country: country_id,
+      id: application_id,
       page,
       sort: 'mostRecent',
     },
