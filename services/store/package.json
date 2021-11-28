@@ -11,11 +11,11 @@
     "dev": "npx nodemon -r dotenv/config",
     "test": "c8 ava",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
-    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
-    "@grpc/proto-loader": "^0.6.6",
+    "@grpc/proto-loader": "^0.6.7",
     "@supercharge/promise-pool": "^2.0.0",
     "appstore-sensor": "^0.5.4",
     "consola": "^2.15.3",
@@ -31,12 +31,12 @@
     "ava": "^3.15.0",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.2.0",
+    "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.5.0"
   },
   "jest": {
     "testEnvironment": "node",
