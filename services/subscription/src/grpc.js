@@ -2,6 +2,8 @@ import Mali from 'mali'
 import path from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
 
+import config from './config.js'
+
 import * as Subscribers from './consumers/subscriber/index.js'
 import * as Integrations from './consumers/integration/index.js'
 import * as Reports from './consumers/reports/index.js'
@@ -38,7 +40,7 @@ app.addService(health, 'Health', options)
 app.use(async (context, next) => {
   const isHealthRequest = context.fullName.includes('grpc.health')
 
-  if (isHealthRequest) {
+  if (isHealthRequest || config.isCI) {
     return next()
   }
 
