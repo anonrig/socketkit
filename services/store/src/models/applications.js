@@ -258,6 +258,8 @@ export async function create(trx, scraped_apps) {
         released_at: s.detail.released,
       })),
     )
+    .onConflict(['application_id'])
+    .ignore()
 
   await pg
     .queryBuilder()
@@ -277,6 +279,8 @@ export async function create(trx, scraped_apps) {
         store_url: s.detail.url,
       })),
     )
+    .onConflict(['application_id', 'country_id'])
+    .ignore()
 
   await pg
     .queryBuilder()
@@ -296,6 +300,8 @@ export async function create(trx, scraped_apps) {
         website: s.detail.website,
       })),
     )
+    .onConflict(['application_id', 'version_number'])
+    .ignore()
 
   await pg
     .queryBuilder()
@@ -317,6 +323,8 @@ export async function create(trx, scraped_apps) {
         version_number: s.detail.version,
       })),
     )
+    .onConflict(['application_id', 'version_number', 'language_id'])
+    .ignore()
 
   return {}
 }
