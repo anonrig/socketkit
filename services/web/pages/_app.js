@@ -18,7 +18,7 @@ import 'tailwindcss/tailwind.css'
 const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized.js'))
 const AuthorizedLayout = dynamic(() => import('layouts/authorized.js'))
 
-function MyApp({ Component, pageProps, cookie }) {
+function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const [session, setSession] = useState(undefined)
   const Layout = session === null ? UnauthorizedLayout : AuthorizedLayout
@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps, cookie }) {
 
   const fetchUser = useCallback(async () => {
     try {
-      const { data } = await client.toSession(null, cookie)
+      const { data } = await client.toSession()
       setSession(data)
     } catch (error) {
       if (error.message.includes('401')) {
@@ -97,13 +97,6 @@ function MyApp({ Component, pageProps, cookie }) {
       </SWRConfig>
     </>
   )
-}
-
-/**
- * @param {import('next').NextPageContext} ctx
- */
-MyApp.getInitialProps = async (context) => {
-  return { cookie: context.ctx.req?.headers.cookie }
 }
 
 export default MyApp
