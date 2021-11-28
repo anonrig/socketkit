@@ -7,7 +7,9 @@ export default async function onValidate(accessToken) {
     const response = await reporter.sales.getStatus()
     return response
   } catch (error) {
-    logger.withScope('integrations').withTag('onValidate').warn(error)
+    if (!error.message.includes('403')) {
+      logger.withScope('integrations').withTag('onValidate').warn(error)
+    }
     return false
   }
 }
