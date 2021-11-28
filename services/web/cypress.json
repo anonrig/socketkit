@@ -1,5 +1,0 @@
-{
-  "chromeWebSecurity": false,
-  "ignoreErrors": ["ResizeObserver loop limit exceeded"],
-  "baseUrl": "https://web.socketkit.com"
-}
