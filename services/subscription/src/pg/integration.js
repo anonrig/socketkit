@@ -4,12 +4,7 @@ import { validate } from 'uuid'
 import { ISODate } from '../types.js'
 import pg from './index.js'
 
-export async function create({
-  account_id,
-  provider_id,
-  access_token,
-  vendor_ids,
-}) {
+export async function create({ account_id, provider_id, access_token, vendor_ids }) {
   if (!validate(account_id)) {
     const error = new Error('Invalid account id')
     error.code = grpc.status.FAILED_PRECONDITION
@@ -31,12 +26,7 @@ export async function create({
     .ignore()
 }
 
-export async function update({
-  account_id,
-  provider_id,
-  access_token = null,
-  state = null,
-}) {
+export async function update({ account_id, provider_id, access_token = null, state = null }) {
   if (!validate(account_id)) {
     const error = new Error('Invalid account id')
     error.code = grpc.status.FAILED_PRECONDITION

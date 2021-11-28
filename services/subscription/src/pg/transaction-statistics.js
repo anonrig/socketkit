@@ -1,12 +1,6 @@
 import pg from './index.js'
 
-export function sum({
-  account_id,
-  application_id,
-  start_date,
-  change_date,
-  end_date,
-}) {
+export function sum({ account_id, application_id, start_date, change_date, end_date }) {
   return pg
     .queryBuilder()
     .select(

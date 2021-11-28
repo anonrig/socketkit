@@ -4,8 +4,7 @@ import * as Transaction from '../../pg/transaction-find.js'
 import getSubscriptionsById from './get-subscriptions-by-id.js'
 
 export const findAll = async (ctx) => {
-  const { account_id, application_id, start_date, end_date, limit, cursor } =
-    ctx.req
+  const { account_id, application_id, start_date, end_date, limit, cursor } = ctx.req
   ctx.res = await getByPagination(
     { account_id, application_id, start_date, end_date },
     { limit, cursor },

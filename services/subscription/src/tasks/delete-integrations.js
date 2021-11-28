@@ -29,31 +29,15 @@ export default function deleteIntegrations() {
 
     logger.info(`Deleting ${account_id} with last fetch date ${last_fetch}`)
 
-    await pg
-      .from('transactions')
-      .where({ account_id })
-      .delete()
-      .transacting(trx)
+    await pg.from('transactions').where({ account_id }).delete().transacting(trx)
 
-    await pg
-      .from('subscriptions')
-      .where({ account_id })
-      .delete()
-      .transacting(trx)
+    await pg.from('subscriptions').where({ account_id }).delete().transacting(trx)
 
     await pg.from('subscribers').where({ account_id }).delete().transacting(trx)
 
-    await pg
-      .from('subscription_packages')
-      .where({ account_id })
-      .delete()
-      .transacting(trx)
+    await pg.from('subscription_packages').where({ account_id }).delete().transacting(trx)
 
-    await pg
-      .from('integrations')
-      .where({ account_id })
-      .delete()
-      .transacting(trx)
+    await pg.from('integrations').where({ account_id }).delete().transacting(trx)
 
     return true
   })

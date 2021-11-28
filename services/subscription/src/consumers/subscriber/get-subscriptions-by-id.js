@@ -1,9 +1,6 @@
 import pg from '../../pg/index.js'
 
-export default async function getSubscriptionsById({
-  subscriber_id,
-  account_id,
-}) {
+export default async function getSubscriptionsById({ subscriber_id, account_id }) {
   const subscriptions = await pg
     .select({
       subscription_active_period: 's.active_period',
@@ -21,9 +18,6 @@ export default async function getSubscriptionsById({
 
   return subscriptions.map((s) => ({
     ...s,
-    subscription_active_period: s.subscription_active_period
-      .toString()
-      .slice(1, -1)
-      .split(','),
+    subscription_active_period: s.subscription_active_period.toString().slice(1, -1).split(','),
   }))
 }

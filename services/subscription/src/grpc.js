@@ -21,9 +21,7 @@ const file = path.join(path.resolve(''), 'protofiles/subscription.proto')
 const health = path.join(path.resolve(''), 'protofiles/health.proto')
 const performanceObserver = new PerformanceObserver((list) => {
   list.getEntries().forEach((entry) => {
-    logger
-      .withTag('performance')
-      .info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
+    logger.withTag('performance').info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
   })
 })
 performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
@@ -49,20 +47,12 @@ app.use(async (context, next) => {
   return next()
     .then(() => {
       performance.mark(context.fullName + '-ended')
-      performance.measure(
-        context.fullName,
-        context.fullName,
-        context.fullName + '-ended',
-      )
+      performance.measure(context.fullName, context.fullName, context.fullName + '-ended')
     })
     .catch((error) => {
       logger.fatal(error)
       performance.mark(context.fullName + '-ended')
-      performance.measure(
-        context.fullName,
-        context.fullName,
-        context.fullName + '-ended',
-      )
+      performance.measure(context.fullName, context.fullName, context.fullName + '-ended')
       throw error
     })
 })

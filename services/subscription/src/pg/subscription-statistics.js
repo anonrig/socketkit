@@ -1,11 +1,6 @@
 import pg from './index.js'
 
-export function groupByCountry({
-  account_id,
-  application_id,
-  start_date,
-  end_date,
-}) {
+export function groupByCountry({ account_id, application_id, start_date, end_date }) {
   return pg
     .queryBuilder()
     .select([
@@ -14,9 +9,7 @@ export function groupByCountry({
       pg.raw(
         `count(*) FILTER (WHERE s.free_trial_duration = '00:00:00') AS total_direct_sale_count`,
       ),
-      pg.raw(
-        `count(*) FILTER (WHERE s.free_trial_duration > '00:00:00') AS total_trial_count`,
-      ),
+      pg.raw(`count(*) FILTER (WHERE s.free_trial_duration > '00:00:00') AS total_trial_count`),
       pg.raw(
         `count(*) FILTER (WHERE s.free_trial_duration = '00:00:00' AND s.subscription_expired_at < ?)
           AS churned_from_direct_sale`,
@@ -39,10 +32,7 @@ export function groupByCountry({
     ])
     .from('subscribers AS c')
     .innerJoin('subscriptions AS s', function () {
-      this.on('s.subscriber_id', 'c.subscriber_id').andOn(
-        's.account_id',
-        'c.account_id',
-      )
+      this.on('s.subscriber_id', 'c.subscriber_id').andOn('s.account_id', 'c.account_id')
     })
     .where('s.account_id', account_id)
     .andWhereRaw(`s.active_period && daterange(?, ?)`, [start_date, end_date])
@@ -80,10 +70,7 @@ export function count({ account_id, application_id, start_date, end_date }) {
       ].concat(
         start_date
           ? [
-              pg.raw(
-                'count(*) FILTER (WHERE active_period @> ?::date) AS at_start',
-                [start_date],
-              ),
+              pg.raw('count(*) FILTER (WHERE active_period @> ?::date) AS at_start', [start_date]),
               pg.raw(
                 'count(*) FILTER (' +
                   ' WHERE daterange(' +

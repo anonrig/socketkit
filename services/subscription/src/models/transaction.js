@@ -29,9 +29,7 @@ export default class Transaction {
     this.event_date = ISODate.parse(raw.eventDate)
     this.subscriber_purchase = parseFloat(raw.customerPrice)
     this.developer_proceeds = parseFloat(raw.developerProceeds)
-    this.purchase_date = !!raw.purchaseDate
-      ? ISODate.parse(raw.purchaseDate)
-      : null
+    this.purchase_date = !!raw.purchaseDate ? ISODate.parse(raw.purchaseDate) : null
     this.free_trial_duration = raw.subscriptionOfferDuration ?? '00:00:00'
     this.standard_subscription_duration = raw.standardSubscriptionDuration
     this.subscriber_exchange_rate = exchange_rates[this.subscriber_currency_id]
@@ -71,8 +69,7 @@ export default class Transaction {
   }
 
   set total_base_developer_proceeds(value) {
-    this._total_base_developer_proceeds =
-      typeof value === 'string' ? parseFloat(value) : value
+    this._total_base_developer_proceeds = typeof value === 'string' ? parseFloat(value) : value
   }
 
   get total_base_developer_proceeds() {

@@ -23,22 +23,11 @@ export default function fetchIntegrations() {
   return pg.transaction(async (trx) => {
     const traceId = v4()
     const integration = await pg
-      .select([
-        'account_id',
-        'state',
-        'failed_fetches',
-        'last_fetch',
-        'vendor_ids',
-        'access_token',
-      ])
+      .select(['account_id', 'state', 'failed_fetches', 'last_fetch', 'vendor_ids', 'access_token'])
       .from('integrations')
       .where('provider_id', 'apple')
       .andWhere('state', '<', 'suspended')
-      .andWhere(
-        'last_fetch',
-        '<',
-        ISODate.today().subtract(1, 'day').subtract(16, 'hour'),
-      )
+      .andWhere('last_fetch', '<', ISODate.today().subtract(1, 'day').subtract(16, 'hour'))
       .orderBy(['state', 'failed_fetches', 'last_fetch'])
       .limit(1)
       .forUpdate()
@@ -154,17 +143,11 @@ export default function fetchIntegrations() {
       })
       .transacting(trx)
 
-    return (
-      integration.state !== state ||
-      !integration.last_fetch.isSame(next_day, 'day')
-    )
+    return integration.state !== state || !integration.last_fetch.isSame(next_day, 'day')
   })
 }
 
-async function processTransactions(
-  { account_id, transactions, next_day },
-  trx,
-) {
+async function processTransactions({ account_id, transactions, next_day }, trx) {
   const exchange_rates = await getExchangeRates(next_day)
 
   await pg

@@ -1,12 +1,6 @@
 import pg from '../index.js'
 
-export async function get({
-  account_id,
-  start_date,
-  end_date,
-  interval,
-  application_id,
-}) {
+export async function get({ account_id, start_date, end_date, interval, application_id }) {
   const join_lateral = pg
     .queryBuilder()
     .select({
@@ -22,9 +16,7 @@ export async function get({
         this.where('t.application_id', application_id)
       }
 
-      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [
-        interval,
-      ])
+      this.whereRaw(`t.event_date >= g AND t.event_date < g + ?::interval`, [interval])
     })
 
   const rows = await pg
@@ -47,13 +39,7 @@ export async function get({
   }
 }
 
-export async function getActive({
-  account_id,
-  start_date,
-  end_date,
-  interval,
-  application_id,
-}) {
+export async function getActive({ account_id, start_date, end_date, interval, application_id }) {
   const join_lateral = pg
     .queryBuilder()
     .count('*', 'count')
@@ -111,19 +97,16 @@ export async function getAverageDuration({
         this.where('s.application_id', application_id)
       }
 
-      this.whereRaw(
-        `LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval`,
-        [interval],
-      )
+      this.whereRaw(`LOWER(s.active_period) >= g AND LOWER(s.active_period) < g + ?::interval`, [
+        interval,
+      ])
     })
 
   const rows = await pg
     .queryBuilder()
     .select({
       x: pg.raw('g::date'),
-      y0: pg.raw(
-        `COALESCE(EXTRACT(epoch FROM l.average_trial_duration) / 86400, 0)`,
-      ),
+      y0: pg.raw(`COALESCE(EXTRACT(epoch FROM l.average_trial_duration) / 86400, 0)`),
     })
     .from(
       pg.raw(`generate_series(?::date, ?::date, ?::interval) AS g`, [
@@ -175,9 +158,7 @@ export async function getTrialToPaid({
     .queryBuilder()
     .select({
       x: pg.raw('g::date'),
-      y0: pg.raw(
-        'CASE WHEN l.total > 0 THEN 100.0 * l.converted / l.total ELSE 0 END',
-      ),
+      y0: pg.raw('CASE WHEN l.total > 0 THEN 100.0 * l.converted / l.total ELSE 0 END'),
       y1: 'l.converted',
       y2: 'l.total',
     })
