@@ -1,4 +1,5 @@
 import pg from '../../pg/index.js'
+import grpc from '@grpc/grpc-js'
 
 export default async function getById({ account_id, subscriber_id }) {
   const subscriber = await pg
@@ -18,7 +19,9 @@ export default async function getById({ account_id, subscriber_id }) {
     .first()
 
   if (!subscriber) {
-    throw new Error(`Subscriber not found`)
+    const error = new Error('Subscriber not found')
+    error.code = grpc.status.NOT_FOUND
+    throw error
   }
 
   return subscriber
