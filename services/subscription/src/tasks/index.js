@@ -1,10 +1,9 @@
 import { setTimeout } from 'timers/promises'
 
-import fetchIntegrations from './fetch-integrations.js'
-import deleteIntegrations from './delete-integrations.js'
-import validateRevenues from './validate-revenues.js'
-
 import Logger from '../logger.js'
+
+import deleteIntegrations from './delete-integrations.js'
+import fetchIntegrations from './fetch-integrations.js'
 
 const logger = Logger.create().withScope('tasks')
 
@@ -12,7 +11,7 @@ export async function runTasks() {
   if (process.env.NODE_ENV === 'test') {
     return
   }
-  const tasks = [fetchIntegrations, validateRevenues, deleteIntegrations]
+  const tasks = [fetchIntegrations, deleteIntegrations]
 
   for (const task of tasks) {
     logger.info(`Checking whether anything to do in task "${task.name}"...`)
