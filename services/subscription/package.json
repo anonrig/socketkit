@@ -11,7 +11,7 @@
     "dev": "npx nodemon -r dotenv/config",
     "test": "c8 ava",
     "test:watch": "ava --watch",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
+    "lint": "eslint \"{src,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
   },
   "dependencies": {
@@ -31,36 +31,16 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@anonrig/eslint-config": "^0.2.1",
     "ava": "^3.15.0",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.5.0"
+    "eslint": "^8.3.0"
   },
   "eslintConfig": {
     "extends": [
-      "plugin:prettier/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:security/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "import",
-      "security"
-    ],
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaVersion": "latest"
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    }
+      "@anonrig/eslint-config"
+    ]
   },
   "ava": {
     "files": [

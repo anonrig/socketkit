@@ -1,8 +1,8 @@
-import Logger from './logger.js'
 import config from './config.js'
-import { runTasks } from './tasks/index.js'
-import pg from './pg/index.js'
 import app from './grpc.js'
+import Logger from './logger.js'
+import pg from './pg/index.js'
+import { runTasks } from './tasks/index.js'
 
 const logger = Logger.create().withScope('application')
 

@@ -4,12 +4,12 @@ export default async function getTransactionsById({ subscriber_id, account_id })
   return pg
     .select({
       application_id: 't.application_id',
-      transaction_type: 't.transaction_type',
+      base_developer_proceeds: 't.base_developer_proceeds',
+      base_subscriber_purchase: 't.base_subscriber_purchase',
+      event_date: 't.event_date',
       subscription_package_id: 't.subscription_package_id',
       subscription_package_name: 'p.name',
-      event_date: 't.event_date',
-      base_subscriber_purchase: 't.base_subscriber_purchase',
-      base_developer_proceeds: 't.base_developer_proceeds',
+      transaction_type: 't.transaction_type',
     })
     .from('transactions as t')
     .where('t.subscriber_id', subscriber_id)

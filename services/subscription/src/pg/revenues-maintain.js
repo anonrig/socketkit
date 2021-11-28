@@ -23,7 +23,7 @@ export async function insertCurrentDay(trx, account_id, revenue_list) {
     .transacting(trx)
     .from('revenues')
     .insert(
-      Array.from(revenue_list, ({ first_day, ...rest }) => ({
+      Array.from(revenue_list, ({ first_day, ...rest }) => ({ // eslint-disable-line
         account_id,
         for_date: revenue_list.current_day,
         ...rest,

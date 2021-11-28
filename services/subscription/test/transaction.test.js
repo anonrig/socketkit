@@ -1,6 +1,7 @@
 import test from 'ava'
 
 import dayjs from 'dayjs'
+
 import Transaction from '../src/models/transaction.js'
 
 import { WITH_FREE_TRIAL, exchange_rates, REFUND, STANDARD } from './mocks.js'

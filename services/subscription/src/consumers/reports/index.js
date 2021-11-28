@@ -1,9 +1,9 @@
-import * as SubscriberReports from '../../pg/reports/subscriber.js'
-import * as TrialReports from '../../pg/reports/trial.js'
-import * as SubscriptionReports from '../../pg/reports/subscription.js'
-import * as RevenueReports from '../../pg/reports/revenue.js'
-
 import grpc from '@grpc/grpc-js'
+
+import * as RevenueReports from '../../pg/reports/revenue.js'
+import * as SubscriberReports from '../../pg/reports/subscriber.js'
+import * as SubscriptionReports from '../../pg/reports/subscription.js'
+import * as TrialReports from '../../pg/reports/trial.js'
 
 const reports = new Map([
   ['subscribers', SubscriberReports.get],

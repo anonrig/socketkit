@@ -132,10 +132,10 @@ export async function getTrialToPaid({
   const join_lateral = pg
     .queryBuilder()
     .select({
-      total: pg.raw('count(*)'),
       converted: pg.raw(
         'count(*) FILTER (WHERE (subscription_started_at + s.free_trial_duration)::date < subscription_expired_at)',
       ),
+      total: pg.raw('count(*)'),
     })
     .from('subscriptions AS s')
     .where('s.account_id', account_id)

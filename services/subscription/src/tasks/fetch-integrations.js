@@ -1,21 +1,22 @@
-import _ from 'lodash'
 import { performance } from 'perf_hooks'
-import slug from 'slug'
+
 import AppStoreReporter from 'appstore-reporter'
+import _ from 'lodash'
+import slug from 'slug'
 import { v4 } from 'uuid'
 
-import { ISODate } from '../types.js'
-import pg from '../pg/index.js'
 import { getExchangeRates } from '../fixer.js'
+import subscriber from '../grpc-client.js'
 import Logger from '../logger.js'
-import Transaction from '../models/transaction.js'
 import RevenueList from '../models/revenue-list.js'
-import insertTransaction from '../pg/transaction-insert.js'
+import Transaction from '../models/transaction.js'
+import pg from '../pg/index.js'
 import {
   invalidate as invalidateRevenues,
   insertCurrentDay as insertCurrentDayRevenues,
 } from '../pg/revenues-maintain.js'
-import subscriber from '../grpc-client.js'
+import insertTransaction from '../pg/transaction-insert.js'
+import { ISODate } from '../types.js'
 
 const logger = Logger.create().withScope('fetch-integrations')
 
@@ -54,12 +55,12 @@ export default function fetchIntegrations() {
         accessToken: integration.access_token,
       })
       transactions = await reporter.sales.getReport({
-        vendorNumber: vendor_id,
-        reportType: 'Subscriber',
-        reportSubType: 'Detailed',
-        dateType: 'Daily',
         date: next_day.format('YYYYMMDD'),
+        dateType: 'Daily',
+        reportSubType: 'Detailed',
+        reportType: 'Subscriber',
         reportVersion: '1_2',
+        vendorNumber: vendor_id,
       })
       performance.mark(`${traceId}-network-ended`)
       performance.measure(
@@ -114,8 +115,8 @@ export default function fetchIntegrations() {
         processTransactions(
           {
             account_id: integration.account_id,
-            transactions: valid_transactions,
             next_day,
+            transactions: valid_transactions,
           },
           trx,
         ),
@@ -132,14 +133,14 @@ export default function fetchIntegrations() {
     await pg
       .into('integrations')
       .where({
-        provider_id: 'apple',
         account_id: integration.account_id,
+        provider_id: 'apple',
       })
       .update({
-        state: state,
         failed_fetches: failed_fetches,
-        last_fetch: next_day,
         last_error_message: error_message,
+        last_fetch: next_day,
+        state: state,
       })
       .transacting(trx)
 
@@ -153,9 +154,9 @@ async function processTransactions({ account_id, transactions, next_day }, trx) 
   await pg
     .insert(
       _.uniqBy(transactions, 'device').map((t) => ({
-        provider_id: 'apple',
         device_type_id: slug(t.device),
         name: t.device,
+        provider_id: 'apple',
       })),
     )
     .into('device_types')
@@ -167,13 +168,13 @@ async function processTransactions({ account_id, transactions, next_day }, trx) 
     .insert(
       _.uniqBy(transactions, 'subscriberId').map((t) => ({
         account_id: account_id,
+        country_id: t.country.toLowerCase(),
+        device_type_id: slug(t.device),
+        first_interaction: t.eventDate,
         provider_id: 'apple',
         subscriber_id: t.subscriberId,
-        device_type_id: slug(t.device),
-        country_id: t.country.toLowerCase(),
-        first_interaction: t.eventDate,
-        total_base_subscriber_purchase: 0,
         total_base_developer_proceeds: 0,
+        total_base_subscriber_purchase: 0,
       })),
     )
     .into('subscribers')
@@ -186,10 +187,10 @@ async function processTransactions({ account_id, transactions, next_day }, trx) 
       _.uniqBy(transactions, 'subscriptionAppleId').map((t) => ({
         account_id: account_id,
         application_id: t.appAppleId,
+        name: t.subscriptionName,
+        subscription_duration: t.standardSubscriptionDuration,
         subscription_group_id: t.subscriptionGroupId,
         subscription_package_id: t.subscriptionAppleId,
-        subscription_duration: t.standardSubscriptionDuration,
-        name: t.subscriptionName,
       })),
     )
     .into('subscription_packages')
