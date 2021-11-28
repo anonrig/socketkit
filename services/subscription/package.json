@@ -8,15 +8,16 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon -r dotenv/config",
-    "test": "node --experimental-vm-modules --no-warnings -r dotenv/config node_modules/.bin/jest",
-    "lint": "eslint ./src/**/*.js",
-    "lint:fix": "eslint --fix ./src/**/*.js"
+    "dev": "npx nodemon -r dotenv/config",
+    "test": "c8 ava",
+    "test:watch": "ava --watch",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
-    "@grpc/proto-loader": "^0.6.6",
-    "ajv": "^8.8.0",
+    "@grpc/proto-loader": "^0.6.7",
+    "ajv": "^8.8.2",
     "appstore-reporter": "^1.0.5",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
@@ -30,26 +31,15 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "ava": "^3.15.0",
+    "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.2.0",
+    "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "coverageProvider": "v8",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "clover"
-    ]
+    "prettier": "^2.5.0"
   },
   "eslintConfig": {
     "extends": [
@@ -65,14 +55,31 @@
     ],
     "parserOptions": {
       "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      },
-      "ecmaVersion": 2021
+      "ecmaVersion": "latest"
     },
     "env": {
       "node": true,
       "es6": true
     }
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "cache": true,
+    "failFast": true,
+    "failWithoutAssertions": true,
+    "environmentVariables": {
+      "CI": "true"
+    },
+    "require": [
+      "dotenv/config"
+    ],
+    "nodeArguments": [
+      "--no-warnings",
+      "--experimental-json-modules"
+    ],
+    "verbose": false,
+    "workerThreads": true
   }
 }

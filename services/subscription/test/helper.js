@@ -21,10 +21,7 @@ export function getClients(port = getRandomPort()) {
 
   const { Subscribers, Subscriptions, Transactions, Integrations, Reports } =
     grpc.loadPackageDefinition(
-      loader.loadSync(
-        path.join('.', 'protofiles/subscription.proto'),
-        defaults,
-      ),
+      loader.loadSync(path.join('.', 'protofiles/subscription.proto'), defaults),
     )
 
   return {

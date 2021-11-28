@@ -1,6 +1,6 @@
+import test from 'ava'
+
 import { getRandomPort, getClients } from './helper.js'
-import config from '../src/config.js'
-import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 import pg from '../src/pg/index.js'
 
@@ -10,43 +10,40 @@ const TEST_APPLICATION_ID = `1494736719`
 const port = getRandomPort()
 const grpc = getClients(port)
 
-beforeAll(async () => {
-  logger.pauseLogs()
+test.before(async () => {
   await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async () => {
+test.after(async () => {
   await app.close()
   await pg.destroy()
 })
 
-describe('Transactions', () => {
-  test('findAll', (done) => {
-    grpc.transactions.findAll(
-      {
-        account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
-      },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response).toBeInstanceOf(Object)
-        expect(response.rows).toBeInstanceOf(Array)
-        done()
-      },
-    )
-  })
+test.cb('findAll', (t) => {
+  grpc.transactions.findAll(
+    {
+      account_id: TEST_ACCOUNT_ID,
+      application_id: TEST_APPLICATION_ID,
+    },
+    (error, response) => {
+      t.falsy(error)
+      t.truthy(response)
+      t.true(Array.isArray(response.rows))
+      t.end()
+    },
+  )
+})
 
-  test('sum', (done) => {
-    grpc.transactions.sum(
-      {
-        account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
-      },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response.current_total_base_developer_proceeds).toBeDefined()
-        done()
-      },
-    )
-  })
+test.cb('sum', (t) => {
+  grpc.transactions.sum(
+    {
+      account_id: TEST_ACCOUNT_ID,
+      application_id: TEST_APPLICATION_ID,
+    },
+    (error, response) => {
+      t.falsy(error)
+      t.truthy(response.current_total_base_developer_proceeds)
+      t.end()
+    },
+  )
 })

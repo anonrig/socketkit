@@ -1,7 +1,8 @@
+import test from 'ava'
+
 import dayjs from 'dayjs'
 
 import { getRandomPort, getClients } from './helper.js'
-import logger from '../src/logger.js'
 import app from '../src/grpc.js'
 import pg from '../src/pg/index.js'
 
@@ -11,73 +12,77 @@ const TEST_APPLICATION_ID = `1494736719`
 const port = getRandomPort()
 const grpc = getClients(port)
 
-beforeAll(async () => {
-  logger.pauseLogs()
+test.before(async () => {
   await app.start(`0.0.0.0:${port}`)
 })
 
-afterAll(async () => {
+test.after(async () => {
   await app.close()
   await pg.destroy()
 })
 
-describe('Subscriptions', () => {
-  test('findPackages', (done) => {
-    grpc.subscriptions.findPackages(
-      { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response).toBeInstanceOf(Object)
-        done()
-      },
-    )
-  })
+test.cb('findPackages', (t) => {
+  grpc.subscriptions.findPackages(
+    { account_id: TEST_ACCOUNT_ID, application_id: TEST_APPLICATION_ID },
+    (error, response) => {
+      t.falsy(error)
+      t.is(typeof response, 'object')
+      t.end()
+    },
+  )
+})
 
-  test('groupByApplication', (done) => {
-    grpc.subscriptions.groupByApplication(
-      {
-        account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
-        start_date: dayjs().subtract(1, 'month').toString(),
-        end_date: dayjs().toString(),
-      },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response.rows).toBeInstanceOf(Array)
-        done()
-      },
-    )
-  })
+test.cb('groupByApplication', (t) => {
+  grpc.subscriptions.groupByApplication(
+    {
+      account_id: TEST_ACCOUNT_ID,
+      application_id: TEST_APPLICATION_ID,
+      start_date: dayjs().subtract(1, 'month').toString(),
+      end_date: dayjs().toString(),
+    },
+    (error, response) => {
+      t.falsy(error)
+      t.truthy(response)
+      t.true(Array.isArray(response.rows))
+      t.end()
+    },
+  )
+})
 
-  test('groupByCountry', (done) => {
-    grpc.subscriptions.groupByCountry(
-      {
-        account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
-        start_date: dayjs().subtract(1, 'month').toString(),
-        end_date: dayjs().toString(),
-      },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response.rows).toBeInstanceOf(Array)
-        done()
-      },
-    )
-  })
+test.cb('groupByCountry', (t) => {
+  grpc.subscriptions.groupByCountry(
+    {
+      account_id: TEST_ACCOUNT_ID,
+      application_id: TEST_APPLICATION_ID,
+      start_date: dayjs().subtract(1, 'month').toString(),
+      end_date: dayjs().toString(),
+    },
+    (error, response) => {
+      t.falsy(error)
+      t.truthy(response)
+      t.true(Array.isArray(response.rows))
+      t.end()
+    },
+  )
+})
 
-  test('count', (done) => {
-    grpc.subscriptions.count(
-      {
-        account_id: TEST_ACCOUNT_ID,
-        application_id: TEST_APPLICATION_ID,
-        start_date: dayjs().subtract(1, 'month').toString(),
-        end_date: dayjs().toString(),
-      },
-      (error, response) => {
-        expect(error).toBeNull()
-        expect(response.total).toBeDefined()
-        done()
-      },
-    )
-  })
+test.cb('count', (t) => {
+  grpc.subscriptions.count(
+    {
+      account_id: TEST_ACCOUNT_ID,
+      application_id: TEST_APPLICATION_ID,
+      start_date: dayjs().subtract(1, 'month').toString(),
+      end_date: dayjs().toString(),
+    },
+    (error, response) => {
+      t.falsy(error)
+      t.is(response.total, 0)
+      t.is(response.total_trial, 0)
+      t.is(response.current, 0)
+      t.is(response.current_trial, 0)
+      t.is(response.at_start, 0)
+      t.is(response.at_start_trial, 0)
+      t.end()
+    },
+  )
 })
