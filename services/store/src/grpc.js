@@ -29,7 +29,7 @@ export function build() {
   app.addService(health, 'Health', config.grpc_options)
 
   app.use(async (context, next) => {
-    if (config.isCI) {
+    if (config.isCI || config.isProd) {
       return next()
     }
 
