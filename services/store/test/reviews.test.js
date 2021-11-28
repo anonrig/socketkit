@@ -46,14 +46,6 @@ test('findAll should return empty array on not found', async (t) => {
   t.is(response.cursor, null)
 })
 
-test('findVersions should return versions', async (t) => {
-  const { reviews } = t.context
-  const findVersions = promisify(reviews.findVersions).bind(reviews)
-  const response = await findVersions({ application_id: facebook_application.application_id })
-
-  t.true(Array.isArray(response.rows))
-})
-
 test('findVersions should throw error on missing application_id', async (t) => {
   const { reviews } = t.context
   const findVersions = promisify(reviews.findVersions).bind(reviews)
