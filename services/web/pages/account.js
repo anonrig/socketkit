@@ -23,27 +23,30 @@ export async function getServerSideProps(ctx) {
     return redirect()
   }
 
-  return { props: { flow, cookie: ctx.req.headers.cookie } }
+  return { props: { flow } }
 }
 
-function AccountSettings({ flow, cookie }) {
+function AccountSettings({ flow }) {
   const [kratos, setKratos] = useState(null)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
-    try {
-      const { data: kratos } = await client.getSelfServiceSettingsFlow(flow, cookie)
-      const isBefore = dayjs(kratos?.expires_at).isBefore(dayjs())
+  useEffect(() => {
+    async function getSettings() {
+      try {
+        const { data: kratos } = await client.getSelfServiceSettingsFlow(flow)
+        const isBefore = dayjs(kratos?.expires_at).isBefore(dayjs())
 
-      if (isBefore) {
+        if (isBefore) {
+          return redirect()
+        }
+
+        setKratos(kratos)
+      } catch (error) {
         return redirect()
       }
-
-      setKratos(kratos)
-    } catch (error) {
-      return redirect()
     }
-  }, [flow])
+
+    getSettings()
+  }, [router, flow])
 
   const profile = kratos?.ui.nodes.filter((n) => ['profile', 'default'].includes(n.group))
   const password = kratos?.ui.nodes.filter((n) => ['password', 'default'].includes(n.group))
@@ -72,7 +75,6 @@ function AccountSettings({ flow, cookie }) {
 
 AccountSettings.propTypes = {
   flow: PropTypes.string.isRequired,
-  cookie: PropTypes.string.isRequired,
 }
 
 export default AccountSettings
