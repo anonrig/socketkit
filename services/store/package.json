@@ -10,6 +10,7 @@
     "start": "node src/index.js",
     "dev": "npx nodemon -r dotenv/config",
     "test": "c8 ava",
+    "test:watch": "ava --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
     "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
   },
@@ -28,61 +29,16 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "@anonrig/eslint-config": "^0.2.1",
+    "ava": "^4.0.0-rc.1",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.5.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "coverageProvider": "v8",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text",
-      "clover"
-    ]
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "semi": false,
-    "tabWidth": 2
+    "eslint": "^8.3.0"
   },
   "eslintConfig": {
     "extends": [
-      "eslint:recommended",
-      "plugin:prettier/recommended",
-      "plugin:import/recommended",
-      "plugin:security/recommended"
-    ],
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaVersion": "latest"
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "rules": {
-      "import/order": [
-        "error",
-        {
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          },
-          "warnOnUnassignedImports": true,
-          "newlines-between": "always-and-inside-groups"
-        }
-      ]
-    }
+      "@anonrig/eslint-config"
+    ]
   },
   "ava": {
     "files": [

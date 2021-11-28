@@ -13,15 +13,8 @@ export const getRandomPort = (a = 1000, b = 65000) => {
 
 export function getClients(port = getRandomPort()) {
   const url = `0.0.0.0:${port ?? config.port}`
-  const defaults = {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  }
   const { Applications, Integrations, Reviews } = grpc.loadPackageDefinition(
-    loader.loadSync(path.join('.', 'protofiles/store.proto'), defaults),
+    loader.loadSync(path.join('.', 'protofiles/store.proto'), config.grpc_options),
   )
 
   return {
