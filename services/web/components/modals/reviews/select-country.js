@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import CountryPicker from 'components/form/country-picker.js'
+import PropTypes from 'prop-types'
 
 function SelectCountry({ countries, setCountries = () => ({}) }) {
   return (

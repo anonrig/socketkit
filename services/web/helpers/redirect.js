@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { Component } from 'react'
 import Head from 'next/head'
 import router from 'next/router'
+import { Component } from 'react'
 
 function redirectTo(destination, { res } = { res: null }) {
   if (res) {

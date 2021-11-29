@@ -1,9 +1,8 @@
+import { endpoints, client } from 'helpers/kratos.js'
+import KratosErrorPropTypes from 'helpers/types/kratos-error.js'
 import { NextSeo } from 'next-seo'
 
 import pkg from '../package.json'
-
-import { endpoints, client } from 'helpers/kratos.js'
-import KratosErrorPropTypes from 'helpers/types/kratos-error.js'
 
 export async function getServerSideProps(ctx) {
   const { error } = ctx.query
@@ -52,7 +51,8 @@ function Failed({ data }) {
           href={endpoints.login}
           className={
             'transition ease-in-out duration-150 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 w-44'
-          }>
+          }
+        >
           Go to Login
         </a>
       </div>

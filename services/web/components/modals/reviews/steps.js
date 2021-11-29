@@ -1,31 +1,31 @@
-import PropTypes from 'prop-types'
-import { DeviceMobileIcon } from '@heroicons/react/outline'
 import { Dialog } from '@headlessui/react'
+import { DeviceMobileIcon } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
 
 const steps = [
   {
     name: 'application',
     order: 0,
-    title: 'Select an application',
     subtitle: `Easily track your application's reviews from AppStore`,
+    title: 'Select an application',
   },
   {
     name: 'country',
     order: 1,
-    title: 'Select countries',
     subtitle: `Which countries do you want to receive notifications from?`,
+    title: 'Select countries',
   },
   {
     name: 'integration',
     order: 2,
-    title: 'Select an integration',
     subtitle: `How do you want to get notified?`,
+    title: 'Select an integration',
   },
   {
     name: 'setup_integration',
     order: 2,
-    title: 'Setup integration',
     subtitle: `Complete your integration setup in order to get notified`,
+    title: 'Setup integration',
   },
 ]
 

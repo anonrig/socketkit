@@ -1,9 +1,8 @@
-import dayjs from 'dayjs'
-import PropTypes from 'prop-types'
-import Link from 'next/link'
-
 import { CalendarIcon } from '@heroicons/react/outline'
 import { ChevronRightIcon } from '@heroicons/react/solid'
+import dayjs from 'dayjs'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function SubscriptionRow({
   application_id,
@@ -28,7 +27,8 @@ function SubscriptionRow({
                     Ending on{' '}
                     <time
                       dateTime={dayjs(subscription_active_period[1]).format('YYYY-MM-DD')}
-                      className="font-bold">
+                      className="font-bold"
+                    >
                       {dayjs(subscription_active_period[1]).format('YYYY-MM-DD')}
                     </time>
                   </p>
@@ -48,9 +48,9 @@ function SubscriptionRow({
 SubscriptionRow.propTypes = {
   application_id: PropTypes.string.isRequired,
   application_name: PropTypes.string.isRequired,
+  subscription_active_period: PropTypes.arrayOf(PropTypes.string).isRequired,
   subscription_package_id: PropTypes.string.isRequired,
   subscription_package_name: PropTypes.string.isRequired,
-  subscription_active_period: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default SubscriptionRow

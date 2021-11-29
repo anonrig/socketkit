@@ -3,19 +3,19 @@ import { kratosUrl } from 'helpers/config.js'
 
 export const client = new V0alpha2Api(
   new Configuration({
-    basePath: kratosUrl,
     baseOptions: {
       withCredentials: true,
     },
+    basePath: kratosUrl,
   }),
 )
 
 export const endpoints = {
-  login: `${kratosUrl}/self-service/login/browser`,
-  register: `${kratosUrl}/self-service/registration/browser`,
-  recover: `${kratosUrl}/self-service/recovery/browser`,
-  profile: `${kratosUrl}/self-service/settings/browser`,
-  logout: `${kratosUrl}/self-service/browser/flows/logout`,
-  verification: `${kratosUrl}/self-service/verification/browser`,
   errors: `${kratosUrl}/self-service/errors`,
+  login: `${kratosUrl}/self-service/login/browser`,
+  logout: `${kratosUrl}/self-service/browser/flows/logout`,
+  profile: `${kratosUrl}/self-service/settings/browser`,
+  recover: `${kratosUrl}/self-service/recovery/browser`,
+  register: `${kratosUrl}/self-service/registration/browser`,
+  verification: `${kratosUrl}/self-service/verification/browser`,
 }

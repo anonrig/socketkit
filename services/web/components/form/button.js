@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 function Button({ children, className, as: AsComponent, ...props }) {
   return (
@@ -8,7 +8,8 @@ function Button({ children, className, as: AsComponent, ...props }) {
         'relative flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 cursor-pointer',
         className,
       )}
-      {...props}>
+      {...props}
+    >
       {children}
     </AsComponent>
   )
@@ -19,9 +20,9 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
+  as: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
-  as: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
 }
 
 export default Button

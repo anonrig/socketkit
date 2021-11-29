@@ -1,17 +1,16 @@
-import { useContext } from 'react'
-import cx from 'classnames'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-
 import { Disclosure } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/solid'
 import { UserCircleIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon } from '@heroicons/react/solid'
+import cx from 'classnames'
 
 import ProfileDropdown from 'components/menu/profile-dropdown.js'
 
 import { AuthContext } from 'helpers/context.js'
 import { client } from 'helpers/kratos.js'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useContext } from 'react'
 
 function Header() {
   const router = useRouter()
@@ -143,7 +142,8 @@ function Header() {
                 </Link>
                 <button
                   onClick={() => logout()}
-                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                  className="w-full text-left block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
+                >
                   Log out
                 </button>
               </div>

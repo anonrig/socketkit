@@ -11,8 +11,8 @@ export function setDateRangeIfNeeded(router, path, props = {}) {
       {
         path,
         query: {
-          start_date: dayjs.utc().subtract(1, 'month').format('YYYY-MM-DD'),
           end_date: dayjs.utc().format('YYYY-MM-DD'),
+          start_date: dayjs.utc().subtract(1, 'month').format('YYYY-MM-DD'),
           ...props,
         },
       },

@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
 import cx from 'classnames'
 
 import Breadcrumb from 'components/breadcrumb'
+import PropTypes from 'prop-types'
 
 function Heading({ children, className, steps, subtitle, action }) {
   return (
@@ -23,13 +23,13 @@ function Heading({ children, className, steps, subtitle, action }) {
 }
 
 Heading.propTypes = {
+  action: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
   steps: PropTypes.arrayOf(
-    PropTypes.shape({ title: PropTypes.string.isRequired, href: PropTypes.string.isRequired }),
+    PropTypes.shape({ href: PropTypes.string.isRequired, title: PropTypes.string.isRequired }),
   ),
   subtitle: PropTypes.string,
-  action: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 }
 
 export default Heading

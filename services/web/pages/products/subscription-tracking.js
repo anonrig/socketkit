@@ -1,35 +1,34 @@
+import Button from 'components/form/button.js'
+import Heading from 'components/heading'
+import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import { AppstoreConnect } from 'helpers/types/integration.js'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import useSWR, { mutate } from 'swr'
-import { NextSeo } from 'next-seo'
-
-import Heading from 'components/heading'
-import Button from 'components/form/button.js'
-import { fetcher } from 'helpers/fetcher.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
-import { AppstoreConnect } from 'helpers/types/integration.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, 'integrations/appstore-connect')
+  return fetchOnBackground({ headers, query }, 'integrations/appstore-connect')
 }
 
-function AppStoreConnectIntegration({ initialData }) {
+function AppStoreConnectIntegration({ fallbackData }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
-  const { data } = useSWR(`integrations/appstore-connect`, fetcher, { initialData })
+  const { data } = useSWR(`integrations/appstore-connect`, fetcher, { fallbackData })
 
   async function onSubmit(values, _, isDeleted = false) {
     setLoading(true)
 
     try {
       await fetcher(`integrations/appstore-connect`, {
-        method: isDeleted ? 'DELETE' : 'PUT',
         body: JSON.stringify({
           requirement_payload: values,
         }),
+        method: isDeleted ? 'DELETE' : 'PUT',
       })
       mutate(`integrations/appstore-connect`)
       if (isDeleted) {
@@ -55,7 +54,8 @@ function AppStoreConnectIntegration({ initialData }) {
           className="inline underline text-orange-500 text-sm font-semibold"
           target="_blank"
           rel="noreferrer"
-          href="https://socketkit.com/blog/guides/how-to-integrate-appstore-connect">
+          href="https://socketkit.com/blog/guides/how-to-integrate-appstore-connect"
+        >
           AppStore Connect
         </a>
         .
@@ -83,7 +83,8 @@ function AppStoreConnectIntegration({ initialData }) {
               {data?.access_token ? (
                 <Button
                   onClick={() => onSubmit(null, null, true)}
-                  className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400">
+                  className="text-orange-500 py-2 inline-flex justify-center text-sm font-semibold  hover:text-orange-400"
+                >
                   Delete & Disable Integration
                 </Button>
               ) : (
@@ -95,14 +96,16 @@ function AppStoreConnectIntegration({ initialData }) {
                   className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                   disabled={loading}
                   type="button"
-                  onClick={() => router.push('/products')}>
+                  onClick={() => router.push('/products')}
+                >
                   Cancel
                 </Button>
 
                 <Button
                   className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
                   disabled={loading}
-                  type="submit">
+                  type="submit"
+                >
                   {data?.access_token ? 'Update' : 'Create'}
                 </Button>
               </div>
@@ -115,7 +118,7 @@ function AppStoreConnectIntegration({ initialData }) {
 }
 
 AppStoreConnectIntegration.propTypes = {
-  initialData: AppstoreConnect,
+  fallbackData: AppstoreConnect,
 }
 
 export default AppStoreConnectIntegration

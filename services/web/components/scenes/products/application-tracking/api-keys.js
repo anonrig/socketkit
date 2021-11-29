@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { ClipboardCopyIcon } from '@heroicons/react/solid'
+import PropTypes from 'prop-types'
 import toast from 'react-hot-toast'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -19,7 +19,8 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
             <fieldset className="flex-1">
               <label
                 className="block text-sm font-medium text-gray-700"
-                htmlFor="authorization_key">
+                htmlFor="authorization_key"
+              >
                 Authorization Key
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
@@ -32,7 +33,8 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
 
                 <button
                   className="absolute inset-y-0 right-0 px-3 flex items-center cursor-pointer"
-                  onClick={() => copy(authorization_key)}>
+                  onClick={() => copy(authorization_key)}
+                >
                   <ClipboardCopyIcon
                     className="h-5 w-5 text-warmGray-500 hover:text-orange-500"
                     aria-hidden="true"
@@ -55,7 +57,8 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
 
                 <button
                   className="absolute inset-y-0 right-0 px-3 flex items-center cursor-pointer"
-                  onClick={() => copy(application_key)}>
+                  onClick={() => copy(application_key)}
+                >
                   <ClipboardCopyIcon
                     className="h-5 w-5 text-warmGray-500 hover:text-orange-500"
                     aria-hidden="true"
@@ -74,7 +77,8 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
           href="https://docs.socketkit.com"
           className="font-semibold underline hover:text-orange-500"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           our documentation.
         </a>
       </p>

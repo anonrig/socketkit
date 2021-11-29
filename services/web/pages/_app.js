@@ -1,18 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useCallback, useEffect, useState } from 'react'
+import { AuthContext } from 'helpers/context.js'
+import { fetcher } from 'helpers/fetcher.js'
+import { endpoints, client } from 'helpers/kratos.js'
+import { DefaultSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { SWRConfig } from 'swr'
-import { DefaultSeo } from 'next-seo'
+import { useCallback, useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import useSWR from 'swr'
-
-import { fetcher } from 'helpers/fetcher.js'
-import { AuthContext } from 'helpers/context.js'
-import { endpoints, client } from 'helpers/kratos.js'
 
 import 'styles/date-range.css'
 import 'styles/index.css'
+import useSWR, { SWRConfig } from 'swr'
 import 'tailwindcss/tailwind.css'
 
 const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized.js'))
@@ -52,7 +50,7 @@ function MyApp({ Component, pageProps }) {
     if (!session) {
       fetchUser()
     }
-  }, [fetchUser]) /* eslint-disable-line react-hooks/exhaustive-deps */
+  }, [fetchUser, session])
 
   if (session === undefined) {
     return null
@@ -62,10 +60,10 @@ function MyApp({ Component, pageProps }) {
     <>
       <DefaultSeo
         openGraph={{
-          type: 'website',
           locale: 'en_US',
-          url: 'https://web.socketkit.com/',
           site_name: 'Socketkit',
+          type: 'website',
+          url: 'https://web.socketkit.com/',
         }}
         titleTemplate="%s - Socketkit"
         title="Subscription Management & Mobile Tracking"
@@ -75,21 +73,22 @@ function MyApp({ Component, pageProps }) {
       <Toaster
         position="top-center"
         toastOptions={{
-          duration: 5000,
           className:
             'p-4 bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 text-sm font-medium text-warmGray-900',
+          duration: 5000,
         }}
       />
 
       <SWRConfig
         value={{
+          fetcher,
           refreshInterval: 1 * 60000,
           refreshWhenHidden: true,
           registerOnReconnect: true,
           revalidateOnReconnect: true,
-          fetcher,
-        }}>
-        <AuthContext.Provider value={{ session, integration }}>
+        }}
+      >
+        <AuthContext.Provider value={{ integration, session }}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

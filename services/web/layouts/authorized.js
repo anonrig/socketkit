@@ -1,13 +1,12 @@
-import { useContext } from 'react'
-import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
-
 import Banner from 'components/banner.js'
 import Container from 'components/container.js'
 import Footer from 'components/menu/footer.js'
 import Header from 'components/menu/header.js'
 
 import { AuthContext } from 'helpers/context.js'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useContext } from 'react'
 
 function AuthorizedLayout({ children }) {
   const router = useRouter()

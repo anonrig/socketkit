@@ -64,8 +64,8 @@ function StatisticsWidget({ range }) {
 
 StatisticsWidget.propTypes = {
   range: PropTypes.shape({
-    start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
   }),
 }
 export default StatisticsWidget

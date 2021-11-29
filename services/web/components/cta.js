@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function CTA({ title, subtitle, primaryButton, secondaryButton }) {
   return (
@@ -34,16 +34,16 @@ function CTA({ title, subtitle, primaryButton, secondaryButton }) {
 }
 
 CTA.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
   primaryButton: PropTypes.shape({
-    title: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   }).isRequired,
   secondaryButton: PropTypes.shape({
-    title: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   }),
+  subtitle: PropTypes.string,
+  title: PropTypes.string.isRequired,
 }
 
 export default CTA

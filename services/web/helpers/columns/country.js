@@ -1,29 +1,28 @@
 export default [
   {
-    id: 'country_name',
     Header: 'Country',
     accessor: 'country_name',
+    id: 'country_name',
   },
   {
-    id: 'total_count',
     Header: 'Customers',
     accessor: 'total_count',
     className: 'w-24',
+    id: 'total_count',
   },
   {
-    id: 'total_direct_sale_count',
     Header: 'Direct Sale',
     accessor: 'total_direct_sale_count',
     className: 'w-36',
+    id: 'total_direct_sale_count',
   },
   {
-    id: 'total_trial_count',
     Header: 'Trials',
     accessor: 'total_trial_count',
     className: 'w-24',
+    id: 'total_trial_count',
   },
   {
-    id: 'churn',
     Header: 'Churn',
     accessor: function GetCountryChurn({
       churned_from_trial,
@@ -37,9 +36,9 @@ export default [
       return `${rate}%`
     },
     className: '!text-right w-24',
+    id: 'churn',
   },
   {
-    id: 'lead_conversion',
     Header: 'Conversion',
     accessor: function GetCountryConversion({ paid_converted_from_trial, total_trial_count }) {
       const rate =
@@ -49,13 +48,14 @@ export default [
       return `${rate}%`
     },
     className: '!text-right w-32',
+    id: 'lead_conversion',
   },
   {
-    id: 'revenue',
     Header: 'Revenue',
     accessor: function GetCountryRevenue({ revenue = 0 }) {
       return `$${revenue}`
     },
     className: '!text-right w-24',
+    id: 'revenue',
   },
 ]

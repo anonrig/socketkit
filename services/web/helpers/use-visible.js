@@ -20,5 +20,5 @@ export default function useVisible(initialIsVisible) {
     }
   }, [])
 
-  return { ref, isVisible, setVisible }
+  return { isVisible, ref, setVisible }
 }

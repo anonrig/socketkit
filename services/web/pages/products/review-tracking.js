@@ -1,28 +1,27 @@
+import Button from 'components/form/button.js'
+import Heading from 'components/heading'
+import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import { Review } from 'helpers/types/integration.js'
+import { NextSeo } from 'next-seo'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { mutate } from 'swr'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-
-import Heading from 'components/heading'
-import Button from 'components/form/button.js'
-import { fetcher } from 'helpers/fetcher.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
-import { Review } from 'helpers/types/integration.js'
 
 const ApplicationPicker = dynamic(() => import('components/form/application-picker'))
 const CountryPicker = dynamic(() => import('components/form/country-picker'))
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, 'integrations/reviews')
+  return fetchOnBackground({ headers, query }, 'integrations/reviews')
 }
 
-function ReviewsIntegration({ initialData }) {
+function ReviewsIntegration({ fallbackData }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [applications, setApplications] = useState(initialData.concat(null))
+  const [applications, setApplications] = useState(fallbackData.concat(null))
 
   async function onSubmit() {
     const filled = applications.filter((a) => a?.country_ids?.length > 0)
@@ -31,10 +30,10 @@ function ReviewsIntegration({ initialData }) {
 
     try {
       await fetcher(`integrations/reviews`, {
-        method: 'PUT',
         body: JSON.stringify({
           requirement_payload: filled,
         }),
+        method: 'PUT',
       })
       setLoading(false)
       mutate(`integrations/reviews`)
@@ -56,7 +55,7 @@ function ReviewsIntegration({ initialData }) {
         manipulated.push(null)
       }
     } else {
-      manipulated[index] = application
+      manipulated[parseInt(index, 10)] = application
       if (index === manipulated.length - 1) {
         manipulated.push(null)
       }
@@ -67,7 +66,7 @@ function ReviewsIntegration({ initialData }) {
 
   const updateCountry = (index, countries) => {
     let manipulated = applications.slice(0)
-    manipulated[index].country_ids = countries.map((c) => c.value)
+    manipulated[parseInt(index, 10)].country_ids = countries.map((c) => c.value)
     setApplications(manipulated)
   }
 
@@ -86,14 +85,16 @@ function ReviewsIntegration({ initialData }) {
               <div className="sm:col-span-4">
                 <label
                   htmlFor="application"
-                  className="block text-sm font-medium text-warmGray-700">
+                  className="block text-sm font-medium text-warmGray-700"
+                >
                   Application
                 </label>
                 <div className="mt-1 space-y-8">
                   {applications.map((application, index) => (
                     <div
                       className="flex flex-col flex-1"
-                      key={application?.application_id ?? Math.random()}>
+                      key={application?.application_id ?? Math.random()}
+                    >
                       <div className="flex-1">
                         <ApplicationPicker
                           value={application}
@@ -122,7 +123,8 @@ function ReviewsIntegration({ initialData }) {
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-warmGray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 disabled={loading}
                 onClick={() => router.push('/products')}
-                type="button">
+                type="button"
+              >
                 Cancel
               </Button>
 
@@ -130,8 +132,9 @@ function ReviewsIntegration({ initialData }) {
                 className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
                 disabled={loading}
                 type="button"
-                onClick={() => onSubmit()}>
-                {initialData?.length > 0 ? 'Update' : 'Add Applications'}
+                onClick={() => onSubmit()}
+              >
+                {fallbackData?.length > 0 ? 'Update' : 'Add Applications'}
               </Button>
             </div>
           </div>
@@ -142,7 +145,7 @@ function ReviewsIntegration({ initialData }) {
 }
 
 ReviewsIntegration.propTypes = {
-  initialData: PropTypes.arrayOf(Review),
+  fallbackData: PropTypes.arrayOf(Review),
 }
 
 export default ReviewsIntegration

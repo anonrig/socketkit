@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import SocketkitConfig from 'socketkit.config.js'
 import cx from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import SocketkitConfig from 'socketkit.config.js'
 
 function Sidebar() {
   const router = useRouter()
@@ -15,7 +15,8 @@ function Sidebar() {
             'hover:bg-gray-100 hover:text-warmGray-500 text-warmGray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md',
             slug === report.slug ? 'bg-gray-100' : 'bg-white',
           ])}
-          aria-current="page">
+          aria-current="page"
+        >
           <span className="truncate">{report.short_title}</span>
         </a>
       </Link>
@@ -33,7 +34,8 @@ function Sidebar() {
             const { slug } = SocketkitConfig.reports.find((i) => i.slug === value)
             router.push(`/reports/${slug}`)
           }}
-          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md"
+        >
           {SocketkitConfig.reports.map((report) => (
             <option key={report.slug} value={report.slug}>
               {report.short_title}

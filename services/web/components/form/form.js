@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types'
-import Link from 'next/link'
 import cx from 'classnames'
 
-import FormProviders from 'components/form/form-providers.js'
-import FormField from 'components/form/field.js'
 import Button from 'components/form/button.js'
+import FormField from 'components/form/field.js'
+import FormProviders from 'components/form/form-providers.js'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function Form({ actions, kratos, preAction }) {
   const nodes = kratos?.ui.nodes.filter((m) => m.attributes.type !== 'submit') ?? []
@@ -26,7 +26,8 @@ function Form({ actions, kratos, preAction }) {
           key={message.id}
           className={`font-medium text-sm mt-2 text-left mb-4 ${
             message.type === 'error' ? 'text-red-500' : ''
-          }`}>
+          }`}
+        >
           {message.text}
         </p>
       ))}
@@ -55,7 +56,8 @@ function Form({ actions, kratos, preAction }) {
             type={action_button?.attributes.type}
             name={action_button?.attributes.name}
             value={action_button?.attributes.value}
-            disabled={action_button?.attributes.disabled}>
+            disabled={action_button?.attributes.disabled}
+          >
             {action_button?.meta?.label?.text ?? actions.primary}
           </Button>
         )}
@@ -76,12 +78,11 @@ Form.propTypes = {
   actions: PropTypes.shape({
     primary: PropTypes.string.isRequired,
     secondary: PropTypes.shape({
-      label: PropTypes.string,
       href: PropTypes.string,
+      label: PropTypes.string,
     }),
   }).isRequired,
   kratos: PropTypes.any.isRequired,
-  preAction: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -89,6 +90,7 @@ Form.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
+  preAction: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),
 }
 
 export default Form

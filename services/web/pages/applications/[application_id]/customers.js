@@ -1,24 +1,20 @@
-import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
-import { NextSeo } from 'next-seo'
-
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table'
 
+import CustomerColumns from 'helpers/columns/customer.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
-import CustomerColumns from 'helpers/columns/customer.js'
 import CustomerPropTypes, { CustomerCursor } from 'helpers/types/customer.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground(
-    { query, headers },
-    `applications/${query.application_id}/customers`,
-  )
+  return fetchOnBackground({ headers, query }, `applications/${query.application_id}/customers`)
 }
 
-function Customers({ initialData }) {
+function Customers({ fallbackData }) {
   const router = useRouter()
   const { application_id } = router.query
   const columns = useMemo(() => CustomerColumns, [])
@@ -29,7 +25,7 @@ function Customers({ initialData }) {
       <NextSeo title="Application Customers" />
       <ApplicationHeader />
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url={`applications/${router.query.application_id}/customers`}
         options={router.query}
         columns={columns}
@@ -38,12 +34,12 @@ function Customers({ initialData }) {
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
         })}
         notFound={{
-          title: 'No customers found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/subscription-tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No customers found',
         }}
       />
     </>
@@ -51,9 +47,9 @@ function Customers({ initialData }) {
 }
 
 Customers.propTypes = {
-  initialData: PropTypes.shape({
-    rows: PropTypes.arrayOf(CustomerPropTypes).isRequired,
+  fallbackData: PropTypes.shape({
     cursor: CustomerCursor,
+    rows: PropTypes.arrayOf(CustomerPropTypes).isRequired,
   }),
 }
 

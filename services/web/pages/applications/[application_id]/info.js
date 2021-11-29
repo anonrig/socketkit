@@ -1,29 +1,27 @@
-import useSWR from 'swr'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import dayjs from 'dayjs'
-import { NextSeo } from 'next-seo'
-
-import 'react-medium-image-zoom/dist/styles.css'
-
-import ApplicationHeader from 'components/menu/application-header.js'
-import Button from 'components/form/button.js'
 import Card from 'components/card.js'
+import Button from 'components/form/button.js'
+import ApplicationHeader from 'components/menu/application-header.js'
+import dayjs from 'dayjs'
 
 import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ApplicationPropTypes from 'helpers/types/application.js'
+import { NextSeo } from 'next-seo'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
+import 'react-medium-image-zoom/dist/styles.css'
+import useSWR from 'swr'
 
 const Zoom = dynamic(() => import('react-medium-image-zoom'))
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, `applications/${query.application_id}`)
+  return fetchOnBackground({ headers, query }, `applications/${query.application_id}`)
 }
 
-function ApplicationInformation({ initialData }) {
+function ApplicationInformation({ fallbackData }) {
   const router = useRouter()
   const { data: application } = useSWR(`applications/${router.query.application_id}`, fetcher, {
-    initialData,
+    fallbackData,
     refreshInterval: 0,
   })
   const { data: versions } = useSWR(
@@ -47,7 +45,8 @@ function ApplicationInformation({ initialData }) {
 
           <Card
             title={`Screenshots`}
-            className="overflow-y-scroll flex flex-row items-center space-x-4">
+            className="overflow-y-scroll flex flex-row items-center space-x-4"
+          >
             {application?.screenshots?.default.map((link) => (
               <Zoom key={link}>
                 <img
@@ -79,7 +78,8 @@ function ApplicationInformation({ initialData }) {
               target="_blank"
               href={application?.developer_url}
               className="text-sm text-center w-full text-warmGray-700"
-              rel="noreferrer">
+              rel="noreferrer"
+            >
               See Developer on AppStore
             </a>
           </div>
@@ -149,7 +149,7 @@ function ApplicationInformation({ initialData }) {
 }
 
 ApplicationInformation.propTypes = {
-  initialData: ApplicationPropTypes,
+  fallbackData: ApplicationPropTypes,
 }
 
 export default ApplicationInformation

@@ -6,21 +6,18 @@ const format = 'YYYY-MM-DD'
 
 dayjs.extend(utc)
 
-export async function fetchOnBackground(
-  { query, headers: { cookie, referer } },
-  resourceUrl,
-) {
+export async function fetchOnBackground({ query, headers: { cookie, referer } }, resourceUrl) {
   try {
     const start_date = query.start_date
       ? dayjs.utc(query.start_date).format(format)
       : dayjs.utc().subtract(1, 'month').format(format)
     const end_date = dayjs(query.end_date).format(format)
 
-    const initialData = await fetcher(resourceUrl, {
+    const fallbackData = await fetcher(resourceUrl, {
       headers: { cookie, referer },
-      qs: { start_date, end_date },
+      qs: { end_date, start_date },
     })
-    return { props: { initialData } }
+    return { props: { fallbackData } }
   } catch (error) {
     if (error.message.includes('not found')) {
       return {
@@ -28,6 +25,6 @@ export async function fetchOnBackground(
       }
     }
 
-    return { props: {} }
+    return { props: { fallbackData: undefined } }
   }
 }

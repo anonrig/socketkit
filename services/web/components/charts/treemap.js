@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types'
 import { ResponsiveTreeMap } from '@nivo/treemap'
+import PropTypes from 'prop-types'
+
 import theme from './theme.js'
 
 function TreeMapChart({ id, rows, identity }) {
@@ -7,9 +8,9 @@ function TreeMapChart({ id, rows, identity }) {
     <ResponsiveTreeMap
       leavesOnly={true}
       data={{
-        id,
-        color: '#876876',
         children: rows,
+        color: '#876876',
+        id,
       }}
       borderWidth={0}
       identity={identity}
@@ -21,14 +22,14 @@ function TreeMapChart({ id, rows, identity }) {
       theme={{
         ...theme,
         tooltip: {
+          chip: {
+            borderRadius: 5,
+          },
           container: {
             backgroundColor: '#ffffff',
             border: 'none',
+            borderRadius: 5,
             boxShadow: 'none',
-            borderRadius: 5,
-          },
-          chip: {
-            borderRadius: 5,
           },
         },
       }}
@@ -39,13 +40,13 @@ function TreeMapChart({ id, rows, identity }) {
 TreeMapChart.propTypes = {
   id: PropTypes.string.isRequired,
   identity: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
   rows: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number.isRequired,
       color: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  value: PropTypes.string.isRequired,
 }
 
 export default TreeMapChart

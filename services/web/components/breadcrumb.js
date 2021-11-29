@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 function Breadcrumb({ steps, className }) {
   return (
@@ -20,7 +20,8 @@ function Breadcrumb({ steps, className }) {
                 className={`${
                   index !== 0 ? 'ml-4' : 'ml-0'
                 } text-sm font-medium text-gray-500 hover:text-gray-700`}
-                aria-current={index === steps.length - 1 ? 'page' : undefined}>
+                aria-current={index === steps.length - 1 ? 'page' : undefined}
+              >
                 {step.title}
               </a>
             </div>
@@ -34,7 +35,7 @@ function Breadcrumb({ steps, className }) {
 Breadcrumb.propTypes = {
   className: PropTypes.string,
   steps: PropTypes.arrayOf(
-    PropTypes.shape({ title: PropTypes.string.isRequired, href: PropTypes.string.isRequired }),
+    PropTypes.shape({ href: PropTypes.string.isRequired, title: PropTypes.string.isRequired }),
   ),
 }
 

@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import { Fragment } from 'react'
 import { Transition, Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
+import { Fragment } from 'react'
 import useSWR from 'swr'
 
 function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
@@ -32,7 +32,8 @@ function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
         enterTo="transform opacity-100 scale-100"
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95">
+        leaveTo="transform opacity-0 scale-95"
+      >
         <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
           <div className="px-1 py-1 ">
             {data?.rows.map((item) => (
@@ -42,7 +43,8 @@ function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
                     className={`${
                       active ? 'bg-warmGray-100 text-semibold' : 'text-medium'
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm text-left space-x-4`}
-                    onClick={() => onChange(item.application_id)}>
+                    onClick={() => onChange(item.application_id)}
+                  >
                     <img
                       src={(item.application_icon ?? '').replaceAll('512', '36')}
                       className="h-5 w-5 rounded-md"
@@ -67,8 +69,8 @@ ApplicationDropdown.defaultProps = {
 
 ApplicationDropdown.propTypes = {
   hideOnLoading: PropTypes.bool,
-  selected: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  selected: PropTypes.string,
 }
 
 export default ApplicationDropdown

@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import { NextSeo } from 'next-seo'
-
 import Heading from 'components/heading'
-import Settings from 'components/scenes/account/account-settings.js'
 import Password from 'components/scenes/account/account-password.js'
+
+import Settings from 'components/scenes/account/account-settings.js'
+import dayjs from 'dayjs'
 
 import { endpoints, client } from 'helpers/kratos.js'
 import redirect from 'helpers/redirect'
+import { NextSeo } from 'next-seo'
+import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 
 export async function getServerSideProps(ctx) {
   const { flow } = ctx.query
@@ -46,7 +46,7 @@ function AccountSettings({ flow }) {
     }
 
     getSettings()
-  }, [router, flow])
+  }, [flow])
 
   const profile = kratos?.ui.nodes.filter((n) => ['profile', 'default'].includes(n.group))
   const password = kratos?.ui.nodes.filter((n) => ['password', 'default'].includes(n.group))

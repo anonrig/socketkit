@@ -21,8 +21,8 @@ function SidebarLayout({ leading, children }) {
 }
 
 SidebarLayout.propTypes = {
-  leading: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  leading: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 }
 
 export default SidebarLayout

@@ -1,6 +1,7 @@
-import PropTypes from 'prop-types'
 import { ResponsiveLine } from '@nivo/line'
 import dayjs from 'dayjs'
+import PropTypes from 'prop-types'
+
 import theme from './theme.js'
 
 function LineChart({ values, ...props }) {
@@ -9,34 +10,32 @@ function LineChart({ values, ...props }) {
       data={values
         .map(({ id, rows, fields }) =>
           Object.keys(fields).map((field) => ({
-            id: `${id}#${field}`,
             data: rows.map((row) => ({
               x: row.x,
-              y: row[field],
+              y: row[field.toString()],
             })),
+            id: `${id}#${field}`,
           })),
         )
         .flat()}
       curve="catmullRom"
-      margin={{ top: 10, left: 40, right: 28, bottom: 35 }}
-      padding={0.2}
+      margin={{ bottom: 35, left: 40, right: 28, top: 10 }}
       animate={true}
-      motionStiffness={90}
-      motionDamping={15}
+      motionConfig={{ damping: 15, stiffness: 90 }}
       colors={['#3b82f6']}
       pointSize={0}
       enableArea={true}
       enableGridX={false}
       axisLeft={{
-        tickSize: 0,
         tickPadding: 10,
+        tickSize: 0,
       }}
       axisBottom={{
-        tickSize: 0,
+        format: (s) => dayjs(s).format('MMM DD, YY'),
         tickPadding: 20,
         tickRotation: 0,
+        tickSize: 0,
         tickValues: 'every week',
-        format: (s) => dayjs(s).format('MMM DD, YY'),
       }}
       isInteractive={true}
       enableCrosshair={true}
@@ -44,8 +43,8 @@ function LineChart({ values, ...props }) {
       crosshairType={'y'}
       theme={theme}
       xScale={{
-        type: 'time',
         format: '%Y-%m-%d',
+        type: 'time',
         useUTC: false,
       }}
       xFormat="time:%Y-%m-%d"
@@ -65,10 +64,9 @@ function LineChart({ values, ...props }) {
                   const [serie_id, field_name] = point.serieId.split('#')
                   return (
                     <div key={point.id} className="text-md font-semibold">
-                      {(values.find((v) => v.id === serie_id)?.fields[field_name] ?? '%').replace(
-                        '%',
-                        point.data.yFormatted,
-                      )}
+                      {(
+                        values.find((v) => v.id === serie_id)?.fields[field_name.toString()] ?? '%'
+                      ).replace('%', point.data.yFormatted)}
                     </div>
                   )
                 })}
@@ -84,13 +82,13 @@ function LineChart({ values, ...props }) {
 LineChart.propTypes = {
   values: PropTypes.arrayOf(
     PropTypes.shape({
+      fields: PropTypes.any,
       id: PropTypes.string.isRequired,
       rows: PropTypes.arrayOf(
         PropTypes.shape({
           x: PropTypes.string.isRequired,
         }),
       ).isRequired,
-      fields: PropTypes.any,
     }),
   ).isRequired,
 }

@@ -14,8 +14,8 @@ export default PropTypes.shape({
   review_url: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  updated_at: PropTypes.string.isRequired,
   user_url: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   version_number: PropTypes.string.isRequired,
-  updated_at: PropTypes.string.isRequired,
 })

@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
 import { SpeakerphoneIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function Banner({ shortMessage, longMessage }) {
   return (
@@ -34,8 +34,8 @@ function Banner({ shortMessage, longMessage }) {
 }
 
 Banner.propTypes = {
-  shortMessage: PropTypes.string.isRequired,
   longMessage: PropTypes.string.isRequired,
+  shortMessage: PropTypes.string.isRequired,
 }
 
 export default Banner

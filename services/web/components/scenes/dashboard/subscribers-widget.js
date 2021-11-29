@@ -1,15 +1,15 @@
+import { fetcher } from 'helpers/fetcher.js'
+import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import dynamic from 'next/dynamic'
-import { fetcher } from 'helpers/fetcher.js'
 
 const LineChart = dynamic(() => import('components/charts/line.js'))
 
-function SubscribersWidget({ range, initialData }) {
+function SubscribersWidget({ range, fallbackData }) {
   const { data } = useSWR(
     `reports/subscription/subscribers?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
     fetcher,
-    { initialData },
+    { fallbackData },
   )
 
   const { data: activeTrialsData } = useSWR(
@@ -38,16 +38,16 @@ function SubscribersWidget({ range, initialData }) {
             <div className="absolute inset-0 rounded-md">
               <LineChart
                 values={[
-                  { id: 'subscribers', rows: data?.rows ?? [], fields: { y0: '% subscribers' } },
+                  { fields: { y0: '% subscribers' }, id: 'subscribers', rows: data?.rows ?? [] },
                   {
+                    fields: { y0: '% active trials' },
                     id: 'active-trials',
                     rows: activeTrialsData?.rows ?? [],
-                    fields: { y0: '% active trials' },
                   },
-                  { id: 'trials', rows: trialsData?.rows ?? [], fields: { y0: '% new trials' } },
+                  { fields: { y0: '% new trials' }, id: 'trials', rows: trialsData?.rows ?? [] },
                 ]}
                 colors={['#3b82f6', '#16A34A']}
-                margin={{ top: 75, left: 0, right: 0, bottom: 0 }}
+                margin={{ bottom: 0, left: 0, right: 0, top: 75 }}
                 axisLeft={null}
                 axisBottom={null}
                 axisRight={null}
@@ -69,16 +69,16 @@ function SubscribersWidget({ range, initialData }) {
               <LineChart
                 values={[
                   {
-                    id: 'sales-refunds',
-                    rows: salesData?.rows ?? [],
                     fields: {
                       y0: '$% sale',
                       y1: '$% refund',
                     },
+                    id: 'sales-refunds',
+                    rows: salesData?.rows ?? [],
                   },
                 ]}
                 yFormat={'>-.2f'}
-                margin={{ top: 75, left: 0, right: 0, bottom: 2 }}
+                margin={{ bottom: 2, left: 0, right: 0, top: 75 }}
                 colors={['#16A34A', '#DC2626']}
                 axisLeft={null}
                 axisBottom={null}
@@ -95,11 +95,11 @@ function SubscribersWidget({ range, initialData }) {
 }
 
 SubscribersWidget.propTypes = {
+  fallbackData: PropTypes.any,
   range: PropTypes.shape({
-    start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
   }),
-  initialData: PropTypes.any,
 }
 
 export default SubscribersWidget

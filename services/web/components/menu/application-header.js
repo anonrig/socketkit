@@ -1,13 +1,12 @@
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { ChevronDownIcon } from '@heroicons/react/solid'
 import DatePicker from 'components/date-picker.js'
 import Tabs from 'components/tabs.js'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { Fragment } from 'react'
 import useSWR from 'swr'
-
-import { ChevronDownIcon } from '@heroicons/react/solid'
 
 function ApplicationHeader() {
   const router = useRouter()
@@ -48,10 +47,12 @@ function ApplicationHeader() {
                   enterTo="transform opacity-100 scale-100"
                   leave="transition duration-75 ease-out"
                   leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95">
+                  leaveTo="transform opacity-0 scale-95"
+                >
                   <Menu.Items
                     className="origin-top-left absolute mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-30"
-                    static>
+                    static
+                  >
                     {applications?.rows.map((application) => (
                       <Menu.Item key={application.application_id}>
                         <Link href={`/applications/${application.application_id}/general`}>
@@ -69,15 +70,15 @@ function ApplicationHeader() {
         </div>
         <div className="mt-4 flex md:mt-0 md:ml-4">
           <DatePicker
-            interval={{ start_date: dayjs(start_date), end_date: dayjs(end_date) }}
+            interval={{ end_date: dayjs(end_date), start_date: dayjs(start_date) }}
             setInterval={({ start_date, end_date }) => {
               router.push(
                 {
                   path: `/applications/${application_id}/[current_page]`,
                   query: {
                     current_page,
-                    start_date: start_date.format('YYYY-MM-DD'),
                     end_date: end_date.format('YYYY-MM-DD'),
+                    start_date: start_date.format('YYYY-MM-DD'),
                   },
                 },
                 undefined,
@@ -92,39 +93,39 @@ function ApplicationHeader() {
         selected={current_page}
         items={[
           {
+            href: `/applications/${application_id}/general`,
             key: 'general',
             title: 'Status',
-            href: `/applications/${application_id}/general`,
           },
           {
+            href: `/applications/${application_id}/info`,
             key: 'info',
             title: 'Info',
-            href: `/applications/${application_id}/info`,
           },
           {
+            href: `/applications/${application_id}/packages`,
             key: 'packages',
             title: 'Packages',
-            href: `/applications/${application_id}/packages`,
           },
           {
+            href: `/applications/${application_id}/customers`,
             key: 'customers',
             title: 'Customers',
-            href: `/applications/${application_id}/customers`,
           },
           {
+            href: `/applications/${application_id}/transactions`,
             key: 'transactions',
             title: 'Transactions',
-            href: `/applications/${application_id}/transactions`,
           },
           {
+            href: `/applications/${application_id}/countries`,
             key: 'countries',
             title: 'Countries',
-            href: `/applications/${application_id}/countries`,
           },
           {
+            href: `/applications/${application_id}/reviews`,
             key: 'reviews',
             title: 'Reviews',
-            href: `/applications/${application_id}/reviews`,
           },
         ]}
       />

@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import { Fragment } from 'react'
 import { Transition, Listbox } from '@headlessui/react'
 import { DocumentReportIcon } from '@heroicons/react/outline'
+import PropTypes from 'prop-types'
+import { Fragment } from 'react'
 
 const intervals = [
   { key: 'day', label: 'Daily' },
@@ -24,7 +24,8 @@ function IntervalDropdown({ selected, onChange }) {
           as={Fragment}
           leave="transition ease-in duration-100"
           leaveFrom="opacity-100"
-          leaveTo="opacity-0">
+          leaveTo="opacity-0"
+        >
           <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {intervals.map((item) => (
               <Listbox.Option
@@ -34,7 +35,8 @@ function IntervalDropdown({ selected, onChange }) {
                     active ? 'text-amber-900 bg-warmGray-50' : 'text-gray-900'
                   } cursor-pointer select-none relative py-2 px-4 text-right`
                 }
-                value={item.key}>
+                value={item.key}
+              >
                 {({ selected }) => (
                   <span className={`${selected ? 'font-medium' : 'font-normal'} block truncate`}>
                     {item.label}
@@ -50,8 +52,8 @@ function IntervalDropdown({ selected, onChange }) {
 }
 
 IntervalDropdown.propTypes = {
-  selected: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  selected: PropTypes.string,
 }
 
 export default IntervalDropdown

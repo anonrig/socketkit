@@ -13,6 +13,6 @@ export default PropTypes.shape({
 }).isRequired
 
 export const TransactionCursor = PropTypes.shape({
-  subscriber_id: PropTypes.string.isRequired,
   event_date: PropTypes.string.isRequired,
+  subscriber_id: PropTypes.string.isRequired,
 })

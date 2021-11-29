@@ -1,7 +1,7 @@
-import AsyncSelect from 'react-select/async'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { fetcher } from 'helpers/fetcher.js'
+import PropTypes from 'prop-types'
+import AsyncSelect from 'react-select/async'
 
 function ApplicationPicker({ value = null, onChange }) {
   const promiseOptions = async (text) => {
@@ -52,9 +52,9 @@ function ApplicationPicker({ value = null, onChange }) {
         borderRadius: '0.375rem',
         colors: {
           ...theme.colors,
-          primary50: '#FAFAF9',
-          primary25: '#F5F5F4',
           primary: 'rgba(249, 115, 22, 1)',
+          primary25: '#F5F5F4',
+          primary50: '#FAFAF9',
         },
       })}
     />
@@ -62,13 +62,13 @@ function ApplicationPicker({ value = null, onChange }) {
 }
 
 ApplicationPicker.propTypes = {
+  onChange: PropTypes.func.isRequired,
   value: PropTypes.shape({
+    application_icon: PropTypes.string.isRequired,
     application_id: PropTypes.string.isRequired,
     application_title: PropTypes.string.isRequired,
-    application_icon: PropTypes.string.isRequired,
     bundle_id: PropTypes.string,
   }),
-  onChange: PropTypes.func.isRequired,
 }
 
 export default ApplicationPicker

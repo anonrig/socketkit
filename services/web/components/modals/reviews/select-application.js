@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import ApplicationPicker from 'components/form/application-picker.js'
+import PropTypes from 'prop-types'
 
 function SelectApplication({ application = null, setApplication = () => ({}) }) {
   return (

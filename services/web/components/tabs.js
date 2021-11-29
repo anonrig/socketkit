@@ -1,7 +1,7 @@
+import cx from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
 
 function Tabs({ selected, items }) {
   const router = useRouter()
@@ -15,7 +15,8 @@ function Tabs({ selected, items }) {
         <select
           name="tabs"
           onBlur={({ target: { value } }) => router.push(items.find((i) => i.key === value).href)}
-          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md"
+        >
           {items.map((item) => (
             <option key={item.key} value={item.key}>
               {item.title}
@@ -35,7 +36,8 @@ function Tabs({ selected, items }) {
                     selected?.includes(item.key)
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
                       : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
-                  ])}>
+                  ])}
+                >
                   {item.title}
                 </a>
               </Link>
@@ -48,14 +50,14 @@ function Tabs({ selected, items }) {
 }
 
 Tabs.propTypes = {
-  selected: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
+      href: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      href: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  selected: PropTypes.string.isRequired,
 }
 
 export default Tabs

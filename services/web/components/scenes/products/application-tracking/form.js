@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
 import cx from 'classnames'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
-import { mutate } from 'swr'
-
 import Button from 'components/form/button'
 import Loading from 'components/loading'
-
 import { fetcher } from 'helpers/fetcher'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { mutate } from 'swr'
 
-function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
+function ApplicationTrackingForm({ isCreating, fallbackData, application_id }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const {
@@ -21,8 +19,8 @@ function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
   } = useForm({
     defaultValues: {
       application_id,
-      title: initialData?.title ?? '',
-      session_timeout: initialData?.session_timeout ?? 30,
+      session_timeout: fallbackData?.session_timeout ?? 30,
+      title: fallbackData?.title ?? '',
     },
   })
 
@@ -37,7 +35,7 @@ function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
           className={cx(
             'appearance-none block w-full px-3 py-2 border border-warmGray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
             {
-              'border-red-500 placeholder-red-500': errors[field],
+              'border-red-500 placeholder-red-500': errors[field.toString()],
             },
           )}
           required={true}
@@ -55,8 +53,8 @@ function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
 
     try {
       await fetcher(url, {
-        method: isCreating ? 'POST' : 'PUT',
         body: JSON.stringify(data),
+        method: isCreating ? 'POST' : 'PUT',
       })
       mutate('integrations/tracking')
       toast.success(isCreating ? 'Application is created' : 'Application is updated')
@@ -84,9 +82,9 @@ function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
             })}
 
             {getField('session_timeout', 'Session Timeout (seconds)', {
-              type: 'number',
-              min: 30,
               max: 3600,
+              min: 30,
+              type: 'number',
             })}
           </div>
         </div>
@@ -107,13 +105,13 @@ function ApplicationTrackingForm({ isCreating, initialData, application_id }) {
 }
 
 ApplicationTrackingForm.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  initialData: PropTypes.shape({
-    application_id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    session_timeout: PropTypes.string.isRequired,
-  }),
   application_id: PropTypes.string.isRequired,
+  fallbackData: PropTypes.shape({
+    application_id: PropTypes.string.isRequired,
+    session_timeout: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
+  isCreating: PropTypes.bool.isRequired,
 }
 
 export default ApplicationTrackingForm

@@ -1,39 +1,39 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { NextSeo } from 'next-seo'
-import cx from 'classnames'
 import { ShieldCheckIcon, InformationCircleIcon } from '@heroicons/react/solid'
+import cx from 'classnames'
 
 import Heading from 'components/heading'
-import ApplicationTrackingForm from 'components/scenes/products/application-tracking/form'
 import ApplicationTrackingKeys from 'components/scenes/products/application-tracking/api-keys'
+import ApplicationTrackingForm from 'components/scenes/products/application-tracking/form'
 
 import { fetchOnBackground } from 'helpers/server-side'
+import { NextSeo } from 'next-seo'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
 const tabs = [
-  { name: 'General', key: 'general', icon: InformationCircleIcon },
-  { name: 'API Keys', key: 'api-keys', icon: ShieldCheckIcon },
+  { icon: InformationCircleIcon, key: 'general', name: 'General' },
+  { icon: ShieldCheckIcon, key: 'api-keys', name: 'API Keys' },
 ]
 
 const breadcrumb = [
-  { title: 'Products & Integrations', href: '/products' },
-  { title: 'Application Tracking', href: '/products/application-tracking' },
+  { href: '/products', title: 'Products & Integrations' },
+  { href: '/products/application-tracking', title: 'Application Tracking' },
 ]
 
 export async function getServerSideProps({ query: { application_id }, req: { headers } }) {
   if (application_id === 'new') {
     return {
       props: {
-        title: 'Add an Application',
-        isCreating: true,
         application_id: '',
-        initialData: null,
+        fallbackData: null,
+        isCreating: true,
+        title: 'Add an Application',
       },
     }
   }
 
   const fetched = await fetchOnBackground(
-    { query: {}, headers },
+    { headers, query: {} },
     `integrations/tracking/${application_id}`,
   )
 
@@ -43,15 +43,15 @@ export async function getServerSideProps({ query: { application_id }, req: { hea
 
   return {
     props: {
-      title: fetched.props.initialData.title,
-      isCreating: false,
       application_id,
-      initialData: fetched.props.initialData,
+      fallbackData: fetched.props.fallbackData,
+      isCreating: false,
+      title: fetched.props.fallbackData.title,
     },
   }
 }
 
-function TrackingApplication({ title, isCreating, application_id, initialData }) {
+function TrackingApplication({ title, isCreating, application_id, fallbackData }) {
   const [page, setPage] = useState(tabs[0])
 
   return (
@@ -69,7 +69,8 @@ function TrackingApplication({ title, isCreating, application_id, initialData })
             name="tabs"
             className="block w-full focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md"
             defaultValue={page.key}
-            onBlur={({ target: { value } }) => setPage(tabs.find((i) => i.key === value))}>
+            onBlur={({ target: { value } }) => setPage(tabs.find((i) => i.key === value))}
+          >
             {tabs.map((tab) => (
               <option key={tab.key}>{tab.name}</option>
             ))}
@@ -89,7 +90,8 @@ function TrackingApplication({ title, isCreating, application_id, initialData })
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
                     'group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm',
                   )}
-                  aria-current={tab.name === page.name ? 'page' : undefined}>
+                  aria-current={tab.name === page.name ? 'page' : undefined}
+                >
                   <tab.icon
                     className={cx(
                       tab.name === page.name
@@ -110,15 +112,15 @@ function TrackingApplication({ title, isCreating, application_id, initialData })
       {page.key === 'general' && (
         <ApplicationTrackingForm
           isCreating={isCreating}
-          initialData={initialData}
+          fallbackData={fallbackData}
           application_id={application_id}
         />
       )}
 
       {page.key === 'api-keys' && !isCreating && (
         <ApplicationTrackingKeys
-          authorization_key={initialData.authorization_key}
-          application_key={initialData.application_key}
+          authorization_key={fallbackData.authorization_key}
+          application_key={fallbackData.application_key}
         />
       )}
     </>
@@ -126,16 +128,16 @@ function TrackingApplication({ title, isCreating, application_id, initialData })
 }
 
 TrackingApplication.propTypes = {
-  title: PropTypes.string.isRequired,
-  isCreating: PropTypes.bool.isRequired,
   application_id: PropTypes.string,
-  initialData: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    session_timeout: PropTypes.number.isRequired,
+  fallbackData: PropTypes.shape({
     application_id: PropTypes.string.isRequired,
     application_key: PropTypes.string,
     authorization_key: PropTypes.string,
+    session_timeout: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
   }),
+  isCreating: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default TrackingApplication

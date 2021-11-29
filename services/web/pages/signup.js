@@ -1,9 +1,9 @@
-import dayjs from 'dayjs'
-import { NextSeo } from 'next-seo'
 import Form from 'components/form/form.js'
+import dayjs from 'dayjs'
 
 import { endpoints, client } from 'helpers/kratos.js'
 import KratosPropTypes from 'helpers/types/kratos.js'
+import { NextSeo } from 'next-seo'
 
 /**
  * @param {import('next').NextPageContext} ctx
@@ -47,8 +47,8 @@ function SignUp({ kratos }) {
         actions={{
           primary: 'Sign in',
           secondary: {
-            label: 'Go back to login',
             href: endpoints.login,
+            label: 'Go back to login',
           },
         }}
         kratos={kratos}

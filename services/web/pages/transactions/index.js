@@ -1,24 +1,24 @@
-import PropTypes from 'prop-types'
-import { useMemo } from 'react'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
 import { SwitchHorizontalIcon } from '@heroicons/react/solid'
-import { NextSeo } from 'next-seo'
 
 import DatePicker from 'components/date-picker'
-import Table from 'components/table/table'
 import Heading from 'components/heading'
+import Table from 'components/table/table'
+import dayjs from 'dayjs'
 
-import { fetchOnBackground } from 'helpers/server-side.js'
-import { setDateRangeIfNeeded } from 'helpers/date.js'
 import TransactionColumns from 'helpers/columns/transaction.js'
+import { setDateRangeIfNeeded } from 'helpers/date.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
 import TransactionPropTypes, { TransactionCursor } from 'helpers/types/transaction.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, 'transactions')
+  return fetchOnBackground({ headers, query }, 'transactions')
 }
 
-function Transactions({ initialData }) {
+function Transactions({ fallbackData }) {
   const router = useRouter()
   const columns = useMemo(() => TransactionColumns, [])
   setDateRangeIfNeeded(router, '/transactions')
@@ -34,23 +34,24 @@ function Transactions({ initialData }) {
             <button
               className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               type="button"
-              onClick={() => router.push('/customers')}>
+              onClick={() => router.push('/customers')}
+            >
               <SwitchHorizontalIcon className="-ml-1 mr-2 h-4 w-4 text-orange-500" />
               Switch to Customers
             </button>
           </span>
           <DatePicker
             interval={{
-              start_date: dayjs(router.query.start_date),
-              end_date: dayjs(router.query.end_date),
+              end_date: dayjs(router.query.end_date.toString()),
+              start_date: dayjs(router.query.start_date.toString()),
             }}
             setInterval={({ start_date, end_date }) => {
               router.push(
                 {
-                  path: '/transactions',
+                  pathname: '/transactions',
                   query: {
-                    start_date: start_date.format('YYYY-MM-DD'),
                     end_date: end_date.format('YYYY-MM-DD'),
+                    start_date: start_date.format('YYYY-MM-DD'),
                   },
                 },
                 undefined,
@@ -61,22 +62,22 @@ function Transactions({ initialData }) {
         </div>
       </div>
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url="transactions"
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({
+          className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
           key: `${original.subscriber_id}-${original.application_id}-${original.transaction_type}-${original.subscription_package_id}-${original.event_date}`,
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
-          className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
         })}
         notFound={{
-          title: 'No transactions found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/subscription-tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No transactions found',
         }}
       />
     </>
@@ -84,9 +85,9 @@ function Transactions({ initialData }) {
 }
 
 Transactions.propTypes = {
-  initialData: PropTypes.shape({
-    rows: PropTypes.arrayOf(TransactionPropTypes).isRequired,
+  fallbackData: PropTypes.shape({
     cursor: TransactionCursor,
+    rows: PropTypes.arrayOf(TransactionPropTypes).isRequired,
   }),
 }
 

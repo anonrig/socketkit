@@ -37,7 +37,7 @@
     "react-medium-image-zoom": "^4.3.5",
     "react-select": "^5.2.1",
     "react-table": "^7.7.0",
-    "swr": "^1.0.1",
+    "swr": "1.1.0-beta.12",
     "use-clipboard-copy": "^0.2.0"
   },
   "devDependencies": {
@@ -61,6 +61,11 @@
     ]
   },
   "eslintConfig": {
-    "extends": "@anonrig/eslint-config/react"
+    "extends": "@anonrig/eslint-config/react",
+    "rules": {
+      "import/no-unresolved": "off",
+      "import/no-named-as-default": "off",
+      "@next/next/no-img-element": "off"
+    }
   }
 }

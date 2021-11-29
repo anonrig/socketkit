@@ -1,19 +1,18 @@
-import { useEffect, useState } from 'react'
 import cx from 'classnames'
-import dynamic from 'next/dynamic'
-import PropTypes from 'prop-types'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
-import { NextSeo } from 'next-seo'
-
-import SocketkitConfig from 'socketkit.config.js'
 
 import DatePicker from 'components/date-picker.js'
-import IntervalDropdown from 'components/reports/interval-dropdown.js'
 import ApplicationDropdown from 'components/reports/application-dropdown.js'
+import IntervalDropdown from 'components/reports/interval-dropdown.js'
 import Sidebar from 'components/sidebar-reports.js'
+import dayjs from 'dayjs'
 import { fetcher, getQueryString } from 'helpers/fetcher.js'
 import SidebarLayout from 'layouts/sidebar.js'
+import { NextSeo } from 'next-seo'
+import dynamic from 'next/dynamic'
+import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
+import SocketkitConfig from 'socketkit.config.js'
+import useSWR from 'swr'
 
 const BarChart = dynamic(() => import('components/charts/bar.js'))
 const LineChart = dynamic(() => import('components/charts/line.js'))
@@ -33,13 +32,13 @@ export async function getServerSideProps({ query: { slug, start_date, end_date }
   return {
     props: {
       query: {
+        end_date: dayjs(end_date).endOf(interval).format(format),
         start_date: start_date
           ? dayjs(start_date).startOf(interval).format(format)
           : dayjs()
               .subtract(report.defaults?.range ?? 1, 'month')
               .startOf(interval)
               .format(format),
-        end_date: dayjs(end_date).endOf(interval).format(format),
       },
       slug: report.slug,
     },
@@ -49,18 +48,18 @@ export async function getServerSideProps({ query: { slug, start_date, end_date }
 function Reports({ query, slug }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)
   const [filters, setFilters] = useState({
-    start_date: dayjs(query.start_date),
-    end_date: dayjs(query.end_date),
-    type: report.defaults?.graph ?? 'line',
-    interval: report.defaults?.interval ?? 'day',
     application_id: null,
+    end_date: dayjs(query.end_date),
+    interval: report.defaults?.interval ?? 'day',
+    start_date: dayjs(query.start_date),
+    type: report.defaults?.graph ?? 'line',
   })
   const { data } = useSWR(
     `reports/subscription/${slug}?${getQueryString({
-      start_date: filters.start_date.format('YYYY-MM-DD'),
+      application_id: filters.application_id,
       end_date: filters.end_date.format('YYYY-MM-DD'),
       interval: filters.interval,
-      application_id: filters.application_id,
+      start_date: filters.start_date.format('YYYY-MM-DD'),
     })}`,
     fetcher,
     { refreshInterval: 0 },
@@ -68,9 +67,9 @@ function Reports({ query, slug }) {
   function changeInterval(interval) {
     setFilters({
       ...filters,
+      end_date: filters.end_date.endOf(interval),
       interval,
       start_date: filters.start_date.startOf(interval),
-      end_date: filters.end_date.endOf(interval),
     })
   }
 
@@ -82,13 +81,13 @@ function Reports({ query, slug }) {
     const interval = report.defaults?.interval ?? 'day'
     setFilters({
       ...filters,
+      application_id: null,
+      end_date: dayjs().endOf(interval),
       interval,
       start_date: dayjs()
         .subtract(report.defaults?.range ?? 2, 'month')
         .startOf(interval),
-      end_date: dayjs().endOf(interval),
       type: report.defaults?.graph ?? filters.type,
-      application_id: null,
     })
   }, [report]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
@@ -112,9 +111,9 @@ function Reports({ query, slug }) {
             interval={filters}
             setInterval={({ start_date, end_date }) =>
               setFilters({
-                start_date,
                 end_date,
                 interval: filters.interval,
+                start_date,
               })
             }
           />
@@ -133,7 +132,8 @@ function Reports({ query, slug }) {
                     filters.type === 'line'
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
                       : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
-                  ])}>
+                  ])}
+                >
                   Line
                 </button>
                 <button
@@ -143,7 +143,8 @@ function Reports({ query, slug }) {
                     filters.type === 'bar'
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
                       : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
-                  ])}>
+                  ])}
+                >
                   Bar
                 </button>
               </nav>
@@ -164,12 +165,12 @@ function Reports({ query, slug }) {
         <div className="bg-white py-5 px-4 sm:px-6 h-96 w-full" key={report.slug}>
           {filters.type === 'line' ? (
             <LineChart
-              values={[{ id: report.slug, rows: data?.rows ?? [], fields: report.formats ?? {} }]}
+              values={[{ fields: report.formats ?? {}, id: report.slug, rows: data?.rows ?? [] }]}
               yFormat={report.defaults.y_format}
             />
           ) : (
             <BarChart
-              values={{ id: report.slug, rows: data?.rows ?? [], fields: report.formats ?? {} }}
+              values={{ fields: report.formats ?? {}, id: report.slug, rows: data?.rows ?? [] }}
             />
           )}
         </div>
@@ -180,8 +181,8 @@ function Reports({ query, slug }) {
 
 Reports.propTypes = {
   query: PropTypes.shape({
-    start_date: PropTypes.string.isRequired,
     end_date: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
   }),
   slug: PropTypes.string.isRequired,
 }

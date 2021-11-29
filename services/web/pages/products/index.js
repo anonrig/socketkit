@@ -1,13 +1,11 @@
+import Heading from 'components/heading'
+import IntegrationRow from 'components/scenes/integration-row'
+import dayjs from 'dayjs'
+import { fetcher } from 'helpers/fetcher.js'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import dayjs from 'dayjs'
-import { NextSeo } from 'next-seo'
-
-import IntegrationRow from 'components/scenes/integration-row'
-import Heading from 'components/heading'
-
-import { fetcher } from 'helpers/fetcher.js'
 
 export async function getServerSideProps({
   req: {
@@ -41,13 +39,13 @@ function Integrations({ initial }) {
   const router = useRouter()
 
   const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
-    initialData: initial.appstoreConnect,
+    fallbackData: initial.appstoreConnect,
   })
   const { data: reviews } = useSWR(`integrations/reviews`, fetcher, {
-    initialData: initial.reviews,
+    fallbackData: initial.reviews,
   })
   const { data: tracking } = useSWR(`integrations/tracking`, fetcher, {
-    initialData: initial.tracking,
+    fallbackData: initial.tracking,
   })
 
   function navigateTo(url) {

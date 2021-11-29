@@ -1,14 +1,13 @@
-import { Fragment, useContext } from 'react'
-import Link from 'next/link'
 import { Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/outline'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 
 import { AuthContext } from 'helpers/context.js'
-import { getUrl } from 'helpers/fetcher'
 import { client } from 'helpers/kratos'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { Fragment, useContext } from 'react'
 
 function ProfileDropdown({ className }) {
   const router = useRouter()
@@ -45,10 +44,12 @@ function ProfileDropdown({ className }) {
               enterTo="transform opacity-100 scale-100"
               leave="transition ease-in duration-75"
               leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95">
+              leaveTo="transform opacity-0 scale-95"
+            >
               <Menu.Items
                 static
-                className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-orange-500 ring-opacity-5 focus:outline-none z-30">
+                className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-orange-500 ring-opacity-5 focus:outline-none z-30"
+              >
                 <div className="px-1 py-1">
                   <Menu.Item>
                     <Link href="/account">
@@ -70,7 +71,8 @@ function ProfileDropdown({ className }) {
                     <button
                       onClick={() => logout()}
                       className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem">
+                      role="menuitem"
+                    >
                       Log out
                     </button>
                   </Menu.Item>

@@ -18,9 +18,9 @@ export default PropTypes.shape({
   reviews: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   screenhots: PropTypes.shape({
+    appletv: PropTypes.arrayOf(PropTypes.string),
     default: PropTypes.arrayOf(PropTypes.string),
     ipad: PropTypes.arrayOf(PropTypes.string),
-    appletv: PropTypes.arrayOf(PropTypes.string),
   }),
   size: PropTypes.string.isRequired,
   store_url: PropTypes.string.isRequired,

@@ -1,9 +1,9 @@
-import dayjs from 'dayjs'
-import { NextSeo } from 'next-seo'
 import Form from 'components/form/form.js'
+import dayjs from 'dayjs'
 
 import { endpoints, client } from 'helpers/kratos.js'
 import KratosPropTypes from 'helpers/types/kratos.js'
+import { NextSeo } from 'next-seo'
 
 /**
  * @param {import('next').NextPageContext} ctx Context
@@ -47,7 +47,8 @@ function SignIn({ kratos }) {
         or{' '}
         <a
           className="font-semibold text-orange-500 hover:text-orange-400"
-          href={endpoints.register}>
+          href={endpoints.register}
+        >
           start your 14-day free trial
         </a>
       </p>
@@ -58,7 +59,8 @@ function SignIn({ kratos }) {
             <div></div>
             <a
               href={endpoints.recover}
-              className="font-medium text-orange-500 hover:text-orange-400 text-sm">
+              className="font-medium text-orange-500 hover:text-orange-400 text-sm"
+            >
               Forgot your password?
             </a>
           </div>

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 function Badge({ children, state }) {
   let color = 'bg-warmGray-50 text-warmGray-900'
@@ -13,9 +13,10 @@ function Badge({ children, state }) {
   return (
     <span
       className={cx([
-        `px-2 py-1 inline-flex text-xs font-semibold rounded-md uppercase w-20 text-center justify-center`,
+        `px-2 py-1 inline-flex text-xs font-semibold rounded-md uppercase min-w-20 text-center justify-center`,
         color,
-      ])}>
+      ])}
+    >
       {children}
     </span>
   )

@@ -1,23 +1,19 @@
-import PropTypes from 'prop-types'
-import { useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table.js'
 
-import { fetchOnBackground } from 'helpers/server-side.js'
 import SubscriptionPackageColumns from 'helpers/columns/subscription-package.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
 import SubscriptionPackagePropTypes from 'helpers/types/subscription-package.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground(
-    { query, headers },
-    `applications/${query.application_id}/packages`,
-  )
+  return fetchOnBackground({ headers, query }, `applications/${query.application_id}/packages`)
 }
 
-function SubscriptionPackages({ initialData }) {
+function SubscriptionPackages({ fallbackData }) {
   const router = useRouter()
   const columns = useMemo(() => SubscriptionPackageColumns, [])
 
@@ -26,7 +22,7 @@ function SubscriptionPackages({ initialData }) {
       <NextSeo title="Subscription Packages" />
       <ApplicationHeader />
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url={`applications/${router.query.application_id}/packages`}
         options={{}}
         columns={columns}
@@ -35,12 +31,12 @@ function SubscriptionPackages({ initialData }) {
           onClick: () => {},
         })}
         notFound={{
-          title: 'No subscription packages found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/subscription-tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No subscription packages found',
         }}
       />
     </>
@@ -48,7 +44,7 @@ function SubscriptionPackages({ initialData }) {
 }
 
 SubscriptionPackages.propTypes = {
-  initialData: PropTypes.shape({
+  fallbackData: PropTypes.shape({
     rows: PropTypes.arrayOf(SubscriptionPackagePropTypes),
   }),
 }

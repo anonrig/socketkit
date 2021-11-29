@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
-
-import { StarIcon as SolidStar } from '@heroicons/react/solid'
 import { StarIcon as OutlineStar } from '@heroicons/react/outline'
+import { StarIcon as SolidStar } from '@heroicons/react/solid'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 function InlineRating({ rating, className }) {
   const getStar = (current) => {
@@ -20,8 +19,8 @@ function InlineRating({ rating, className }) {
 }
 
 InlineRating.propTypes = {
-  rating: PropTypes.number.isRequired,
   className: PropTypes.string,
+  rating: PropTypes.number.isRequired,
 }
 
 export default InlineRating

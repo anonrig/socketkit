@@ -1,35 +1,35 @@
-import PropTypes from 'prop-types'
-import { NextSeo } from 'next-seo'
-import Link from 'next/link'
-import useSWR from 'swr'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
-
-import Heading from 'components/heading'
 import Button from 'components/form/button'
+import Heading from 'components/heading'
+import dayjs from 'dayjs'
 
 import { fetcher } from 'helpers/fetcher'
 import { fetchOnBackground } from 'helpers/server-side'
+import { NextSeo } from 'next-seo'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import useSWR from 'swr'
 
-const breadcrumb = [{ title: 'Products & Integrations', href: '/products' }]
+const breadcrumb = [{ href: '/products', title: 'Products & Integrations' }]
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, `integrations/tracking`)
+  return fetchOnBackground({ headers, query }, `integrations/tracking`)
 }
 
-function TrackingApplications({ initialData }) {
+function TrackingApplications({ fallbackData }) {
   const router = useRouter()
-  const { data: applications } = useSWR('integrations/tracking', fetcher, { initialData })
+  const { data: applications } = useSWR('integrations/tracking', fetcher, { fallbackData })
   const pageHeader = (
     <>
       <NextSeo title="Application Tracking" />
       <Heading
         steps={breadcrumb}
         action={
-          <Link href="/products/application-tracking/new">
+          <Link href="/products/application-tracking/new" passHref>
             <Button as="a">Add New</Button>
           </Link>
-        }>
+        }
+      >
         Application Tracking
       </Heading>
     </>
@@ -70,27 +70,32 @@ function TrackingApplications({ initialData }) {
                   <tr>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
-                      scope="col">
+                      scope="col"
+                    >
                       Identifier
                     </th>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
-                      scope="col">
+                      scope="col"
+                    >
                       Title
                     </th>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
-                      scope="col">
+                      scope="col"
+                    >
                       State
                     </th>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider text-right"
-                      scope="col">
+                      scope="col"
+                    >
                       Created At
                     </th>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider text-right"
-                      scope="col">
+                      scope="col"
+                    >
                       Last Updated
                     </th>
                   </tr>
@@ -102,7 +107,8 @@ function TrackingApplications({ initialData }) {
                       key={row.application_id}
                       onClick={() =>
                         router.push(`/products/application-tracking/${row.application_id}`)
-                      }>
+                      }
+                    >
                       <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal w-40 font-semibold">
                         {row.application_id}
                       </td>
@@ -131,12 +137,12 @@ function TrackingApplications({ initialData }) {
 }
 
 TrackingApplications.propTypes = {
-  initialData: PropTypes.arrayOf(
+  fallbackData: PropTypes.arrayOf(
     PropTypes.shape({
       application_id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      is_active: PropTypes.bool.isRequired,
       created_at: PropTypes.string.isRequired,
+      is_active: PropTypes.bool.isRequired,
+      title: PropTypes.string.isRequired,
       updated_at: PropTypes.string.isRequired,
     }),
   ),

@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types'
-
 import Github from 'components/providers/github.js'
 import Gitlab from 'components/providers/gitlab.js'
+import PropTypes from 'prop-types'
 
 function FormProviders({ action, oidc_group, method }) {
   return (
@@ -17,7 +16,8 @@ function FormProviders({ action, oidc_group, method }) {
             key={field.attributes.value}
             className={
               'w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
-            }>
+            }
+          >
             <span className="sr-only">Sign in with {field.attributes.value}</span>
             {field.attributes.value === 'github' ? <Github /> : <Gitlab />}
           </button>

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 
 export const CustomerCursor = PropTypes.shape({
-  subscriber_id: PropTypes.string.isRequired,
   first_interaction: PropTypes.string.isRequired,
+  subscriber_id: PropTypes.string.isRequired,
 })
 
 export default PropTypes.shape({

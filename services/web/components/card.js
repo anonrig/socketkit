@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 
 function Card({ title, className, children }) {
   return (
@@ -16,9 +16,9 @@ function Card({ title, className, children }) {
 }
 
 Card.propTypes = {
-  title: PropTypes.string.isRequired,
-  className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  className: PropTypes.string,
+  title: PropTypes.string.isRequired,
 }
 
 export default Card

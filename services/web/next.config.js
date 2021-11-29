@@ -1,18 +1,18 @@
 module.exports = {
-  poweredByHeader: false,
-  reactStrictMode: true,
   env: {
-    KRATOS_URL: process.env.KRATOS_URL,
     API_URL: process.env.API_URL,
     CURRENT_URL: process.env.CURRENT_URL,
+    KRATOS_URL: process.env.KRATOS_URL,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
+  poweredByHeader: false,
+  reactStrictMode: true,
   async redirects() {
     return [
       {
-        source: '/reports',
         destination: '/reports/revenue',
         permanent: false,
+        source: '/reports',
       },
     ]
   },

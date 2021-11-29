@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-key */
-import { Fragment } from 'react'
 import cx from 'classnames'
+import { getQueryString } from 'helpers/fetcher.js'
 import PropTypes from 'prop-types'
-import { useMemo, useRef, useEffect } from 'react'
+import { Fragment, useMemo, useRef, useEffect, useCallback } from 'react'
 import { useTable, useExpanded } from 'react-table'
 import useSWRInfinite from 'swr/infinite'
-import { fetcher, getQueryString } from 'helpers/fetcher.js'
+
 import useOnScreen from '../../helpers/use-onscreen.js'
 
 function Table({
-  initialData,
+  fallbackData,
   columns,
   getRowProps,
   url,
@@ -19,8 +19,8 @@ function Table({
 }) {
   const loader = useRef()
   const isVisible = useOnScreen(loader)
-  const { data, size, setSize, isValidating, error } = useSWRInfinite(
-    (_, previous) => {
+  const getPaginationKey = useCallback(
+    (_page, previous) => {
       if (previous && !previous.cursor) return null
       const query = getQueryString(
         Object.assign({}, options, previous?.cursor ? { cursor: previous.cursor } : {}),
@@ -28,26 +28,29 @@ function Table({
 
       return query.length > 0 ? `${url}?${query}` : url
     },
-    fetcher,
-    {
-      refreshInterval: 0,
-      refreshWhenHidden: false,
-      refreshWhenOffline: false,
-      revalidateOnFocus: false,
-      initialData: initialData ? [initialData] : undefined,
-    },
+    [options, url],
   )
+  const { data, size, setSize, isValidating, error } = useSWRInfinite(getPaginationKey, {
+    fallbackData: fallbackData ? [fallbackData] : undefined,
+    refreshInterval: 0,
+    refreshWhenHidden: false,
+    refreshWhenOffline: false,
+    revalidateAll: false,
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnMount: false,
+  })
 
-  const isLoadingInitialData = !data && !error
+  const isLoadingfallbackData = !data && !error
   const isLoadingMore =
-    isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined')
+    isLoadingfallbackData || (size > 0 && data && typeof data[size - 1] === 'undefined')
   const isEmpty = data?.[0]?.rows.length === 0
 
   useEffect(() => {
-    if (isVisible && !isValidating && !isLoadingInitialData && !isLoadingMore && !isEmpty) {
+    if (isVisible && !isValidating && !isLoadingfallbackData && !isLoadingMore && !isEmpty) {
       setSize(size + 1)
     }
-  }, [isVisible, isValidating, isLoadingInitialData, isLoadingMore, isEmpty, size, setSize])
+  }, [isVisible, isValidating, isLoadingfallbackData, isLoadingMore, isEmpty, size, setSize])
 
   const memoized = useMemo(() => data?.map((d) => d.rows).flat() ?? [], [data])
 
@@ -60,7 +63,7 @@ function Table({
       useExpanded,
     )
 
-  if (!isLoadingInitialData && !isLoadingMore && isEmpty) {
+  if (!isLoadingfallbackData && !isLoadingMore && isEmpty) {
     return (
       <div className="shadow-lgs sm:rounded-lg my-4">
         <div className="px-4 py-5 sm:p-6">
@@ -69,7 +72,8 @@ function Table({
           {notFound.action && (
             <button
               className="mt-3 text-sm font-medium text-orange-500 hover:text-orange-400"
-              onClick={() => notFound.action.callback()}>
+              onClick={() => notFound.action.callback()}
+            >
               {notFound.action.message} <span aria-hidden="true">&rarr;</span>
             </button>
           )}
@@ -95,7 +99,8 @@ function Table({
                             column.className,
                           ])}
                           scope="col"
-                          {...column.getHeaderProps()}>
+                          {...column.getHeaderProps()}
+                        >
                           {column.render('Header')}
                         </th>
                       ))}
@@ -112,7 +117,8 @@ function Table({
                       <Fragment key={key}>
                         <tr
                           className="hover:bg-warmGray-50 cursor-pointer"
-                          {...row.getRowProps(getRowProps(row))}>
+                          {...row.getRowProps(getRowProps(row))}
+                        >
                           {row.cells.map((cell) => {
                             return (
                               <td
@@ -120,7 +126,8 @@ function Table({
                                   'px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal',
                                   cell.column.className,
                                 ])}
-                                {...cell.getCellProps()}>
+                                {...cell.getCellProps()}
+                              >
                                 {cell.render('Cell')}
                               </td>
                             )
@@ -150,31 +157,31 @@ function Table({
 
 Table.defaultProps = {
   notFound: {
-    title: 'No results found',
-    message: `Try adjusting your search or filter to find what you're looking for.`,
     action: null,
+    message: `Try adjusting your search or filter to find what you're looking for.`,
+    title: 'No results found',
   },
 }
 
 Table.propTypes = {
-  initialData: PropTypes.any,
-  url: PropTypes.string.isRequired,
-  options: PropTypes.shape({
-    limit: PropTypes.number,
-    from: PropTypes.string,
-    to: PropTypes.string,
-  }),
   columns: PropTypes.arrayOf(PropTypes.any).isRequired,
+  fallbackData: PropTypes.any,
   getRowProps: PropTypes.func,
   notFound: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
     action: PropTypes.shape({
-      message: PropTypes.string,
       callback: PropTypes.func,
+      message: PropTypes.string,
     }),
+    message: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
+  options: PropTypes.shape({
+    from: PropTypes.string,
+    limit: PropTypes.number,
+    to: PropTypes.string,
   }),
   renderRowSubComponent: PropTypes.func,
+  url: PropTypes.string.isRequired,
 }
 
 export default Table

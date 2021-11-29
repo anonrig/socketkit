@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types'
-import dayjs from 'dayjs'
-import Link from 'next/link'
-import cx from 'classnames'
-
 import {
   UserAddIcon,
   ReceiptRefundIcon,
   InformationCircleIcon,
   CurrencyDollarIcon,
 } from '@heroicons/react/solid'
+import cx from 'classnames'
+import dayjs from 'dayjs'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function TimelineRow({
   indicatorEnabled,
@@ -104,12 +103,12 @@ TimelineRow.propTypes = {
   entry: PropTypes.shape({
     application_id: PropTypes.string.isRequired,
     application_name: PropTypes.string.isRequired,
-    base_subscriber_purchase: PropTypes.string.isRequired,
     base_developer_proceeds: PropTypes.string.isRequired,
-    transaction_type: PropTypes.string.isRequired,
+    base_subscriber_purchase: PropTypes.string.isRequired,
+    event_date: PropTypes.string.isRequired,
     subscription_package_id: PropTypes.string.isRequired,
     subscription_package_name: PropTypes.string.isRequired,
-    event_date: PropTypes.string.isRequired,
+    transaction_type: PropTypes.string.isRequired,
   }).isRequired,
   indicatorEnabled: PropTypes.bool,
 }

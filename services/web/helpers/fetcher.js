@@ -1,5 +1,5 @@
-import qs from 'qs'
 import { apiUrl } from 'helpers/config.js'
+import qs from 'qs'
 
 export async function fetcher(resource, options = {}) {
   if (options?.qs) {

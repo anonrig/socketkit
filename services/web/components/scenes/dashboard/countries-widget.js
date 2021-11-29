@@ -1,7 +1,7 @@
+import { fetcher } from 'helpers/fetcher.js'
+import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
-import dynamic from 'next/dynamic'
-import { fetcher } from 'helpers/fetcher.js'
 
 const TreeMapChart = dynamic(() => import('components/charts/treemap.js'))
 
@@ -15,11 +15,11 @@ function getRandomColor() {
   return color
 }
 
-function CountriesWidget({ range, initialData }) {
+function CountriesWidget({ range, fallbackData }) {
   const { data } = useSWR(
     `accounts/countries?start_date=${range.start_date}&end_date=${range.end_date}&limit=10`,
     fetcher,
-    { initialData, refreshInterval: 0 },
+    { fallbackData, refreshInterval: 0 },
   )
 
   return (
@@ -33,9 +33,9 @@ function CountriesWidget({ range, initialData }) {
           <TreeMapChart
             id="Countries Summary"
             rows={(data ?? []).map((c) => ({
+              color: getRandomColor(),
               id: c.country_name,
               value: c.revenue,
-              color: getRandomColor(),
             }))}
             identity="id"
             value="id"
@@ -54,17 +54,20 @@ function CountriesWidget({ range, initialData }) {
                         </th>
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
-                          scope="col">
+                          scope="col"
+                        >
                           Churn
                         </th>
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
-                          scope="col">
+                          scope="col"
+                        >
                           Conversion
                         </th>
                         <th
                           className="px-6 py-3.5 lg:py-4 text-xs font-medium text-right"
-                          scope="col">
+                          scope="col"
+                        >
                           Revenue
                         </th>
                       </tr>
@@ -109,22 +112,22 @@ function CountriesWidget({ range, initialData }) {
 }
 
 CountriesWidget.propTypes = {
-  range: PropTypes.shape({
-    start_date: PropTypes.string.isRequired,
-    end_date: PropTypes.string.isRequired,
-  }),
-  initialData: PropTypes.arrayOf(
+  fallbackData: PropTypes.arrayOf(
     PropTypes.shape({
+      churned_from_direct_sale: PropTypes.number.isRequired,
+      churned_from_trial: PropTypes.number.isRequired,
       country_id: PropTypes.string.isRequired,
+      paid_converted_from_trial: PropTypes.number.isRequired,
+      revenue: PropTypes.number.isRequired,
       total_count: PropTypes.number.isRequired,
       total_direct_sale_count: PropTypes.number.isRequired,
       total_trial_count: PropTypes.number.isRequired,
-      paid_converted_from_trial: PropTypes.number.isRequired,
-      revenue: PropTypes.number.isRequired,
-      churned_from_direct_sale: PropTypes.number.isRequired,
-      churned_from_trial: PropTypes.number.isRequired,
     }),
   ),
+  range: PropTypes.shape({
+    end_date: PropTypes.string.isRequired,
+    start_date: PropTypes.string.isRequired,
+  }),
 }
 
 export default CountriesWidget

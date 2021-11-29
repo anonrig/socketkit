@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import FormField from 'components/form/field'
 import Button from 'components/form/button'
+import FormField from 'components/form/field'
 import { KratosNode } from 'helpers/types/kratos.js'
+import PropTypes from 'prop-types'
 
 function AccountPassword({ fields }) {
   const submit = fields.find((f) => f.attributes.type === 'submit') ?? {}
@@ -25,7 +25,8 @@ function AccountPassword({ fields }) {
       <div className="px-4 py-3 text-right sm:px-6 border-t border-gray-200">
         <Button
           className="bg-orange-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-          {...submit.attributes}>
+          {...submit.attributes}
+        >
           Update
         </Button>
       </div>

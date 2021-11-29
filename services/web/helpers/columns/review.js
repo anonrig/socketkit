@@ -2,7 +2,6 @@ import InlineRating from 'components/inline-rating.js'
 
 export default [
   {
-    id: 'country_id',
     accessor: function GetReviewCountry(fields) {
       const country_id = fields.country_id.toUpperCase()
       return (
@@ -13,15 +12,15 @@ export default [
       )
     },
     className: 'font-semibold w-24',
+    id: 'country_id',
   },
   {
-    id: 'version_number',
     Header: 'Version',
     accessor: 'version_number',
     className: 'w-20',
+    id: 'version_number',
   },
   {
-    id: 'content',
     Header: 'Content',
     accessor: function GetReviewContent(field) {
       return (
@@ -36,5 +35,6 @@ export default [
         </div>
       )
     },
+    id: 'content',
   },
 ]

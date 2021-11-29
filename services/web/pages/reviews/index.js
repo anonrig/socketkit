@@ -1,30 +1,30 @@
+import { GlobeIcon, ChartSquareBarIcon, DeviceMobileIcon } from '@heroicons/react/outline'
+
+import DatePicker from 'components/date-picker'
+import Select from 'components/form/select'
+import Heading from 'components/heading.js'
+import ReviewDetailModal from 'components/modals/review-detail.js'
+import Table from 'components/table/table'
+import dayjs from 'dayjs'
+
+import ReviewColumns from 'helpers/columns/review.js'
+import { setDateRangeIfNeeded } from 'helpers/date.js'
+import { fetcher } from 'helpers/fetcher.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useMemo, useState } from 'react'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import { GlobeIcon, ChartSquareBarIcon, DeviceMobileIcon } from '@heroicons/react/outline'
-import { NextSeo } from 'next-seo'
-
-import Heading from 'components/heading.js'
-import Select from 'components/form/select'
-import DatePicker from 'components/date-picker'
-import Table from 'components/table/table'
-import ReviewDetailModal from 'components/modals/review-detail.js'
-
-import { fetcher } from 'helpers/fetcher.js'
-import { setDateRangeIfNeeded } from 'helpers/date.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
-import ReviewColumns from 'helpers/columns/review.js'
-import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, 'reviews')
+  return fetchOnBackground({ headers, query }, 'reviews')
 }
 
-function Reviews({ initialData }) {
+function Reviews({ fallbackData }) {
   const router = useRouter()
-  const [filters, setFilters] = useState({ country: null, application: null, version: null })
+  const [filters, setFilters] = useState({ application: null, country: null, version: null })
   const columns = useMemo(() => ReviewColumns, [])
   const [presentingReview, setPresentingReview] = useState(null)
   setDateRangeIfNeeded(router, '/reviews')
@@ -54,16 +54,16 @@ function Reviews({ initialData }) {
         <Heading>Reviews</Heading>
         <DatePicker
           interval={{
-            start_date: dayjs(router.query.start_date),
-            end_date: dayjs(router.query.end_date),
+            end_date: dayjs(router.query.end_date.toString()),
+            start_date: dayjs(router.query.start_date.toString()),
           }}
           setInterval={({ start_date, end_date }) => {
             router.push(
               {
-                path: '/reviews',
+                pathname: '/reviews',
                 query: {
-                  start_date: start_date.format('YYYY-MM-DD'),
                   end_date: end_date.format('YYYY-MM-DD'),
+                  start_date: start_date.format('YYYY-MM-DD'),
                 },
               },
               undefined,
@@ -76,7 +76,7 @@ function Reviews({ initialData }) {
         <Select
           selected={filters.country}
           setSelected={(country_id) =>
-            setFilters({ country: country_id, application: null, version: null })
+            setFilters({ application: null, country: country_id, version: null })
           }
           values={countries?.rows ?? []}
           renderer={({ name }) => name}
@@ -87,7 +87,7 @@ function Reviews({ initialData }) {
         <Select
           selected={filters.application}
           setSelected={(application_id) =>
-            setFilters({ country: filters.country, application: application_id, version: null })
+            setFilters({ application: application_id, country: filters.country, version: null })
           }
           values={applications ?? []}
           renderer={({ application_title }) => application_title}
@@ -113,27 +113,27 @@ function Reviews({ initialData }) {
         <div></div>
       </div>
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url="reviews"
         options={{
-          country_id: filters.country,
           application_id: filters.application,
+          country_id: filters.country,
           version: filters.version,
           ...router.query,
         }}
         columns={columns}
         getRowProps={({ original }) => ({
-          id: original.review_id,
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          id: original.review_id,
           onClick: () => setPresentingReview(original),
         })}
         notFound={{
-          title: 'No reviews found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/review-tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No reviews found',
         }}
       />
     </>
@@ -141,10 +141,10 @@ function Reviews({ initialData }) {
 }
 
 Reviews.propTypes = {
-  initialData: PropTypes.shape({
+  fallbackData: PropTypes.shape({
+    cursor: ReviewCursor,
     fetching: PropTypes.bool,
     rows: PropTypes.arrayOf(ReviewPropTypes),
-    cursor: ReviewCursor,
   }).isRequired,
 }
 

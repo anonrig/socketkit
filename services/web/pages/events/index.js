@@ -1,21 +1,20 @@
+import ExpandedCell from 'components/expanded-cell'
+import Heading from 'components/heading'
+import Table from 'components/table/table'
+
+import EventColumns from 'helpers/columns/event.js'
+import { fetchOnBackground } from 'helpers/server-side.js'
+import EventPropTypes, { EventCursor } from 'helpers/types/event.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-
-import Table from 'components/table/table'
-import Heading from 'components/heading'
-import ExpandedCell from 'components/expanded-cell'
-
-import { fetchOnBackground } from 'helpers/server-side.js'
-import EventColumns from 'helpers/columns/event.js'
-import EventPropTypes, { EventCursor } from 'helpers/types/event.js'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ query, headers }, 'events')
+  return fetchOnBackground({ headers, query }, 'events')
 }
 
-function Events({ initialData }) {
+function Events({ fallbackData }) {
   const router = useRouter()
   const columns = useMemo(() => EventColumns, [])
 
@@ -25,21 +24,21 @@ function Events({ initialData }) {
       <Heading className="mb-8">Events</Heading>
 
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url="events"
         options={{ limit: 10 }}
         columns={columns}
         getRowProps={({ original }) => ({
-          key: `${original.application_id}-${original.client_id}-${original.session_started_at}-${original.created_at}`,
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          key: `${original.application_id}-${original.client_id}-${original.session_started_at}-${original.created_at}`,
         })}
         notFound={{
-          title: 'No events found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No events found',
         }}
         renderRowSubComponent={({ row }) => <ExpandedCell row={row.original} />}
       />
@@ -48,9 +47,9 @@ function Events({ initialData }) {
 }
 
 Events.propTypes = {
-  initialData: PropTypes.shape({
-    rows: PropTypes.arrayOf(EventPropTypes).isRequired,
+  fallbackData: PropTypes.shape({
     cursor: EventCursor,
+    rows: PropTypes.arrayOf(EventPropTypes).isRequired,
   }),
 }
 

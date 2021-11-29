@@ -1,10 +1,9 @@
-import dayjs from 'dayjs'
-import useSWR from 'swr'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-
-import TimelineRow from 'components/scenes/customers/timeline-row.js'
 import SubscriptionRow from 'components/scenes/customers/subscription-row.js'
+import TimelineRow from 'components/scenes/customers/timeline-row.js'
+import dayjs from 'dayjs'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
 export default function CustomerDetail() {
   const { id } = useRouter().query
@@ -28,7 +27,8 @@ export default function CustomerDetail() {
                   Member since
                   <time
                     className="text-warmGray-900 ml-2"
-                    dateTime={dayjs(customer?.first_interaction).format('YYYY-MM-DD')}>
+                    dateTime={dayjs(customer?.first_interaction).format('YYYY-MM-DD')}
+                  >
                     {dayjs(customer?.first_interaction).format('DD/MM/YYYY')}
                   </time>
                 </div>

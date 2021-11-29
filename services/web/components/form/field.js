@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
+
 import fields from './kratos-fields'
 
 function FormField({ className, messages, meta, attributes, type }) {
@@ -41,7 +42,8 @@ function FormField({ className, messages, meta, attributes, type }) {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              aria-hidden="true">
+              aria-hidden="true"
+            >
               <path
                 fillRule="evenodd"
                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
@@ -57,7 +59,8 @@ function FormField({ className, messages, meta, attributes, type }) {
             'text-red-500': message.type === 'error',
             'text-trueGray-500': message.type !== 'error',
           })}
-          key={message.id}>
+          key={message.id}
+        >
           {message.text}
         </p>
       ))}
@@ -66,21 +69,15 @@ function FormField({ className, messages, meta, attributes, type }) {
 }
 
 FormField.propTypes = {
-  meta: PropTypes.shape({
-    label: PropTypes.shape({
-      text: PropTypes.string,
-    }),
-  }),
   attributes: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     required: PropTypes.bool,
+    type: PropTypes.string.isRequired,
     value: PropTypes.string,
   }),
-  type: PropTypes.string.isRequired,
   className: PropTypes.string,
-  labelClassName: PropTypes.string,
   inputClassName: PropTypes.string,
+  labelClassName: PropTypes.string,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       context: PropTypes.shape({ property: PropTypes.string }),
@@ -89,6 +86,12 @@ FormField.propTypes = {
       type: PropTypes.string,
     }),
   ),
+  meta: PropTypes.shape({
+    label: PropTypes.shape({
+      text: PropTypes.string,
+    }),
+  }),
+  type: PropTypes.string.isRequired,
 }
 
 export default FormField

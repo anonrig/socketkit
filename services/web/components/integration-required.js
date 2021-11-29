@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
 
 function IntegrationRequired({ title, subtitle, url }) {
   const router = useRouter()
@@ -13,7 +13,8 @@ function IntegrationRequired({ title, subtitle, url }) {
           onClick={() => router.push(url)}
           className={
             'flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 w-44'
-          }>
+          }
+        >
           Start Tracking
         </button>
       </div>
@@ -22,8 +23,8 @@ function IntegrationRequired({ title, subtitle, url }) {
 }
 
 IntegrationRequired.propTypes = {
-  title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 }
 

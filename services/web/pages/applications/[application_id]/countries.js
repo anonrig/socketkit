@@ -1,23 +1,19 @@
-import { useRouter } from 'next/router'
-import { useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { NextSeo } from 'next-seo'
-
 import ApplicationHeader from 'components/menu/application-header.js'
 import Table from 'components/table/table'
+import CountryColumns from 'helpers/columns/country.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 
-import CountryColumns from 'helpers/columns/country.js'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground(
-    { query, headers },
-    `applications/${query.application_id}/countries`,
-  )
+  return fetchOnBackground({ headers, query }, `applications/${query.application_id}/countries`)
 }
 
-function Customers({ initialData }) {
+function Customers({ fallbackData }) {
   const router = useRouter()
   const { application_id } = router.query
   const columns = useMemo(() => CountryColumns, [])
@@ -28,21 +24,21 @@ function Customers({ initialData }) {
       <NextSeo title="Application Countries" />
       <ApplicationHeader />
       <Table
-        initialData={initialData}
+        fallbackData={fallbackData}
         url={`applications/${router.query.application_id}/countries`}
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({
-          key: original.country_id,
           className: 'hover:bg-gray-50 cursor-pointer',
+          key: original.country_id,
         })}
         notFound={{
-          title: 'No countries found',
-          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
           action: {
-            message: 'Update integration',
             callback: () => router.push('/products/subscription-tracking'),
+            message: 'Update integration',
           },
+          message: `Try adjusting your filter or update your integration to find what you're looking for.`,
+          title: 'No countries found',
         }}
       />
     </>
@@ -50,21 +46,21 @@ function Customers({ initialData }) {
 }
 
 Customers.propTypes = {
-  id: PropTypes.string.isRequired,
-  initialData: PropTypes.shape({
+  fallbackData: PropTypes.shape({
     rows: PropTypes.arrayOf(
       PropTypes.shape({
+        churned_from_direct_sale: PropTypes.number.isRequired,
+        churned_from_trial: PropTypes.number.isRequired,
         country_id: PropTypes.string.isRequired,
+        paid_converted_from_trial: PropTypes.number.isRequired,
+        revenue: PropTypes.number.isRequired,
         total_count: PropTypes.number.isRequired,
         total_direct_sale_count: PropTypes.number.isRequired,
         total_trial_count: PropTypes.number.isRequired,
-        paid_converted_from_trial: PropTypes.number.isRequired,
-        revenue: PropTypes.number.isRequired,
-        churned_from_direct_sale: PropTypes.number.isRequired,
-        churned_from_trial: PropTypes.number.isRequired,
       }),
     ),
   }),
+  id: PropTypes.string.isRequired,
 }
 
 export default Customers
