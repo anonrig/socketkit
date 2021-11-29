@@ -31,14 +31,11 @@ function Table({
     [options, url],
   )
   const { data, size, setSize, isValidating, error } = useSWRInfinite(getPaginationKey, {
-    fallbackData: fallbackData ? [fallbackData] : undefined,
+    // fallbackData: fallbackData ? [fallbackData] : undefined,
     refreshInterval: 0,
     refreshWhenHidden: false,
     refreshWhenOffline: false,
     revalidateAll: false,
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnMount: false,
   })
 
   const isLoadingfallbackData = !data && !error
