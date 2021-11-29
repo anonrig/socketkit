@@ -109,7 +109,7 @@ export default function fetchIntegrations() {
 
       const createApplicationTask =
         application_ids.length > 0
-          ? subscriber.store.applications.create(application_ids)
+          ? subscriber.store.applications.create({ rows: application_ids })
           : Promise.resolve()
       await Promise.all([
         processTransactions(
