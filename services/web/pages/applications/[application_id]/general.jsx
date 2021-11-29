@@ -1,7 +1,7 @@
-import ApplicationHeader from 'components/menu/application-header.js'
+import ApplicationHeader from 'components/menu/application-header'
 
-import { fetchOnBackground } from 'helpers/server-side.js'
-import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics.js'
+import { fetchOnBackground } from 'helpers/server-side'
+import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'

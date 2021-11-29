@@ -1,5 +1,5 @@
-import SubscriptionRow from 'components/scenes/customers/subscription-row.js'
-import TimelineRow from 'components/scenes/customers/timeline-row.js'
+import SubscriptionRow from 'components/scenes/customers/subscription-row'
+import TimelineRow from 'components/scenes/customers/timeline-row'
 import dayjs from 'dayjs'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'

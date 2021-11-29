@@ -1,4 +1,4 @@
-import InlineRating from 'components/inline-rating.js'
+import InlineRating from 'components/inline-rating'
 
 export default [
   {

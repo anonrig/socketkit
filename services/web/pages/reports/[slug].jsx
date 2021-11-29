@@ -1,21 +1,21 @@
 import cx from 'classnames'
 
-import DatePicker from 'components/date-picker.js'
-import ApplicationDropdown from 'components/reports/application-dropdown.js'
-import IntervalDropdown from 'components/reports/interval-dropdown.js'
-import Sidebar from 'components/sidebar-reports.js'
+import DatePicker from 'components/date-picker'
+import ApplicationDropdown from 'components/reports/application-dropdown'
+import IntervalDropdown from 'components/reports/interval-dropdown'
+import Sidebar from 'components/sidebar-reports'
 import dayjs from 'dayjs'
-import { getQueryString } from 'helpers/fetcher.js'
-import SidebarLayout from 'layouts/sidebar.js'
+import { getQueryString } from 'helpers/fetcher'
+import SidebarLayout from 'layouts/sidebar'
 import { NextSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import SocketkitConfig from 'socketkit.config.js'
+import SocketkitConfig from 'socketkit.config'
 import useSWR from 'swr'
 
-const BarChart = dynamic(() => import('components/charts/bar.js'))
-const LineChart = dynamic(() => import('components/charts/line.js'))
+const BarChart = dynamic(() => import('components/charts/bar'))
+const LineChart = dynamic(() => import('components/charts/line'))
 
 export async function getServerSideProps({ query: { slug, start_date, end_date } }) {
   const report = SocketkitConfig.reports.find((r) => r.slug === slug)

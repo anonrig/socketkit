@@ -1,40 +1,40 @@
-import Form from 'components/form/form.js'
+import Form from 'components/form/form'
 import dayjs from 'dayjs'
 
-import { client } from 'helpers/kratos.js'
-import KratosPropTypes from 'helpers/types/kratos.js'
+import { client } from 'helpers/kratos'
+import KratosPropTypes from 'helpers/types/kratos'
 import { NextSeo } from 'next-seo'
 
 /**
  * @param {import('next').NextPageContext} ctx
  */
 export async function getServerSideProps(ctx) {
-  const { flow } = ctx.query
-
-  const redirect = () => {
-    ctx.res.statusCode = 302
-    ctx.res?.setHeader('Location', '/')
-    return { props: {} }
-  }
-
-  if (!flow) {
-    return redirect()
-  }
-
   try {
-    const { data } = await client.getSelfServiceVerificationFlow(flow, ctx.req?.headers.cookie)
+    if (!ctx.query.flow) {
+      throw new Error('Flow does not exist')
+    }
+
+    const { data } = await client.getSelfServiceVerificationFlow(
+      ctx.query.flow,
+      ctx.req?.headers.cookie,
+    )
 
     if (dayjs().isAfter(dayjs(data.expires_at ?? undefined))) {
-      return redirect()
+      throw new Error('Flow expired')
     }
 
     if (['passed_challenge', 'sent_email'].includes(data.state)) {
-      return redirect()
+      throw new Error('Requirement already fulfilled')
     }
 
     return { props: { kratos: data } }
   } catch (error) {
-    return redirect()
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }
 

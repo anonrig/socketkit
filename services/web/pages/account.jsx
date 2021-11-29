@@ -1,10 +1,9 @@
 import Heading from 'components/heading'
-import Password from 'components/scenes/account/account-password.js'
-
-import Settings from 'components/scenes/account/account-settings.js'
+import Password from 'components/scenes/account/account-password'
+import Settings from 'components/scenes/account/account-settings'
 import dayjs from 'dayjs'
 
-import { endpoints, client } from 'helpers/kratos.js'
+import { endpoints, client } from 'helpers/kratos'
 import redirect from 'helpers/redirect'
 import { NextSeo } from 'next-seo'
 import PropTypes from 'prop-types'

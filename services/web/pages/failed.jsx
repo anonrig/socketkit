@@ -1,36 +1,25 @@
-import { endpoints, client } from 'helpers/kratos.js'
-import KratosErrorPropTypes from 'helpers/types/kratos-error.js'
+import { endpoints, client } from 'helpers/kratos'
+import KratosErrorPropTypes from 'helpers/types/kratos-error'
 import { NextSeo } from 'next-seo'
 
 import pkg from '../package.json'
 
 export async function getServerSideProps(ctx) {
-  const { error } = ctx.query
-
-  const redirect = () => {
-    ctx.res.statusCode = 302
-    ctx.res?.setHeader('Location', '/')
-    return { props: {} }
-  }
-
-  if (!error) {
-    return redirect()
-  }
-
   try {
-    const { data } = await client.getSelfServiceError(error, ctx.req?.headers.cookie)
-
-    if (data.errors.length == 0) {
-      return redirect()
+    if (!ctx.query.error) {
+      throw new Error('Error does not exist')
     }
 
+    const { data } = await client.getSelfServiceError(ctx.query.error, ctx.req?.headers.cookie)
+
+    return { props: { data } }
+  } catch (error) {
     return {
-      props: {
-        data,
+      redirect: {
+        destination: '/',
+        permanent: false,
       },
     }
-  } catch (error) {
-    return redirect()
   }
 }
 
@@ -41,11 +30,11 @@ function Failed({ data }) {
 
       <div className="mb-48">
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
-          {data.errors[0]?.status ?? 'Uncaught error'} (v{pkg.version})
+          {data.error?.status ?? 'Uncaught error'} (v{pkg.version})
         </h2>
         <p className="text-xl text-warmGray-500 mb-4">
           We&apos;re working really hard to fix this issue. <br></br>
-          {data.errors[0]?.reason}
+          {data.error?.reason}
         </p>
         <a
           href={endpoints.login}

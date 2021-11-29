@@ -1,4 +1,4 @@
-import Component from 'components/integration-required.js'
+import Component from 'components/integration-required'
 import { NextSeo } from 'next-seo'
 
 export default function IntegrationRequired() {

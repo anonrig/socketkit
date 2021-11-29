@@ -1,8 +1,8 @@
-import ApplicationHeader from 'components/menu/application-header.js'
+import ApplicationHeader from 'components/menu/application-header'
 import Table from 'components/table/table'
-import CountryColumns from 'helpers/columns/country.js'
-import { setDateRangeIfNeeded } from 'helpers/date.js'
-import { fetchOnBackground } from 'helpers/server-side.js'
+import CountryColumns from 'helpers/columns/country'
+import { setDateRangeIfNeeded } from 'helpers/date'
+import { fetchOnBackground } from 'helpers/server-side'
 
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'

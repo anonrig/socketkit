@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Custom404() {
+function Custom404() {
   return (
     <div className="bg-white min-h-screen px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
       <div className="max-w-max mx-auto">
@@ -34,3 +34,7 @@ export default function Custom404() {
     </div>
   )
 }
+
+Custom404.propTypes = {}
+
+export default Custom404

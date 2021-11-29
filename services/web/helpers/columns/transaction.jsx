@@ -1,4 +1,4 @@
-import TableBadge from 'components/table/badge.js'
+import TableBadge from 'components/table/badge'
 import dayjs from 'dayjs'
 
 export default [
