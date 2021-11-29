@@ -36,7 +36,7 @@ function AppStoreConnectIntegration({ fallbackData }) {
       } else {
         toast.success('Integration updated successfully.')
       }
-      router.replace('/account/integrations')
+      router.replace('/products')
     } catch (error) {
       toast.error(error.message)
     } finally {
