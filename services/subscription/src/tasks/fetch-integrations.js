@@ -1,9 +1,9 @@
+import { randomUUID } from 'node:crypto'
 import { performance } from 'perf_hooks'
 
 import AppStoreReporter from 'appstore-reporter'
 import _ from 'lodash'
 import slug from 'slug'
-import { v4 } from 'uuid'
 
 import { getExchangeRates } from '../fixer.js'
 import subscriber from '../grpc-client.js'
@@ -22,7 +22,7 @@ const logger = Logger.create().withScope('fetch-integrations')
 
 export default function fetchIntegrations() {
   return pg.transaction(async (trx) => {
-    const traceId = v4()
+    const traceId = randomUUID()
     const integration = await pg
       .select(['account_id', 'state', 'failed_fetches', 'last_fetch', 'vendor_ids', 'access_token'])
       .from('integrations')
