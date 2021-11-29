@@ -5,50 +5,50 @@ import Heading from 'components/heading'
 import Table from 'components/table/table'
 import dayjs from 'dayjs'
 
-import TransactionColumns from 'helpers/columns/transaction.js'
+import CustomerColumns from 'helpers/columns/customer.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
-import TransactionPropTypes, { TransactionCursor } from 'helpers/types/transaction.js'
+import CustomerPropTypes, { CustomerCursor } from 'helpers/types/customer.js'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 
 export async function getServerSideProps({ query, req: { headers } }) {
-  return fetchOnBackground({ headers, query }, 'transactions')
+  return fetchOnBackground({ headers, query }, 'customers')
 }
 
-function Transactions({ fallbackData }) {
+function Customers({ fallbackData }) {
   const router = useRouter()
-  const columns = useMemo(() => TransactionColumns, [])
-  setDateRangeIfNeeded(router, '/transactions')
+  const columns = useMemo(() => CustomerColumns, [])
+  setDateRangeIfNeeded(router, '/customers')
 
   return (
     <>
-      <NextSeo title="Transactions" />
+      <NextSeo title="Customers" />
 
       <div className="flex flex-1 justify-between mb-8 items-center">
-        <Heading>Transactions</Heading>
+        <Heading>Customers</Heading>
         <div className="inline-flex items-center">
           <span className="hidden sm:block mr-4">
             <button
               className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               type="button"
-              onClick={() => router.push('/customers')}
+              onClick={() => router.push('/transactions')}
             >
               <SwitchHorizontalIcon className="-ml-1 mr-2 h-4 w-4 text-orange-500" />
-              Switch to Customers
+              Switch to Transactions
             </button>
           </span>
           <DatePicker
             interval={{
-              end_date: dayjs(router.query.end_date.toString()),
-              start_date: dayjs(router.query.start_date.toString()),
+              end_date: dayjs(router.query.end_date?.toString()),
+              start_date: dayjs(router.query.start_date?.toString()),
             }}
             setInterval={({ start_date, end_date }) => {
               router.push(
                 {
-                  pathname: '/transactions',
+                  pathname: '/customers',
                   query: {
                     end_date: end_date.format('YYYY-MM-DD'),
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -63,12 +63,12 @@ function Transactions({ fallbackData }) {
       </div>
       <Table
         fallbackData={fallbackData}
-        url="transactions"
+        url="customers"
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({
           className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
-          key: `${original.subscriber_id}-${original.application_id}-${original.transaction_type}-${original.subscription_package_id}-${original.event_date}`,
+          id: original.subscriber_id,
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
         })}
         notFound={{
@@ -77,18 +77,18 @@ function Transactions({ fallbackData }) {
             message: 'Update integration',
           },
           message: `Try adjusting your filter or update your integration to find what you're looking for.`,
-          title: 'No transactions found',
+          title: 'No customers found',
         }}
       />
     </>
   )
 }
 
-Transactions.propTypes = {
+Customers.propTypes = {
   fallbackData: PropTypes.shape({
-    cursor: TransactionCursor,
-    rows: PropTypes.arrayOf(TransactionPropTypes).isRequired,
+    cursor: CustomerCursor,
+    rows: PropTypes.arrayOf(CustomerPropTypes).isRequired,
   }),
 }
 
-export default Transactions
+export default Customers

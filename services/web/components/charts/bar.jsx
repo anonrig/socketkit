@@ -2,7 +2,7 @@ import { ResponsiveBar } from '@nivo/bar'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 
-import theme from './theme.js'
+import theme from './theme'
 
 function BarChart({ values, ...props }) {
   const keys = Object.keys(values.fields ?? {}).filter((k) => k !== 'x')

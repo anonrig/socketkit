@@ -1,28 +1,20 @@
-import { fetcher } from 'helpers/fetcher.js'
 import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
+import qs from 'qs'
 import useSWR from 'swr'
 
-const LineChart = dynamic(() => import('components/charts/line.js'))
+const LineChart = dynamic(() => import('components/charts/line'))
 
 function SubscribersWidget({ range, fallbackData }) {
-  const { data } = useSWR(
-    `reports/subscription/subscribers?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
-    fetcher,
-    { fallbackData },
-  )
-
-  const { data: activeTrialsData } = useSWR(
-    `reports/subscription/active-trials?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
-  )
-
-  const { data: trialsData } = useSWR(
-    `reports/subscription/trials?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
-  )
-
-  const { data: salesData } = useSWR(
-    `reports/subscription/sales-refunds?start_date=${range.start_date}&end_date=${range.end_date}&interval=day`,
-  )
+  const querystring = qs.stringify({
+    end_date: range.end_date,
+    interval: 'day',
+    start_date: range.start_date,
+  })
+  const { data } = useSWR(`reports/subscription/subscribers?${querystring}`, { fallbackData })
+  const { data: activeTrialsData } = useSWR(`reports/subscription/active-trials?${querystring}`)
+  const { data: trialsData } = useSWR(`reports/subscription/trials?${querystring}`)
+  const { data: salesData } = useSWR(`reports/subscription/sales-refunds?${querystring}`)
 
   return (
     <section className="lg:col-span-4">

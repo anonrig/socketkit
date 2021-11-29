@@ -5,7 +5,7 @@ import ApplicationDropdown from 'components/reports/application-dropdown.js'
 import IntervalDropdown from 'components/reports/interval-dropdown.js'
 import Sidebar from 'components/sidebar-reports.js'
 import dayjs from 'dayjs'
-import { fetcher, getQueryString } from 'helpers/fetcher.js'
+import { getQueryString } from 'helpers/fetcher.js'
 import SidebarLayout from 'layouts/sidebar.js'
 import { NextSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
@@ -61,7 +61,6 @@ function Reports({ query, slug }) {
       interval: filters.interval,
       start_date: filters.start_date.format('YYYY-MM-DD'),
     })}`,
-    fetcher,
     { refreshInterval: 0 },
   )
   function changeInterval(interval) {

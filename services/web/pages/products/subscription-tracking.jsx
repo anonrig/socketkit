@@ -18,7 +18,7 @@ function AppStoreConnectIntegration({ fallbackData }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const { handleSubmit, register } = useForm()
-  const { data } = useSWR(`integrations/appstore-connect`, fetcher, { fallbackData })
+  const { data } = useSWR(`integrations/appstore-connect`, { fallbackData })
 
   async function onSubmit(values, _, isDeleted = false) {
     setLoading(true)

@@ -10,17 +10,14 @@ import { NextSeo } from 'next-seo'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 
-export async function getServerSideProps(ctx) {
-  const { flow } = ctx.query
-
-  const redirect = () => {
-    ctx.res.statusCode = 302
-    ctx.res?.setHeader('Location', endpoints.profile)
-    return { props: {} }
-  }
-
+export async function getServerSideProps({ query: { flow } }) {
   if (!flow) {
-    return redirect()
+    return {
+      redirect: {
+        destination: endpoints.profile,
+        permanent: false,
+      },
+    }
   }
 
   return { props: { flow } }

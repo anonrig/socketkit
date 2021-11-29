@@ -2,7 +2,6 @@ import Button from 'components/form/button'
 import Heading from 'components/heading'
 import dayjs from 'dayjs'
 
-import { fetcher } from 'helpers/fetcher'
 import { fetchOnBackground } from 'helpers/server-side'
 import { NextSeo } from 'next-seo'
 import Link from 'next/link'
@@ -18,7 +17,7 @@ export async function getServerSideProps({ query, req: { headers } }) {
 
 function TrackingApplications({ fallbackData }) {
   const router = useRouter()
-  const { data: applications } = useSWR('integrations/tracking', fetcher, { fallbackData })
+  const { data: applications } = useSWR('integrations/tracking', { fallbackData })
   const pageHeader = (
     <>
       <NextSeo title="Application Tracking" />

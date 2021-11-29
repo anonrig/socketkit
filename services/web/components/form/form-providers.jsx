@@ -1,5 +1,5 @@
-import Github from 'components/providers/github.js'
-import Gitlab from 'components/providers/gitlab.js'
+import Github from 'components/providers/github'
+import Gitlab from 'components/providers/gitlab'
 import PropTypes from 'prop-types'
 
 function FormProviders({ action, oidc_group, method }) {

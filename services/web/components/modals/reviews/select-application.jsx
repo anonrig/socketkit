@@ -1,7 +1,7 @@
 import ApplicationPicker from 'components/form/application-picker.js'
 import PropTypes from 'prop-types'
 
-function SelectApplication({ application = null, setApplication = () => ({}) }) {
+function SelectApplication({ application, setApplication }) {
   return (
     <div className="rounded-md shadow-sm">
       <ApplicationPicker
@@ -12,8 +12,13 @@ function SelectApplication({ application = null, setApplication = () => ({}) }) 
   )
 }
 
+SelectApplication.defaultProps = {
+  application: null,
+  setApplication: () => ({}),
+}
+
 SelectApplication.propTypes = {
-  application: PropTypes.shape(PropTypes.any),
+  application: PropTypes.any,
   setApplication: PropTypes.func,
 }
 

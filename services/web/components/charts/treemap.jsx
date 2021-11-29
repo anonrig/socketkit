@@ -1,7 +1,7 @@
 import { ResponsiveTreeMap } from '@nivo/treemap'
 import PropTypes from 'prop-types'
 
-import theme from './theme.js'
+import theme from './theme'
 
 function TreeMapChart({ id, rows, identity }) {
   return (

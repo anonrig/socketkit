@@ -3,10 +3,10 @@ import { UserCircleIcon } from '@heroicons/react/outline'
 import { MenuIcon, XIcon } from '@heroicons/react/solid'
 import cx from 'classnames'
 
-import ProfileDropdown from 'components/menu/profile-dropdown.js'
+import ProfileDropdown from 'components/menu/profile-dropdown'
 
-import { AuthContext } from 'helpers/context.js'
-import { client } from 'helpers/kratos.js'
+import { AuthContext } from 'helpers/context'
+import { client } from 'helpers/kratos'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

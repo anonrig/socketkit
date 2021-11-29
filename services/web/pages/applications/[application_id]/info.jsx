@@ -3,7 +3,6 @@ import Button from 'components/form/button.js'
 import ApplicationHeader from 'components/menu/application-header.js'
 import dayjs from 'dayjs'
 
-import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ApplicationPropTypes from 'helpers/types/application.js'
 import { NextSeo } from 'next-seo'
@@ -20,13 +19,12 @@ export async function getServerSideProps({ query, req: { headers } }) {
 
 function ApplicationInformation({ fallbackData }) {
   const router = useRouter()
-  const { data: application } = useSWR(`applications/${router.query.application_id}`, fetcher, {
+  const { data: application } = useSWR(`applications/${router.query.application_id}`, {
     fallbackData,
     refreshInterval: 0,
   })
   const { data: versions } = useSWR(
     `applications/${router.query.application_id}/versions`,
-    fetcher,
     {
       refreshInterval: 0,
     },

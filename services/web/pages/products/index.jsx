@@ -14,9 +14,11 @@ export async function getServerSideProps({
 }) {
   const request = { headers: { cookie, referer } }
   try {
-    const appstoreConnect = await fetcher(`integrations/appstore-connect`, request)
-    const reviews = await fetcher(`integrations/reviews`, request)
-    const tracking = await fetcher(`integrations/tracking`, request)
+    const [appstoreConnect, reviews, tracking] = await Promise.all([
+      fetcher(`integrations/appstore-connect`, request),
+      fetcher(`integrations/reviews`, request),
+      fetcher(`integrations/tracking`, request),
+    ])
 
     return {
       props: { initial: { appstoreConnect, reviews, tracking } },
@@ -38,13 +40,13 @@ export async function getServerSideProps({
 function Integrations({ initial }) {
   const router = useRouter()
 
-  const { data: appstoreConnect } = useSWR('integrations/appstore-connect', fetcher, {
+  const { data: appstoreConnect } = useSWR('integrations/appstore-connect', {
     fallbackData: initial.appstoreConnect,
   })
-  const { data: reviews } = useSWR(`integrations/reviews`, fetcher, {
+  const { data: reviews } = useSWR(`integrations/reviews`, {
     fallbackData: initial.reviews,
   })
-  const { data: tracking } = useSWR(`integrations/tracking`, fetcher, {
+  const { data: tracking } = useSWR(`integrations/tracking`, {
     fallbackData: initial.tracking,
   })
 

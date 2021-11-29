@@ -11,10 +11,10 @@ module.exports = {
     require('@tailwindcss/line-clamp'),
   ],
   purge: [
-    './components/**/*.js',
-    './helpers/**/*.js',
-    './layouts/*.js',
-    './pages/**/*.js',
+    './components/**/*.jsx',
+    './helpers/**/*.jsx',
+    './layouts/*.jsx',
+    './pages/**/*.jsx',
     './styles/*.css',
   ],
   theme: {

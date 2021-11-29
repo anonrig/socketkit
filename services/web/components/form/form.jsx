@@ -1,8 +1,8 @@
 import cx from 'classnames'
 
-import Button from 'components/form/button.js'
-import FormField from 'components/form/field.js'
-import FormProviders from 'components/form/form-providers.js'
+import Button from 'components/form/button'
+import FormField from 'components/form/field'
+import FormProviders from 'components/form/form-providers'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 

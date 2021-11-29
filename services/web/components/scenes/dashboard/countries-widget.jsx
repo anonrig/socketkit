@@ -1,9 +1,8 @@
-import { fetcher } from 'helpers/fetcher.js'
 import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
 import useSWR from 'swr'
 
-const TreeMapChart = dynamic(() => import('components/charts/treemap.js'))
+const TreeMapChart = dynamic(() => import('components/charts/treemap'))
 
 const letters = '0123456789ABCDEF'
 
@@ -18,7 +17,6 @@ function getRandomColor() {
 function CountriesWidget({ range, fallbackData }) {
   const { data } = useSWR(
     `accounts/countries?start_date=${range.start_date}&end_date=${range.end_date}&limit=10`,
-    fetcher,
     { fallbackData, refreshInterval: 0 },
   )
 

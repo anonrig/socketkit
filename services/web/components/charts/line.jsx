@@ -2,7 +2,7 @@ import { ResponsiveLine } from '@nivo/line'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 
-import theme from './theme.js'
+import theme from './theme'
 
 function LineChart({ values, ...props }) {
   return (

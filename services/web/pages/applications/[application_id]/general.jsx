@@ -1,6 +1,5 @@
 import ApplicationHeader from 'components/menu/application-header.js'
 
-import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ApplicationStatisticsPropTypes from 'helpers/types/application-statistics.js'
 import { NextSeo } from 'next-seo'
@@ -13,7 +12,7 @@ export async function getServerSideProps({ query, req: { headers } }) {
 
 function ApplicationDashboard({ fallbackData }) {
   const router = useRouter()
-  const { data } = useSWR(`applications/${router.query.application_id}/statistics`, fetcher, {
+  const { data } = useSWR(`applications/${router.query.application_id}/statistics`, {
     fallbackData,
   })
 

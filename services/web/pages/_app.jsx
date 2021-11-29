@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { AuthContext } from 'helpers/context.js'
-import { fetcher } from 'helpers/fetcher.js'
-import { endpoints, client } from 'helpers/kratos.js'
+import { AuthContext } from 'helpers/context'
+import { fetcher } from 'helpers/fetcher'
+import { endpoints, client } from 'helpers/kratos'
 import { DefaultSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -13,8 +13,8 @@ import 'styles/index.css'
 import useSWR, { SWRConfig } from 'swr'
 import 'tailwindcss/tailwind.css'
 
-const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized.js'))
-const AuthorizedLayout = dynamic(() => import('layouts/authorized.js'))
+const UnauthorizedLayout = dynamic(() => import('layouts/unauthorized'))
+const AuthorizedLayout = dynamic(() => import('layouts/authorized'))
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

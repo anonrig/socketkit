@@ -9,7 +9,6 @@ import dayjs from 'dayjs'
 
 import ReviewColumns from 'helpers/columns/review.js'
 import { setDateRangeIfNeeded } from 'helpers/date.js'
-import { fetcher } from 'helpers/fetcher.js'
 import { fetchOnBackground } from 'helpers/server-side.js'
 import ReviewPropTypes, { ReviewCursor } from 'helpers/types/review.js'
 import { NextSeo } from 'next-seo'
@@ -29,11 +28,11 @@ function Reviews({ fallbackData }) {
   const [presentingReview, setPresentingReview] = useState(null)
   setDateRangeIfNeeded(router, '/reviews')
 
-  const { data: countries } = useSWR(`reviews/countries`, fetcher, {
+  const { data: countries } = useSWR(`reviews/countries`, {
     refreshInterval: 0,
     revalidateOnFocus: false,
   })
-  const { data: applications } = useSWR(`integrations/reviews`, fetcher, {
+  const { data: applications } = useSWR(`integrations/reviews`, {
     refreshInterval: 0,
     revalidateOnFocus: false,
   })
@@ -54,8 +53,8 @@ function Reviews({ fallbackData }) {
         <Heading>Reviews</Heading>
         <DatePicker
           interval={{
-            end_date: dayjs(router.query.end_date.toString()),
-            start_date: dayjs(router.query.start_date.toString()),
+            end_date: dayjs(router.query.end_date?.toString()),
+            start_date: dayjs(router.query.start_date?.toString()),
           }}
           setInterval={({ start_date, end_date }) => {
             router.push(
