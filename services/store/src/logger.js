@@ -1,2 +1,7 @@
-import Consola from 'consola'
-export default Consola.withDefaults()
+import Pino from 'pino'
+
+export default Pino({
+  transport: {
+    target: 'pino-pretty',
+  },
+})
