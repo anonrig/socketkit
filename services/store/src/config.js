@@ -1,3 +1,4 @@
+/* c8 ignore start */
 const { PORT, PROXY_HOST, PROXY_PORT, PROXY_AUTH, NODE_ENV } = process.env
 
 const isProxyEnabled = !!PROXY_HOST && !!PROXY_PORT && !!PROXY_AUTH
@@ -13,6 +14,7 @@ export default {
     oneofs: true,
   },
   isCI: process.env.NODE_ENV === 'test',
+  isDevelopment: NODE_ENV === 'development',
   isProd: process.env.NODE_ENV === 'production',
   isProduction: NODE_ENV === 'production',
   isProxyEnabled,
@@ -21,7 +23,12 @@ export default {
     connection: {
       database: 'store',
       port: 5432,
-      user: 'store-worker',
+      user: process.env.PGUSER || 'store-worker',
+    },
+    migrations: {
+      directory: './migrations',
+      loadExtensions: ['.js'],
+      tableName: 'migrations',
     },
     version: '13',
   },
