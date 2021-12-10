@@ -1,7 +1,5 @@
-import dayjs from 'dayjs'
 import _ from 'lodash'
 
-import Logger from '../logger.js'
 import pg from '../pg.js'
 import * as Requests from '../requests/app-store.js'
 
@@ -93,7 +91,6 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
       icon: 'av.icon',
       languages: 'av.language_ids',
       price: 'ar.price',
-      ratings: 'ar.rating_histogram',
       release_notes: 'avc.release_notes',
       released_at: 'a.released_at',
       required_os_version: 'av.required_os_version',
@@ -142,6 +139,10 @@ export function findAll({ application_ids, bundle_ids, developer_ids }) {
 }
 
 export function findVersions({ application_id, bundle_id }) {
+  if (!application_id && !bundle_id) {
+    throw new Error('Application id or bundle id is required to find versions')
+  }
+
   return pg
     .queryBuilder()
     .select({
@@ -181,7 +182,6 @@ export function findVersion({ application_id, bundle_id, version }) {
       description: 'avc.description',
       languages: 'av.language_ids',
       price: 'ar.price',
-      ratings: 'ar.rating_histogram',
       release_notes: 'avc.release_notes',
       released_at: 'av.released_at',
       required_os_version: 'av.required_os_version',
@@ -273,7 +273,6 @@ export async function create(trx, scraped_apps) {
         default_language_id: s.default_language_id.toUpperCase(),
         latest_version_number: s.detail.version,
         price: s.detail.price,
-        rating_histogram: Object.values(s.detail.histogram),
         reviews: s.detail.reviews,
         score: s.detail.score,
         store_url: s.detail.url,
@@ -330,8 +329,6 @@ export async function create(trx, scraped_apps) {
 }
 
 export async function upsert(applications, trx) {
-  const logger = Logger.create().withScope('applications-upsert')
-
   await pg
     .queryBuilder()
     .transacting(trx)
@@ -340,9 +337,7 @@ export async function upsert(applications, trx) {
       'application_id',
       applications.filter((a) => !!a).map((a) => a.application_id),
     )
-    .update('last_fetch', dayjs())
-
-  logger.debug('Applications last_fetch updated')
+    .update('last_fetch', new Date())
 
   await pg
     .queryBuilder()
@@ -357,7 +352,6 @@ export async function upsert(applications, trx) {
           default_language_id: s.default_language_id,
           latest_version_number: s.detail.version,
           price: s.detail.price,
-          rating_histogram: Object.values(s.detail.histogram ?? {}),
           reviews: s.detail.reviews,
           score: s.detail.score,
           store_url: s.detail.url,
@@ -367,8 +361,6 @@ export async function upsert(applications, trx) {
     )
     .onConflict(['application_id', 'country_id'])
     .merge()
-
-  logger.debug('Application releases created')
 
   await pg
     .queryBuilder()
@@ -390,8 +382,6 @@ export async function upsert(applications, trx) {
     )
     .onConflict(['application_id', 'version_number'])
     .ignore()
-
-  logger.debug('New application versions created')
 
   await pg
     .queryBuilder()
@@ -416,6 +406,35 @@ export async function upsert(applications, trx) {
     .onConflict(['application_id', 'version_number', 'language_id'])
     .ignore()
 
-  logger.debug('New application version contents created')
   return {}
+}
+
+export async function destroy(application_id, trx) {
+  await pg
+    .queryBuilder()
+    .delete()
+    .from('application_version_contents AS avc')
+    .where('avc.application_id', application_id)
+    .transacting(trx)
+
+  await pg
+    .queryBuilder()
+    .delete()
+    .from('application_versions AS av')
+    .where('av.application_id', application_id)
+    .transacting(trx)
+
+  await pg
+    .queryBuilder()
+    .delete()
+    .from('application_releases AS ar')
+    .where('ar.application_id', application_id)
+    .transacting(trx)
+
+  await pg
+    .queryBuilder()
+    .delete()
+    .from('applications AS a')
+    .where('a.application_id', application_id)
+    .transacting(trx)
 }

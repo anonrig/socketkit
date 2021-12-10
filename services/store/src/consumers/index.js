@@ -85,22 +85,18 @@ export async function create(ctx) {
       (a) => !existing_application_ids.includes(a.application_id),
     )
 
-    if (new_applications.length === 0) {
-      return
-    }
-
     const scraped_apps = await Promise.all(
       new_applications.map((app) =>
         AppStore.scrapeApp(app.application_id, app.default_country_id, app.default_language_id),
       ),
     )
 
-    const normalized = scraped_apps.filter((a) => !!a)
+    const normalized = scraped_apps.filter(Boolean)
 
-    if (normalized.length === 0) {
-      return
+    if (normalized.length > 0) {
+      await Applications.create(trx, normalized)
     }
 
-    await Applications.create(trx, normalized)
+    return {}
   })
 }

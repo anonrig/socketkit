@@ -3,24 +3,19 @@ import { promisify } from 'node:util'
 
 import test from 'ava'
 
-import { build } from '../src/grpc.js'
-import pg from '../src/pg.js'
+import { build } from '../../src/grpc.js'
+import pg from '../../src/pg.js'
 
-import { getRandomPort, getClients } from './client.js'
-import { facebook_application, test_account_id } from './seeds.js'
+import { getRandomPort, getClients } from '../client.js'
+import { test_account_id } from '../seeds.js'
 
 const app = build()
 
 test.before(async (t) => {
   const port = getRandomPort()
-
   Object.assign(t.context, getClients(port))
 
   await app.start(`0.0.0.0:${port}`)
-
-  await promisify(t.context.applications.create).bind(t.context.applications)({
-    rows: [facebook_application],
-  })
 })
 
 test.after(async () => {

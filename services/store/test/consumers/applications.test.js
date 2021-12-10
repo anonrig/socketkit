@@ -3,11 +3,12 @@ import { promisify } from 'node:util'
 
 import test from 'ava'
 
-import { build } from '../src/grpc.js'
-import pg from '../src/pg.js'
+import { build } from '../../src/grpc.js'
+import pg from '../../src/pg.js'
 
-import { getRandomPort, getClients } from './client.js'
-import { facebook_application } from './seeds.js'
+import { getRandomPort, getClients } from '../client.js'
+import { createApplication, deleteApplication, getApplication } from '../models.js'
+import { facebook_application, tinder_application } from '../seeds.js'
 
 const app = build()
 
@@ -16,15 +17,39 @@ test.before(async (t) => {
   Object.assign(t.context, getClients(port))
 
   await app.start(`0.0.0.0:${port}`)
-
-  await promisify(t.context.applications.create).bind(t.context.applications)({
-    rows: [facebook_application],
-  })
+  await createApplication(facebook_application.application_id, port)
 })
 
 test.after(async () => {
+  await deleteApplication(facebook_application.application_id)
   await pg.destroy()
   await app.close()
+})
+
+test('create should not create without any attributes', async (t) => {
+  const { applications } = t.context
+  const create = promisify(applications.create).bind(applications)
+  const response = await create({ rows: [] })
+  t.deepEqual(response, {})
+})
+
+test('create should add a new application', async (t) => {
+  const { applications } = t.context
+  const create = promisify(applications.create).bind(applications)
+  const response = await create({
+    rows: [
+      {
+        application_id: tinder_application.application_id,
+        default_country_id: 'us',
+        default_language_id: 'EN',
+      },
+    ],
+  })
+  t.teardown(() => deleteApplication(tinder_application.application_id))
+  t.deepEqual(response, {})
+  const created_application = await getApplication(tinder_application.application_id)
+  t.truthy(created_application, 'Should have saved to database')
+  t.is(created_application.application_id, tinder_application.application_id)
 })
 
 test('search should return valid applications', async (t) => {
@@ -40,18 +65,6 @@ test('search should return valid applications', async (t) => {
   t.truthy(app.bundle_id)
   t.truthy(app.application_title)
   t.truthy(app.application_icon)
-})
-
-test('create should create an application', async (t) => {
-  const { applications } = t.context
-  const create = promisify(applications.create).bind(applications)
-  const response = await create({
-    application_id: facebook_application.application_id,
-    default_country_id: 'US',
-    default_language_id: 'EN',
-  })
-
-  t.deepEqual(response, {})
 })
 
 test('findAll should find by application_ids', async (t) => {
