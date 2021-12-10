@@ -9,22 +9,30 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "npx nodemon -r dotenv/config",
-    "test": "c8 ava",
+    "test": "ava",
+    "test:coverage": "c8 --skip-full ava",
+    "test:ci": "c8 --skip-full --reporter=lcov ava",
     "test:watch": "ava --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
-    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix"
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix",
+    "migrate": "knex migrate:latest --knexfile=src/knexfile.js",
+    "migrate:dev": "node -r dotenv/config node_modules/knex/bin/cli migrate:latest --knexfile=src/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile=src/knexfile.js",
+    "migrate:rollback:dev": "node -r dotenv/config node_modules/knex/bin/cli migrate:rollback --knexfile=src/knexfile.js",
+    "migrate:make": "node -r dotenv/config node_modules/knex/bin/cli migrate:make --knexfile=src/knexfile.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.7",
     "@supercharge/promise-pool": "^2.0.0",
-    "appstore-sensor": "^0.5.4",
-    "consola": "^2.15.3",
+    "appstore-sensor": "^0.6.2",
     "dayjs": "^1.10.7",
     "knex": "^0.95.14",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
     "pg": "^8.7.1",
+    "pino": "^7.5.1",
+    "pino-pretty": "^7.2.0",
     "tunnel": "^0.0.6",
     "uuid": "^8.3.2"
   },
@@ -33,7 +41,7 @@
     "ava": "^4.0.0-rc.1",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.3.0"
+    "eslint": "^8.4.1"
   },
   "eslintConfig": {
     "extends": [
