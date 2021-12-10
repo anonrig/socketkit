@@ -15,7 +15,10 @@ const extraOptions = config.isProxyEnabled
   : {}
 
 export async function search(term, country = 'US') {
-  return scraper.search({ country, term }, Object.assign({}, { timeout: 5000 }, extraOptions))
+  return scraper.search(
+    { country, term },
+    Object.assign({}, { timeout: { request: 5000 } }, extraOptions),
+  )
 }
 
 export async function scrapeApp(application_id, country_id, language) {
@@ -26,10 +29,9 @@ export async function scrapeApp(application_id, country_id, language) {
       {
         country: country_id,
         id: application_id,
-        include_ratings: true,
         language,
       },
-      Object.assign({}, { timeout: 5000 }, extraOptions),
+      Object.assign({}, { timeout: { request: 5000 } }, extraOptions),
     )
   } catch (error) {
     if (!error.message?.includes('not found') && !error.message?.includes('Bad Request')) {
