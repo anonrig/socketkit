@@ -52,7 +52,7 @@ export async function findVersions({ application_id }) {
     .queryBuilder()
     .select({
       released_at: 'av.released_at',
-      version: pg.raw(`DISTINCT(r.version_number)`),
+      version: pg.raw(`array_agg(DISTINCT(r.version_number))`),
     })
     .from('reviews AS r')
     .where('r.application_id', application_id)
@@ -62,7 +62,8 @@ export async function findVersions({ application_id }) {
         'r.version_number',
       )
     })
-    .orderBy('version', 'desc')
+    .groupBy(['av.released_at', 'av.version_number'])
+    .orderBy('av.version_number', 'desc')
 }
 
 export async function findCountries({ account_id, application_id }) {
