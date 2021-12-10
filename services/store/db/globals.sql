@@ -1,5 +1,0 @@
-CREATE ROLE store;
-CREATE ROLE "store-worker" LOGIN PASSWORD 'change-this';
-
-CREATE DATABASE store OWNER store
-TEMPLATE template0 ENCODING "UTF-8" LC_COLLATE "C" LC_CTYPE "C";
