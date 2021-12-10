@@ -8,5 +8,12 @@ export const facebook_application = {
   developer_id: '284882218',
 }
 
+export const tinder_application = {
+  application_id: '547702041',
+  bundle_id: 'com.cardify.tinder',
+  default_country_id: 'us',
+  default_language_id: 'EN',
+}
+
 export const test_account_id = randomUUID()
 export const test_application_id = randomUUID()

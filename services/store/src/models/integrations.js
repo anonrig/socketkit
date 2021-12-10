@@ -102,20 +102,18 @@ export async function upsertAll({ account_id, applications }, trx) {
     new_applications.map((app) => AppStore.scrapeApp(app.application_id, 'us', 'EN')),
   )
 
-  const normalized = scraped_apps.filter((a) => !!a)
+  const normalized = scraped_apps.filter(Boolean)
 
   if (normalized.length) {
     await Applications.create(trx, normalized)
   }
 
-  const flat_applications = applications
-    .map((a) =>
-      a.country_ids.map((c) => ({
-        application_id: a.application_id,
-        country_id: c,
-      })),
-    )
-    .flat()
+  const flat_applications = applications.flatMap((a) =>
+    a.country_ids.map((c) => ({
+      application_id: a.application_id,
+      country_id: c,
+    })),
+  )
 
   if (flat_applications.length) {
     await pg

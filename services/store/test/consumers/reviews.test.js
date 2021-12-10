@@ -3,29 +3,37 @@ import { promisify } from 'node:util'
 
 import test from 'ava'
 
-import { build } from '../src/grpc.js'
-import pg from '../src/pg.js'
+import { build } from '../../src/grpc.js'
+import pg from '../../src/pg.js'
 
-import { getRandomPort, getClients } from './client.js'
-import { facebook_application, test_account_id } from './seeds.js'
+import { getRandomPort, getClients } from '../client.js'
+import { facebook_application, test_account_id } from '../seeds.js'
 
 const app = build()
 
 test.before(async (t) => {
   const port = getRandomPort()
-
   Object.assign(t.context, getClients(port))
 
   await app.start(`0.0.0.0:${port}`)
-
-  await promisify(t.context.applications.create).bind(t.context.applications)({
-    rows: [facebook_application],
-  })
 })
 
 test.after(async () => {
   await pg.destroy()
   await app.close()
+})
+
+test('findAll should handle empty array as an input', async (t) => {
+  const { reviews } = t.context
+  const findAll = promisify(reviews.findAll).bind(reviews)
+
+  try {
+    await findAll({ application_ids: [] })
+    throw new Error('should not be here')
+  } catch (error) {
+    t.not(error.message, 'should not be here')
+    t.is(error.message, '2 UNKNOWN: Application id list is empty')
+  }
 })
 
 test('findAll should return reviews', async (t) => {
@@ -57,6 +65,13 @@ test('findVersions should throw error on missing application_id', async (t) => {
     t.not(error.message, 'should not be here')
     t.true(error.message.includes('Missing application id'))
   }
+})
+
+test('findVersions should find versions from application_id', async (t) => {
+  const { reviews } = t.context
+  const findVersions = promisify(reviews.findVersions).bind(reviews)
+  const versions = await findVersions({ application_id: facebook_application.application_id })
+  t.deepEqual(versions, { rows: [] })
 })
 
 test('findCountries should return fetched countries', async (t) => {
