@@ -5,8 +5,16 @@ coverage:
         target: auto
         flags:
           - store
+      notification:
+        target: auto
+        flags:
+          - notification
 flags:
   store:
     paths:
       - services/store/coverage.txt
+    carryforward: true
+  notification:
+    paths:
+      - services/notification/coverage.txt
     carryforward: true
