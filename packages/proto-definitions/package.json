@@ -1,0 +1,13 @@
+{
+  "name": "@socketkit/proto-definitions",
+  "version": "1.0.0",
+  "description": "Socketkit protobuf definitions",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["socketkit", "proto-definitions"],
+  "author": "Yagiz Nizipli <yagiz@nizipli.com>",
+  "license": "MPL-2.0"
+}
