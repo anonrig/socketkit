@@ -1,0 +1,33 @@
+{{- if .Values.application.autoMigrate }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "chart.fullname" . }}-automigrate
+  labels:
+    {{ include "chart.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook-weight: "1"
+    helm.sh/hook: "post-install,pre-upgrade"
+    helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
+spec:
+  template:
+    {{- with .Values.job.annotations }}
+    metadata:
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    spec:
+      automountServiceAccountToken: {{ .Values.job.automountServiceAccountToken }}
+      containers:
+        - name: {{ .Chart.Name }}-automigrate
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["./node_modules/knex/bin/cli.js", "migrate:latest", "--knexfile=src/knexfile.js", "--esm"]
+          envFrom:
+            - secretRef:
+                name: {{ include "chart.fullname" . }}-secrets
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+      restartPolicy: Never
+  backoffLimit: 10
+{{- end }}

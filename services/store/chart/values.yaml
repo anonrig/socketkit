@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: "registry.gitlab.com/socketkit/store"
+  repository: "ghcr.io/socketkit/socketkit/store"
   pullPolicy: Always
   tag: "latest"
 
