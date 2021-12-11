@@ -12,9 +12,9 @@ coverage:
 flags:
   store:
     paths:
-      - services/store/coverage.txt
+      - services/store/
     carryforward: true
   notification:
     paths:
-      - services/notification/coverage.txt
+      - services/notification/
     carryforward: true
