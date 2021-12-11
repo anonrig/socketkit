@@ -85,3 +85,4 @@ jobs:
         name: store
         fail_ci_if_error: true
         verbose: true
+        root_dir: services/${{matrix.worker_name}}
