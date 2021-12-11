@@ -1,7 +1,9 @@
 {
   "name": "socketkit",
   "scripts": {
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "ci:publish": "changeset publish",
+    "ci:version": "changeset version"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.2",
