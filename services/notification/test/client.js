@@ -1,6 +1,8 @@
+import path from 'path'
+
 import grpc from '@grpc/grpc-js'
 import loader from '@grpc/proto-loader'
-import path from 'path'
+
 import config from '../src/config.js'
 
 export const getRandomPort = (a = 1000, b = 65000) => {
@@ -11,19 +13,15 @@ export const getRandomPort = (a = 1000, b = 65000) => {
 
 export function getClients(port = getRandomPort()) {
   const url = `0.0.0.0:${port ?? config.port}`
-  const defaults = {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  }
-  const { Notifications, Integrations } = grpc.loadPackageDefinition(
-    loader.loadSync(path.join('.', 'protofiles/notification.proto'), defaults),
+  const file = path.join(
+    path.resolve(),
+    'node_modules/@socketkit/proto-definitions/notification.proto',
   )
-
+  const { Notifications, Integrations } = grpc.loadPackageDefinition(
+    loader.loadSync(file, config.grpc_options),
+  )
   return {
-    notification: new Notifications(url, grpc.credentials.createInsecure()),
-    integration: new Integrations(url, grpc.credentials.createInsecure()),
+    integrations: new Integrations(url, grpc.credentials.createInsecure()),
+    notifications: new Notifications(url, grpc.credentials.createInsecure()),
   }
 }

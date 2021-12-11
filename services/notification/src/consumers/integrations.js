@@ -1,6 +1,5 @@
-import * as Integrations from '../pg/integrations.js'
-
 import pg from '../pg.js'
+import * as Integrations from '../pg/integrations.js'
 
 export async function findAll(ctx) {
   ctx.res = {

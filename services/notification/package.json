@@ -7,19 +7,13 @@
   "license": "MPL-2.0",
   "main": "src/index.js",
   "type": "module",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "npx nodemon -r dotenv/config",
-    "test": "c8 ava",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
-    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
-  },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.7",
     "@sendgrid/client": "^7.6.0",
     "@sendgrid/helpers": "^7.6.0",
     "@slack/webhook": "^6.0.0",
+    "@socketkit/proto-definitions": "workspace:^0.1.3",
     "ajv": "^8.8.2",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
@@ -33,54 +27,17 @@
     "pg": "^8.7.1"
   },
   "devDependencies": {
+    "@anonrig/eslint-config": "^0.2.1",
+    "@pnpm/make-dedicated-lockfile": "^0.2.16",
     "ava": "^3.15.0",
     "c8": "^7.10.0",
     "dotenv": "^10.0.0",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.5.0"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "semi": false,
-    "tabWidth": 2
+    "eslint": "^8.4.1"
   },
   "eslintConfig": {
     "extends": [
-      "plugin:prettier/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:security/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "import",
-      "security"
-    ],
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      },
-      "ecmaVersion": 2021
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "rules": {
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
-    }
+      "@anonrig/eslint-config"
+    ]
   },
   "ava": {
     "files": [
@@ -101,5 +58,21 @@
     ],
     "verbose": false,
     "workerThreads": true
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "make-dedicated-lockfile",
+    "dev": "npx nodemon -r dotenv/config",
+    "test": "ava",
+    "test:coverage": "c8 --skip-full ava",
+    "test:ci": "c8 --skip-full --reporter=lcov ava",
+    "test:watch": "ava --watch",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\"",
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix",
+    "migrate": "knex migrate:latest --knexfile=src/knexfile.js",
+    "migrate:dev": "node -r dotenv/config node_modules/knex/bin/cli migrate:latest --knexfile=src/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile=src/knexfile.js",
+    "migrate:rollback:dev": "node -r dotenv/config node_modules/knex/bin/cli migrate:rollback --knexfile=src/knexfile.js",
+    "migrate:make": "node -r dotenv/config node_modules/knex/bin/cli migrate:make --knexfile=src/knexfile.js"
   }
 }

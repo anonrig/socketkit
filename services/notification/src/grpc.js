@@ -1,52 +1,45 @@
 import path from 'path'
+
 import Mali from 'mali'
 import { addSchemas } from 'mali-ajv'
 
-import Logger from './logger.js'
+import config from './config.js'
 import * as Integrations from './consumers/integrations.js'
-import * as Notifications from './consumers/notifications.js'
-
 import * as integration_schemas from './consumers/integrations.schema.js'
+import * as Notifications from './consumers/notifications.js'
 import * as notification_schemas from './consumers/notifications.schema.js'
+import Logger from './logger.js'
 
 import ajv from './validator.js'
 
-const logger = Logger.create().withScope('grpc')
-const options = {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-}
-const file = path.join(path.resolve(''), 'protofiles/notification.proto')
-const health = path.join(path.resolve(''), 'protofiles/health.proto')
+const logger = Logger.create({}).withScope('grpc')
+const folder = path.join(path.resolve(''), 'node_modules/@socketkit/proto-definitions')
+const notificationFile = path.join(folder, 'notification.proto')
+const healthFile = path.join(folder, 'health.proto')
+const app = new Mali(notificationFile, ['Integrations', 'Notifications'], config.grpc_options)
 
-const app = new Mali()
-
-app.addService(file, 'Integrations', options)
-app.addService(file, 'Notifications', options)
-app.addService(health, 'Health', options)
+app.addService(healthFile, 'Health', config.grpc_options)
 
 app.use(
-  addSchemas(app, {
-    notifications: notification_schemas,
-    integrations: integration_schemas,
-  }, { ajv }),
+  addSchemas(
+    app,
+    {
+      integrations: integration_schemas,
+      notifications: notification_schemas,
+    },
+    { ajv },
+  ),
 )
-app.use(async (context, next) => {
-  logger.withScope('grpc').debug(`Receiving ${context.fullName}`)
-
-  return next()
-})
 
 app.use({ Integrations, Notifications })
 app.use('grpc.health.v1.Health', 'Check', (ctx) => (ctx.res = { status: 1 }))
 
+/* c8 ignore start */
 app.on('error', (error) => {
   if (!error.code) {
     logger.fatal(error)
   }
 })
+/* c8 ignore end */
 
 export default app

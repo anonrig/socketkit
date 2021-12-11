@@ -1,17 +1,16 @@
 import grpc from '@grpc/grpc-js'
-import pg from '../pg.js'
-import Logger from '../logger.js'
 
+import Logger from '../logger.js'
+import pg from '../pg.js'
+
+import * as Discord from '../providers/discord.js'
 import * as Email from '../providers/email.js'
 import * as Slack from '../providers/slack.js'
-import * as Discord from '../providers/discord.js'
 
 const logger = Logger.create().withScope('notifications')
 
 export async function send({ account_id, provider_id, properties }, trx) {
-  logger
-    .withTag('send')
-    .info(`Sending notification to=${account_id} with provider=${provider_id}`)
+  logger.withTag('send').info(`Sending notification to=${account_id} with provider=${provider_id}`)
 
   const integrations = await pg
     .queryBuilder()
@@ -28,16 +27,18 @@ export async function send({ account_id, provider_id, properties }, trx) {
   }
 
   for (let integration of integrations) {
+    const type = properties.find((property) => !!property.type)?.type
+
     try {
       switch (provider_id) {
         case 'email':
           await Email.send(integration.requirement.to, properties)
+          break
         case 'slack':
           await Slack.send(type, integration.requirement.url, properties)
           break
         case 'discord':
           await Discord.send(type, integration.requirement.url, properties)
-
           break
       }
 
@@ -45,8 +46,8 @@ export async function send({ account_id, provider_id, properties }, trx) {
       await pg
         .queryBuilder()
         .update({
-          is_active: true,
           failed_requests: 0,
+          is_active: true,
           last_error_message: null,
         })
         .from('integrations')
@@ -58,8 +59,8 @@ export async function send({ account_id, provider_id, properties }, trx) {
       await pg
         .queryBuilder()
         .update({
-          is_active: failed_requests !== 3,
           failed_requests,
+          is_active: failed_requests !== 3,
           last_error_message: error.message,
         })
         .from('integrations')

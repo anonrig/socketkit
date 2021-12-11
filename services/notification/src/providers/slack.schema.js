@@ -1,16 +1,29 @@
 export const templates = {
   review: {
-    type: 'object',
+    errorMessage: {
+      required: {
+        application_icon: 'application icon is required and should be a valid link',
+        application_title: 'application title is required',
+        content: 'content is required',
+        country_id: 'country id is required',
+        review_url: 'review url is required and should be a valid link',
+        score: 'score is required and should be between 1 and 5',
+        sent_at: 'sent at date is required',
+        title: 'title is required',
+        username: 'username is required',
+      },
+      type: 'should be an object',
+    },
     properties: {
-      username: { type: 'string' },
-      title: { type: 'string' },
-      content: { type: 'string' },
-      country_id: { type: 'string', example: 'US' },
-      score: { type: 'number', min: 1, max: 5, example: 3 },
-      sent_at: { type: 'string', format: 'date-time' },
+      application_icon: { format: 'url', type: 'string' },
       application_title: { type: 'string' },
-      application_icon: { type: 'string', format: 'url' },
-      review_url: { type: 'string', format: 'url' },
+      content: { type: 'string' },
+      country_id: { example: 'US', type: 'string' },
+      review_url: { format: 'url', type: 'string' },
+      score: { example: 3, max: 5, min: 1, type: 'number' },
+      sent_at: { format: 'date-time', type: 'string' },
+      title: { type: 'string' },
+      username: { type: 'string' },
     },
     required: [
       'username',
@@ -23,20 +36,6 @@ export const templates = {
       'application_icon',
       'review_url',
     ],
-    errorMessage: {
-      type: 'should be an object',
-      required: {
-        username: 'username is required',
-        title: 'title is required',
-        content: 'content is required',
-        country_id: 'country id is required',
-        score: 'score is required and should be between 1 and 5',
-        sent_at: 'sent at date is required',
-        application_title: 'application title is required',
-        application_icon:
-          'application icon is required and should be a valid link',
-        review_url: 'review url is required and should be a valid link',
-      },
-    },
+    type: 'object',
   },
 }

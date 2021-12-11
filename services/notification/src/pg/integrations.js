@@ -1,20 +1,19 @@
 import pg from '../pg.js'
 
-export async function findAll({ account_id, provider_id }) {
+export function findAll({ account_id, provider_id }) {
   return pg
     .queryBuilder()
     .select('*')
     .from('integrations')
-    .where(function () {
-      this.where({ account_id })
-
+    .where({ account_id })
+    .andWhere(function () {
       if (provider_id) {
         this.andWhere({ provider_id })
       }
     })
 }
 
-export async function upsert({ account_id, provider_id, requirement }, trx) {
+export function upsert({ account_id, provider_id, requirement }, trx) {
   return pg
     .queryBuilder()
     .insert({ account_id, provider_id, requirement })
@@ -24,7 +23,7 @@ export async function upsert({ account_id, provider_id, requirement }, trx) {
     .transacting(trx)
 }
 
-export async function destroy({ account_id, provider_id }, trx) {
+export function destroy({ account_id, provider_id }, trx) {
   return pg
     .queryBuilder()
     .delete()

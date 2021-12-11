@@ -37,9 +37,7 @@ export function emojiCountryCode(flag) {
   if (flag.length !== FLAG_LENGTH) {
     const type = typeof flag
     throw new TypeError(
-      `flag argument must be a flag emoji, but got '${
-        type === 'string' ? flag : type
-      }' instead.`,
+      `flag argument must be a flag emoji, but got '${type === 'string' ? flag : type}' instead.`,
     )
   }
 
