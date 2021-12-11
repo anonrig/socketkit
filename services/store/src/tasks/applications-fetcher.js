@@ -3,14 +3,12 @@ import dayjs from 'dayjs'
 import _ from 'lodash'
 
 import config from '../config.js'
-import Logger from '../logger.js'
+import logger from '../logger.js'
 import * as Applications from '../models/applications.js'
 import pg from '../pg.js'
 import * as AppStore from '../requests/app-store.js'
 
 export default function fetchApplications(limit = config.applications_batch_size) {
-  const logger = Logger.create().withScope('fetchApplications')
-
   return pg.transaction(async (trx) => {
     const applications = await pg
       .queryBuilder()

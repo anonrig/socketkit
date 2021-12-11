@@ -1,10 +1,9 @@
 import config from '../config.js'
-import Logger from '../logger.js'
+import logger from '../logger.js'
 
 import fetchApplications from './applications-fetcher.js'
 import fetchReviews from './reviews-fetcher.js'
 
-const logger = Logger.create().withScope('tasks')
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 async function generateTask(task, label, limit) {
