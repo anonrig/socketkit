@@ -20,23 +20,27 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Cache .pnpm-store
-        uses: actions/cache@v1
-        if: steps.changes.outputs.src == 'true'
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
-      - name: Install pnpm
-        run: curl -fsSL https://get.pnpm.io/install.sh | sh -
-        if: steps.changes.outputs.src == 'true'
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.23.6
+          run_install: true
+
+      - name: Create .npmrc file
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
       - name: pnpm Build
         run: pnpm install
-        if: steps.changes.outputs.src == 'true'
 
       - name: Create and publish versions
-        uses: changesets/action@master
+        uses: changesets/action@v1
         with:
           version: pnpm ci:version
           commit: "chore: update package versions"
