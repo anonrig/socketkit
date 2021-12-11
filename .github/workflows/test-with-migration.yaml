@@ -18,7 +18,7 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: socketkit
           POSTGRES_PASSWORD: postgres-password
           POSTGRES_PORT: 5432
           POSTGRES_USER: postgres
@@ -69,20 +69,19 @@ jobs:
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
+        PGUSER: postgres
         PGPASSWORD: postgres-password
+        PGDATABASE: socketkit
 
     - name: Run tests
       run: npm run test:ci
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
-        PGUSER: store-worker
-        PGPASSWORD: change-this
+        PGUSER: postgres
+        PGPASSWORD: postgres-password
+        PGDATABASE: socketkit
 
     - uses: codecov/codecov-action@v2
       with:
-        flags: store
-        name: store
-        fail_ci_if_error: true
-        verbose: true
-        root_dir: services/${{matrix.worker_name}}
+        working-directory: services/${{matrix.worker_name}}

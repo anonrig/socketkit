@@ -21,8 +21,8 @@ export default {
   knex: {
     client: 'pg',
     connection: {
-      database: 'store',
-      port: 5432,
+      database: process.env.PGDATABASE || 'store',
+      port: process.env.PGPORT || 5432,
       user: process.env.PGUSER || 'store-worker',
     },
     migrations: {
