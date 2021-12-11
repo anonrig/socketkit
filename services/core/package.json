@@ -1,5 +1,6 @@
 {
-  "name": "@socketkit/core-worker",
+  "name": "@socketkit/core",
+  "private": true,
   "version": "0.1.0",
   "description": "Socketkit Core Worker",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

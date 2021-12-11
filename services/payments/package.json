@@ -1,5 +1,6 @@
 {
-  "name": "@socketkit/payment-worker",
+  "name": "@socketkit/payments",
+  "private": true,
   "version": "0.1.0",
   "description": "Socketkit Payment Worker",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

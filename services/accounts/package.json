@@ -1,5 +1,6 @@
 {
-  "name": "@socketkit/account-worker",
+  "name": "@socketkit/accounts",
+  "private": true,
   "version": "0.1.0",
   "description": "Socketkit Account Worker",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

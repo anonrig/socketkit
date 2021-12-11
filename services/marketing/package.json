@@ -1,7 +1,7 @@
 {
-  "name": "marketing",
-  "version": "0.1.0",
+  "name": "@socketkit/marketing",
   "private": true,
+  "version": "0.1.0",
   "scripts": {
     "dev": "NODE_ENV=development next dev",
     "build": "next build",

@@ -1,5 +1,6 @@
 {
-  "name": "@socketkit/notification-worker",
+  "name": "@socketkit/notification",
+  "private": true,
   "version": "0.1.0",
   "description": "Socketkit Notification Worker",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

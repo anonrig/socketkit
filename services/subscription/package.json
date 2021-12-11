@@ -1,5 +1,6 @@
 {
-  "name": "@socketkit/subscription-worker",
+  "name": "@socketkit/subscription",
+  "private": true,
   "description": "Socketkit Subscription Worker",
   "version": "0.1.0",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",

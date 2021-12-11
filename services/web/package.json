@@ -1,5 +1,6 @@
 {
   "name": "@socketkit/web",
+  "private": true,
   "description": "Socketkit web page",
   "version": "0.1.0",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
