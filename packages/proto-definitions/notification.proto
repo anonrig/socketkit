@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+service Notifications {
+  rpc send(Notification) returns (Empty) {}
+}
+
+service Integrations {
+  rpc findAll(AccountIdRequest) returns (IntegrationsResponse) {}
+  rpc upsert(IntegrationCreateRequest) returns (Empty) {}
+  rpc destroy(AccountIdRequest) returns (Empty) {}
+}
+
+// Generics
+
+message Empty {}
+
+// Requests
+
+message AccountIdRequest {
+  string account_id = 1;
+
+  oneof optional_provider_id {
+    string provider_id = 2;
+  }
+}
+
+message IntegrationCreateRequest {
+  string account_id = 1;
+  string provider_id = 2;
+  IntegrationRequirement requirement = 3;
+}
+
+// Responses
+
+message IntegrationsResponse {
+  repeated Integration rows = 1;
+}
+
+// Models
+
+message IntegrationRequirement {
+  oneof optional_url {
+    string url = 1;
+  }
+}
+
+message Integration {
+  string account_id = 1;
+  string provider_id = 2;
+  string requirement = 3;
+  string created_at = 4;
+}
+
+message Notification {
+  string account_id = 1;
+  string provider_id = 2;
+  repeated NotificationProperty properties = 3;
+}
+
+message NotificationProperty {
+  string key = 1;
+  oneof notification_value_types {
+    string value_string = 2;
+    int32 value_int = 3;
+  }
+}
