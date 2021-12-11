@@ -6,7 +6,7 @@ coverage:
         flags:
           - store
 flags:
-  logCode:
+  store:
     paths:
       - services/store/coverage.txt
     carryforward: true
