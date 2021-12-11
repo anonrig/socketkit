@@ -60,12 +60,18 @@ jobs:
       run: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
       if: steps.changes.outputs.src == 'true'
 
-    - name: pnpm Build
+    - name: Install dependencies
       run: pnpm install
       if: steps.changes.outputs.src == 'true'
 
-    - name: Run psql commands
-      run: npm run migrate
+    - name: Link dependencies
+      run: pnpm build
+      if: steps.changes.outputs.src == 'true'
+      working-directory: services/${{matrix.worker_name}}
+      continue-on-error: true
+
+    - name: Run migrations
+      run: pnpm migrate
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
@@ -74,7 +80,7 @@ jobs:
         PGDATABASE: socketkit
 
     - name: Run tests
-      run: npm run test:ci
+      run: pnpm test:ci
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
