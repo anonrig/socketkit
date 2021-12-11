@@ -1,0 +1,12 @@
+coverage:
+  status:
+    project:
+      store:
+        target: auto
+        flags:
+          - store
+flags:
+  logCode:
+    paths:
+      - services/store/coverage.txt
+    carryforward: true
