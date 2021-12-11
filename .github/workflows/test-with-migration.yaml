@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
-        worker_name: [store]
+        worker_name: [notification, store]
 
     services:
       postgres:

@@ -1,41 +1,41 @@
 export const email = {
-  type: 'object',
-  properties: {
-    to: { type: 'string', format: 'email' },
-  },
-  required: ['to'],
   additionalProperties: false,
   errorMessage: {
-    type: 'should be a string',
-    required: 'email is required',
     additionalProperties: 'only to field is accepted',
+    required: 'email is required',
+    type: 'should be a string',
   },
+  properties: {
+    to: { format: 'email', type: 'string' },
+  },
+  required: ['to'],
+  type: 'object',
 }
 
 export const slack = {
-  type: 'object',
-  properties: {
-    url: { type: 'string', format: 'url' },
-  },
-  required: ['url'],
   additionalProperties: false,
   errorMessage: {
-    type: 'should be a string',
-    required: 'url is required',
     additionalProperties: 'only url field is accepted',
+    required: 'url is required',
+    type: 'should be a string',
   },
+  properties: {
+    url: { format: 'url', type: 'string' },
+  },
+  required: ['url'],
+  type: 'object',
 }
 
 export const discord = {
-  type: 'object',
-  properties: {
-    url: { type: 'string', format: 'url' },
-  },
-  required: ['url'],
   additionalProperties: false,
   errorMessage: {
-    type: 'should be a string',
-    required: 'url is required',
     additionalProperties: 'only url field is accepted',
+    required: 'url is required',
+    type: 'should be a string',
   },
+  properties: {
+    url: { format: 'url', type: 'string' },
+  },
+  required: ['url'],
+  type: 'object',
 }

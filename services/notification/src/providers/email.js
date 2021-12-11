@@ -1,11 +1,11 @@
+import grpc from '@grpc/grpc-js'
 import mailer from '@sendgrid/client'
 import helpers from '@sendgrid/helpers'
-import grpc from '@grpc/grpc-js'
 
 import config from '../config.js'
-import validator from '../validator.js'
 import { convertPropertiesObject } from '../helpers.js'
 import Logger from '../logger.js'
+import validator from '../validator.js'
 
 import schema, { templates } from './email.schema.js'
 
@@ -45,23 +45,23 @@ export async function send(properties_as_array) {
   const { Mail } = helpers.classes
 
   const mail = new Mail({
-    subject: validated_properties.subject,
-    from: validated_properties.from,
-    to: validated_properties.to,
-    replyTo: validated_properties.reply_to,
-    templateId: template.id,
     dynamicTemplateData: template_properties,
+    from: validated_properties.from,
     mailSettings: {
       footer: { enable: false },
       sandboxMode: { enable: !config.isProduction },
     },
+    replyTo: validated_properties.reply_to,
+    subject: validated_properties.subject,
+    templateId: template.id,
+    to: validated_properties.to,
   })
 
   mailer.request(
     mailer.createRequest({
+      body: mail,
       method: 'POST',
       url: '/v3/mail/send',
-      body: mail,
     }),
   )
 }
