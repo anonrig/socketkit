@@ -62,6 +62,7 @@ importers:
 
   services/core:
     specifiers:
+      '@anonrig/eslint-config': ^0.2.1
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.7
       '@ory/kratos-client': ^0.8.0-alpha.2
@@ -72,10 +73,6 @@ importers:
       dayjs: ^1.10.7
       dotenv: ^10.0.0
       eslint: ^8.3.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ^2.25.3
-      eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-security: ^1.4.0
       fastify: ^3.24.0
       fastify-auth: ^1.1.0
       fastify-compress: ^3.6.1
@@ -89,10 +86,8 @@ importers:
       knex: ^0.95.14
       lodash: ^4.17.21
       pg: ^8.7.1
-      prettier: ^2.5.0
       qs: ^6.10.1
       under-pressure: ^5.8.0
-      uuid: ^8.3.2
     dependencies:
       '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.7
@@ -118,14 +113,9 @@ importers:
       pg: 8.7.1
       qs: 6.10.1
       under-pressure: 5.8.0
-      uuid: 8.3.2
     devDependencies:
+      '@anonrig/eslint-config': 0.2.1_eslint@8.3.0
       eslint: 8.3.0
-      eslint-config-prettier: 8.3.0_eslint@8.3.0
-      eslint-plugin-import: 2.25.3_eslint@8.3.0
-      eslint-plugin-prettier: 4.0.0_d8c6a2a4ba8850181fffb74d8e835cec
-      eslint-plugin-security: 1.4.0
-      prettier: 2.5.0
 
   services/marketing:
     specifiers:

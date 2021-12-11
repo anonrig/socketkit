@@ -1,5 +1,5 @@
 import pg from '../pg.js'
-import { v4 } from 'uuid'
+import { randomUUID } from 'node:crypto'
 
 export function getAccounts({ identity_id }) {
   return pg
@@ -33,7 +33,7 @@ export function createAccount({ identity_id }) {
     .insert({
       account_role: 'owner',
       created_at: new Date(),
-      account_id: v4(),
+      account_id: randomUUID(),
       identity_id,
     })
     .into('account_identities')

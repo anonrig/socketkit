@@ -36,48 +36,15 @@
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
     "qs": "^6.10.1",
-    "under-pressure": "^5.8.0",
-    "uuid": "^8.3.2"
+    "under-pressure": "^5.8.0"
   },
   "devDependencies": {
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-security": "^1.4.0",
-    "prettier": "^2.5.0"
+    "@anonrig/eslint-config": "^0.2.1",
+    "eslint": "^8.3.0"
   },
   "eslintConfig": {
     "extends": [
-      "plugin:prettier/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:security/recommended"
-    ],
-    "plugins": [
-      "prettier",
-      "import",
-      "security"
-    ],
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      },
-      "ecmaVersion": 2021
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "rules": {
-      "import/extensions": [
-        "error",
-        "always",
-        {
-          "ignorePackages": true
-        }
-      ]
-    }
+      "@anonrig/eslint-config"
+    ]
   }
 }
