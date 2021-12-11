@@ -65,16 +65,14 @@ message Application {
   bytes authorization_key = 4;
   // Application secret used for signing payload
   bytes application_key = 5;
-  // Application server side secret to verify payload
-  bytes server_key = 6;
   // Default session timeout in seconds
-  int32 session_timeout = 7;
+  int32 session_timeout = 6;
   // Active state
-  bool is_active = 8;
+  bool is_active = 7;
   // Timestamp on creation
-  string created_at = 9;
+  string created_at = 8;
   // Timestamp on last update
-  string updated_at = 10;
+  string updated_at = 9;
 }
 
 // Request through unique account id.
@@ -342,4 +340,3 @@ message SessionsResponse {
   // Optional cursor available for pagination
   optional SessionCursor cursor = 2;
 }
-
