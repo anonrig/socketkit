@@ -97,7 +97,6 @@ importers:
       ajv-formats: 2.1.1
       consola: 2.15.3
       dayjs: 1.10.7
-      dotenv: 10.0.0
       fastify: 3.24.0
       fastify-auth: 1.1.0
       fastify-compress: 3.6.1
@@ -115,6 +114,7 @@ importers:
       under-pressure: 5.8.0
     devDependencies:
       '@anonrig/eslint-config': 0.2.1_eslint@8.3.0
+      dotenv: 10.0.0
       eslint: 8.3.0
 
   services/marketing:
@@ -4449,6 +4449,7 @@ packages:
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
+    dev: true
 
   /dotenv/8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}

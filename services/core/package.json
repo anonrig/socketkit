@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
-    "start": "node -r dotenv/config src/index.js",
+    "start": "node src/index.js",
     "dev": "npx DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
   },
   "dependencies": {
@@ -21,7 +21,6 @@
     "ajv-formats": "^2.1.1",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
-    "dotenv": "^10.0.0",
     "fastify": "^3.24.0",
     "fastify-auth": "^1.1.0",
     "fastify-compress": "^3.6.1",
@@ -40,6 +39,7 @@
   },
   "devDependencies": {
     "@anonrig/eslint-config": "^0.2.1",
+    "dotenv": "^10.0.0",
     "eslint": "^8.3.0"
   },
   "eslintConfig": {
