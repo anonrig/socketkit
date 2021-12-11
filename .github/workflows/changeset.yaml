@@ -1,0 +1,46 @@
+name: Changeset Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Cache .pnpm-store
+        uses: actions/cache@v1
+        if: steps.changes.outputs.src == 'true'
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install pnpm
+        run: curl -fsSL https://get.pnpm.io/install.sh | sh -
+        if: steps.changes.outputs.src == 'true'
+
+      - name: pnpm Build
+        run: pnpm install
+        if: steps.changes.outputs.src == 'true'
+
+      - name: Create and publish versions
+        uses: changesets/action@master
+        with:
+          version: pnpm ci:version
+          commit: "chore: update package versions"
+          title: "chore: update package versions"
+          publish: pnpm ci:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
