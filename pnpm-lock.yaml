@@ -293,7 +293,6 @@ importers:
       '@anonrig/eslint-config': ^0.2.1
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.7
-      '@socketkit/proto-definitions': workspace:*
       '@supercharge/promise-pool': ^2.0.0
       appstore-sensor: ^0.6.2
       ava: ^4.0.0-rc.1
@@ -312,7 +311,6 @@ importers:
     dependencies:
       '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.7
-      '@socketkit/proto-definitions': link:../../packages/proto-definitions
       '@supercharge/promise-pool': 2.0.0
       appstore-sensor: 0.6.2
       dayjs: 1.10.7
