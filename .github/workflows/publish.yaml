@@ -29,6 +29,27 @@ jobs:
           version=$(echo ${{github.event.release.tag_name}} | sed 's/${{matrix.worker_name}}\///g')
           echo "::set-output name=version::$version"
 
+      - name: Cache .pnpm-store
+        uses: actions/cache@v1
+        if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install pnpm
+        run: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@6
+        if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
+
+      - name: Install dependencies
+        run: pnpm install
+        if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
+
+      - name: Link dependencies
+        run: pnpm build
+        if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}
+        working-directory: services/${{ matrix.worker_name }}
+        continue-on-error: true
+
       - name: Build container image
         uses: docker/build-push-action@v2
         if: ${{ startsWith(github.event.release.tag_name, matrix.worker_name) }}

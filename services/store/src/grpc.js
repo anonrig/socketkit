@@ -9,13 +9,14 @@ import * as Reviews from './consumers/reviews.js'
 import performancePlugin from './grpc.performance.js'
 import logger from './logger.js'
 
-const file = path.join(path.resolve(''), 'protofiles/store.proto')
-const health = path.join(path.resolve(''), 'protofiles/health.proto')
+const folder = path.join(path.resolve(''), 'node_modules/@socketkit/proto-definitions')
+const storeFile = path.join(folder, 'store.proto')
+const healthFile = path.join(folder, 'health.proto')
 
 export function build() {
-  const app = new Mali(file, ['Reviews', 'Applications', 'Integrations'], config.grpc_options)
+  const app = new Mali(storeFile, ['Reviews', 'Applications', 'Integrations'], config.grpc_options)
 
-  app.addService(health, 'Health', config.grpc_options)
+  app.addService(healthFile, 'Health', config.grpc_options)
 
   /* c8 ignore start */
   if (config.isDevelopment) {

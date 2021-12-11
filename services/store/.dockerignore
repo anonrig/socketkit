@@ -1,3 +1,6 @@
-node_modules/
-build/
-chart/
+.rush
+chart
+coverage
+node_modules
+test
+.env
