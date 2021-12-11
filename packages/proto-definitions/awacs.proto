@@ -1,0 +1,342 @@
+/**
+ * Awacs private api requests and responses.
+ *
+ * This definition includes the protocol buffer definitions of the private api of Awacs.
+ *
+ */
+syntax = "proto3";
+
+service Applications {
+  // Filter through the applications
+  rpc findAll (AccountIdRequest) returns (ApplicationsResponse) {}
+  // Find a specific application by id
+  rpc findOne (ApplicationIdRequest) returns (ApplicationResponse) {}
+  // Count unique applications
+  rpc count (AccountIdRequest) returns (CountResponse) {}
+  // Create a new application
+  rpc create (ApplicationRequest) returns (Empty) {}
+  // Update an existing application
+  rpc update (ApplicationRequest) returns (Empty) {}
+  // Delete an existing application
+  rpc destroy (ApplicationIdRequest) returns (Empty) {}
+}
+
+service Clients {
+  // Filter through the clients
+  rpc findAll (FindAllClientsRequest) returns (ClientsResponse) {}
+  // Find a specific client by id
+  rpc findOne (ClientIdRequest) returns (ClientResponse) {}
+  // Count unique clients
+  rpc count (CountClientsRequest) returns (CountResponse) {}
+}
+
+service Events {
+  // Filter through the events
+  rpc findAll (FindAllEventsRequest) returns (EventsResponse) {}
+  // Count events
+  rpc count (CountEventsRequest) returns (CountResponse) {}
+}
+
+service Sessions {
+  // Filter through the sessions
+  rpc findAll (FindAllSessionsRequest) returns (SessionsResponse) {}
+  // Count sessions
+  rpc count (CountSessionsRequest) returns (CountResponse) {}
+}
+
+// Empty response
+message Empty {}
+
+// Count response
+message CountResponse {
+  // Counted distinct values as integer
+  int32 count = 1;
+}
+
+// Application
+message Application {
+  // Account id
+  string account_id = 1;
+  // Application id
+  string application_id = 2;
+  // Title of the application
+  string title = 3;
+  // HTTP Authorization secret in base64 format
+  bytes authorization_key = 4;
+  // Application secret used for signing payload
+  bytes application_key = 5;
+  // Default session timeout in seconds
+  int32 session_timeout = 6;
+  // Active state
+  bool is_active = 7;
+  // Timestamp on creation
+  string created_at = 8;
+  // Timestamp on last update
+  string updated_at = 9;
+}
+
+// Request through unique account id.
+message AccountIdRequest {
+  // Account id
+  string account_id = 1;
+}
+
+// Request through both application and account id
+message ApplicationIdRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+}
+
+// Application create/update request
+message ApplicationRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+  // Title of your application (Ex. Socketkit)
+  string title = 3;
+  // Default maximum session timeout seconds. Default 30 seconds
+  int32 session_timeout = 4;
+}
+
+// Application response
+message ApplicationResponse {
+  Application row = 1;
+}
+
+// Applications list response
+message ApplicationsResponse {
+  repeated Application rows = 1;
+}
+
+// Client
+message Client {
+  // Account id
+  string account_id = 1;
+  // Application id
+  string application_id = 2;
+  // Client id
+  string client_id = 3;
+  // Unique client id that can defined by the developer
+  optional string distinct_id = 4;
+  // Country id (Ex: us)
+  string country_id = 5;
+  // Device locale (Ex: en-US)
+  string device_locale = 6;
+  // Device manufacturer
+  string device_manufacturer = 7;
+  // Device platform
+  string device_platform = 8;
+  // Device type
+  string device_type = 9;
+  // Device screen height
+  int32 device_height = 10;
+  // Device screen width
+  int32 device_width = 11;
+  // Optional device carrier information
+  optional string device_carrier = 12;
+  // Operating System Version
+  string os_name = 13;
+  // Optional watch model & version
+  optional string watch_model = 14;
+  // Application build number
+  int32 application_build_number = 15;
+  // Application version (Ex: 1.0.0)
+  string application_version = 16;
+  // Library version
+  string library_version = 17;
+  // Optional device push token
+  optional string push_token = 18;
+  // Push token validity
+  bool is_push_token_valid = 19;
+  // Available for GDPR
+  bool is_opt_out = 20;
+  // Optional additional properties defined by the developer
+  repeated CustomProperties additional_properties = 21;
+  // Device creation time
+  string created_at = 22;
+  // Device last modified time
+  string updated_at = 23;
+}
+
+// Client pagination cursor
+message ClientCursor {
+  // Creation timestamp
+  string created_at = 1;
+}
+
+// Request client of an application request with account id.
+message ClientIdRequest {
+  // Account id
+  string account_id = 1;
+  // Application id. Typically your bundle id (Ex. com.socketkit.app)
+  string application_id = 2;
+  // Client id
+  string client_id = 3;
+}
+
+// Find all clients
+message FindAllClientsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional cursor for pagination
+  optional ClientCursor cursor = 4;
+}
+
+// Count clients request
+message CountClientsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 2;
+}
+
+// Clients pagination response
+message ClientsResponse {
+  repeated Client rows = 1;
+  // Optional cursor available for pagination
+  optional ClientCursor cursor = 2;
+}
+
+// Client response
+message ClientResponse {
+  Client row = 1;
+}
+
+// Custom properties defined by the developer or the integration
+message CustomProperties {
+  // Property key
+  string key = 1;
+  // Property value
+  string value = 2;
+}
+
+// Event
+message Event {
+  // Account id
+  string account_id = 1;
+  // Application id
+  string application_id = 2;
+  // Client id
+  string client_id = 3;
+  // Event name (Ex: in_app_purchase)
+  string title = 4;
+  // Event additional properties
+  repeated CustomProperties properties = 5;
+  // Session started at timestamp date
+  string session_started_at = 6;
+  // Event creation date
+  string created_at = 7;
+  // Client who initiated the event
+  Client client = 8;
+}
+
+// Find all events
+message FindAllEventsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional client id (available for filtering)
+  optional string client_id = 4;
+  // Optional cursor for pagination
+  optional EventCursor cursor = 5;
+  // Optional start date for filtering
+  optional string start_date = 6;
+  // Optional end date for filtering
+  optional string end_date = 7;
+}
+
+// Event pagination cursor
+message EventCursor {
+  // Creation timestamp
+  string created_at = 1;
+}
+
+// Count events request
+message CountEventsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id for filtering
+  optional string application_id = 2;
+  // Optional client id for filtering
+  optional string client_id = 3;
+  // Optional start date for filtering
+  optional string start_date = 4;
+  // Optional end date for filtering
+  optional string end_date = 5;
+}
+
+// Events pagination response
+message EventsResponse {
+  repeated Event rows = 1;
+  // Optional cursor available for pagination
+  optional EventCursor cursor = 2;
+}
+
+// Session
+message Session {
+  // Account id
+  string account_id = 1;
+  // Application id
+  string application_id = 2;
+  // Client id
+  string client_id = 3;
+  // Session start timestamp
+  string started_at = 4;
+  // Session expired (or will be) timestamp
+  string expired_at = 5;
+}
+
+// Session pagination cursor
+message SessionCursor {
+  // Expired timestamp
+  string expired_at = 1;
+}
+
+// Find all sessions request
+message FindAllSessionsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional limit for limiting the result
+  optional int32 limit = 2;
+  // Optional application id. Typically your bundle id (Ex. com.socket.app)
+  optional string application_id = 3;
+  // Optional client id (available for filtering)
+  optional string client_id = 4;
+  // Optional cursor for pagination
+  optional SessionCursor cursor = 5;
+  // Optional start date for filtering
+  optional string start_date = 6;
+  // Optional end date for filtering
+  optional string end_date = 7;
+}
+
+// Count sessions request
+message CountSessionsRequest {
+  // Account id
+  string account_id = 1;
+  // Optional application id for filtering
+  optional string application_id = 2;
+  // Optional client id for filtering
+  optional string client_id = 3;
+  // Optional start date for filtering
+  optional string start_date = 4;
+  // Optional end date for filtering
+  optional string end_date = 5;
+}
+
+// Sessions response
+message SessionsResponse {
+  repeated Session rows = 1;
+  // Optional cursor available for pagination
+  optional SessionCursor cursor = 2;
+}
