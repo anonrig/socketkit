@@ -1,5 +1,5 @@
 {
-  "name": "@subscription/store-worker",
+  "name": "@socketkit/store",
   "version": "0.1.0",
   "description": "Socketkit Store Worker",
   "author": "Yagiz Nizipli <yagiz@nizipli.com>",
