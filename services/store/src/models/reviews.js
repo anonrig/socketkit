@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import Logger from '../logger.js'
+import logger from '../logger.js'
 import pg from '../pg.js'
 import { scrapeReviews } from '../requests/app-store.js'
 
@@ -80,8 +80,6 @@ export async function findCountries({ account_id, application_id }) {
 }
 
 export async function create({ application_id, country_id, page = 1 }, trx) {
-  const logger = Logger.create().withScope('application-reviews').withTag(application_id)
-
   logger.debug(`Fetching reviews for country ${country_id} using page ${page}`)
 
   try {

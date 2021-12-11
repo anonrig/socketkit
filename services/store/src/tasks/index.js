@@ -11,10 +11,10 @@ async function generateTask(task, label, limit) {
     const processed = await task(limit)
 
     if (processed > 0) {
-      logger.withTag(label).debug(`Processed ${processed} ${label}`)
+      logger.debug(`Processed ${processed} ${label}`)
     }
   } catch (error) {
-    logger.withTag(label).error(error)
+    logger.error(error)
   }
 
   await sleep(5 * 60 * 1000)
