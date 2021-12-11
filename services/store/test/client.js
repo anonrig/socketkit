@@ -13,8 +13,9 @@ export const getRandomPort = (a = 1000, b = 65000) => {
 
 export function getClients(port = getRandomPort()) {
   const url = `0.0.0.0:${port ?? config.port}`
+  const file = path.join(path.resolve(''), 'node_modules/@socketkit/proto-definitions/store.proto')
   const { Applications, Integrations, Reviews } = grpc.loadPackageDefinition(
-    loader.loadSync(path.join('.', 'protofiles/store.proto'), config.grpc_options),
+    loader.loadSync(file, config.grpc_options),
   )
 
   return {
