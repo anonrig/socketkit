@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
-        worker_name: [accounts, notification]
+        worker_name: [store]
 
     services:
       postgres:
@@ -43,14 +43,6 @@ jobs:
           src:
             - 'services/${{matrix.worker_name}}/**'
 
-    - name: Install PostgreSQL client
-      if: steps.changes.outputs.src == 'true'
-      run: |
-        sudo bash -c "echo deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main >> /etc/apt/sources.list.d/pgdg.list"
-        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-        sudo apt-get update
-        sudo apt-get install libpq-dev postgresql-client-14
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       if: steps.changes.outputs.src == 'true'
@@ -73,19 +65,23 @@ jobs:
       if: steps.changes.outputs.src == 'true'
 
     - name: Run psql commands
-      run: |
-        psql --host=localhost --username=postgres < db/globals.sql
-        cat db/schema/* | psql --host=localhost --username=postgres -1 ${{matrix.worker_name}}
+      run: npm run migrate
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
         PGPASSWORD: postgres-password
 
     - name: Run tests
-      run: npm test
+      run: npm run test:ci
       working-directory: services/${{matrix.worker_name}}
       if: steps.changes.outputs.src == 'true'
       env:
         PGUSER: store-worker
         PGPASSWORD: change-this
 
+    - uses: codecov/codecov-action@v2
+      with:
+        flags: store
+        name: store
+        fail_ci_if_error: true
+        verbose: true
