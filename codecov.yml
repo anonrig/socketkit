@@ -1,7 +1,6 @@
 flag_management:
   default_rules:
     carryforward: true
-
 coverage:
   status:
     project:

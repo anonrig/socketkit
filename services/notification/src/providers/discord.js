@@ -5,19 +5,19 @@ import { Webhook, MessageBuilder } from 'discord-webhook-node'
 import { countryCodeEmoji, getRatingEmojis, convertPropertiesObject } from '../helpers.js'
 import validator from '../validator.js'
 
-import * as Schemas from './discord.schema.js'
+import { templates } from './discord.schema.js'
 
 // https://github.com/matthew1232/discord-webhook-node
 export async function send(type = 'review', url, properties) {
-  const schema = Schemas[`${type}`] // eslint-disable-line
+  const schema = templates[`${type}`]
 
   if (!schema) {
-    const error = new Error(`Type of ${type} is not available for Slack integration`)
+    const error = new Error(`Type of ${type} is not available for Discord integration`)
     error.code = grpc.status.NOT_FOUND
     throw error
   }
   const validated_properties = validator.validate(
-    Schemas[`${type}`], // eslint-disable-line
+    templates[`${type}`],
     convertPropertiesObject(properties),
   )
 

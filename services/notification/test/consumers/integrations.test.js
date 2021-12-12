@@ -67,7 +67,9 @@ test('upsert should create a discord integration', async (t) => {
   const find_response = await findAll({ account_id, provider_id: 'discord' })
   t.truthy(find_response)
   t.true(Array.isArray(find_response.rows))
-  t.truthy(find_response.rows.find((r) => r.provider_id === 'discord' && r.account_id === account_id))
+  t.truthy(
+    find_response.rows.find((r) => r.provider_id === 'discord' && r.account_id === account_id),
+  )
 })
 
 test('upsert should create an email integration', async (t) => {
