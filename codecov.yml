@@ -19,10 +19,10 @@ coverage:
 flags:
   store:
     paths:
-      - services/store/
+      - services/store
   notification:
     paths:
-      - services/notification/
+      - services/notification
   accounts:
     paths:
-      - services/accounts/
+      - services/accounts
