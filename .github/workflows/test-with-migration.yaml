@@ -91,3 +91,4 @@ jobs:
     - uses: codecov/codecov-action@v2
       with:
         working-directory: services/${{matrix.worker_name}}
+        flags: ${{matrix.worker_name}}
