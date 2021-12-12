@@ -5,11 +5,11 @@ import dayjs from 'dayjs'
 import { countryCodeEmoji, getRatingEmojis, convertPropertiesObject } from '../helpers.js'
 import validator from '../validator.js'
 
-import * as Schemas from './slack.schema.js'
+import { templates } from './slack.schema.js'
 
 // https://api.slack.com/messaging/webhooks
 export async function send(type = 'review', url, properties) {
-  const schema = Schemas[`${type}`] // eslint-disable-line
+  const schema = templates[`${type}`]
 
   if (!schema) {
     const error = new Error(`Type of ${type} is not available for Slack integration`)
@@ -17,12 +17,12 @@ export async function send(type = 'review', url, properties) {
     throw error
   }
   const validated_properties = validator.validate(
-    Schemas[`${type}`], // eslint-disable-line
+    templates[`${type}`],
     convertPropertiesObject(properties),
   )
 
   if (!validated_properties) {
-    const error = new Error(validator.errors[0].message)
+    const error = new Error(validator.errorsText(validator.errors))
     error.code = grpc.status.FAILED_PRECONDITION
     throw error
   }

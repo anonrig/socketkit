@@ -39,9 +39,7 @@ message IntegrationsResponse {
 // Models
 
 message IntegrationRequirement {
-  oneof optional_url {
-    string url = 1;
-  }
+  optional string url = 1;
 }
 
 message Integration {

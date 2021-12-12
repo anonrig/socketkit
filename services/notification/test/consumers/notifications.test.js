@@ -7,6 +7,7 @@ import app from '../../src/grpc.js'
 import pg from '../../src/pg.js'
 
 import { getRandomPort, getClients } from '../client.js'
+import { removeIntegration } from '../models.js'
 
 test.before(async (t) => {
   const port = getRandomPort()
@@ -28,6 +29,24 @@ test('send should validate input', async (t) => {
     throw new Error('should not be here')
   } catch (error) {
     t.not(error.message, 'should not be here')
-    t.true(error.message.endsWith('Integration not found'), error.message)
+    t.true(error.message.endsWith('Integration not found'), `${error.message}`)
   }
+})
+
+test('send should succeed with valid integration', async (t) => {
+  const account_id = randomUUID()
+  const { integrations, notifications } = t.context
+  const upsert = promisify(integrations.upsert).bind(integrations)
+  const send = promisify(notifications.send).bind(notifications)
+
+  await upsert({
+    account_id,
+    provider_id: 'slack',
+    requirement: {
+      url: 'https://google.com',
+    },
+  })
+  t.teardown(() => removeIntegration({ account_id, provider_id: 'slack' }))
+
+  t.deepEqual(await send({ account_id, properties: [], provider_id: 'slack' }), {})
 })

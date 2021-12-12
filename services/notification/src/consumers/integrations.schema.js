@@ -10,30 +10,28 @@ export const findAll = {
 }
 
 export const upsert = {
+  discriminator: { propertyName: 'provider_id' },
   oneOf: [
     {
       properties: {
         account_id: { format: 'uuid', type: 'string' },
-        provider_id: { enum: ['discord'] },
+        provider_id: { enum: ['discord'], type: 'string' },
         requirement: Providers.discord,
       },
-      required: ['account_id', 'properties'],
     },
     {
       properties: {
         account_id: { format: 'uuid', type: 'string' },
-        provider_id: { enum: ['email'] },
+        provider_id: { enum: ['email'], type: 'string' },
         requirement: Providers.email,
       },
-      required: ['account_id', 'properties'],
     },
     {
       properties: {
         account_id: { format: 'uuid', type: 'string' },
-        provider_id: { enum: ['slack'] },
+        provider_id: { enum: ['slack'], type: 'string' },
         requirement: Providers.slack,
       },
-      required: ['account_id', 'properties'],
     },
   ],
   required: ['account_id', 'provider_id', 'requirement'],
