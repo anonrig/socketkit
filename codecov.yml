@@ -1,20 +1,28 @@
+flag_management:
+  default_rules:
+    carryforward: true
+
 coverage:
   status:
     project:
+      default:
+        target: 75%
       store:
-        target: auto
         flags:
           - store
       notification:
-        target: auto
         flags:
           - notification
+      accounts:
+        flags:
+          - accounts
 flags:
   store:
     paths:
       - services/store/
-    carryforward: true
   notification:
     paths:
       - services/notification/
-    carryforward: true
+  accounts:
+    paths:
+      - services/accounts/
