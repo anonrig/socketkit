@@ -40,6 +40,7 @@ message IntegrationsResponse {
 
 message IntegrationRequirement {
   optional string url = 1;
+  optional string email = 2;
 }
 
 message Integration {
