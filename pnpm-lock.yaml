@@ -195,13 +195,14 @@ importers:
       ajv: ^8.8.2
       ajv-errors: ^3.0.0
       ajv-formats: ^2.1.1
-      ava: ^3.15.0
+      ava: ^4.0.0-rc.1
       c8: ^7.10.0
       consola: ^2.15.3
       dayjs: ^1.10.7
       discord-webhook-node: ^1.1.8
       dotenv: ^10.0.0
       eslint: ^8.4.1
+      faker: ^5.5.3
       knex: ^0.95.14
       lodash: ^4.17.21
       mali: ^0.46.0
@@ -228,10 +229,11 @@ importers:
     devDependencies:
       '@anonrig/eslint-config': 0.2.1_eslint@8.4.1
       '@pnpm/make-dedicated-lockfile': 0.2.16
-      ava: 3.15.0
+      ava: 4.0.0-rc.1
       c8: 7.10.0
       dotenv: 10.0.0
       eslint: 8.4.1
+      faker: 5.5.3
 
   services/payments:
     specifiers:
