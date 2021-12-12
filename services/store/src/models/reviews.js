@@ -1,3 +1,4 @@
+import grpcjs from '@grpc/grpc-js'
 import dayjs from 'dayjs'
 
 import logger from '../logger.js'
@@ -9,7 +10,9 @@ export async function findAll(
   { cursor, limit = 10, start_date, end_date },
 ) {
   if (application_ids.length === 0) {
-    throw new Error(`Application id list is empty`)
+    const error = new Error(`Application id list is empty`)
+    error.code = grpcjs.status.INVALID_ARGUMENT
+    throw error
   }
 
   return pg

@@ -32,7 +32,7 @@ test('findAll should handle empty array as an input', async (t) => {
     throw new Error('should not be here')
   } catch (error) {
     t.not(error.message, 'should not be here')
-    t.is(error.message, '2 UNKNOWN: Application id list is empty')
+    t.is(error.message, '3 INVALID_ARGUMENT: Application id list is empty')
   }
 })
 
