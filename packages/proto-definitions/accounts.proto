@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+service Identities {
+  rpc findAccounts(FindAllAccounts) returns (AccountRows) {}
+  rpc findInvitations(FindIdentitiesInvitationRequest) returns (InvitationRows) {}
+  rpc acceptInvitation(AcceptInvitationRequest) returns (Empty) {}
+  rpc rejectInvitation(RejectInvitationRequest) returns (Empty) {}
+}
+
+service Accounts {
+  rpc findOrCreate(CreateAccountRequest) returns (Member) {}
+  rpc findInvitations(FindInvitationsRequest) returns (InvitationRows) {}
+  rpc update(UpdateAccountRequest) returns (Empty) {}
+  rpc invite(InviteMemberRequest) returns (Empty) {}
+  rpc findMembers(FindAccountMembers) returns (MemberRows) {}
+  rpc removeMember(RemoveAccountMember) returns (Empty) {}
+}
+
+message Empty {}
+
+// Invitations
+
+message FindIdentitiesInvitationRequest {
+  string email = 1;
+}
+
+message AcceptInvitationRequest {
+  string identity_id = 1;
+  string account_id = 2;
+  string email = 3;
+}
+
+message RejectInvitationRequest {
+  string account_id = 1;
+  string email = 2;
+}
+
+message Invitation {
+  string account_id = 1;
+  string account_name = 2;
+  string email = 3;
+  string invited_at = 4;
+}
+
+message InvitationRows {
+  repeated Invitation rows = 1;
+}
+
+// Accounts
+
+message FindAllAccounts {
+  string identity_id = 1;
+}
+
+message UpdateAccountRequest {
+  string identity_id = 1;
+  string account_id = 2;
+  string account_name = 3;
+}
+
+message CreateAccountRequest {
+  string owner_identity_id = 1;
+  string account_name = 2;
+}
+
+message FindInvitationsRequest {
+  string account_id = 1;
+}
+
+message InviteMemberRequest {
+  string account_id = 1;
+  string email = 2;
+}
+
+message FindAccountMembers {
+  string account_id = 1;
+}
+
+message RemoveAccountMember {
+  string account_id = 1;
+  string identity_id = 2;
+}
+
+// Models
+
+message Member {
+  string account_id = 1;
+  string identity_id = 2;
+  string created_at = 3;
+  string last_active_at = 4;
+}
+
+message MemberRows {
+  repeated Member rows = 1;
+}
+
+message Account {
+  string account_id = 1;
+  string account_name = 2;
+  string owner_identity_id = 3;
+  string created_at = 4;
+}
+
+message AccountRows {
+  repeated Account rows = 1;
+}
