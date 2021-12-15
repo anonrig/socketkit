@@ -83,10 +83,7 @@ function ReviewsIntegration({ fallbackData }) {
           <div className="bg-white py-6 px-4 sm:p-6">
             <div className="grid grid-cols-4 gap-6">
               <div className="sm:col-span-4">
-                <label
-                  htmlFor="application"
-                  className="block text-sm font-medium text-stone-700"
-                >
+                <label htmlFor="application" className="block text-sm font-medium text-stone-700">
                   Application
                 </label>
                 <div className="mt-1 space-y-8">

@@ -39,8 +39,7 @@ function TimelineRow({
     } else if (transaction_type === 'conversion') {
       return (
         <p className="text-sm text-stone-500 flex-1">
-          Converted to paid user for{' '}
-          <span className="font-medium text-stone-900">{proceed}$</span>
+          Converted to paid user for <span className="font-medium text-stone-900">{proceed}$</span>
         </p>
       )
     } else {

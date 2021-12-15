@@ -14,7 +14,10 @@ export async function getServerSideProps(ctx) {
       throw new Error('Flow does not exist')
     }
 
-    const { data } = await client.getSelfServiceRecoveryFlow(ctx.query.flow, ctx.req?.headers.cookie)
+    const { data } = await client.getSelfServiceRecoveryFlow(
+      ctx.query.flow,
+      ctx.req?.headers.cookie,
+    )
     const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
 
     if (isBefore) {

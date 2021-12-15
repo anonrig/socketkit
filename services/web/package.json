@@ -9,7 +9,8 @@
     "dev": "NODE_ENV=development next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix ."
+    "lint": "next lint ",
+    "lint:fix": "next lint . --fix"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",

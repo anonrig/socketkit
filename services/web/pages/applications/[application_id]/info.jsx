@@ -23,12 +23,9 @@ function ApplicationInformation({ fallbackData }) {
     fallbackData,
     refreshInterval: 0,
   })
-  const { data: versions } = useSWR(
-    `applications/${router.query.application_id}/versions`,
-    {
-      refreshInterval: 0,
-    },
-  )
+  const { data: versions } = useSWR(`applications/${router.query.application_id}/versions`, {
+    refreshInterval: 0,
+  })
 
   return (
     <>

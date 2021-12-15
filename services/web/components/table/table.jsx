@@ -9,7 +9,7 @@ import useSWRInfinite from 'swr/infinite'
 import useOnScreen from '../../helpers/use-onscreen.js'
 
 function Table({
-  fallbackData,
+  fallbackData, // eslint-disable-line
   columns,
   getRowProps,
   url,

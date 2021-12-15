@@ -56,8 +56,8 @@ function FormField({ className, messages, meta, attributes, type }) {
       {messages?.map((message) => (
         <p
           className={cx('mt-2 text-sm', {
-            'text-red-500': message.type === 'error',
             'text-neutral-500': message.type !== 'error',
+            'text-red-500': message.type === 'error',
           })}
           key={message.id}
         >
