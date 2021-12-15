@@ -12,7 +12,7 @@ function AccountSettings({ fields }) {
       className="shadow sm:rounded-md sm:overflow-hidden"
     >
       <div className="bg-white py-6 px-4 sm:p-6 space-y-2">
-        <h2 className="text-lg leading-6 font-medium text-warmGray-900">Personal information</h2>
+        <h2 className="text-lg leading-6 font-medium text-stone-900">Personal information</h2>
         {fields
           .filter((f) => f.attributes.name !== 'traits.picture' && f.attributes.type !== 'submit')
           .map((field) => (
@@ -20,7 +20,7 @@ function AccountSettings({ fields }) {
               key={field.attributes.name}
               {...field}
               className="col-span-2"
-              labelClassName="block text-sm font-medium text-warmGray-700"
+              labelClassName="block text-sm font-medium text-stone-700"
               inputClassName="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
             />
           ))}

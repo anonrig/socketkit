@@ -32,7 +32,7 @@ function Failed({ data }) {
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">
           {data.error?.status ?? 'Uncaught error'} (v{pkg.version})
         </h2>
-        <p className="text-xl text-warmGray-500 mb-4">
+        <p className="text-xl text-stone-500 mb-4">
           We&apos;re working really hard to fix this issue. <br></br>
           {data.error?.reason}
         </p>

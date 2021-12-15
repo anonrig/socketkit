@@ -7,7 +7,7 @@ function RangePicker({ selected, setSelected, ranges }) {
     <Menu as="div" className="relative inline-block text-right">
       {({ open }) => (
         <>
-          <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-warmGray-900 hover:bg-warmGray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
+          <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -57,7 +57,7 @@ function RangePicker({ selected, setSelected, ranges }) {
                       onClick={() => setSelected(range)}
                       className={cx(
                         'flex justify-between w-full px-4 py-2 text-sm trailing-5',
-                        active ? 'bg-warmGray-100 text-warmGray-900' : 'text-warmGray-700',
+                        active ? 'bg-stone-100 text-stone-900' : 'text-stone-700',
                       )}
                     >
                       {range.title}

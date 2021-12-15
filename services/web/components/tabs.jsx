@@ -35,7 +35,7 @@ function Tabs({ selected, items }) {
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     selected?.includes(item.key)
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
-                      : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
+                      : 'border-transparent text-stone-900 hover:text-stone-700 hover:border-stone-700',
                   ])}
                 >
                   {item.title}

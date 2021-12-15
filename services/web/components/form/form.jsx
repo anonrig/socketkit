@@ -64,7 +64,7 @@ function Form({ actions, kratos, preAction }) {
 
         {actions.secondary && (
           <Link href={actions.secondary.href}>
-            <a className="text-sm text-warmGray-900 w-full flex justify-center pt-4">
+            <a className="text-sm text-stone-900 w-full flex justify-center pt-4">
               {actions.secondary.label}
             </a>
           </Link>

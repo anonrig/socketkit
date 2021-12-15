@@ -2,12 +2,12 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 
 function Badge({ children, state }) {
-  let color = 'bg-warmGray-50 text-warmGray-900'
+  let color = 'bg-stone-50 text-stone-900'
 
   if (state === 'danger') {
     color = 'bg-red-50 text-red-800'
   } else if (state === 'info') {
-    color = 'bg-blue-50 text-warmGray-900'
+    color = 'bg-blue-50 text-stone-900'
   }
 
   return (

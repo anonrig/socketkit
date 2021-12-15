@@ -10,7 +10,7 @@ export default [
       return (
         <button
           {...row.getToggleRowExpandedProps({})}
-          className="hover:bg-warmGray-100 rounded-md px-2 py-2 -mx-2 -my-2"
+          className="hover:bg-stone-100 rounded-md px-2 py-2 -mx-2 -my-2"
         >
           {row.isExpanded ? (
             <ChevronDownIcon className="h-4 w-4" />
@@ -24,7 +24,7 @@ export default [
       return (
         <button
           onClick={() => console.log('hello')}
-          className="hover:bg-warmGray-100 rounded-md px-2 py-2 -mx-2 -my-2"
+          className="hover:bg-stone-100 rounded-md px-2 py-2 -mx-2 -my-2"
         >
           <SwitchVerticalIcon className="h-4 w-4" />
         </button>

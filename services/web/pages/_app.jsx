@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }) {
         position="top-center"
         toastOptions={{
           className:
-            'p-4 bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 text-sm font-medium text-warmGray-900',
+            'p-4 bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 text-sm font-medium text-stone-900',
           duration: 5000,
         }}
       />

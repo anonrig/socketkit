@@ -22,7 +22,7 @@ function SubscribersWidget({ range, fallbackData }) {
         <div className="col-span-2 flex flex-1 justify-center items-center rounded-md">
           <div className="bg-white h-80 w-full shadow-lgs rounded-md relative">
             <div className="py-5 px-3.5 sm:px-6 z-10">
-              <dt className="font-bold text-warmGray-900 sm:tracking-tight text-2xl">
+              <dt className="font-bold text-stone-900 sm:tracking-tight text-2xl">
                 Active Subscriptions & Trials
               </dt>
             </div>
@@ -52,7 +52,7 @@ function SubscribersWidget({ range, fallbackData }) {
         <div className="col-span-2 flex flex-1 justify-center items-center rounded-md">
           <div className="bg-white h-80 w-full shadow-lgs rounded-md relative">
             <div className="py-5 px-4 sm:px-6 z-10">
-              <dt className="font-bold text-warmGray-900 sm:tracking-tight text-2xl">
+              <dt className="font-bold text-stone-900 sm:tracking-tight text-2xl">
                 Sales & Refunds
               </dt>
             </div>

@@ -62,12 +62,12 @@ function ReviewDetailModal({ onClose, review }) {
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <Dialog.Title
                       as="div"
-                      className="text-lg leading-6 font-medium text-trueGray-900 inline-flex place-content-between w-full items-center"
+                      className="text-lg leading-6 font-medium text-neutral-900 inline-flex place-content-between w-full items-center"
                     >
                       {review?.title ?? ' '} <InlineRating rating={review?.score ?? 1} />
                     </Dialog.Title>
-                    <div className="mt-2 text-sm text-warmGray-500">{review?.content ?? ' '}</div>
-                    <div className="mt-4 text-sm text-warmGray-500">
+                    <div className="mt-2 text-sm text-stone-500">{review?.content ?? ' '}</div>
+                    <div className="mt-4 text-sm text-stone-500">
                       Written by{' '}
                       <a
                         href={review?.user_url}

@@ -14,7 +14,7 @@ function Heading({ children, className, steps, subtitle, action }) {
             <h1 className="font-extrabold text-gray-900 sm:tracking-tight text-3xl">{children}</h1>
           </div>
 
-          {subtitle && <p className="mt-1 text-sm text-trueGray-500 mb-8">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-sm text-neutral-500 mb-8">{subtitle}</p>}
         </div>
         {action && <div className="inline-flex items-center">{action}</div>}
       </div>

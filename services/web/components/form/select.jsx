@@ -40,7 +40,7 @@ function Select({
             <Listbox.Options
               static
               className={cx(
-                'z-20 absolute mt-2 w-full md:w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-trueGray-200 focus:outline-none',
+                'z-20 absolute mt-2 w-full md:w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-neutral-200 focus:outline-none',
                 position === 'left' ? 'origin-top-left' : 'origin-top-right',
                 position === 'left' ? 'left-0' : 'right-0',
               )}
@@ -55,8 +55,8 @@ function Select({
                     <div
                       className={cx(
                         'flex flex-col cursor-default select-none px-4 py-2.5 text-sm',
-                        active ? 'bg-warmGray-50' : 'bg-white',
-                        disabled ? 'text-trueGray-200' : 'text-trueGray-900',
+                        active ? 'bg-stone-50' : 'bg-white',
+                        disabled ? 'text-neutral-200' : 'text-neutral-900',
                       )}
                     >
                       <div className="flex justify-between">

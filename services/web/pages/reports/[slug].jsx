@@ -100,7 +100,7 @@ function Reports({ query, slug }) {
             {report.title}
           </h2>
           <div className="flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
-            <div className="mt-2 flex items-center text-md text-trueGray-500">
+            <div className="mt-2 flex items-center text-md text-neutral-500">
               {report.description}
             </div>
           </div>
@@ -130,7 +130,7 @@ function Reports({ query, slug }) {
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     filters.type === 'line'
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
-                      : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
+                      : 'border-transparent text-stone-900 hover:text-stone-700 hover:border-stone-700',
                   ])}
                 >
                   Line
@@ -141,7 +141,7 @@ function Reports({ query, slug }) {
                     'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                     filters.type === 'bar'
                       ? 'border-orange-500 text-orange-500 hover:border-orange-400 hover:text-orange-400'
-                      : 'border-transparent text-warmGray-900 hover:text-warmGray-700 hover:border-warmGray-700',
+                      : 'border-transparent text-stone-900 hover:text-stone-700 hover:border-stone-700',
                   ])}
                 >
                   Bar

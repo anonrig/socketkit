@@ -48,7 +48,7 @@ function AppStoreConnectIntegration({ fallbackData }) {
     <>
       <NextSeo title="Subscription Tracking" />
       <Heading>Subscription Tracking</Heading>
-      <p className="mt-1 text-sm text-trueGray-500 mb-8">
+      <p className="mt-1 text-sm text-neutral-500 mb-8">
         In order to use AppStore Connect integration, you need to copy your reporter token from{' '}
         <a
           className="inline underline text-orange-500 text-sm font-semibold"
@@ -65,13 +65,13 @@ function AppStoreConnectIntegration({ fallbackData }) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="shadow sm:rounded-md sm:overflow-hidden">
             <div className="bg-white py-6 px-4 sm:p-6">
-              <div className="text-warmGray-900 flex flex-1 flex-col">
+              <div className="text-stone-900 flex flex-1 flex-col">
                 <label className="block text-sm font-medium" htmlFor={'access_token'}>
                   Reporter Token
                 </label>
                 <input
                   {...register('access_token', { required: true })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-warmGray-900 focus:border-warmGray-900 sm:text-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-stone-900 focus:border-stone-900 sm:text-sm"
                   defaultValue={data?.access_token || ''}
                   name={'access_token'}
                   type="text"
@@ -102,7 +102,7 @@ function AppStoreConnectIntegration({ fallbackData }) {
                 </Button>
 
                 <Button
-                  className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
+                  className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-900"
                   disabled={loading}
                   type="submit"
                 >

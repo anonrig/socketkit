@@ -29,7 +29,7 @@ function Events({ fallbackData }) {
         options={{ limit: 10 }}
         columns={columns}
         getRowProps={({ original }) => ({
-          className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          className: 'h-14 hover:bg-stone-50 cursor-pointer',
           key: `${original.application_id}-${original.client_id}-${original.session_started_at}-${original.created_at}`,
         })}
         notFound={{

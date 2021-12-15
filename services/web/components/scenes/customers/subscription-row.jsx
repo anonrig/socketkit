@@ -18,11 +18,11 @@ function SubscriptionRow({
             <div>
               <div className="flex text-sm font-semibold text-orange-500 truncate">
                 <p>{subscription_package_name}</p>
-                <p className="ml-1 font-normal text-warmGray-500">in {application_name}</p>
+                <p className="ml-1 font-normal text-stone-500">in {application_name}</p>
               </div>
               <div className="mt-2 flex">
-                <div className="flex flex-1 items-center text-sm text-warmGray-500">
-                  <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-warmGray-500" />
+                <div className="flex flex-1 items-center text-sm text-stone-500">
+                  <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-stone-500" />
                   <p className="flex-1">
                     Ending on{' '}
                     <time
@@ -37,7 +37,7 @@ function SubscriptionRow({
             </div>
           </div>
           <div className="ml-5 flex-shrink-0">
-            <ChevronRightIcon className="h-5 w-5 text-warmGray-400" />
+            <ChevronRightIcon className="h-5 w-5 text-stone-400" />
           </div>
         </div>
       </a>

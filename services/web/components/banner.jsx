@@ -10,7 +10,7 @@ function Banner({ shortMessage, longMessage }) {
           <div className="p-2 rounded-lg bg-orange-500 shadow-md sm:p-3 sm:px-4">
             <div className="flex items-center justify-between flex-wrap">
               <div className="flex-1 flex items-center">
-                <span className="p-2 rounded-full bg-trueGray-100 flex">
+                <span className="p-2 rounded-full bg-neutral-100 flex">
                   <SpeakerphoneIcon className="h-6 w-6 text-orange-500" />
                 </span>
                 <p className="ml-3 font-medium text-white truncate">

@@ -2,20 +2,18 @@ const colors = require('tailwindcss/colors')
 const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  darkMode: false,
-  mode: 'jit',
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
-  ],
-  purge: [
+  content: [
     './components/**/*.jsx',
     './helpers/**/*.jsx',
     './layouts/*.jsx',
     './pages/**/*.jsx',
     './styles/*.css',
+  ],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/line-clamp'),
   ],
   theme: {
     extend: {
@@ -23,9 +21,9 @@ module.exports = {
         lgs: '0 5px 15px 5px rgba(0, 0, 0, 0.05)',
       },
       colors: {
+        neutral: colors.neutral,
         orange: colors.orange,
-        trueGray: colors.trueGray,
-        warmGray: colors.warmGray,
+        stone: colors.stone,
       },
       fontFamily: {
         sans: ['Inter var', ...theme.fontFamily.sans],

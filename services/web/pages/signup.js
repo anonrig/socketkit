@@ -9,30 +9,21 @@ import { NextSeo } from 'next-seo'
  * @param {import('next').NextPageContext} ctx
  */
 export async function getServerSideProps(ctx) {
-  try {
-    if (!ctx.query.flow) {
-      throw new Error('Flow does not exist')
-    }
-
-    const { data } = await client.getSelfServiceRegistrationFlow(
-      ctx.query.flow,
-      ctx.req?.headers.cookie,
-    )
-    const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
-
-    if (isBefore) {
-      throw new Error('Flow expired')
-    }
-
-    return { props: { kratos: data } }
-  } catch (error) {
-    return {
-      redirect: {
-        destination: endpoints.register,
-        permanent: false,
-      },
-    }
+  if (!ctx.query.flow) {
+    throw new Error('Flow does not exist')
   }
+
+  const { data } = await client.getSelfServiceRegistrationFlow(
+    ctx.query.flow,
+    ctx.req?.headers.cookie,
+  )
+  const isBefore = dayjs(data?.expires_at ?? undefined).isBefore(dayjs())
+
+  if (isBefore) {
+    throw new Error('Flow expired')
+  }
+
+  return { props: { kratos: data } }
 }
 
 function SignUp({ kratos }) {

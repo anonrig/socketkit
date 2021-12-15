@@ -74,7 +74,7 @@ function ReviewsIntegration({ fallbackData }) {
     <>
       <NextSeo title="Reviews Integration" />
       <Heading>Review Tracking</Heading>
-      <p className="mt-1 text-sm text-trueGray-500 mb-8">
+      <p className="mt-1 text-sm text-neutral-500 mb-8">
         Easily track the reviews of your applications on AppStore for better customer feedback and
         higher ratings.
       </p>
@@ -85,7 +85,7 @@ function ReviewsIntegration({ fallbackData }) {
               <div className="sm:col-span-4">
                 <label
                   htmlFor="application"
-                  className="block text-sm font-medium text-warmGray-700"
+                  className="block text-sm font-medium text-stone-700"
                 >
                   Application
                 </label>
@@ -120,7 +120,7 @@ function ReviewsIntegration({ fallbackData }) {
             <div className="space-x-4">
               <Button
                 id="cancel"
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-warmGray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-stone-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 disabled={loading}
                 onClick={() => router.push('/products')}
                 type="button"
@@ -129,7 +129,7 @@ function ReviewsIntegration({ fallbackData }) {
               </Button>
 
               <Button
-                className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-warmGray-900"
+                className="bg-orange-500 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-900"
                 disabled={loading}
                 type="button"
                 onClick={() => onSubmit()}

@@ -4,7 +4,7 @@ export default [
   {
     Header: 'Subscriber Id',
     accessor: function GetCustomerId(field) {
-      return <div className="text-warmGray-900">{field.subscriber_id}</div>
+      return <div className="text-stone-900">{field.subscriber_id}</div>
     },
     className: 'w-32',
     id: 'subscriber_id',

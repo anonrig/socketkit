@@ -25,10 +25,10 @@ function FormProviders({ action, oidc_group, method }) {
       </div>
       <div className="mt-6 relative mb-6">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-warmGray-300"></div>
+          <div className="w-full border-t border-stone-300"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-trueGray-500">Or continue with</span>
+          <span className="px-2 bg-white text-neutral-500">Or continue with</span>
         </div>
       </div>
     </form>

@@ -41,7 +41,7 @@ function TrackingApplications({ fallbackData }) {
 
         <div className="shadow-lgs sm:rounded-lg mt-8">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg leading-6 font-medium text-trueGray-900">No Results Found</h3>
+            <h3 className="text-lg leading-6 font-medium text-neutral-900">No Results Found</h3>
             <p className="mt-2 max-w-xl text-sm text-gray-500">
               Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
@@ -65,34 +65,34 @@ function TrackingApplications({ fallbackData }) {
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-warmGray-50">
+                <thead className="bg-stone-50">
                   <tr>
                     <th
-                      className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                       scope="col"
                     >
                       Identifier
                     </th>
                     <th
-                      className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                       scope="col"
                     >
                       Title
                     </th>
                     <th
-                      className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                       scope="col"
                     >
                       State
                     </th>
                     <th
-                      className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider text-right"
+                      className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider text-right"
                       scope="col"
                     >
                       Created At
                     </th>
                     <th
-                      className="px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider text-right"
+                      className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider text-right"
                       scope="col"
                     >
                       Last Updated
@@ -102,25 +102,25 @@ function TrackingApplications({ fallbackData }) {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {applications?.map((row) => (
                     <tr
-                      className="hover:bg-warmGray-50 cursor-pointer"
+                      className="hover:bg-stone-50 cursor-pointer"
                       key={row.application_id}
                       onClick={() =>
                         router.push(`/products/application-tracking/${row.application_id}`)
                       }
                     >
-                      <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal w-40 font-semibold">
+                      <td className="px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal w-40 font-semibold">
                         {row.application_id}
                       </td>
-                      <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal">
+                      <td className="px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal">
                         {row.title}
                       </td>
-                      <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal w-24">
+                      <td className="px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal w-24">
                         {row.is_active ? 'Active' : 'Inactive'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal w-36 text-right">
+                      <td className="px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal w-36 text-right">
                         {dayjs(row.created_at).format('YYYY-MM-DD')}
                       </td>
-                      <td className="px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal w-44 text-right">
+                      <td className="px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal w-44 text-right">
                         {dayjs(row.updated_at).format('YYYY-MM-DD HH:mm')}
                       </td>
                     </tr>

@@ -5,7 +5,7 @@ export default [
   {
     Header: 'Subscription',
     accessor: function GetTransactionPackage(field) {
-      return <div className="text-warmGray-900">{field.subscription_package_name}</div>
+      return <div className="text-stone-900">{field.subscription_package_name}</div>
     },
     className: 'truncate w-56',
     id: 'subscription_package_name',

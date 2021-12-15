@@ -52,12 +52,12 @@ function LineChart({ values, ...props }) {
         return (
           <div className="space-y-1">
             <div className="text-sm font-medium flex">
-              <p className="bg-white py-1 px-2 ml-auto rounded-md font-sans text-warmGray-900 shadow-md">
+              <p className="bg-white py-1 px-2 ml-auto rounded-md font-sans text-stone-900 shadow-md">
                 {dayjs(points[0].data.x).format('MMMM DD')}
               </p>
             </div>
 
-            <div className="bg-white px-4 py-2 rounded-md text-left font-sans shadow-md text-warmGray-900">
+            <div className="bg-white px-4 py-2 rounded-md text-left font-sans shadow-md text-stone-900">
               {points
                 .sort((a, b) => a.y - b.y)
                 .map((point) => {

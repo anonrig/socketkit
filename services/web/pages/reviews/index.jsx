@@ -122,7 +122,7 @@ function Reviews({ fallbackData }) {
         }}
         columns={columns}
         getRowProps={({ original }) => ({
-          className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          className: 'h-14 hover:bg-stone-50 cursor-pointer',
           id: original.review_id,
           onClick: () => setPresentingReview(original),
         })}

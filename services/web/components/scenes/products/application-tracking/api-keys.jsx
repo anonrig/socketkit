@@ -25,7 +25,7 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <input
-                  className="text-warmGray-400 appearance-none block w-full px-3 py-2 border border-warmGray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                  className="text-stone-400 appearance-none block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                   type="text"
                   value={authorization_key}
                   disabled
@@ -36,7 +36,7 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
                   onClick={() => copy(authorization_key)}
                 >
                   <ClipboardCopyIcon
-                    className="h-5 w-5 text-warmGray-500 hover:text-orange-500"
+                    className="h-5 w-5 text-stone-500 hover:text-orange-500"
                     aria-hidden="true"
                   />
                 </button>
@@ -49,7 +49,7 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <input
-                  className="text-warmGray-400 appearance-none block w-full px-3 py-2 border border-warmGray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                  className="text-stone-400 appearance-none block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                   type="text"
                   value={application_key}
                   disabled
@@ -60,7 +60,7 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
                   onClick={() => copy(application_key)}
                 >
                   <ClipboardCopyIcon
-                    className="h-5 w-5 text-warmGray-500 hover:text-orange-500"
+                    className="h-5 w-5 text-stone-500 hover:text-orange-500"
                     aria-hidden="true"
                   />
                 </button>
@@ -70,7 +70,7 @@ function ApplicationTrackingKeys({ application_key, authorization_key }) {
         </div>
       </div>
 
-      <p className="text-sm text-trueGray-900 mt-4">
+      <p className="text-sm text-neutral-900 mt-4">
         More information about how to start integration your application and use Authorization and
         Signing Keys can be found from{' '}
         <a

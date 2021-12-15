@@ -73,7 +73,7 @@
 }
 
 .rdrWeekDay {
-  @apply font-semibold font-sans text-trueGray-900 py-2 text-center;
+  @apply font-semibold font-sans text-neutral-900 py-2 text-center;
   flex-basis: calc(100% / 7);
   box-sizing: inherit;
 }
@@ -124,7 +124,7 @@
 }
 
 .rdrDayNumber span {
-  @apply text-warmGray-900;
+  @apply text-stone-900;
 }
 
 .rdrDayDisabled {
@@ -181,7 +181,7 @@
 }
 
 .rdrDateDisplayWrapper {
-  @apply bg-warmGray-50 py-1;
+  @apply bg-stone-50 py-1;
 }
 
 .rdrDateDisplay {
@@ -219,7 +219,7 @@
 
 .rdrMonthAndYearPickers select {
   @apply text-sm font-sans text-center;
-  @apply inline-flex justify-center w-full rounded-md border border-warmGray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-warmGray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500
+  @apply inline-flex justify-center w-full rounded-md border border-stone-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-stone-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500
 }
 
 .rdrMonthPicker,
@@ -254,7 +254,7 @@
   line-height: 3em;
   height: 3em;
   text-align: center;
-  @apply text-warmGray-900;
+  @apply text-stone-900;
 }
 
 .rdrDay:focus {
@@ -307,7 +307,7 @@
 .rdrDay:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span,
 .rdrDay:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span,
 .rdrDay:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span {
-  @apply text-warmGray-50;
+  @apply text-stone-50;
 }
 
 .rdrSelected,
@@ -443,7 +443,7 @@
 
 .rdrStaticRange:hover .rdrStaticRangeLabel,
 .rdrStaticRange:focus .rdrStaticRangeLabel {
-  @apply bg-warmGray-50;
+  @apply bg-stone-50;
 }
 
 .rdrStaticRangeLabel {
@@ -494,7 +494,7 @@
 }
 
 .rdrDayPassive .rdrDayNumber span {
-  @apply text-trueGray-500;
+  @apply text-neutral-500;
 }
 
 .rdrDayPassive .rdrInRange,
@@ -512,7 +512,7 @@
 }
 
 .rdrDayDisabled .rdrDayNumber span {
-  @apply text-trueGray-200;
+  @apply text-neutral-200;
 }
 
 .rdrDayDisabled .rdrInRange,
@@ -522,7 +522,7 @@
 .rdrDayDisabled .rdrDayStartPreview,
 .rdrDayDisabled .rdrDayInPreview,
 .rdrDayDisabled .rdrDayEndPreview {
-  @apply bg-trueGray-300;
+  @apply bg-neutral-300;
 }
 
 .rdrMonthName {

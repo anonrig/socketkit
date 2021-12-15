@@ -8,7 +8,7 @@ function InlineRating({ rating, className }) {
     if (rating >= current) {
       return <SolidStar className="h-5 w-5 text-orange-500" key={`${current}-star`} />
     }
-    return <OutlineStar className="h-5 w-5 text-warmGray-200" key={`${current}-star`} />
+    return <OutlineStar className="h-5 w-5 text-stone-200" key={`${current}-star`} />
   }
 
   return (

@@ -11,8 +11,8 @@ function ButtonGroup({ selected, items, onSelected }) {
           type="button"
           className={cx([
             selected === item
-              ? 'bg-warmGray-50 text-orange-500 hover:bg-white'
-              : 'bg-white text-warmGray-900 hover:text-warmGray-500',
+              ? 'bg-stone-50 text-orange-500 hover:bg-white'
+              : 'bg-white text-stone-900 hover:text-stone-500',
             i === 0 ? 'rounded-l-md' : null,
             i !== 0 && i !== items.length - 1 ? '-ml-px' : null,
             i === items.length - 1 ? '-ml-px rounded-r-md' : null,

@@ -18,7 +18,7 @@ function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button className="w-36 inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-warmGray-900 hover:bg-warmGray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
+      <Menu.Button className="w-36 inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
         <span className="line-clamp-1 text-left">{application}</span>
         <ChevronDownIcon
           className="w-4 h-4 ml-2 -mr-1 text-violet-200 hover:text-violet-100 flex-shrink-0"
@@ -41,7 +41,7 @@ function ApplicationDropdown({ selected, onChange, hideOnLoading }) {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-warmGray-100 text-semibold' : 'text-medium'
+                      active ? 'bg-stone-100 text-semibold' : 'text-medium'
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm text-left space-x-4`}
                     onClick={() => onChange(item.application_id)}
                   >

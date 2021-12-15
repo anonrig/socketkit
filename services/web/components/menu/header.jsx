@@ -16,7 +16,7 @@ function Header() {
   const router = useRouter()
   const { session } = useContext(AuthContext)
   const getActiveClassName = (path) =>
-    router.pathname.startsWith(path) ? 'bg-warmGray-50' : 'bg-white'
+    router.pathname.startsWith(path) ? 'bg-stone-50' : 'bg-white'
 
   async function logout() {
     const { data } = await client.createSelfServiceLogoutFlowUrlForBrowsers()
@@ -35,7 +35,7 @@ function Header() {
                 </a>
               </Link>
             </div>
-            <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4 text-sm font-medium text-warmGray-900">
+            <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4 text-sm font-medium text-stone-900">
               <Link href="/applications">
                 <a className={cx(['px-3 py-2 rounded-md', getActiveClassName('/applications')])}>
                   Applications

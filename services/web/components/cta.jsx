@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 function CTA({ title, subtitle, primaryButton, secondaryButton }) {
   return (
     <div className="flex justify-between items-start lg:items-center lg:justify-between shadow-lgs px-6 py-5 rounded-md">
-      <h2 className="text-xl font-extrabold tracking-tight text-warmGray-900">
+      <h2 className="text-xl font-extrabold tracking-tight text-stone-900">
         <span className="block">{title}</span>
         {subtitle && (
-          <span className="block text-trueGray-500 text-lg font-semibold">{subtitle}</span>
+          <span className="block text-neutral-500 text-lg font-semibold">{subtitle}</span>
         )}
       </h2>
       <div className="sm:mt-0 mt-8 flex lg:mt-0 lg:flex-shrink-0">

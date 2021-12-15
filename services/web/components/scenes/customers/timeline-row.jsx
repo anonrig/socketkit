@@ -26,29 +26,29 @@ function TimelineRow({
   const getLabel = () => {
     if (transaction_type === 'refund') {
       return (
-        <p className="text-sm text-warmGray-500 flex-1">
-          Refund accepted for <span className="font-medium text-warmGray-900">{price}$</span>
+        <p className="text-sm text-stone-500 flex-1">
+          Refund accepted for <span className="font-medium text-stone-900">{price}$</span>
         </p>
       )
     } else if (transaction_type === 'renewal') {
       return (
-        <p className="text-sm text-warmGray-500 flex-1">
-          Subscription renewed for <span className="font-medium text-warmGray-900">{proceed}$</span>
+        <p className="text-sm text-stone-500 flex-1">
+          Subscription renewed for <span className="font-medium text-stone-900">{proceed}$</span>
         </p>
       )
     } else if (transaction_type === 'conversion') {
       return (
-        <p className="text-sm text-warmGray-500 flex-1">
+        <p className="text-sm text-stone-500 flex-1">
           Converted to paid user for{' '}
-          <span className="font-medium text-warmGray-900">{proceed}$</span>
+          <span className="font-medium text-stone-900">{proceed}$</span>
         </p>
       )
     } else {
       return (
-        <p className="text-sm text-warmGray-500 flex-1">
+        <p className="text-sm text-stone-500 flex-1">
           Started free trial{' '}
           <Link href={`/subscriptions/${subscription_package_id}`}>
-            <a className="font-medium text-warmGray-900">{subscription_package_name}</a>
+            <a className="font-medium text-stone-900">{subscription_package_name}</a>
           </Link>
         </p>
       )

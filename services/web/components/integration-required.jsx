@@ -8,7 +8,7 @@ function IntegrationRequired({ title, subtitle, url }) {
     <>
       <div className="mb-48">
         <h2 className="text-xl font-extrabold tracking-tight sm:text-4xl my-4 mb-8">{title}</h2>
-        <p className="text-xl text-warmGray-500 mb-4">{subtitle}</p>
+        <p className="text-xl text-stone-500 mb-4">{subtitle}</p>
         <button
           onClick={() => router.push(url)}
           className={

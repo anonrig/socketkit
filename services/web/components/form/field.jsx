@@ -24,7 +24,7 @@ function FormField({ className, messages, meta, attributes, type }) {
         <input
           autoComplete="on"
           className={cx(
-            'appearance-none block w-full px-3 py-2 border border-warmGray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
+            'appearance-none block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm',
             {
               'border-red-500': hasError,
               'placeholder-red-500': hasError,
@@ -57,7 +57,7 @@ function FormField({ className, messages, meta, attributes, type }) {
         <p
           className={cx('mt-2 text-sm', {
             'text-red-500': message.type === 'error',
-            'text-trueGray-500': message.type !== 'error',
+            'text-neutral-500': message.type !== 'error',
           })}
           key={message.id}
         >

@@ -64,7 +64,7 @@ function Table({
     return (
       <div className="shadow-lgs sm:rounded-lg my-4">
         <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg leading-6 font-medium text-trueGray-900">{notFound.title}</h3>
+          <h3 className="text-lg leading-6 font-medium text-neutral-900">{notFound.title}</h3>
           <p className="mt-2 max-w-xl text-sm text-gray-500">{notFound.message}</p>
           {notFound.action && (
             <button
@@ -86,13 +86,13 @@ function Table({
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200" {...getTableProps()}>
-                <thead className="bg-warmGray-50">
+                <thead className="bg-stone-50">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
                         <th
                           className={cx([
-                            'px-6 py-3 text-left text-xs font-medium text-trueGray-500 uppercase tracking-wider',
+                            'px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider',
                             column.className,
                           ])}
                           scope="col"
@@ -113,14 +113,14 @@ function Table({
                     return (
                       <Fragment key={key}>
                         <tr
-                          className="hover:bg-warmGray-50 cursor-pointer"
+                          className="hover:bg-stone-50 cursor-pointer"
                           {...row.getRowProps(getRowProps(row))}
                         >
                           {row.cells.map((cell) => {
                             return (
                               <td
                                 className={cx([
-                                  'px-6 py-4 text-sm text-trueGray-500 whitespace-nowrap md:whitespace-normal',
+                                  'px-6 py-4 text-sm text-neutral-500 whitespace-nowrap md:whitespace-normal',
                                   cell.column.className,
                                 ])}
                                 {...cell.getCellProps()}

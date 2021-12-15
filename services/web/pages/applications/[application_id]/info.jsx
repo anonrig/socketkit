@@ -75,7 +75,7 @@ function ApplicationInformation({ fallbackData }) {
               referrerPolicy="no-referrer"
               target="_blank"
               href={application?.developer_url}
-              className="text-sm text-center w-full text-warmGray-700"
+              className="text-sm text-center w-full text-stone-700"
               rel="noreferrer"
             >
               See Developer on AppStore

@@ -22,7 +22,7 @@ function ApplicationPicker({ value = null, onChange }) {
             alt={option.application_title}
             className="h-6 w-6 rounded-md"
           />
-          <div className="flex flex-col flex-1 text-left text-sm text-warmGray-700">
+          <div className="flex flex-col flex-1 text-left text-sm text-stone-700">
             <p className="truncate font-semibold text-sm">{option.application_title}</p>
           </div>
         </div>
@@ -34,7 +34,7 @@ function ApplicationPicker({ value = null, onChange }) {
             alt={option.application_title}
             className="h-6 w-6 rounded-md"
           />
-          <div className="flex flex-col flex-1 text-left text-sm text-warmGray-700">
+          <div className="flex flex-col flex-1 text-left text-sm text-stone-700">
             <p className="truncate font-semibold text-sm">{option.application_title}</p>
             <div className="text-xs">{option.bundle_id}</div>
           </div>

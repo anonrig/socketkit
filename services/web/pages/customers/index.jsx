@@ -67,7 +67,7 @@ function Customers({ fallbackData }) {
         options={router.query}
         columns={columns}
         getRowProps={({ original }) => ({
-          className: 'h-14 hover:bg-warmGray-50 cursor-pointer',
+          className: 'h-14 hover:bg-stone-50 cursor-pointer',
           id: original.subscriber_id,
           onClick: () => router.push(`/customers/${original.subscriber_id}`),
         })}

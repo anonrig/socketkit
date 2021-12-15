@@ -14,7 +14,7 @@ function IntervalDropdown({ selected, onChange }) {
   return (
     <Listbox value={selected} onChange={onChange}>
       <div className="relative z-10">
-        <Listbox.Button className="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-warmGray-900 hover:bg-warmGray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
+        <Listbox.Button className="inline-flex justify-center items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-stone-900 hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500">
           <span className="block truncate flex flex-row items-center min-w-24">
             <DocumentReportIcon className="h-4 w-4 text-orange-500 mr-2" />
             {interval}
@@ -32,7 +32,7 @@ function IntervalDropdown({ selected, onChange }) {
                 key={item.key}
                 className={({ active }) =>
                   `${
-                    active ? 'text-amber-900 bg-warmGray-50' : 'text-gray-900'
+                    active ? 'text-amber-900 bg-stone-50' : 'text-gray-900'
                   } cursor-pointer select-none relative py-2 px-4 text-right`
                 }
                 value={item.key}

@@ -10,8 +10,8 @@ function IntegrationRow({ title, description, action, onAction, className }) {
       )}
     >
       <div className="flex items-leading justify-center flex-col mb-4 md:mb-0">
-        <div className="text-md font-medium text-warmGray-900">{title}</div>
-        <div className="text-sm text-trueGray-500 flex items-center">{description}</div>
+        <div className="text-md font-medium text-stone-900">{title}</div>
+        <div className="text-sm text-neutral-500 flex items-center">{description}</div>
       </div>
       <button
         onClick={() => onAction()}
