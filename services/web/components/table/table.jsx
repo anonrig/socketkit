@@ -36,6 +36,7 @@ function Table({
     refreshWhenHidden: false,
     refreshWhenOffline: false,
     revalidateAll: false,
+    revalidateFirstPage: false,
   })
 
   const isLoadingfallbackData = !data && !error
