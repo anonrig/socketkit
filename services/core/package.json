@@ -8,9 +8,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix",
     "start": "node src/index.js",
-    "dev": "npx DOTENV_CONFIG_PATH=.env.development nodemon -r dotenv/config"
+    "lint": "eslint \"{src,test}/**/*.js\"",
+    "lint:fix": "eslint \"{src,test}/**/*.js\" --fix",
+    "dev": "DOTENV_CONFIG_PATH=.env.development npx nodemon -r dotenv/config"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
@@ -21,9 +22,9 @@
     "ajv-formats": "^2.1.1",
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
-    "fastify": "^3.24.0",
+    "fastify": "^3.25.0",
     "fastify-auth": "^1.1.0",
-    "fastify-compress": "^3.6.1",
+    "fastify-compress": "^4.0.1",
     "fastify-cookie": "^5.4.0",
     "fastify-cors": "^6.0.2",
     "fastify-helmet": "^5.3.2",
@@ -34,13 +35,13 @@
     "knex": "^0.95.14",
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
-    "qs": "^6.10.1",
+    "qs": "^6.10.2",
     "under-pressure": "^5.8.0"
   },
   "devDependencies": {
-    "@anonrig/eslint-config": "^0.2.1",
+    "@anonrig/eslint-config": "^0.2.3",
     "dotenv": "^10.0.0",
-    "eslint": "^8.3.0"
+    "eslint": "^8.4.1"
   },
   "eslintConfig": {
     "extends": [

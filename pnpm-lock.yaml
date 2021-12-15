@@ -62,7 +62,7 @@ importers:
 
   services/core:
     specifiers:
-      '@anonrig/eslint-config': ^0.2.1
+      '@anonrig/eslint-config': ^0.2.3
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.7
       '@ory/kratos-client': ^0.8.0-alpha.2
@@ -72,10 +72,10 @@ importers:
       consola: ^2.15.3
       dayjs: ^1.10.7
       dotenv: ^10.0.0
-      eslint: ^8.3.0
-      fastify: ^3.24.0
+      eslint: ^8.4.1
+      fastify: ^3.25.0
       fastify-auth: ^1.1.0
-      fastify-compress: ^3.6.1
+      fastify-compress: ^4.0.1
       fastify-cookie: ^5.4.0
       fastify-cors: ^6.0.2
       fastify-helmet: ^5.3.2
@@ -86,7 +86,7 @@ importers:
       knex: ^0.95.14
       lodash: ^4.17.21
       pg: ^8.7.1
-      qs: ^6.10.1
+      qs: ^6.10.2
       under-pressure: ^5.8.0
     dependencies:
       '@grpc/grpc-js': 1.4.4
@@ -97,9 +97,9 @@ importers:
       ajv-formats: 2.1.1
       consola: 2.15.3
       dayjs: 1.10.7
-      fastify: 3.24.0
+      fastify: 3.25.0
       fastify-auth: 1.1.0
-      fastify-compress: 3.6.1
+      fastify-compress: 4.0.1
       fastify-cookie: 5.4.0
       fastify-cors: 6.0.2
       fastify-helmet: 5.3.2
@@ -110,12 +110,12 @@ importers:
       knex: 0.95.14_pg@8.7.1
       lodash: 4.17.21
       pg: 8.7.1
-      qs: 6.10.1
+      qs: 6.10.2
       under-pressure: 5.8.0
     devDependencies:
-      '@anonrig/eslint-config': 0.2.1_eslint@8.3.0
+      '@anonrig/eslint-config': 0.2.3_eslint@8.4.1
       dotenv: 10.0.0
-      eslint: 8.3.0
+      eslint: 8.4.1
 
   services/marketing:
     specifiers:
@@ -461,6 +461,26 @@ packages:
 
   /@anonrig/eslint-config/0.2.1_eslint@8.4.1:
     resolution: {integrity: sha512-i/Lcb8sS4RNpxm6f/dV1CRjilxnhwNI1prA2oaXGlX5BGsn/6rcb80GNaWkKs7yQWCuHLd/d14aa6c8AdEUItg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      eslint: '>= 8'
+    dependencies:
+      '@next/eslint-plugin-next': 12.0.7
+      eslint: 8.4.1
+      eslint-config-prettier: 8.3.0_eslint@8.4.1
+      eslint-plugin-ava: 13.1.0_eslint@8.4.1
+      eslint-plugin-import: 2.25.3_eslint@8.4.1
+      eslint-plugin-jsx-a11y: 6.5.1_eslint@8.4.1
+      eslint-plugin-prettier: 4.0.0_90bd2ba582f6d1348d73031482d782e2
+      eslint-plugin-react: 7.27.1_eslint@8.4.1
+      eslint-plugin-react-hooks: 4.3.0_eslint@8.4.1
+      eslint-plugin-security: 1.4.0
+      eslint-plugin-sort-keys-fix: 1.1.2
+      prettier: 2.5.1
+    dev: true
+
+  /@anonrig/eslint-config/0.2.3_eslint@8.4.1:
+    resolution: {integrity: sha512-R8mG7LSLIp9md0uSBRBTVGYw8dwg8H9Xy/tg5k9qCZoK51vd1y0hWJ7ljjmw2e7uHc93L84d/0sQ1qvT4ceVkw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       eslint: '>= 8'
@@ -3153,11 +3173,6 @@ packages:
       is-windows: 1.0.2
     dev: true
 
-  /big-integer/1.6.51:
-    resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
-    engines: {node: '>=0.6'}
-    dev: false
-
   /big.js/5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
     dev: false
@@ -3165,13 +3180,6 @@ packages:
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
-
-  /binary/0.3.0:
-    resolution: {integrity: sha1-n2BVO8XOjDOG87VTz/R0Yq3sqnk=}
-    dependencies:
-      buffers: 0.1.1
-      chainsaw: 0.1.0
-    dev: false
 
   /bintrees/1.0.1:
     resolution: {integrity: sha1-DmVcm5wkNeqraL9AJyJtK1WjRSQ=}
@@ -3183,10 +3191,6 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.0
-
-  /bluebird/3.4.7:
-    resolution: {integrity: sha1-9y12C+Cbf3bQjtj66Ysomo0F+rM=}
-    dev: false
 
   /blueimp-md5/2.19.0:
     resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==}
@@ -3346,11 +3350,6 @@ packages:
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
-  /buffer-indexof-polyfill/1.0.2:
-    resolution: {integrity: sha512-I7wzHwA3t1/lwXQh+A5PbNvJxgfo5r3xulgpYDB5zckTu/Z9oUK9biouBKQUjEqzaz3HnAT6TYoovmE+GqSf7A==}
-    engines: {node: '>=0.10'}
-    dev: false
-
   /buffer-writer/2.0.0:
     resolution: {integrity: sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==}
     engines: {node: '>=4'}
@@ -3372,11 +3371,6 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
-
-  /buffers/0.1.1:
-    resolution: {integrity: sha1-skV5w77U1tOWru5tmorn9Ugqt7s=}
-    engines: {node: '>=0.2.0'}
-    dev: false
 
   /builtin-status-codes/3.0.0:
     resolution: {integrity: sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=}
@@ -3497,12 +3491,6 @@ packages:
     dependencies:
       nofilter: 3.1.0
     dev: true
-
-  /chainsaw/0.1.0:
-    resolution: {integrity: sha1-XqtQsor+WAdNDVgpE4iCi15fvJg=}
-    dependencies:
-      traverse: 0.3.9
-    dev: false
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -4454,12 +4442,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /duplexer2/0.1.4:
-    resolution: {integrity: sha1-ixLauHjA1p4+eJEFFmKjL8a93ME=}
-    dependencies:
-      readable-stream: 2.3.7
-    dev: false
-
   /duplexer3/0.1.4:
     resolution: {integrity: sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=}
 
@@ -5331,8 +5313,8 @@ packages:
       reusify: 1.0.4
     dev: false
 
-  /fastify-compress/3.6.1:
-    resolution: {integrity: sha512-dhkHzwl52UzUsSO8ihEsle3HsSqoa0N4F1qmaAcRURQVJc+xRJ0qdeCR3NWOUUU0xYWCHc4CMTxpG4mhdV8DhA==}
+  /fastify-compress/4.0.1:
+    resolution: {integrity: sha512-3ABDmLS3CVZpP9VyhpPsYy1ID771i92ftZ320Qq68lGLQ+kUqHIAWeTcik+KM8UycY8Ad+baECBHZpXDHvG0Eg==}
     engines: {node: '>=10.16'}
     dependencies:
       encoding-negotiator: 2.0.1
@@ -5348,7 +5330,6 @@ packages:
       pump: 3.0.0
       pumpify: 2.0.1
       string-to-stream: 3.0.1
-      unzipper: 0.10.11
     dev: false
 
   /fastify-cookie/5.4.0:
@@ -5418,8 +5399,8 @@ packages:
     resolution: {integrity: sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==}
     dev: false
 
-  /fastify/3.24.0:
-    resolution: {integrity: sha512-fmRyrI25rzLGHDQ1FME02NsbP658mVa0EaSqfYUFwx2UOF+4/GcyNrsdWILSDOEiUbOsRYCD3sRCE9v7mvRLRQ==}
+  /fastify/3.25.0:
+    resolution: {integrity: sha512-GblpjS7yuJ9jpkz1guHTyzlVQn9NYvGrMkDLtoxctEt7n1d6MSwA9i3p10HjNiY+zVurPf3YdOqXsJmVgAR3cg==}
     dependencies:
       '@fastify/ajv-compiler': 1.1.0
       abstract-logging: 2.0.1
@@ -5669,16 +5650,6 @@ packages:
     os: [darwin]
     requiresBuild: true
     optional: true
-
-  /fstream/1.0.12:
-    resolution: {integrity: sha512-WvJ193OHa0GHPEL+AycEJgxvBEwyfRkN1vhjca23OaPVMCaLCXTd5qAu82AjTcgP1UJmytkOKb63Ypde7raDIg==}
-    engines: {node: '>=0.6'}
-    dependencies:
-      graceful-fs: 4.2.8
-      inherits: 2.0.4
-      mkdirp: 0.5.5
-      rimraf: 2.7.1
-    dev: false
 
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
@@ -7317,10 +7288,6 @@ packages:
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  /listenercount/1.0.1:
-    resolution: {integrity: sha1-hMinKrWcRyUyFIDJdeZQg0LnCTc=}
-    dev: false
-
   /load-json-file/5.3.0:
     resolution: {integrity: sha512-cJGP40Jc/VXUsp8/OrnyKyTZ1y6v/dphm3bioS+RrKXjK2BB6wHUd6JptZEFDGgGahMT+InnZO5i1Ei9mpC8Bw==}
     engines: {node: '>=6'}
@@ -7947,13 +7914,6 @@ packages:
     resolution: {integrity: sha512-3KYa4m4Vlqx98GPdOHghxSdNtTvcP8E0kkaJ5Dlh+h2DRzF7zpuVVcA8B0QpKd11YJeP9QQ7ASkKzOeu195Wzw==}
     engines: {node: '>= 8.0.0'}
     dev: true
-
-  /mkdirp/0.5.5:
-    resolution: {integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.5
-    dev: false
 
   /modern-normalize/1.1.0:
     resolution: {integrity: sha512-2lMlY1Yc1+CUy0gw4H95uNN7vjbpoED7NNRSBHE25nWfLBdmMzFCsPshlzbxHz+gYMcBEUN8V4pU16prcdPSgA==}
@@ -9086,6 +9046,13 @@ packages:
       side-channel: 1.0.4
     dev: false
 
+  /qs/6.10.2:
+    resolution: {integrity: sha512-mSIdjzqznWgfd4pMii7sHtaYF8rx8861hBO80SraY5GT0XQibWZWJSid0avzHGkDIZLImux2S5mXO0Hfct2QCw==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
   /querystring-es3/0.2.1:
     resolution: {integrity: sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM=}
     engines: {node: '>=0.4.x'}
@@ -9657,13 +9624,6 @@ packages:
   /rgba-regex/1.0.0:
     resolution: {integrity: sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=}
     dev: true
-
-  /rimraf/2.7.1:
-    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
-    dependencies:
-      glob: 7.2.0
-    dev: false
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -10561,10 +10521,6 @@ packages:
       punycode: 2.1.1
     dev: true
 
-  /traverse/0.3.9:
-    resolution: {integrity: sha1-cXuPIgzAu3tE5AUUwisui7xw2Lk=}
-    dev: false
-
   /trim-newlines/3.0.1:
     resolution: {integrity: sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==}
     engines: {node: '>=8'}
@@ -10794,21 +10750,6 @@ packages:
   /unpipe/1.0.0:
     resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
-    dev: false
-
-  /unzipper/0.10.11:
-    resolution: {integrity: sha512-+BrAq2oFqWod5IESRjL3S8baohbevGcVA+teAIOYWM3pDVdseogqbzhhvvmiyQrUNKFUnDMtELW3X8ykbyDCJw==}
-    dependencies:
-      big-integer: 1.6.51
-      binary: 0.3.0
-      bluebird: 3.4.7
-      buffer-indexof-polyfill: 1.0.2
-      duplexer2: 0.1.4
-      fstream: 1.0.12
-      graceful-fs: 4.2.8
-      listenercount: 1.0.1
-      readable-stream: 2.3.7
-      setimmediate: 1.0.5
     dev: false
 
   /update-notifier/5.1.0:
