@@ -5,3 +5,4 @@ coverage
 build
 **/*/.next
 **/*.nyc_output
+**/*/.package-lock.json
