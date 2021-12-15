@@ -10,7 +10,7 @@ const performanceObserver = new PerformanceObserver((list) => {
       .info(`${entry.name} took ${entry.duration.toFixed(2)} ms`)
   })
 })
-performanceObserver.observe({ entryTypes: ['measure'], buffered: true })
+performanceObserver.observe({ entryTypes: ['measure'] })
 
 export default async function GrpcPerformance(context, next) {
   const isHealthRequest = context.fullName.includes('grpc.health')

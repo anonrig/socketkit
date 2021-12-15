@@ -23,15 +23,9 @@ export function promisifyAll(subscriber) {
 
 export function getClients(port = getRandomPort()) {
   const url = `0.0.0.0:${port ?? config.port}`
-  const defaults = {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  }
+
   const { Accounts, Identities } = grpc.loadPackageDefinition(
-    loader.loadSync(path.join('.', 'protofiles/accounts.proto'), defaults),
+    loader.loadSync(path.join('.', 'protofiles/accounts.proto'), config.grpc_options),
   )
 
   return {

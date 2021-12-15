@@ -17,6 +17,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
     "@grpc/proto-loader": "^0.6.7",
+    "@socketkit/proto-definitions": "workspace:^0.1.4",
     "ajv": "^8.8.2",
     "ajv-formats": "^2.1.1",
     "consola": "^2.15.3",
