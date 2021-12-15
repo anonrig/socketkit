@@ -35,8 +35,7 @@
     "knex": "^0.95.14",
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
-    "qs": "^6.10.2",
-    "under-pressure": "^5.8.0"
+    "qs": "^6.10.2"
   },
   "devDependencies": {
     "@anonrig/eslint-config": "^0.2.3",

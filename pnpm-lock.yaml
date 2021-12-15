@@ -17,6 +17,7 @@ importers:
     specifiers:
       '@grpc/grpc-js': ^1.4.4
       '@grpc/proto-loader': ^0.6.7
+      '@socketkit/proto-definitions': workspace:^0.1.4
       '@types/faker': ^5.5.9
       ajv: ^8.8.2
       ajv-formats: ^2.1.1
@@ -39,6 +40,7 @@ importers:
     dependencies:
       '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.7
+      '@socketkit/proto-definitions': link:../../packages/proto-definitions
       ajv: 8.8.2
       ajv-formats: 2.1.1
       consola: 2.15.3
@@ -87,7 +89,6 @@ importers:
       lodash: ^4.17.21
       pg: ^8.7.1
       qs: ^6.10.2
-      under-pressure: ^5.8.0
     dependencies:
       '@grpc/grpc-js': 1.4.4
       '@grpc/proto-loader': 0.6.7
@@ -111,7 +112,6 @@ importers:
       lodash: 4.17.21
       pg: 8.7.1
       qs: 6.10.2
-      under-pressure: 5.8.0
     devDependencies:
       '@anonrig/eslint-config': 0.2.3_eslint@8.4.1
       dotenv: 10.0.0
@@ -1203,7 +1203,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.6.7
-      '@types/node': 16.11.12
+      '@types/node': 16.11.13
     dev: false
 
   /@grpc/proto-loader/0.6.7:
@@ -2411,6 +2411,10 @@ packages:
 
   /@types/node/16.11.12:
     resolution: {integrity: sha512-+2Iggwg7PxoO5Kyhvsq9VarmPbIelXP070HMImEpbtGCoyWNINQj4wzjbQCXzdHTRXnqufutJb5KAURZANNBAw==}
+    dev: false
+
+  /@types/node/16.11.13:
+    resolution: {integrity: sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==}
     dev: false
 
   /@types/normalize-package-data/2.4.1:
@@ -8974,7 +8978,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.1
-      '@types/node': 16.11.12
+      '@types/node': 16.11.13
       long: 4.0.0
     dev: false
 
@@ -10656,14 +10660,6 @@ packages:
       has-bigints: 1.0.1
       has-symbols: 1.0.2
       which-boxed-primitive: 1.0.2
-
-  /under-pressure/5.8.0:
-    resolution: {integrity: sha512-8ADLZkFEGDAsKof1FEICH/OLyGWjDZy6KR/Exq3MTv7W81zC2W23VekY05Fo350lip1ywYNH9wP7itiVnk4wHg==}
-    engines: {node: '>=10'}
-    dependencies:
-      fastify-error: 0.3.1
-      fastify-plugin: 3.0.0
-    dev: false
 
   /unified/10.1.1:
     resolution: {integrity: sha512-v4ky1+6BN9X3pQrOdkFIPWAaeDsHPE1svRDxq7YpTc2plkIqFMwukfqM+l0ewpP9EfwARlt9pPFAeWYhHm8X9w==}

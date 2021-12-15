@@ -9,7 +9,6 @@ import metrics from 'fastify-metrics'
 import rawBody from 'fastify-raw-body'
 import sensible from 'fastify-sensible'
 import qs from 'qs'
-import pressure from 'under-pressure'
 
 import logger from './logger.js'
 import pg from './pg.js'
@@ -50,14 +49,6 @@ export default async function build() {
     }
   })
 
-  server.register(pressure, {
-    exposeStatusRoute: '/health',
-    healthCheck: async function () {
-      await pg.raw('select 1+1 as result')
-      return true
-    },
-    healthCheckInterval: 1000,
-  })
   server.register(rawBody, {
     encoding: 'utf8',
     field: 'rawBody',
@@ -93,6 +84,10 @@ export default async function build() {
   server.register(helmet)
   server.register(metrics, { endpoint: '/metrics' })
   server.register(routes, { prefix: '/v1' })
+  server.get('/health', async () => {
+    await pg.raw('select 1+1 as result')
+    return { status: 'up' }
+  })
   server.get('/', async () => ({ status: 'up' }))
 
   return server
