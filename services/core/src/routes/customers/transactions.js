@@ -1,25 +1,32 @@
-import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
+import { verify } from '../../hooks.js'
 
 export default {
+  handler: async ({ accounts: [account], params: { subscriber_id } }) => {
+    const { rows } = await grpc.subscribers.findTransactions({
+      account_id: account.account_id,
+      subscriber_id,
+    })
+
+    return rows
+  },
   method: 'GET',
   path: '/:subscriber_id/transactions',
+  preHandler: verify,
   schema: {
     response: {
       200: {
-        type: 'array',
         items: {
-          type: 'object',
           properties: {
-            subscriber_id: { type: 'string' },
-            transaction_type: { type: 'string' },
-            event_date: { type: 'string' },
-            base_subscriber_purchase: { type: 'string' },
+            application_id: { type: 'string' },
             base_developer_proceeds: { type: 'string' },
+            base_subscriber_purchase: { type: 'string' },
+            country_id: { type: 'string' },
+            event_date: { type: 'string' },
+            subscriber_id: { type: 'string' },
             subscription_package_id: { type: 'string' },
             subscription_package_name: { type: 'string' },
-            application_id: { type: 'string' },
-            country_id: { type: 'string' },
+            transaction_type: { type: 'string' },
           },
           required: [
             'subscriber_id',
@@ -32,17 +39,10 @@ export default {
             'application_id',
             'country_id',
           ],
+          type: 'object',
         },
+        type: 'array',
       },
     },
-  },
-  preHandler: verify,
-  handler: async ({ accounts: [account], params: { subscriber_id } }) => {
-    const { rows } = await grpc.subscribers.findTransactions({
-      account_id: account.account_id,
-      subscriber_id,
-    })
-
-    return rows
   },
 }

@@ -1,4 +1,5 @@
 import fp from 'fastify-plugin'
+
 import grpc from '../grpc.js'
 import pg from '../pg.js'
 

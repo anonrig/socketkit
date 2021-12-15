@@ -1,21 +1,7 @@
-import { verify } from '../../../hooks.js'
 import grpc from '../../../grpc.js'
+import { verify } from '../../../hooks.js'
 
 export default {
-  method: 'DELETE',
-  path: '/',
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          state: { type: 'boolean' },
-        },
-        required: ['state'],
-      },
-    },
-  },
-  preHandler: verify,
   handler: async ({ accounts: [account] }) => {
     await grpc.integrations.destroy({
       account_id: account.account_id,
@@ -23,5 +9,19 @@ export default {
     })
 
     return { state: true }
+  },
+  method: 'DELETE',
+  path: '/',
+  preHandler: verify,
+  schema: {
+    response: {
+      200: {
+        properties: {
+          state: { type: 'boolean' },
+        },
+        required: ['state'],
+        type: 'object',
+      },
+    },
   },
 }

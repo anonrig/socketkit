@@ -1,7 +1,7 @@
 import getAll from './all.js'
 import getById from './by-id.js'
-import getTransactions from './transactions.js'
 import getSubscriptions from './subscriptions.js'
+import getTransactions from './transactions.js'
 
 export default (f, _opts, done) => {
   f.route(getAll)

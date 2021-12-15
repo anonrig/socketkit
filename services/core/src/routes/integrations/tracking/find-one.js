@@ -1,29 +1,46 @@
-import { verify } from '../../../hooks.js'
 import grpc from '../../../grpc.js'
+import { verify } from '../../../hooks.js'
 
 export default {
+  handler: async ({ accounts: [{ account_id }], params: { application_id } }, reply) => {
+    grpc.trackingApplications.findOne(
+      {
+        account_id,
+        application_id,
+      },
+      (error, response) => {
+        if (error) reply.internalServerError(error)
+        else if (!response?.row) reply.notFound('Application not found')
+        else
+          reply.send({
+            ...response.row,
+            application_key: response.row.application_key.toString('base64'),
+            authorization_key: response.row.authorization_key.toString('base64'),
+          })
+      },
+    )
+  },
   method: 'GET',
   path: '/:application_id',
   preHandler: verify,
   schema: {
     params: {
-      type: 'object',
       properties: {
         application_id: { type: 'string' },
       },
       required: ['application_id'],
+      type: 'object',
     },
     response: {
       200: {
-        type: 'object',
         properties: {
           application_id: { type: 'string' },
-          title: { type: 'string' },
-          authorization_key: { type: 'string' },
           application_key: { type: 'string' },
-          session_timeout: { type: 'number' },
-          is_active: { type: 'boolean' },
+          authorization_key: { type: 'string' },
           created_at: { type: 'string' },
+          is_active: { type: 'boolean' },
+          session_timeout: { type: 'number' },
+          title: { type: 'string' },
           updated_at: { type: 'string' },
         },
         required: [
@@ -36,29 +53,8 @@ export default {
           'created_at',
           'updated_at',
         ],
+        type: 'object',
       },
     },
-  },
-  handler: async (
-    { accounts: [{ account_id }], params: { application_id } },
-    reply,
-  ) => {
-    grpc.trackingApplications.findOne(
-      {
-        account_id,
-        application_id,
-      },
-      (error, response) => {
-        if (error) reply.internalServerError(error)
-        else if (!response?.row) reply.notFound('Application not found')
-        else
-          reply.send({
-            ...response.row,
-            authorization_key:
-              response.row.authorization_key.toString('base64'),
-            application_key: response.row.application_key.toString('base64'),
-          })
-      },
-    )
   },
 }

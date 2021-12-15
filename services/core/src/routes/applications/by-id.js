@@ -1,50 +1,57 @@
-import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
+import { verify } from '../../hooks.js'
 
 export default {
+  handler: async ({ params: { application_id } }, reply) => {
+    const { row } = await grpc.applications.findOne({
+      application_id,
+    })
+
+    return row ?? reply.notFound()
+  },
   method: 'GET',
   path: '/:application_id',
+  preHandler: verify,
   schema: {
     params: {
-      type: 'object',
       properties: {
         application_id: { type: 'string' },
       },
       required: ['application_id'],
+      type: 'object',
     },
     response: {
       200: {
-        type: 'object',
         properties: {
           application_id: { type: 'string' },
-          developer_id: { type: 'string' },
           bundle_id: { type: 'string' },
-          title: { type: 'string' },
+          content_rating: { type: 'string' },
+          currency: { type: 'string' },
           description: { type: 'string' },
-          release_notes: { type: 'string' },
+          developer_id: { type: 'string' },
+          developer_url: { type: 'string' },
           icon: { type: 'string' },
-          store_url: { type: 'string' },
           languages: { type: 'string' },
-          screenshots: {
-            type: 'object',
-            properties: {
-              default: { type: 'array', items: { type: 'string' } },
-              ipad: { type: 'array', items: { type: 'string' } },
-              appletv: { type: 'array', items: { type: 'string' } },
-            },
-            required: ['default'],
-          },
-          version: { type: 'string' },
-          ratings: { type: 'array', items: { type: 'number' } },
+          price: { type: 'number' },
+          ratings: { items: { type: 'number' }, type: 'array' },
+          release_notes: { type: 'string' },
           released_at: { type: 'string' },
+          required_os_version: { type: 'string' },
           reviews: { type: 'number' },
           score: { type: 'number' },
-          developer_url: { type: 'string' },
-          price: { type: 'number' },
-          currency: { type: 'string' },
-          content_rating: { type: 'string' },
-          required_os_version: { type: 'string' },
+          screenshots: {
+            properties: {
+              appletv: { items: { type: 'string' }, type: 'array' },
+              default: { items: { type: 'string' }, type: 'array' },
+              ipad: { items: { type: 'string' }, type: 'array' },
+            },
+            required: ['default'],
+            type: 'object',
+          },
           size: { type: 'string' },
+          store_url: { type: 'string' },
+          title: { type: 'string' },
+          version: { type: 'string' },
         },
         required: [
           'application_id',
@@ -69,15 +76,8 @@ export default {
           'required_os_version',
           'size',
         ],
+        type: 'object',
       },
     },
-  },
-  preHandler: verify,
-  handler: async ({ params: { application_id } }, reply) => {
-    const { row } = await grpc.applications.findOne({
-      application_id,
-    })
-
-    return row ?? reply.notFound()
   },
 }

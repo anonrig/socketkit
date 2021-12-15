@@ -1,30 +1,29 @@
+import grpcjs from '@grpc/grpc-js'
 import f from 'fastify'
 
-import pressure from 'under-pressure'
-import cors from 'fastify-cors'
-import compress from 'fastify-compress'
-import helmet from 'fastify-helmet'
 import auth from 'fastify-auth'
-import sensible from 'fastify-sensible'
+import compress from 'fastify-compress'
+import cors from 'fastify-cors'
+import helmet from 'fastify-helmet'
 import metrics from 'fastify-metrics'
 import rawBody from 'fastify-raw-body'
+import sensible from 'fastify-sensible'
 import qs from 'qs'
+import pressure from 'under-pressure'
 
-import ajv from './validation.js'
+import logger from './logger.js'
+import pg from './pg.js'
 import grpc from './plugins/custom.js'
 import routes from './routes/index.js'
-import pg from './pg.js'
-import logger from './logger.js'
-
-import grpcjs from '@grpc/grpc-js'
+import ajv from './validation.js'
 
 export default async function build() {
   const server = f({
-    querystringParser: (str) => qs.parse(str, { plainObjects: true }),
-    trustProxy: true,
+    ajv,
     disableRequestLogging: true,
     logger: false,
-    ajv,
+    querystringParser: (str) => qs.parse(str, { plainObjects: true }),
+    trustProxy: true,
   })
 
   server.setErrorHandler(async (error) => {
@@ -52,17 +51,17 @@ export default async function build() {
   })
 
   server.register(pressure, {
+    exposeStatusRoute: '/health',
     healthCheck: async function () {
       await pg.raw('select 1+1 as result')
       return true
     },
     healthCheckInterval: 1000,
-    exposeStatusRoute: '/health',
   })
   server.register(rawBody, {
+    encoding: 'utf8',
     field: 'rawBody',
     global: false,
-    encoding: 'utf8',
   })
   server.register(grpc)
   server.register(sensible, {
@@ -70,9 +69,6 @@ export default async function build() {
   })
   server.register(auth)
   server.register(cors, {
-    credentials: true,
-    origin: [/\.socketkit\.com$/],
-    methods: 'GET,POST,OPTIONS,PUT,DELETE',
     allowedHeaders: [
       'Authorization',
       'Accept',
@@ -88,7 +84,10 @@ export default async function build() {
       'Content-Range',
       'Range',
     ],
+    credentials: true,
     maxAge: 1728000,
+    methods: 'GET,POST,OPTIONS,PUT,DELETE',
+    origin: [/\.socketkit\.com$/],
   })
   server.register(compress)
   server.register(helmet)

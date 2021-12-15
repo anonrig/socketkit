@@ -1,32 +1,9 @@
 import _ from 'lodash'
-import { verify } from '../../hooks.js'
+
 import grpc from '../../grpc.js'
+import { verify } from '../../hooks.js'
 
 export default {
-  method: 'GET',
-  path: '/countries',
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          rows: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                country_id: { type: 'string' },
-                name: { type: 'string' },
-              },
-              required: ['country_id', 'name'],
-            },
-          },
-        },
-        required: ['rows'],
-      },
-    },
-  },
-  preHandler: verify,
   handler: async ({ accounts: [{ account_id }] }) => {
     const { rows } = await grpc.reviews.findCountries({ account_id })
 
@@ -41,5 +18,29 @@ export default {
         ['asc'],
       ),
     }
+  },
+  method: 'GET',
+  path: '/countries',
+  preHandler: verify,
+  schema: {
+    response: {
+      200: {
+        properties: {
+          rows: {
+            items: {
+              properties: {
+                country_id: { type: 'string' },
+                name: { type: 'string' },
+              },
+              required: ['country_id', 'name'],
+              type: 'object',
+            },
+            type: 'array',
+          },
+        },
+        required: ['rows'],
+        type: 'object',
+      },
+    },
   },
 }

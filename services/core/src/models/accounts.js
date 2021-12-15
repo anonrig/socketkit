@@ -1,5 +1,6 @@
-import pg from '../pg.js'
 import { randomUUID } from 'node:crypto'
+
+import pg from '../pg.js'
 
 export function getAccounts({ identity_id }) {
   return pg
@@ -18,10 +19,7 @@ export async function findOrCreate({ identity_id }) {
       return existing
     }
 
-    await createAccount({ identity_id })
-      .transacting(trx)
-      .onConflict('identity_id')
-      .ignore()
+    await createAccount({ identity_id }).transacting(trx).onConflict('identity_id').ignore()
 
     return getAccounts({ identity_id }).transacting(trx)
   })
@@ -31,9 +29,9 @@ export function createAccount({ identity_id }) {
   return pg
     .queryBuilder()
     .insert({
+      account_id: randomUUID(),
       account_role: 'owner',
       created_at: new Date(),
-      account_id: randomUUID(),
       identity_id,
     })
     .into('account_identities')

@@ -1,39 +1,51 @@
-import { verify } from '../../hooks.js'
 import grpc from '../../grpc.js'
+import { verify } from '../../hooks.js'
 
 export default {
+  handler: async ({ accounts: [{ account_id }], query, params }) => {
+    const { rows } = await grpc.reports.get({
+      account_id,
+      application_id: query.application_id,
+      end_date: query.end_date,
+      interval: `1 ${query.interval}`,
+      report_id: params.report_id,
+      start_date: query.start_date,
+    })
+
+    return {
+      rows,
+    }
+  },
   method: 'GET',
   path: '/subscription/:report_id',
+  preHandler: verify,
   schema: {
     query: {
-      type: 'object',
       properties: {
         application_id: {
           type: 'string',
         },
-        start_date: {
-          type: 'string',
-          format: 'date',
-        },
         end_date: {
-          type: 'string',
           format: 'date',
+          type: 'string',
         },
         interval: {
-          type: 'string',
           enum: ['day', 'week', 'month'],
+          type: 'string',
+        },
+        start_date: {
+          format: 'date',
+          type: 'string',
         },
       },
       required: ['start_date', 'end_date', 'interval'],
+      type: 'object',
     },
     response: {
       200: {
-        type: 'object',
         properties: {
           rows: {
-            type: 'array',
             items: {
-              type: 'object',
               properties: {
                 x: { type: 'string' },
                 y0: { type: 'number' },
@@ -48,26 +60,14 @@ export default {
                 y9: { type: 'number' },
               },
               required: ['x', 'y0'],
+              type: 'object',
             },
+            type: 'array',
           },
         },
         required: ['rows'],
+        type: 'object',
       },
     },
-  },
-  preHandler: verify,
-  handler: async ({ accounts: [{ account_id }], query, params }) => {
-    const { rows } = await grpc.reports.get({
-      report_id: params.report_id,
-      account_id,
-      application_id: query.application_id,
-      start_date: query.start_date,
-      end_date: query.end_date,
-      interval: `1 ${query.interval}`,
-    })
-
-    return {
-      rows,
-    }
   },
 }

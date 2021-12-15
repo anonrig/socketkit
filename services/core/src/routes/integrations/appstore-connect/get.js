@@ -1,24 +1,7 @@
-import { verify } from '../../../hooks.js'
 import grpc from '../../../grpc.js'
+import { verify } from '../../../hooks.js'
 
 export default {
-  method: 'GET',
-  path: '/',
-  preHandler: verify,
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          access_token: { type: ['string', 'null'] },
-          failed_fetches: { type: 'number', default: 0 },
-          last_fetch: { type: ['string', 'null'], default: null },
-          state: { type: 'string', default: 'inactive' },
-        },
-        required: ['access_token', 'last_fetch', 'state', 'failed_fetches'],
-      },
-    },
-  },
   handler: async ({ accounts: [account] }) => {
     const { rows } = await grpc.integrations.findAll({
       account_id: account.account_id,
@@ -31,9 +14,26 @@ export default {
 
     return {
       access_token: null,
+      failed_fetches: 0,
       last_fetch: null,
       state: 'inactive',
-      failed_fetches: 0,
     }
+  },
+  method: 'GET',
+  path: '/',
+  preHandler: verify,
+  schema: {
+    response: {
+      200: {
+        properties: {
+          access_token: { type: ['string', 'null'] },
+          failed_fetches: { default: 0, type: 'number' },
+          last_fetch: { default: null, type: ['string', 'null'] },
+          state: { default: 'inactive', type: 'string' },
+        },
+        required: ['access_token', 'last_fetch', 'state', 'failed_fetches'],
+        type: 'object',
+      },
+    },
   },
 }

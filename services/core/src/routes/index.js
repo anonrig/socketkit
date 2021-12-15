@@ -1,12 +1,12 @@
-import applications from './applications/index.js'
 import accounts from './accounts/index.js'
-import integrations from './integrations/index.js'
+import applications from './applications/index.js'
 import customers from './customers/index.js'
-import transactions from './transactions/index.js'
-import reports from './reports/index.js'
-import search from './search/index.js'
-import reviews from './reviews/index.js'
 import events from './events/index.js'
+import integrations from './integrations/index.js'
+import reports from './reports/index.js'
+import reviews from './reviews/index.js'
+import search from './search/index.js'
+import transactions from './transactions/index.js'
 
 export default (f, _opts, done) => {
   f.register(applications, { prefix: 'applications' })

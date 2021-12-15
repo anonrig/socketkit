@@ -1,8 +1,9 @@
 import { RequiredError } from '@ory/kratos-client/dist/base.js'
+
 import { kratos } from './authentication/kratos.js'
 
-import { findOrCreate } from './models/accounts.js'
 import logger from './logger.js'
+import { findOrCreate } from './models/accounts.js'
 
 export const verify = async (request, reply) => {
   try {

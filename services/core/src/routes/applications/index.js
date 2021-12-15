@@ -1,10 +1,10 @@
 import getAll from './all.js'
 import getById from './by-id.js'
-import getStatistics from './statistics.js'
-import getCustomers from './customers.js'
-import getTransactions from './transactions.js'
-import getPackages from './packages.js'
 import getCountries from './countries.js'
+import getCustomers from './customers.js'
+import getPackages from './packages.js'
+import getStatistics from './statistics.js'
+import getTransactions from './transactions.js'
 import getVersions from './versions.js'
 
 export default (f, _opts, done) => {

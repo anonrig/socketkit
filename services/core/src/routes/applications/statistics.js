@@ -1,62 +1,10 @@
 import dayjs from 'dayjs'
-import { verify } from '../../hooks.js'
+
 import grpc from '../../grpc.js'
+import { verify } from '../../hooks.js'
 
 export default {
-  method: 'GET',
-  path: '/:application_id/statistics',
-  schema: {
-    params: {
-      type: 'object',
-      properties: {
-        application_id: { type: 'string' },
-      },
-      required: ['application_id'],
-    },
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          subscription_counts: {
-            type: 'object',
-            properties: {
-              total: { type: 'number' },
-              total_trial: { type: 'number' },
-              at_start: { type: 'number' },
-              at_start_trial: { type: 'number' },
-              current: { type: 'number' },
-              current_trial: { type: 'number' },
-            },
-            required: [
-              'total',
-              'total_trial',
-              'at_start',
-              'at_start_trial',
-              'current',
-              'current_trial',
-            ],
-          },
-          transaction_sums: {
-            type: 'object',
-            properties: {
-              current_total_base_developer_proceeds: { type: 'string' },
-              current_refund_base_developer_proceeds: { type: 'string' },
-            },
-            required: [
-              'current_total_base_developer_proceeds',
-              'current_refund_base_developer_proceeds',
-            ],
-          },
-        },
-        required: ['subscription_counts', 'transaction_sums'],
-      },
-    },
-  },
-  preHandler: verify,
-  handler: async ({
-    accounts: [{ account_id }],
-    params: { application_id },
-  }) => {
+  handler: async ({ accounts: [{ account_id }], params: { application_id } }) => {
     const {
       rows: [integration],
     } = await grpc.integrations.findAll({
@@ -68,8 +16,8 @@ export default {
     const transactions = {
       account_id,
       application_id,
-      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
       end_date: dayjs().format('YYYY-MM-DD'),
+      start_date: dayjs().subtract(1, 'month').format('YYYY-MM-DD'),
     }
 
     if (integration?.last_fetch) {
@@ -86,5 +34,55 @@ export default {
     ])
 
     return { subscription_counts, transaction_sums }
+  },
+  method: 'GET',
+  path: '/:application_id/statistics',
+  preHandler: verify,
+  schema: {
+    params: {
+      properties: {
+        application_id: { type: 'string' },
+      },
+      required: ['application_id'],
+      type: 'object',
+    },
+    response: {
+      200: {
+        properties: {
+          subscription_counts: {
+            properties: {
+              at_start: { type: 'number' },
+              at_start_trial: { type: 'number' },
+              current: { type: 'number' },
+              current_trial: { type: 'number' },
+              total: { type: 'number' },
+              total_trial: { type: 'number' },
+            },
+            required: [
+              'total',
+              'total_trial',
+              'at_start',
+              'at_start_trial',
+              'current',
+              'current_trial',
+            ],
+            type: 'object',
+          },
+          transaction_sums: {
+            properties: {
+              current_refund_base_developer_proceeds: { type: 'string' },
+              current_total_base_developer_proceeds: { type: 'string' },
+            },
+            required: [
+              'current_total_base_developer_proceeds',
+              'current_refund_base_developer_proceeds',
+            ],
+            type: 'object',
+          },
+        },
+        required: ['subscription_counts', 'transaction_sums'],
+        type: 'object',
+      },
+    },
   },
 }
