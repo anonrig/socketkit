@@ -220,18 +220,7 @@ export default function Header() {
                 )}
               </Popover>
             </Popover.Group>
-            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a
-                href="https://web.socketkit.com/signin"
-                className="whitespace-nowrap text-base font-medium text-warmGray-900 hover:text-warmGray-500">
-                Login
-              </a>
-              <a
-                href="https://web.socketkit.com/signup"
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-400">
-                Sign up
-              </a>
-            </div>
+            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0" />
           </div>
 
           <Transition
@@ -296,21 +285,6 @@ export default function Header() {
                         </a>
                       </Link>
                     ))}
-                  </div>
-                  <div className="mt-6">
-                    <a
-                      href="https://web.socketkit.com/signup"
-                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600">
-                      Sign up
-                    </a>
-                    <p className="mt-6 text-center text-base font-medium text-gray-500">
-                      Existing customer?{' '}
-                      <a
-                        href="https://web.socketkit.com/signin"
-                        className="text-orange-600 hover:text-orange-500">
-                        Login
-                      </a>
-                    </p>
                   </div>
                 </div>
               </div>

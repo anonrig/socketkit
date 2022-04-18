@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
 import 'tailwindcss/tailwind.css'
-import { IntercomProvider } from 'react-use-intercom'
 
 import * as gtag from 'library/gtag.js'
 
@@ -62,9 +61,7 @@ export default function MyApp({ Component, pageProps }) {
           },
         ]}
       />
-      <IntercomProvider appId="o5s3ss3a" autoBoot>
-        <Component {...pageProps} />
-      </IntercomProvider>
+      <Component {...pageProps} />
     </>
   )
 }

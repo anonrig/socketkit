@@ -146,7 +146,6 @@ importers:
       react-countup: ^6.1.0
       react-dom: ^17.0.2
       react-markdown: ^7.1.0
-      react-use-intercom: ^1.4.0
       react-visibility-sensor: ^5.1.1
       tailwindcss: ^2.2.19
     dependencies:
@@ -167,7 +166,6 @@ importers:
       react-countup: 6.1.0_react@17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-markdown: 7.1.0_react@17.0.2
-      react-use-intercom: 1.4.0_react-dom@17.0.2+react@17.0.2
       react-visibility-sensor: 5.1.1_react-dom@17.0.2+react@17.0.2
     devDependencies:
       autoprefixer: 10.4.0_postcss@8.4.4
@@ -3110,7 +3108,7 @@ packages:
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.4.5
-      postcss-value-parser: 4.2.0
+      postcss-value-parser: 4.1.0
     dev: true
 
   /ava/3.15.0:
@@ -9628,17 +9626,6 @@ packages:
     dependencies:
       react: 17.0.2
       tslib: 2.3.1
-    dev: false
-
-  /react-use-intercom/1.4.0_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-HqPp7nRnftREE01i88w2kYWOV45zvJt0Of6jtHflIBa3eKl1bAs/izZUINGCJ0DOdgAdlbLweAvJlP4VTzsJjQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-use/17.3.1_react-dom@17.0.2+react@17.0.2:
