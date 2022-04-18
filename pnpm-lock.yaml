@@ -119,38 +119,39 @@ importers:
 
   services/marketing:
     specifiers:
-      '@formspree/react': ^2.2.4
-      '@headlessui/react': ^1.4.2
-      '@heroicons/react': ^1.0.5
-      '@tailwindcss/aspect-ratio': ^0.3.0
-      '@tailwindcss/forms': ^0.3.4
-      '@tailwindcss/typography': ^0.4.1
-      autoprefixer: ^10.4.0
-      classnames: ^2.3.1
-      contentful: ^9.1.4
-      dayjs: ^1.10.7
-      eslint: ^8.3.0
-      eslint-config-next: ^12.0.4
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-jsx-a11y: ^6.5.1
-      eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-react: ^7.27.1
-      eslint-plugin-react-hooks: ^4.3.0
-      keyword-extractor: ^0.0.20
-      next: ^12.0.4
-      next-seo: ^4.28.1
-      next-sitemap: ^1.6.203
-      postcss: ^8.4.4
-      prettier: ^2.5.0
-      react: ^17.0.2
-      react-countup: ^6.1.0
-      react-dom: ^17.0.2
-      react-markdown: ^7.1.0
-      react-visibility-sensor: ^5.1.1
-      tailwindcss: ^2.2.19
+      '@formspree/react': 2.2.4
+      '@headlessui/react': 1.5.0
+      '@heroicons/react': 1.0.5
+      '@tailwindcss/aspect-ratio': 0.3.0
+      '@tailwindcss/forms': 0.3.4
+      '@tailwindcss/typography': 0.4.1
+      '@types/react': 17.0.39
+      autoprefixer: 10.4.0
+      classnames: 2.3.1
+      contentful: 9.1.4
+      dayjs: 1.10.7
+      eslint: 8.3.0
+      eslint-config-next: 12.0.4
+      eslint-config-prettier: 8.3.0
+      eslint-plugin-jsx-a11y: 6.5.1
+      eslint-plugin-prettier: 4.0.0
+      eslint-plugin-react: 7.27.1
+      eslint-plugin-react-hooks: 4.3.0
+      keyword-extractor: 0.0.20
+      next: 12.0.4
+      next-seo: 4.28.1
+      next-sitemap: 1.6.203
+      postcss: 8.4.4
+      prettier: 2.5.0
+      react: 17.0.2
+      react-countup: 6.1.0
+      react-dom: 17.0.2
+      react-markdown: 7.1.0
+      react-visibility-sensor: 5.1.1
+      tailwindcss: 2.2.19
     dependencies:
       '@formspree/react': 2.2.4_react@17.0.2
-      '@headlessui/react': 1.4.2_react-dom@17.0.2+react@17.0.2
+      '@headlessui/react': 1.5.0_react-dom@17.0.2+react@17.0.2
       '@heroicons/react': 1.0.5_react@17.0.2
       '@tailwindcss/aspect-ratio': 0.3.0_tailwindcss@2.2.19
       '@tailwindcss/forms': 0.3.4_tailwindcss@2.2.19
@@ -165,9 +166,10 @@ importers:
       react: 17.0.2
       react-countup: 6.1.0_react@17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-markdown: 7.1.0_react@17.0.2
+      react-markdown: 7.1.0_a0c521d4794c7ad97f5f4c1c4a7d5818
       react-visibility-sensor: 5.1.1_react-dom@17.0.2+react@17.0.2
     devDependencies:
+      '@types/react': 17.0.39
       autoprefixer: 10.4.0_postcss@8.4.4
       eslint: 8.3.0
       eslint-config-next: 12.0.4_eslint@8.3.0+next@12.0.4
@@ -825,7 +827,7 @@ packages:
     resolution: {integrity: sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.4
+      regenerator-runtime: 0.13.9
     dev: false
 
   /@babel/runtime/7.16.3:
@@ -1141,23 +1143,6 @@ packages:
     resolution: {integrity: sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==}
     dev: false
 
-  /@eslint/eslintrc/1.0.4:
-    resolution: {integrity: sha512-h8Vx6MdxwWI2WM8/zREHMoqdgLNXEL4QX3MWSVMdyNJGvXVOs+6lp+m2hc3FnuMHDc4poxFNI20vCk0OmI4G0Q==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      ajv: 6.12.6
-      debug: 4.3.3
-      espree: 9.1.0
-      globals: 13.12.0
-      ignore: 4.0.6
-      import-fresh: 3.3.0
-      js-yaml: 4.1.0
-      minimatch: 3.0.4
-      strip-json-comments: 3.1.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@eslint/eslintrc/1.0.5:
     resolution: {integrity: sha512-BLxsnmK3KyPunz5wmCCpqy0YelEoxxGmH73Is+Z74oOTMtExcjkr3dDR6quwrjh1YspA8DH9gnX1o069KiS9AQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -1237,6 +1222,17 @@ packages:
 
   /@headlessui/react/1.4.2_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-N8tv7kLhg9qGKBkVdtg572BvKvWhmiudmeEpOCyNwzOsZHCXBtl8AazGikIfUS+vBoub20Fse3BjawXDVPPdug==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /@headlessui/react/1.5.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-aaRnYxBb3MU2FNJf3Ut9RMTUqqU3as0aI1lQhgo2n9Fa67wRu14iOGqx93xB+uMNVfNwZ5B3y/Ndm7qZGuFeMQ==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18
@@ -2607,7 +2603,6 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: false
 
   /@types/react-transition-group/4.4.4:
     resolution: {integrity: sha512-7gAPz7anVK5xzbeQW9wFBDg7G++aPLAFY0QaSMOou9rJZpbuI58WAuJrgu+qR92l61grlnCUe7AFX8KGahAgug==}
@@ -2623,6 +2618,14 @@ packages:
       csstype: 3.0.10
     dev: false
 
+  /@types/react/17.0.39:
+    resolution: {integrity: sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==}
+    dependencies:
+      '@types/prop-types': 15.7.4
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.10
+    dev: true
+
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
@@ -2631,7 +2634,6 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: false
 
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
@@ -3092,7 +3094,7 @@ packages:
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.4.4
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
     dev: true
 
   /autoprefixer/10.4.0_postcss@8.4.5:
@@ -3108,7 +3110,7 @@ packages:
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.4.5
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
     dev: true
 
   /ava/3.15.0:
@@ -3267,7 +3269,7 @@ packages:
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
-      follow-redirects: 1.14.5
+      follow-redirects: 1.14.6
     transitivePeerDependencies:
       - debug
     dev: false
@@ -4007,7 +4009,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.isstring: 4.0.1
       p-throttle: 4.1.1
-      qs: 6.10.1
+      qs: 6.10.2
     dev: false
 
   /contentful/9.1.4:
@@ -4214,7 +4216,6 @@ packages:
 
   /csstype/3.0.10:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
-    dev: false
 
   /csv-generate/3.4.3:
     resolution: {integrity: sha512-w/T+rqR0vwvHqWs/1ZyMDWtHHSJaN06klRqJXBEpDJaM/+dZkso0OKh1VcuuYvK3XM53KysVNq8Ko/epCK8wOw==}
@@ -5199,7 +5200,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@eslint/eslintrc': 1.0.4
+      '@eslint/eslintrc': 1.0.5
       '@humanwhocodes/config-array': 0.6.0
       ajv: 6.12.6
       chalk: 4.1.2
@@ -5211,7 +5212,7 @@ packages:
       eslint-scope: 7.1.0
       eslint-utils: 3.0.0_eslint@8.3.0
       eslint-visitor-keys: 3.1.0
-      espree: 9.1.0
+      espree: 9.2.0
       esquery: 1.4.0
       esutils: 2.0.3
       fast-deep-equal: 3.1.3
@@ -5300,15 +5301,6 @@ packages:
       acorn: 7.4.1
       acorn-jsx: 5.3.2_acorn@7.4.1
       eslint-visitor-keys: 1.3.0
-    dev: true
-
-  /espree/9.1.0:
-    resolution: {integrity: sha512-ZgYLvCS1wxOczBYGcQT9DDWgicXwJ4dbocr9uYN+/eresBAUuBu+O4WzB21ufQ/JqQT8gyp7hJ3z8SHii32mTQ==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      acorn: 8.6.0
-      acorn-jsx: 5.3.2_acorn@8.6.0
-      eslint-visitor-keys: 3.1.0
     dev: true
 
   /espree/9.2.0:
@@ -5745,16 +5737,6 @@ packages:
 
   /focus-options-polyfill/1.2.0:
     resolution: {integrity: sha512-4sgXxV/zU4WHM2IHWpjUmEWazbF6ie+M93/uo8ipfAbQ1GHopn+/V+Ca+PR0ndxswNQbisCNrjbnvWEq14MkTA==}
-    dev: false
-
-  /follow-redirects/1.14.5:
-    resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
     dev: false
 
   /follow-redirects/1.14.6:
@@ -9101,10 +9083,6 @@ packages:
     resolution: {integrity: sha512-pISE66AbVkp4fDQ7VHBwRNXzAAKJjw4Vw7nWI/+Q3vuly7SNfgYXvm6i5IgFylHGK5sP/xHAbB7N49OS4gWNyQ==}
     dev: true
 
-  /postcss-value-parser/4.1.0:
-    resolution: {integrity: sha512-97DXOFbQJhk71ne5/Mt6cOu6yxsSfM0QGQyl0L25Gca4yGWEGJaig7l7gbCX623VqTBNGLRLaVUCnNkcedlRSQ==}
-    dev: true
-
   /postcss-value-parser/4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
     dev: true
@@ -9349,7 +9327,7 @@ packages:
     dependencies:
       commander: 8.3.0
       glob: 7.2.0
-      postcss: 8.4.4
+      postcss: 8.4.5
       postcss-selector-parser: 6.0.6
     dev: true
 
@@ -9522,13 +9500,14 @@ packages:
       react: 17.0.2
     dev: false
 
-  /react-markdown/7.1.0_react@17.0.2:
+  /react-markdown/7.1.0_a0c521d4794c7ad97f5f4c1c4a7d5818:
     resolution: {integrity: sha512-hL8cLLkTydyoKlZWZOjlU6TvMYIw9qKLh1CCzVfnhKt/R/SnKVAqiyugetXY61CkjhBqJl2C5FdU3OwHYo7SrQ==}
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
     dependencies:
       '@types/hast': 2.3.4
+      '@types/react': 17.0.39
       '@types/unist': 2.0.6
       comma-separated-tokens: 2.0.2
       hast-util-whitespace: 2.0.0
@@ -10640,7 +10619,7 @@ packages:
       postcss-load-config: 3.1.0
       postcss-nested: 5.0.6_postcss@8.4.4
       postcss-selector-parser: 6.0.6
-      postcss-value-parser: 4.1.0
+      postcss-value-parser: 4.2.0
       pretty-hrtime: 1.0.3
       purgecss: 4.1.1
       quick-lru: 5.1.1
