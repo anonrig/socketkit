@@ -20,7 +20,7 @@
     "consola": "^2.15.3",
     "dayjs": "^1.10.7",
     "discord-webhook-node": "^1.1.8",
-    "knex": "^0.95.14",
+    "knex": "^2.4.0",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
     "mali-ajv": "^0.4.0",

@@ -32,7 +32,7 @@
     "fastify-plugin": "^3.0.0",
     "fastify-raw-body": "^3.2.0",
     "fastify-sensible": "^3.1.2",
-    "knex": "^0.95.14",
+    "knex": "^2.4.0",
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
     "qs": "^6.10.2"
