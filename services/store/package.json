@@ -14,7 +14,7 @@
     "@supercharge/promise-pool": "^2.0.0",
     "appstore-sensor": "^0.6.2",
     "dayjs": "^1.10.7",
-    "knex": "^0.95.14",
+    "knex": "^2.4.0",
     "lodash": "^4.17.21",
     "mali": "^0.46.0",
     "pg": "^8.7.1",
